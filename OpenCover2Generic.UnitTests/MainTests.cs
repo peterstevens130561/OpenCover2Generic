@@ -13,15 +13,19 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void EmptyModuleOnlyShouldCreateHeaderOnly()
         {
             IConverter converter = new Converter();
-            string result = "";
-            StreamWriter writer = new StreamWriter(result, true);
-            string input = "";
-            string expected = @"<coverage version=""1"">
-</coverage>";
 
-            StreamReader reader = new StreamReader(input);
+            Stream resultStream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(resultStream);
+            string input = "";
+            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?><coverage version=""1"" />";
+
+            Stream inputStream = new MemoryStream(Encoding.UTF8.GetBytes(""));
+            StreamReader reader = new StreamReader(inputStream);
             converter.Convert(writer, reader);
-            Assert.AreEqual(expected, result);
+            resultStream.Position = 0;
+            StreamReader resultReader = new StreamReader(resultStream);
+            string text = resultReader.ReadToEnd();
+            Assert.AreEqual(expected, text);
         }
     }
 }

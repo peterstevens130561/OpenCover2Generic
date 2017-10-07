@@ -12,6 +12,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         public void Convert(StreamWriter writer, StreamReader reader)
         {
+            var xmlWriter = XmlWriter.Create(writer);
+            xmlWriter.WriteStartDocument();
+            xmlWriter.WriteStartElement("coverage");
+            xmlWriter.WriteAttributeString("version", "1");
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteEndDocument();
+            xmlWriter.Flush();
+            xmlWriter.Close();
         }
     }
 }
