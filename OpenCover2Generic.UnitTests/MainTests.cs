@@ -14,16 +14,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             IConverter converter = new Converter();
 
-            Stream resultStream = new MemoryStream();
+            MemoryStream resultStream = new MemoryStream();
             StreamWriter writer = new StreamWriter(resultStream);
             string input = "";
-            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?><coverage version=""1"" />";
+            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<coverage version=""1"" />";
 
             Stream inputStream = new MemoryStream(Encoding.UTF8.GetBytes(""));
             StreamReader reader = new StreamReader(inputStream);
             converter.Convert(writer, reader);
-            resultStream.Position = 0;
-            StreamReader resultReader = new StreamReader(resultStream);
+            StreamReader resultReader = new StreamReader(new MemoryStream(resultStream.ToArray()));
             string text = resultReader.ReadToEnd();
             Assert.AreEqual(expected, text);
         }
