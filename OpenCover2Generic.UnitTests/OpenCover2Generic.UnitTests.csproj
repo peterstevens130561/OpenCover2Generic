@@ -51,8 +51,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="MainTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenCover2Generic\OpenCover2Generic.Console.csproj">
+      <Project>{FE9FD645-E270-4EEE-A030-C92688C84383}</Project>
+      <Name>OpenCover2Generic.Console</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
