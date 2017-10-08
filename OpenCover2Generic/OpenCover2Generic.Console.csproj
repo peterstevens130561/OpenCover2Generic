@@ -45,7 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter.cs" />
+    <Compile Include="FileCoverageModel.cs" />
     <Compile Include="IConverter.cs" />
+    <Compile Include="IFileCoverageModel.cs" />
     <Compile Include="IGenerator.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="ISourceFileCoverage.cs" />

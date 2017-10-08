@@ -97,7 +97,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
       <ModuleTime>2017-07-12T06:36:07.5940095Z</ModuleTime>
       <ModuleName>Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest</ModuleName>
       <Files>
-        <File uid=""1"" fullPath=""E:\Cadence\ESIETooLink\Main\Services\Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest\EsieTooLinkRepositoryServiceTest.cs"" />
+        <File uid=""1"" fullPath=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
       </Files>
       <Classes>
         <Class>

@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    class Model : IModel
+    internal class Model : IModel
     {
-        readonly IList<string> sourceFiles = new List<string>();
+        readonly Dictionary<string, IFileCoverageModel> sourceFiles = new Dictionary<string,IFileCoverageModel>();
 
         public void AddFile(string fileId, string filePath)
         {
-            sourceFiles.Add(filePath);
+            sourceFiles.Add(fileId,new FileCoverageModel(filePath));
         }
 
-        public IList<string> GetCoverage()
+        public IList<IFileCoverageModel> GetCoverage()
         {
-            return sourceFiles;
+            return sourceFiles.Values.ToList();
         }
     }
 }

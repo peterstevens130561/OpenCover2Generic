@@ -55,10 +55,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
         private void GenerateCoverage(XmlWriter xmlWriter, IModel model)
         {
-            foreach(string fileCoverage in model.GetCoverage())
+            foreach(IFileCoverageModel fileCoverage in model.GetCoverage())
             {
                 xmlWriter.WriteStartElement("file");
-                xmlWriter.WriteAttributeString("path", fileCoverage);
+                xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);
                 xmlWriter.WriteEndElement();
             }
         }
