@@ -57,6 +57,35 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
+        public void ValidModuleShouldGenerateFiles()
+        {
+            string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
+            <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+<Modules>
+    <Module hash=""AF-9C-7F-A4-DD-C2-F3-98-52-99-5F-75-22-1D-C1-5F-2A-5D-BE-62"">
+      <Summary numSequencePoints=""37"" visitedSequencePoints=""0"" numBranchPoints=""10"" visitedBranchPoints=""0"" sequenceCoverage=""0"" branchCoverage=""0"" maxCyclomaticComplexity=""2"" minCyclomaticComplexity=""1"" visitedClasses=""0"" numClasses=""2"" visitedMethods=""0"" numMethods=""10"" />
+      <ModulePath>E:\Cadence\ESIETooLink\Main\Services\Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest\bin\Debug\Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest.dll</ModulePath>
+      <ModuleTime>2017-07-12T06:36:07.5940095Z</ModuleTime>
+      <ModuleName>Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest</ModuleName>
+      <Files>
+        <File uid=""1"" fullPath=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
+      </Files>
+      <Classes>
+            </Classes>
+</Module>
+    </Modules>
+    </CoverageSession>";
+            MemoryStream resultStream = new MemoryStream();
+
+            string result = WhenConverting(resultStream, input);
+            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<coverage version=""1"" >
+<file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
+</coverage>";
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
         public void ValidModuleShouldBeParses()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
@@ -106,7 +135,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
 <coverage version=""1"" />";
             Assert.AreEqual(expected, result);
         }
-
         private string WhenConverting(MemoryStream resultStream, string input)
         {
             StreamWriter writer = new StreamWriter(resultStream);

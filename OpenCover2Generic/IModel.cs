@@ -1,7 +1,10 @@
-﻿namespace BHGE.SonarQube.OpenCover2Generic
+﻿using System.Collections.Generic;
+
+namespace BHGE.SonarQube.OpenCover2Generic
 {
-    public interface IModel
+    interface IModel
     {
         void AddFile(string fileId, string filePath);
+        IList<string> GetCoverage();
     }
 }

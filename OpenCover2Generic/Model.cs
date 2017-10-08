@@ -8,13 +8,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
 {
     class Model : IModel
     {
-        readonly IDictionary<string, string> dictionary = new Dictionary<string, string>();
+        readonly IList<string> sourceFiles = new List<string>();
 
         public void AddFile(string fileId, string filePath)
         {
-            dictionary.Add(fileId, filePath);
+            sourceFiles.Add(filePath);
         }
 
-
+        public IList<string> GetCoverage()
+        {
+            return sourceFiles;
+        }
     }
 }
