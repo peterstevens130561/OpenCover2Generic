@@ -79,10 +79,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"" >
-<file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
+<coverage version=""1"">
+    <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
 </coverage>";
-            Assert.AreEqual(expected, result);
+            AssertStringsSame(expected, result);
         }
 
         [TestMethod]
@@ -116,8 +116,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
               <FileRef uid=""1"" />
               <SequencePoints>
                 <SequencePoint vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
-                <SequencePoint vc=""0"" uspid=""2"" ordinal=""1"" offset=""1"" sl=""28"" sc=""17"" el=""28"" ec=""52"" bec=""0"" bev=""0"" fileid=""1"" />
-                <SequencePoint vc=""0"" uspid=""3"" ordinal=""2"" offset=""10"" sl=""29"" sc=""13"" el=""29"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
+                <SequencePoint vc=""1"" uspid=""2"" ordinal=""1"" offset=""1"" sl=""28"" sc=""17"" el=""28"" ec=""52"" bec=""0"" bev=""0"" fileid=""1"" />
+                <SequencePoint vc=""2"" uspid=""3"" ordinal=""2"" offset=""10"" sl=""29"" sc=""13"" el=""29"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints />
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
@@ -132,8 +132,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"" />";
-            Assert.AreEqual(expected, result);
+<coverage version=""1"">
+    <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
+        <lineToCover lineNumber=""27"" covered=""false""/>
+        <lineToCover lineNumber=""28"" covered=""true""/>
+        <lineToCover lineNumber=""279 covered=""true""/>
+</coverage>";
+            AssertStringsSame(expected, result);
         }
         private string WhenConverting(MemoryStream resultStream, string input)
         {
@@ -144,6 +149,20 @@ namespace BHGE.SonarQube.OpenCover2Generic
             StreamReader resultReader = new StreamReader(new MemoryStream(resultStream.ToArray()));
             string text = resultReader.ReadToEnd();
             return text;
+        }
+
+        private void AssertStringsSame(string expected,string actual)
+        {
+            int len = Math.Min(expected.Length, actual.Length);
+            for(int i = 0; i < len; i++)
+            {
+                if(expected[i] != actual[i])
+                {
+                    string actualFailed = actual.Substring(i, 10);
+                    string expectedFailed = expected.Substring(i, 10);
+                    Assert.Fail($"Strings differ at pos {i} expected='{expectedFailed}' actual='{actualFailed}'");
+                }
+            }
         }
     }
 }

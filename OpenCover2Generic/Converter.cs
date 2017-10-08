@@ -46,6 +46,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                         }
                     }
                 }
+                GenerateCoverage(xmlWriter, model);
                 xmlWriter.WriteEndElement();
 
                 xmlWriter.WriteEndDocument();
@@ -56,7 +57,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             foreach(string fileCoverage in model.GetCoverage())
             {
-                xmlWriter.WriteStartElement("file", fileCoverage);
+                xmlWriter.WriteStartElement("file");
+                xmlWriter.WriteAttributeString("path", fileCoverage);
                 xmlWriter.WriteEndElement();
             }
         }
