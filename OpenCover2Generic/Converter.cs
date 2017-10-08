@@ -19,6 +19,18 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 xmlWriter.WriteStartDocument();
                 xmlWriter.WriteStartElement("coverage");
                 xmlWriter.WriteAttributeString("version", "1");
+                using (XmlReader xmlReader = XmlReader.Create(reader))
+                {
+                    xmlReader.MoveToContent();
+                    while (xmlReader.Read())
+                    {
+                        if (xmlReader.NodeType == XmlNodeType.Element
+                            && xmlReader.Name == "Module")
+                        {
+
+                        }
+                    }
+                }
                 xmlWriter.WriteEndElement();
 
                 xmlWriter.WriteEndDocument();

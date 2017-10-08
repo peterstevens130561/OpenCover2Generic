@@ -14,10 +14,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void EmptyModuleOnlyShouldCreateHeaderOnly()
         {
             converter = new Converter();
-
+            string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
+            <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+    </CoverageSession>";
             MemoryStream resultStream = new MemoryStream();
-
-            string result = WhenConverting(resultStream,"");
+            string result = WhenConverting(resultStream,input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <coverage version=""1"" />";
             Assert.AreEqual(expected, result);
@@ -41,7 +42,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     </CoverageSession>";
             MemoryStream resultStream = new MemoryStream();
 
-            string result = WhenConverting(resultStream, "");
+            string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <coverage version=""1"" />";
             Assert.AreEqual(expected, result);
