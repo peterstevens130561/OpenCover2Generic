@@ -10,6 +10,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
 {
     internal class Converter : IConverter
     {
+        private readonly IModel model;
+
+        public Converter(IModel model)
+        {
+            this.model = model;
+        }
         public void Convert(StreamWriter writer, StreamReader reader)
         {
             using (XmlTextWriter xmlWriter = new XmlTextWriter(writer))
@@ -24,10 +30,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
                     xmlReader.MoveToContent();
                     while (xmlReader.Read())
                     {
-                        if (xmlReader.NodeType == XmlNodeType.Element
-                            && xmlReader.Name == "Module")
+                        if (xmlReader.NodeType == XmlNodeType.Element)
                         {
-
+                            switch(xmlReader.Name)
+                            {
+                               case "File" :
+                                    string fileId = xmlReader.GetAttribute("uid");
+                                    string filePath = xmlReader.GetAttribute("fullPath");
+                                    model.AddFile(fileId, filePath);
+                                    break;
+                            }
                         }
                     }
                 }
