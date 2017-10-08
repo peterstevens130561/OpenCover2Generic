@@ -8,9 +8,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
 {
     class Model : IModel
     {
+        readonly IDictionary<string, string> dictionary = new Dictionary<string, string>();
+
         public void AddFile(string fileId, string filePath)
         {
-            throw new NotImplementedException();
+            dictionary.Add(fileId, filePath);
         }
+
+
     }
 }
