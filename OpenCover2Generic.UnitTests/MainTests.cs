@@ -133,10 +133,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <coverage version=""1"">
-    <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
-        <lineToCover lineNumber=""27"" covered=""false""/>
-        <lineToCover lineNumber=""28"" covered=""true""/>
-        <lineToCover lineNumber=""279 covered=""true""/>
+    <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"">
+        <lineToCover lineNumber=""27"" covered=""false"" />
+        <lineToCover lineNumber=""28"" covered=""true"" />
+        <lineToCover lineNumber=""29"" covered=""true"" />
+    </file>
 </coverage>";
             AssertStringsSame(expected, result);
         }
@@ -158,8 +159,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
                 if(expected[i] != actual[i])
                 {
-                    string actualFailed = actual.Substring(i, 10);
-                    string expectedFailed = expected.Substring(i, 10);
+                    string actualFailed = actual.Substring(i-10,10) + "^" + actual.Substring(i, 10);
+                    string expectedFailed = expected.Substring(i-10,10) + "^" + expected.Substring(i, 10);
                     Assert.Fail($"Strings differ at pos {i} expected='{expectedFailed}' actual='{actualFailed}'");
                 }
             }

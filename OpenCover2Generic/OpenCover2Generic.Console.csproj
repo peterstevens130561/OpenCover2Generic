@@ -45,8 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter.cs" />
+    <Compile Include="CoveragePoint.cs" />
     <Compile Include="FileCoverageModel.cs" />
     <Compile Include="IConverter.cs" />
+    <Compile Include="ICoveragePoint.cs" />
     <Compile Include="IFileCoverageModel.cs" />
     <Compile Include="IGenerator.cs" />
     <Compile Include="IModel.cs" />

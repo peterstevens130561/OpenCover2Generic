@@ -39,6 +39,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
                                     string filePath = xmlReader.GetAttribute("fullPath");
                                     model.AddFile(fileId, filePath);
                                     break;
+                                case "SequencePoint":
+                                    string sourceLine = xmlReader.GetAttribute("sl");
+                                    string visitedCount = xmlReader.GetAttribute("vc");
+                                    fileId = xmlReader.GetAttribute("fileid");
+                                    model.AddSequencePoint(fileId, sourceLine, visitedCount);
+                                    break;
                                 case "Module":
                                     GenerateCoverage(xmlWriter, model);
                                     break;
@@ -59,6 +65,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
                 xmlWriter.WriteStartElement("file");
                 xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);
+                foreach(ICoveragePoint sequencePoint in fileCoverage.SequencePoints)
+                {
+                    xmlWriter.WriteStartElement("lineToCover");
+                    xmlWriter.WriteAttributeString("lineNumber", sequencePoint.SourceLine.ToString());
+                    xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
+                    xmlWriter.WriteEndElement();
+                }
                 xmlWriter.WriteEndElement();
             }
         }

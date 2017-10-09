@@ -16,6 +16,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
             sourceFiles.Add(fileId,new FileCoverageModel(filePath));
         }
 
+        public void AddSequencePoint(string fileId, string sourceLine, string visitedCount)
+        {
+            sourceFiles[fileId].AddSequencePoint(sourceLine, visitedCount);
+        }
+
         public IList<IFileCoverageModel> GetCoverage()
         {
             return sourceFiles.Values.ToList();
