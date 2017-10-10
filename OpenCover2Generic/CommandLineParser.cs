@@ -8,5 +8,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 {
     class CommandLineParser : ICommandLineParser
     {
+        public string[] Args { get; set; }
+
     }
 }

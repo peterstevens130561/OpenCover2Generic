@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    class ICommandLineParser
+    interface ICommandLineParser
     {
+        string[] Args { get;  set; }
     }
 }
