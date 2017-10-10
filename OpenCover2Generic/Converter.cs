@@ -11,10 +11,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
     internal class Converter : IConverter
     {
         private readonly IModel model;
+        private readonly IGenericBuilder genericBuilder;
 
-        public Converter(IModel model)
+        public Converter(IModel model,IGenericBuilder genericBuilder)
         {
             this.model = model;
+            this.genericBuilder = genericBuilder;
         }
         public void Convert(StreamWriter writer, StreamReader reader)
         {
@@ -71,7 +73,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             string sourceLine = xmlReader.GetAttribute("sl");
             string visitedCount = xmlReader.GetAttribute("vc");
             fileId = xmlReader.GetAttribute("fileid");
-            string path = xmlReader.GetAttribute("path");
             model.AddBranchPoint(fileId, sourceLine, visitedCount);
         }
 
@@ -93,23 +94,34 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
         }
 
-        private static void GenerateSequencePoints(XmlWriter xmlWriter, IFileCoverageModel fileCoverage)
+        private  void GenerateSequencePoints(XmlWriter xmlWriter, IFileCoverageModel fileCoverage)
         {
             foreach (ICoveragePoint sequencePoint in fileCoverage.SequencePoints)
             {
                 xmlWriter.WriteStartElement("lineToCover");
-                string sourceLine = sequencePoint.SourceLine.ToString();
-                xmlWriter.WriteAttributeString("lineNumber", sourceLine.ToString());
-                xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
-                IBranchPoint branchPoint = fileCoverage.BranchPoint(sourceLine);
-                if (branchPoint != null)
-                {
-                    xmlWriter.WriteAttributeString("branchesToCover", branchPoint.Paths.ToString());
-                    xmlWriter.WriteAttributeString("coveredBranches", branchPoint.PathsVisited.ToString());
-                }
+                GenerateLineAttributes(xmlWriter, fileCoverage, sequencePoint);
                 xmlWriter.WriteEndElement();
             }
             xmlWriter.WriteEndElement();
+        }
+
+        private  void GenerateLineAttributes(XmlWriter xmlWriter, IFileCoverageModel fileCoverage, ICoveragePoint sequencePoint)
+        {
+            string sourceLine = sequencePoint.SourceLine.ToString();
+            xmlWriter.WriteAttributeString("lineNumber", sourceLine.ToString());
+            xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
+            GenerateBranchCoverageAttribute(xmlWriter, fileCoverage, sourceLine);
+
+        }
+
+        private  void GenerateBranchCoverageAttribute(XmlWriter xmlWriter, IFileCoverageModel fileCoverage, string sourceLine)
+        {
+            IBranchPoint branchPoint = fileCoverage.BranchPoint(sourceLine);
+            if (branchPoint != null)
+            {
+                xmlWriter.WriteAttributeString("branchesToCover", branchPoint.Paths.ToString());
+                xmlWriter.WriteAttributeString("coveredBranches", branchPoint.PathsVisited.ToString());
+            }
         }
     }
 }

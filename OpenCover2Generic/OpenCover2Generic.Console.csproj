@@ -48,11 +48,13 @@
     <Compile Include="Converter.cs" />
     <Compile Include="CoveragePoint.cs" />
     <Compile Include="FileCoverageModel.cs" />
+    <Compile Include="GenericBuilder.cs" />
     <Compile Include="IBranchPoint.cs" />
     <Compile Include="IConverter.cs" />
     <Compile Include="ICoveragePoint.cs" />
     <Compile Include="IFileCoverageModel.cs" />
     <Compile Include="IGenerator.cs" />
+    <Compile Include="IGenericBuilder.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="ISourceFileCoverage.cs" />
     <Compile Include="Model.cs" />

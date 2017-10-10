@@ -11,12 +11,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private IConverter converter;
         private IModel model;
+        private IGenericBuilder genericBuilder;
 
         [TestInitialize]
         public void Initialize()
         {
             model = new Model();
-            converter = new Converter(model);
+            genericBuilder = new GenericBuilder();
+            converter = new Converter(model,genericBuilder);
         }
 
         [TestMethod]
