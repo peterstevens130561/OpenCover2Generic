@@ -10,6 +10,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         public string[] Args { get; set; }
 
+        public string GenericPath()
+        {
+            return GetArgument("-Generic:");
+        }
+
         public string OpenCoverPath()
         {
             return GetArgument("-OpenCover:");
