@@ -91,6 +91,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             foreach (ICoveragePoint sequencePoint in fileCoverage.SequencePoints)
             {
+
                 xmlWriter.WriteStartElement("lineToCover");
                 GenerateLineAttributes(xmlWriter, fileCoverage, sequencePoint);
                 xmlWriter.WriteEndElement();
