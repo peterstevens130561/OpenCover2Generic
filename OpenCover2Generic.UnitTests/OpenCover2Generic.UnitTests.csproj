@@ -56,6 +56,7 @@
     <Compile Include="MainTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CoveragePointTests.cs" />
+    <Compile Include="BanchPointTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenCover2Generic\OpenCover2Generic.Console.csproj">

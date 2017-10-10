@@ -195,7 +195,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <coverage version=""1"">
     <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"">
-        <lineToCover lineNumber=""27"" covered=""false"" branchesToCover = ""2"" coveredBranches = ""1"" />
+        <lineToCover lineNumber=""27"" covered=""false"" branchesToCover=""2"" coveredBranches=""1"" />
         <lineToCover lineNumber=""28"" covered=""true"" />
         <lineToCover lineNumber=""29"" covered=""true"" />
     </file>

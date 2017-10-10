@@ -99,7 +99,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                     if(branchPoint !=null)
                     {
                         xmlWriter.WriteAttributeString("branchesToCover", branchPoint.Paths.ToString());
-                        xmlWriter.WriteAttributeString("branchesCovered", branchPoint.VisitedCount.ToString());
+                        xmlWriter.WriteAttributeString("coveredBranches", branchPoint.PathsVisited.ToString());
                     }
                     xmlWriter.WriteEndElement();
                 }

@@ -39,7 +39,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public void AddBranchPoint(string sourceLine, string visitedCount, string path)
         {
-            IBranchPoint branchPoint = new BranchPoint(int.Parse(visitedCount), int.Parse(path));
+            int branchVisited = int.Parse(visitedCount) > 0 ? 1 : 0;
+            IBranchPoint branchPoint = new BranchPoint(branchVisited);
             if(!branchPoints.ContainsKey(sourceLine)) {
                 branchPoints[sourceLine] = branchPoint;
             } else
