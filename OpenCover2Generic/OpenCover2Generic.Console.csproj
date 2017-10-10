@@ -49,6 +49,7 @@
     <Compile Include="CoveragePoint.cs" />
     <Compile Include="FileCoverageModel.cs" />
     <Compile Include="IBranchPoint.cs" />
+    <Compile Include="ICommandLineParser.cs" />
     <Compile Include="IConverter.cs" />
     <Compile Include="ICoveragePoint.cs" />
     <Compile Include="IFileCoverageModel.cs" />
