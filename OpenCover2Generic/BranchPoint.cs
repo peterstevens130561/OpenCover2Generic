@@ -21,7 +21,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             get
             {
-                throw new NotImplementedException();
+                return path;
             }
         }
 
