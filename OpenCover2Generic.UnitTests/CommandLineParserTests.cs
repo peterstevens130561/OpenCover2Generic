@@ -10,7 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void TwoArgmentsShouldParse()
         {
             string[] args= { "-OpenCover:SomeFile.xml", "-Generic:SomeResult.xml" };
-            ICommandLineParser = new CommandLineParserTests();
+            ICommandLineParser parser = new CommandLineParser();
         }
 
     }

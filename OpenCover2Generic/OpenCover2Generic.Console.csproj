@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BranchPoint.cs" />
+    <Compile Include="CommandLineParser.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="CoveragePoint.cs" />
     <Compile Include="FileCoverageModel.cs" />
