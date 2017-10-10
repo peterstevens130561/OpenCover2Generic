@@ -22,11 +22,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             using (XmlTextWriter xmlWriter = new XmlTextWriter(writer))
             {
-                xmlWriter.Formatting = Formatting.Indented;
-                xmlWriter.Indentation = 4;
-                xmlWriter.WriteStartDocument();
-                xmlWriter.WriteStartElement("coverage");
-                xmlWriter.WriteAttributeString("version", "1");
+                genericBuilder.Start(xmlWriter);
                 using (XmlReader xmlReader = XmlReader.Create(reader))
                 {
                     xmlReader.MoveToContent();
@@ -53,10 +49,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                     }
                 }
                 GenerateCoverage(xmlWriter, model);
-                xmlWriter.WriteEndElement();
-
-                xmlWriter.WriteEndDocument();
-                xmlWriter.Flush();
+                genericBuilder.End(xmlWriter);
             }
         }
 
