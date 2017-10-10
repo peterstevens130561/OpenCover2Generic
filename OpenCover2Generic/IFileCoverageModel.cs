@@ -9,7 +9,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         void AddSequencePoint(string sourceLine,string visitedCount);
         IList<ICoveragePoint> SequencePoints { get; }
 
-        void AddBranchPoint(string sourceLine, string visitedCount, string path);
+        void AddBranchPoint(string sourceLine, string visitedCount);
         IBranchPoint BranchPoint(string sourceLine);
     }
 }

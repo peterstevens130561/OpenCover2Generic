@@ -72,7 +72,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             string visitedCount = xmlReader.GetAttribute("vc");
             fileId = xmlReader.GetAttribute("fileid");
             string path = xmlReader.GetAttribute("path");
-            model.AddBranchPoint(fileId, sourceLine, visitedCount, path);
+            model.AddBranchPoint(fileId, sourceLine, visitedCount);
         }
 
         private void AddSequencePoint(XmlReader xmlReader)
@@ -89,22 +89,27 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
                 xmlWriter.WriteStartElement("file");
                 xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);
-                foreach(ICoveragePoint sequencePoint in fileCoverage.SequencePoints)
+                GenerateSequencePoints(xmlWriter, fileCoverage);
+            }
+        }
+
+        private static void GenerateSequencePoints(XmlWriter xmlWriter, IFileCoverageModel fileCoverage)
+        {
+            foreach (ICoveragePoint sequencePoint in fileCoverage.SequencePoints)
+            {
+                xmlWriter.WriteStartElement("lineToCover");
+                string sourceLine = sequencePoint.SourceLine.ToString();
+                xmlWriter.WriteAttributeString("lineNumber", sourceLine.ToString());
+                xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
+                IBranchPoint branchPoint = fileCoverage.BranchPoint(sourceLine);
+                if (branchPoint != null)
                 {
-                    xmlWriter.WriteStartElement("lineToCover");
-                    string sourceLine = sequencePoint.SourceLine.ToString();
-                    xmlWriter.WriteAttributeString("lineNumber", sourceLine.ToString());
-                    xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
-                    IBranchPoint branchPoint = fileCoverage.BranchPoint(sourceLine);
-                    if(branchPoint !=null)
-                    {
-                        xmlWriter.WriteAttributeString("branchesToCover", branchPoint.Paths.ToString());
-                        xmlWriter.WriteAttributeString("coveredBranches", branchPoint.PathsVisited.ToString());
-                    }
-                    xmlWriter.WriteEndElement();
+                    xmlWriter.WriteAttributeString("branchesToCover", branchPoint.Paths.ToString());
+                    xmlWriter.WriteAttributeString("coveredBranches", branchPoint.PathsVisited.ToString());
                 }
                 xmlWriter.WriteEndElement();
             }
+            xmlWriter.WriteEndElement();
         }
     }
 }
