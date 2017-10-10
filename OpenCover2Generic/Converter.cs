@@ -92,8 +92,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 foreach(ICoveragePoint sequencePoint in fileCoverage.SequencePoints)
                 {
                     xmlWriter.WriteStartElement("lineToCover");
-                    xmlWriter.WriteAttributeString("lineNumber", sequencePoint.SourceLine.ToString());
+                    string sourceLine = sequencePoint.SourceLine.ToString();
+                    xmlWriter.WriteAttributeString("lineNumber", sourceLine.ToString());
                     xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
+                    IBranchPoint branchPoint = fileCoverage.BranchPoint(sourceLine);
                     xmlWriter.WriteEndElement();
                 }
                 xmlWriter.WriteEndElement();
