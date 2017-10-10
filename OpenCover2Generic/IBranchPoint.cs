@@ -2,7 +2,7 @@
 {
     internal interface IBranchPoint
     {
-        int Path { get; }
+        int Paths { get; }
         int VisitedCount { get; }
         IBranchPoint Add(IBranchPoint branchPoint);
     }

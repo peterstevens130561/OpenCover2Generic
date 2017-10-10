@@ -17,7 +17,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             this.path = path;
         }
 
-        public int Path
+        public int Paths
         {
             get
             {
@@ -35,7 +35,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public IBranchPoint Add(IBranchPoint branchPoint)
         {
-            return new BranchPoint(visitedCount + branchPoint.VisitedCount, System.Math.Max(path, branchPoint.Path));
+            return new BranchPoint(visitedCount + branchPoint.VisitedCount, System.Math.Max(path, branchPoint.Paths));
         }
     }
 }
