@@ -9,8 +9,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
 {
     internal class Model : IModel
     {
-        readonly Dictionary<string, IFileCoverageModel> sourceFiles = new Dictionary<string,IFileCoverageModel>();
+        private Dictionary<string, IFileCoverageModel> sourceFiles;
 
+        public Model()
+        {
+            Init();
+        }
         public void AddFile(string fileId, string filePath)
         {
             sourceFiles.Add(fileId,new FileCoverageModel(filePath));
@@ -30,6 +34,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             sourceFiles[fileId].AddBranchPoint(sourceLine, visitedCount);
         }
-         
+
+        public void Init()
+        {
+            sourceFiles = new Dictionary<string, IFileCoverageModel>();
+        }
     }
 }

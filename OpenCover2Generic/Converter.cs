@@ -45,6 +45,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                                     break;
                                 case "Module":
                                     GenerateCoverage(xmlWriter, model);
+                                    model.Init();
                                     break;
                             }
                         }

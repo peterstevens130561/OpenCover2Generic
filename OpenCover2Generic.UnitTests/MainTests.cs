@@ -106,15 +106,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
             </Classes>
 </Module>
     </Modules>
-    </Modules>
     </CoverageSession>";
             MemoryStream resultStream = new MemoryStream();
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <coverage version=""1"">
-    <file path=""E:\File1.cs"" />
-<file path=""E:\File2.cs"" />
+    <file path=""E:\Cadence\File1.cs"" />
+    <file path=""E:\Cadence\File2.cs"" />
 </coverage>";
             AssertStringsSame(expected, result);
         }
