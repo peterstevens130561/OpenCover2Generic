@@ -9,5 +9,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
     interface ICommandLineParser
     {
         string[] Args { get;  set; }
+        string OpenCoverPath();
     }
 }

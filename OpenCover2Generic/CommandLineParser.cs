@@ -10,5 +10,21 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         public string[] Args { get; set; }
 
+        public string OpenCoverPath()
+        {
+            return GetArgument("-OpenCover:");
+        }
+
+
+        private string GetArgument(string key)
+        {
+            foreach(string arg in Args) {
+                if(arg.StartsWith(key))
+                {
+                    return (arg.Substring(key.Length));
+                }
+            }
+            throw new ArgumentException($"commandline argument {key} missing");
+        }
     }
 }
