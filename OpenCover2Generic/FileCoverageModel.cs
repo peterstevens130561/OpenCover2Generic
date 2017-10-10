@@ -7,7 +7,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
     internal class FileCoverageModel : IFileCoverageModel
     {
         private readonly string filePath;
-        private Dictionary<string,ICoveragePoint> coveragePoints = new Dictionary<string,ICoveragePoint>();
+        private readonly Dictionary<string,ICoveragePoint> coveragePoints = new Dictionary<string,ICoveragePoint>();
+        private readonly Dictionary<string, IBranchPoint> branchPoints = new Dictionary<string, IBranchPoint>();
         public FileCoverageModel(string filePath)
         {
             this.filePath = filePath;
@@ -34,6 +35,17 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void AddSequencePoint(string sourceLine, string visitedCount)
         {
             coveragePoints.Add(sourceLine, new CoveragePoint(sourceLine, visitedCount));
+        }
+
+        public void AddBranchPoint(string sourceLine, string visitedCount, string path)
+        {
+            IBranchPoint branchPoint = new BranchPoint(int.Parse(visitedCount), int.Parse(path));
+            if(!branchPoints.ContainsKey(sourceLine)) {
+                branchPoints[sourceLine] = branchPoint;
+            } else
+            {
+                branchPoints[sourceLine] = branchPoints[sourceLine].Add(branchPoint);
+            }
         }
     }
 }

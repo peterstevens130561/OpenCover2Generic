@@ -34,16 +34,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
                         {
                             switch(xmlReader.Name)
                             {
-                               case "File" :
-                                    string fileId = xmlReader.GetAttribute("uid");
-                                    string filePath = xmlReader.GetAttribute("fullPath");
-                                    model.AddFile(fileId, filePath);
+                                case "File":
+                                    AddFile(xmlReader);
                                     break;
-                                case "SequencePoint":
-                                    string sourceLine = xmlReader.GetAttribute("sl");
-                                    string visitedCount = xmlReader.GetAttribute("vc");
-                                    fileId = xmlReader.GetAttribute("fileid");
-                                    model.AddSequencePoint(fileId, sourceLine, visitedCount);
+                                case "SequencePoint":        
+                                    AddSequencePoint(xmlReader);
+                                    break;
+                                case "BranchPoint":
+                                    AddBranchPoint(xmlReader);
                                     break;
                                 case "Module":
                                     GenerateCoverage(xmlWriter, model);
@@ -59,6 +57,32 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 xmlWriter.Flush();
             }
         }
+
+        private void AddFile(XmlReader xmlReader)
+        {
+            string fileId = xmlReader.GetAttribute("uid");
+            string filePath = xmlReader.GetAttribute("fullPath");
+            model.AddFile(fileId, filePath);
+        }
+
+        private void AddBranchPoint(XmlReader xmlReader)
+        {
+            string fileId;
+            string sourceLine = xmlReader.GetAttribute("sl");
+            string visitedCount = xmlReader.GetAttribute("vc");
+            fileId = xmlReader.GetAttribute("fileid");
+            string path = xmlReader.GetAttribute("path");
+            model.AddBranchPoint(fileId, sourceLine, visitedCount, path);
+        }
+
+        private void AddSequencePoint(XmlReader xmlReader)
+        {
+            string sourceLine = xmlReader.GetAttribute("sl");
+            string visitedCount = xmlReader.GetAttribute("vc");
+            string fileId = xmlReader.GetAttribute("fileid");
+            model.AddSequencePoint(fileId, sourceLine, visitedCount);
+        }
+
         private void GenerateCoverage(XmlWriter xmlWriter, IModel model)
         {
             foreach(IFileCoverageModel fileCoverage in model.GetCoverage())
