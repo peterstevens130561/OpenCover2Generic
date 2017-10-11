@@ -5,6 +5,6 @@
         int SourceLine { get; }
         bool Covered { get; }
 
-        void Add(string visitedCount);
+        void Add(bool  visited);
     }
 }

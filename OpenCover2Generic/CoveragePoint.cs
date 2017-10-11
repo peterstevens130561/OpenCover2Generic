@@ -7,18 +7,18 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private readonly int sourceLine;
         private  bool covered;
 
-        public CoveragePoint(string sourceLine, string visitedCount)
+        public CoveragePoint(string sourceLine, bool visited)
         {
             this.sourceLine = int.Parse(sourceLine);
-            this.covered = int.Parse(visitedCount) > 0;
+            this.covered = visited ;
         }
 
         public int SourceLine { get { return sourceLine; } }
         public bool Covered { get { return covered; } }
 
-        public void Add(string visitedCount)
+        public void Add(bool visited)
         {
-            this.covered = covered || (int.Parse(visitedCount) > 0);
+            this.covered = covered || visited;
         }
     }
 }

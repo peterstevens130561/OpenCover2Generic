@@ -34,13 +34,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public void AddSequencePoint(string sourceLine, string visitedCount)
         {
+            Boolean visited = int.Parse(visitedCount) > 0 ? true : false;
             if (coveragePoints.ContainsKey(sourceLine))
             {
-                coveragePoints[sourceLine].Add(visitedCount);
+                coveragePoints[sourceLine].Add(visited);
             }
             else
             {
-                coveragePoints.Add(sourceLine, new CoveragePoint(sourceLine, visitedCount));
+                coveragePoints.Add(sourceLine, new CoveragePoint(sourceLine, visited));
             }
         }
 
