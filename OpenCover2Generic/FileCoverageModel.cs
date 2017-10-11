@@ -34,7 +34,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public void AddSequencePoint(string sourceLine, string visitedCount)
         {
-            coveragePoints.Add(sourceLine, new CoveragePoint(sourceLine, visitedCount));
+            if (coveragePoints.ContainsKey(sourceLine))
+            {
+                coveragePoints[sourceLine].Add(visitedCount);
+            }
+            else
+            {
+                coveragePoints.Add(sourceLine, new CoveragePoint(sourceLine, visitedCount));
+            }
         }
 
         public void AddBranchPoint(string sourceLine, string visitedCount)
