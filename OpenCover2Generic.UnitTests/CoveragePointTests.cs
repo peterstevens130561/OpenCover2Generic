@@ -19,5 +19,21 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(5, points[2].SourceLine);
 
         }
+
+        [TestMethod]
+        public void LinesReportedTwiceCovered()
+        {
+            var point = new CoveragePoint("10", false);
+            point.Add(true);
+            Assert.AreEqual(true, point.Covered);
+        }
+
+        [TestMethod]
+        public void LinesReportedTwiceNotCovered()
+        {
+            var point = new CoveragePoint("10", false);
+            point.Add(false);
+            Assert.AreEqual(false, point.Covered);
+        }
     }
 }
