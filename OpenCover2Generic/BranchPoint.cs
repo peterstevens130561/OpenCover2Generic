@@ -49,7 +49,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public IBranchPoint Add(IBranchPoint branchPoint)
         {
-            return new BranchPoint(visitedCount + branchPoint.PathsVisited, branchPoint.Paths+1);
+            return new BranchPoint(visitedCount + branchPoint.PathsVisited, branchPoint.Paths+Paths);
         }
     }
 }

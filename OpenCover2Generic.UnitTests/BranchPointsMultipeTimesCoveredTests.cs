@@ -25,7 +25,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void PointWithThreePathsTwoVisitedExpectTwoVisited()
         {
-            IBranchPoint point = new BranchPoint(0, true).Add(new BranchPoint(1, false)).Add(new BranchPoint(1, false));
+            IBranchPoint point = new BranchPoint(0, true).Add(new BranchPoint(1, false));
+            var newPoint = new BranchPoint(1, true);
+            point = point.Add(newPoint); ;
             Assert.AreEqual(2, point.PathsVisited);
             Assert.AreEqual(3, point.Paths);
         }
