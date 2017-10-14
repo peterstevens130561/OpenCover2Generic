@@ -15,7 +15,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public BranchPoint(Boolean isVisited) : this(isVisited ? 1 : 0, 1)
         { }
 
-        public BranchPoint(int path, bool isVisited)
+        public BranchPoint(int path, bool isVisited) : this(isVisited)
         {
 
         }
