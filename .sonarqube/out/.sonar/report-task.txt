@@ -1,0 +1,5 @@
+projectKey=Tool-OpenCover2Generic
+serverUrl=http://dftweb02:9000
+dashboardUrl=http://dftweb02:9000/dashboard/index/Tool-OpenCover2Generic
+ceTaskId=AV8Uyt5ygv1oWxwnpOOd
+ceTaskUrl=http://dftweb02:9000/api/ce/task?id=AV8Uyt5ygv1oWxwnpOOd

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>OpenCover2Generic.Console</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>fe9fd645-e270-4eee-a030-c92688c84383</ProjectGuid>
+  <FullPath>E:\users\stevpet\my documents\visual studio 2015\Projects\OpenCover2Generic\OpenCover2Generic\OpenCover2Generic.Console.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FxCop" Location="E:\users\stevpet\my documents\visual studio 2015\Projects\OpenCover2Generic\OpenCover2Generic\bin\Debug\OpenCover2Generic.Console.exe.CodeAnalysisLog.xml" />
+    <AnalysisResult Id="FilesToAnalyze" Location="E:\users\stevpet\my documents\visual studio 2015\Projects\OpenCover2Generic\.sonarqube\out\\OpenCover2Generic.Console_5600\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">E:\users\stevpet\my documents\visual studio 2015\Projects\OpenCover2Generic\OpenCover2Generic\bin\Debug\OpenCover2Generic.Console.exe.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">E:\users\stevpet\my documents\visual studio 2015\Projects\OpenCover2Generic\.sonarqube\out\\OpenCover2Generic.Console_5600</Property>
+    <Property Name="sonar.stylecop.projectFilePath">E:\users\stevpet\my documents\visual studio 2015\Projects\OpenCover2Generic\OpenCover2Generic\OpenCover2Generic.Console.csproj</Property>
+  </AnalysisSettings>
+</ProjectInfo>

@@ -34,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public void AddSequencePoint(string sourceLine, string visitedCount)
         {
-            Boolean visited = int.Parse(visitedCount) > 0 ? true : false;
+            Boolean visited = int.Parse(visitedCount) > 0;
             if (coveragePoints.ContainsKey(sourceLine))
             {
                 coveragePoints[sourceLine].Add(visited);
@@ -47,14 +47,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public void AddBranchPoint(string sourceLine, string visitedCount)
         {
-            Boolean branchVisited = int.Parse(visitedCount) > 0 ? true : false;
+            Boolean branchVisited = int.Parse(visitedCount) > 0;
             IBranchPoint branchPoint = new BranchPoint(branchVisited);
-            if(!branchPoints.ContainsKey(sourceLine)) {
-                branchPoints[sourceLine] = branchPoint;
-            } else
-            {
-                branchPoints[sourceLine] = branchPoints[sourceLine].Add(branchPoint);
-            }
+            branchPoints[sourceLine] = branchPoints.ContainsKey(sourceLine) ? branchPoints[sourceLine].Add(branchPoint): branchPoint;
+
         }
 
         public IBranchPoint BranchPoint(string sourceLine)

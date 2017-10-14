@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCover2Generic.Console",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCover2Generic.UnitTests", "OpenCover2Generic.UnitTests\OpenCover2Generic.UnitTests.csproj", "{EAF86DBD-968C-4B24-8EA6-BAD7785F5DFF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{49E04C94-BEBA-4A04-865F-3D5341659ABB}"
+	ProjectSection(SolutionItems) = preProject
+		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
+		SonarQube\Tools_OpenCover2Generic_masterCSharp.ruleset = SonarQube\Tools_OpenCover2Generic_masterCSharp.ruleset
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -47,6 +47,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                                     GenerateCoverage(xmlWriter, model);
                                     model.Init();
                                     break;
+ 
                             }
                         }
                     }
@@ -99,7 +100,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
                 xmlWriter.WriteStartElement("lineToCover");
                 string sourceLine = sequencePoint.SourceLine.ToString();
-                xmlWriter.WriteAttributeString("lineNumber", sourceLine.ToString());
+                xmlWriter.WriteAttributeString("lineNumber", sourceLine);
                 xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
                 IBranchPoint branchPoint = fileCoverage.BranchPoint(sourceLine);
                 if (branchPoint != null)

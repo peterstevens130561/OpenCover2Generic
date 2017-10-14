@@ -1,0 +1,1 @@
+E:\users\stevpet\my documents\visual studio 2015\Projects\OpenCover2Generic\.sonarqube\out\\OpenCover2Generic.Console_5600

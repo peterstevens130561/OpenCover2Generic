@@ -1,0 +1,11 @@
+{
+  "ServerUri": "http://dftweb02:9000",
+  "Organization": null,
+  "ProjectKey": "Tools_OpenCover2Generic:master",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "cs-cleansweep-58079",
+      "ProfileTimestamp": "2017-07-04T15:29:25+02:00"
+    }
+  }
+}

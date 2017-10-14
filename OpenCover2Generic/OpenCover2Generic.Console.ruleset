@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="SonarQube - OpenCover2Generic CleanSweep" ToolsVersion="14.0">
+  <Include Path="..\sonarqube\tools_opencover2generic_mastercsharp.ruleset" Action="Default" />
+</RuleSet>

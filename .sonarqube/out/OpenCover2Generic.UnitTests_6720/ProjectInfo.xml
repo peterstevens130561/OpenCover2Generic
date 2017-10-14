@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>OpenCover2Generic.UnitTests</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Test</ProjectType>
+  <ProjectGuid>eaf86dbd-968c-4b24-8ea6-bad7785f5dff</ProjectGuid>
+  <FullPath>E:\users\stevpet\my documents\visual studio 2015\Projects\OpenCover2Generic\OpenCover2Generic.UnitTests\OpenCover2Generic.UnitTests.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="E:\users\stevpet\my documents\visual studio 2015\Projects\OpenCover2Generic\.sonarqube\out\\OpenCover2Generic.UnitTests_6720\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.stylecop.projectFilePath">E:\users\stevpet\my documents\visual studio 2015\Projects\OpenCover2Generic\OpenCover2Generic.UnitTests\OpenCover2Generic.UnitTests.csproj</Property>
+  </AnalysisSettings>
+</ProjectInfo>

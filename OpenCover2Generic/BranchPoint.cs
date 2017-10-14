@@ -8,7 +8,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
     internal class BranchPoint : IBranchPoint
     {
         private readonly int paths;
-        private int v;
         private readonly int visitedCount;
 
 
