@@ -10,6 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void TheUltimate()
         {
             IBranchPoint point = new BranchPoint(0, true);
+            Assert.AreEqual(1, point.PathsVisited);
 
         }
     }
