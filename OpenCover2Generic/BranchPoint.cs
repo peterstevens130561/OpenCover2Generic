@@ -15,6 +15,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public BranchPoint(Boolean isVisited) : this(isVisited ? 1 : 0, 1)
         { }
 
+
  
         /// <summary>
         /// visitedCount = the number of times a path is covered
