@@ -31,5 +31,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(2, point.PathsVisited);
             Assert.AreEqual(3, point.Paths);
         }
+
+        [TestMethod]
+        public void SamePointReportedTwice()
+        {
+            IBranchPoint firstPoint = new BranchPoint(0, true);
+            IBranchPoint secondPoint = new BranchPoint(0, true);
+            IBranchPoint resultPoint = firstPoint.Add(secondPoint);
+            Assert.AreEqual(1, resultPoint.PathsVisited);
+            Assert.AreEqual(1, resultPoint.Paths);
+
+        }
     }
 }
