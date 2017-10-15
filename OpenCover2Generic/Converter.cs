@@ -68,11 +68,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private void AddBranchPoint(XmlReader xmlReader)
         {
             string fileId;
-            string sourceLine = xmlReader.GetAttribute("sl");
-            string visitedCount = xmlReader.GetAttribute("vc");
+            int sourceLine = int.Parse(xmlReader.GetAttribute("sl"));
+            bool isVisited = int.Parse(xmlReader.GetAttribute("vc"))>0;
             fileId = xmlReader.GetAttribute("fileid");
-            string path = xmlReader.GetAttribute("path");
-            model.AddBranchPoint(fileId, path,sourceLine, visitedCount);
+            int path = int.Parse( xmlReader.GetAttribute("path"));
+            var branchPoint = new BranchPoint(sourceLine, path, isVisited);
+            model.AddBranchPoint(fileId, branchPoint);
         }
 
         private void AddSequencePoint(XmlReader xmlReader)

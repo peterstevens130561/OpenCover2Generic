@@ -31,7 +31,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             get
             {
-                return SourceLine;
+                return sourceLine;
             }
         }
 
