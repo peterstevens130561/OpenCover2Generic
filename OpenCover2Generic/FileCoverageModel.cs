@@ -41,7 +41,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             Boolean branchVisited = int.Parse(visitedCount) > 0 ? true : false;
             if(!branchPoints.ContainsKey(sourceLine)) {
-                branchPoints[sourceLine] = new TrackingBranchPoint();
+                branchPoints[sourceLine] = new BranchPointAggregator();
             }
             branchPoints[sourceLine].Add(int.Parse(path), branchVisited);
         }

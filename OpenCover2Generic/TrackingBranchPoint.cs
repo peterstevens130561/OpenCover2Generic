@@ -7,12 +7,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
     /// <summary>
     /// Immutable branchpoint
     /// </summary>
-    internal class TrackingBranchPoint : IBranchPointAggregator
+    internal class BranchPointAggregator : IBranchPointAggregator
     {
         private readonly IDictionary<int, bool> pathsToCover = new Dictionary<int, bool>();
 
 
-        public TrackingBranchPoint()
+        public BranchPointAggregator()
         {
         }
  
