@@ -91,7 +91,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void AddBranchPointToAggregator()
         {
-            var branchPoint = new BranchPoint(1,1, false);
+            var branchPoint = new BranchPoint(10,1,1, false);
             var aggregator = new BranchPointAggregator();
             aggregator.Add(branchPoint);
             Assert.AreEqual(1, aggregator.PathsToCover());
