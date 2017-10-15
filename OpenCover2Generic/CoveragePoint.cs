@@ -1,11 +1,11 @@
 ﻿namespace BHGE.SonarQube.OpenCover2Generic
 {
-    internal class CoveragePoint : ICoveragePoint
+    internal class SequencePoint : ICoveragePoint
     {
         private readonly int sourceLine;
         private readonly string visitedCount;
 
-        public CoveragePoint(string sourceLine, string visitedCount)
+        public SequencePoint(string sourceLine, string visitedCount)
         {
             this.sourceLine = int.Parse(sourceLine);
             this.visitedCount = visitedCount;
