@@ -88,11 +88,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(4, branchPoints.PathsToCover(), "4 branches");
         }
 
+        [TestMethod]
         public void AddBranchPointToAggregator()
         {
             var branchPoint = new BranchPoint(1, false);
             var aggregator = new BranchPointAggregator();
             aggregator.Add(branchPoint);
+            Assert.AreEqual(1, aggregator.PathsToCover());
+            Assert.AreEqual(0, aggregator.CoveredPaths());
 
         }
     }

@@ -38,5 +38,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             pathsToCover[path] = pathsToCover.ContainsKey(path) ? pathsToCover[path] || isVisited : isVisited;
         }
+
+        public IBranchPointAggregator Add(IBranchPoint branchPoint)
+        {
+            AddPoint(branchPoint.Path, branchPoint.IsVisited);
+            return this;
+        }
     }
 }
