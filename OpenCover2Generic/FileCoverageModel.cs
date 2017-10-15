@@ -56,5 +56,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             throw new NotImplementedException();
         }
+
+        public void AddBranchPoint(IBranchPoint branchPoint)
+        {
+            string sourceLine = branchPoint.SourceLine.ToString();
+            if (!branchPoints.ContainsKey(sourceLine))
+            {
+                branchPoints[sourceLine] = new BranchPointAggregator();
+            }
+            branchPoints[sourceLine].Add(branchPoint);
+        }
     }
 }

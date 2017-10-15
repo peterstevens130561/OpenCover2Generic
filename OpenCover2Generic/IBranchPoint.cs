@@ -4,5 +4,6 @@
     {
         int Path { get; }
         bool IsVisited { get; }
+        int SourceLine { get; }
     }
 }

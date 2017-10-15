@@ -10,6 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private readonly int path;
         private readonly bool isVisited;
+        private readonly int sourceLine;
 
 
 
@@ -18,8 +19,21 @@ namespace BHGE.SonarQube.OpenCover2Generic
             this.path = path;
             this.isVisited = isVisited;
         }
- 
 
+        public BranchPoint(int sourceLine,int path, bool isVisited)
+        {
+            this.path = path;
+            this.isVisited = isVisited;
+            this.sourceLine = sourceLine;
+        }
+
+        public int SourceLine
+        {
+            get
+            {
+                return SourceLine;
+            }
+        }
 
         public int Path
         {
