@@ -7,7 +7,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     /// <summary>
     /// Immutable branchpoint
     /// </summary>
-    internal class TrackingBranchPoint : IBranchPoint
+    internal class TrackingBranchPoint : IBranchPointAggregator
     {
         private readonly IDictionary<int, bool> pathsToCover = new Dictionary<int, bool>();
 
@@ -17,29 +17,18 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
  
 
-        public int Paths
+        public int PathsToCover()
         {
-            get
-            {
                 return pathsToCover.Count;
-            }
         }
 
-        public int PathsVisited
+        public int CoveredPaths()
         {
-            get
-            {
                 return pathsToCover.Count(p => { return p.Value; });
-            }
         }
 
-        public IBranchPoint Add(IBranchPoint branchPoint)
-        {
-            throw new NotImplementedException("should not be called, you are using the wrong type");
-            return this;
-        }
 
-        public IBranchPoint Add(int path, bool isVisited)
+        public IBranchPointAggregator Add(int path, bool isVisited)
         {
             AddPoint(path, isVisited);
             return this;

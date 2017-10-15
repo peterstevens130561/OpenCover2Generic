@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IBranchPointAggregator.cs" />
     <Compile Include="TrackingBranchPoint.cs" />
     <Compile Include="BranchPoint.cs" />
     <Compile Include="Converter.cs" />

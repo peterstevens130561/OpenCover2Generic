@@ -8,54 +8,34 @@ namespace BHGE.SonarQube.OpenCover2Generic
     /// </summary>
     internal class BranchPoint : IBranchPoint
     {
-        private readonly int paths;
-        private int v;
-        private readonly int visitedCount;
-        private readonly IDictionary<int, bool> pathsToCover = new Dictionary<int, bool>();
+        private readonly int path;
+        private readonly bool isVisited;
 
-        public BranchPoint(Boolean isVisited) : this(isVisited ? 1 : 0, 1)
-        { }
 
-        public BranchPoint(int path, bool isVisited) : this(isVisited)
+
+        public BranchPoint(int path, bool isVisited) 
         {
-            pathsToCover[path]=pathsToCover.ContainsKey(path)?pathsToCover[path]||isVisited:isVisited; 
+            this.path = path;
+            this.isVisited = isVisited;
         }
  
-        /// <summary>
-        /// visitedCount = the number of times a path is covered
-        /// </summary>
-        /// <param name="branchesVisited"></param>
-        /// <param name="pathId"></param>
-        private  BranchPoint(int branchesVisited, int pathId)
-        {
-            this.visitedCount = branchesVisited;
-            this.paths = pathId;
-        }
 
-        public int Paths
+
+        public int Path
         {
             get
             {
-                return paths;
+                return path;
             }
         }
 
-        public int PathsVisited
+        public bool IsVisited
         {
             get
             {
-                return visitedCount;
+                return isVisited;
             }
         }
 
-        public IBranchPoint Add(IBranchPoint branchPoint)
-        {
-            return new BranchPoint(visitedCount + branchPoint.PathsVisited, branchPoint.Paths+Paths);
-        }
-
-        public IBranchPoint Add(int path, bool isVisited)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
