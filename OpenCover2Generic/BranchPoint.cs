@@ -11,7 +11,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private readonly int path;
         private readonly bool isVisited;
         private readonly int sourceLine;
-
+        private readonly int fileId;
 
 
         public BranchPoint(int sourceLine,int path, bool isVisited)
@@ -21,6 +21,21 @@ namespace BHGE.SonarQube.OpenCover2Generic
             this.sourceLine = sourceLine;
         }
 
+        public BranchPoint(int fileId, int sourceLine, int path, bool isVisited)
+        {
+            this.fileId = fileId;
+            this.path = path;
+            this.isVisited = isVisited;
+            this.sourceLine = sourceLine;
+        }
+
+        public int FileId
+        {
+            get
+            {
+                return fileId;
+            }
+        }
         public int SourceLine
         {
             get

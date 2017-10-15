@@ -5,5 +5,7 @@
         int Path { get; }
         bool IsVisited { get; }
         int SourceLine { get; }
+
+        int FileId { get; }
     }
 }
