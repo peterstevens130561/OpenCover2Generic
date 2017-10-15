@@ -14,12 +14,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
 
 
-        public BranchPoint(int path, bool isVisited) 
-        {
-            this.path = path;
-            this.isVisited = isVisited;
-        }
-
         public BranchPoint(int sourceLine,int path, bool isVisited)
         {
             this.path = path;
