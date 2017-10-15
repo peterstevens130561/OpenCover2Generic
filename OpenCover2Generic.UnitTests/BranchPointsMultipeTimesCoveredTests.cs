@@ -75,5 +75,17 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(4, branchPoints.PathsVisited, "4 branches covered");
             Assert.AreEqual(4, branchPoints.Paths, "4 branches");
         }
+
+        [TestMethod]
+        public void FourBranchPointsOfWhichNoneCoveredSeenTwiceScondTimeNoneCovered()
+        {
+            //Given a first pass of 4 points, with 2 covered
+            IBranchPoint branchPoints = new TrackingBranchPoint().Add(0, false).Add(1, false).Add(2, false).Add(3, false);
+            // When a second pass, which has same coverage
+            branchPoints.Add(0, false).Add(1, false).Add(2, false).Add(3, false);
+            // Then the coverage should 4 branches, 2 covered
+            Assert.AreEqual(0, branchPoints.PathsVisited, "no branches covered");
+            Assert.AreEqual(4, branchPoints.Paths, "4 branches");
+        }
     }
 }
