@@ -72,7 +72,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             string visitedCount = xmlReader.GetAttribute("vc");
             fileId = xmlReader.GetAttribute("fileid");
             string path = xmlReader.GetAttribute("path");
-            model.AddBranchPoint(fileId, sourceLine, visitedCount);
+            model.AddBranchPoint(fileId, path,sourceLine, visitedCount);
         }
 
         private void AddSequencePoint(XmlReader xmlReader)
