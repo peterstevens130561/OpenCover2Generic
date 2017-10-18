@@ -48,7 +48,7 @@
     <Compile Include="BranchPointAggregator.cs" />
     <Compile Include="BranchPoint.cs" />
     <Compile Include="Converter.cs" />
-    <Compile Include="CoveragePoint.cs" />
+    <Compile Include="SequencePoint.cs" />
     <Compile Include="FileCoverageModel.cs" />
     <Compile Include="IBranchPoint.cs" />
     <Compile Include="IConverter.cs" />

@@ -95,7 +95,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         private static void GenerateSequencePoints(XmlWriter xmlWriter, IFileCoverageModel fileCoverage)
         {
-            foreach (ICoveragePoint sequencePoint in fileCoverage.SequencePoints)
+            foreach (ISequencePoint sequencePoint in fileCoverage.SequencePoints)
             {
                 xmlWriter.WriteStartElement("lineToCover");
                 string sourceLine = sequencePoint.SourceLine.ToString();
