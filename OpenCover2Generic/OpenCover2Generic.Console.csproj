@@ -47,10 +47,12 @@
     <Compile Include="IBranchPointAggregator.cs" />
     <Compile Include="BranchPointAggregator.cs" />
     <Compile Include="BranchPoint.cs" />
+    <Compile Include="CommandLineParser.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="SequencePoint.cs" />
     <Compile Include="FileCoverageModel.cs" />
     <Compile Include="IBranchPoint.cs" />
+    <Compile Include="ICommandLineParser.cs" />
     <Compile Include="IConverter.cs" />
     <Compile Include="ICoveragePoint.cs" />
     <Compile Include="IFileCoverageModel.cs" />

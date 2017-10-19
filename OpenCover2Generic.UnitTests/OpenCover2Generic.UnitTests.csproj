@@ -58,6 +58,7 @@
     <Compile Include="CoveragePointTests.cs" />
     <Compile Include="BanchPointTests.cs" />
     <Compile Include="BranchPointsMultipeTimesCoveredTests.cs" />
+    <Compile Include="CommandLineParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenCover2Generic\OpenCover2Generic.Console.csproj">
