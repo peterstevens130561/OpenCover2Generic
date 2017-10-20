@@ -1,6 +1,6 @@
 ﻿namespace BHGE.SonarQube.OpenCover2Generic
 {
-    internal interface IBranchPointAggregator
+    public interface IBranchPointAggregator
     {
         IBranchPointAggregator Add(int path, bool isVisited);
 

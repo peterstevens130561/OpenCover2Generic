@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    internal class Converter : IConverter
+    public class Converter : IConverter
     {
         private readonly IModel model;
 
@@ -44,13 +44,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
                                     AddBranchPoint(xmlReader);
                                     break;
                                 case "Module":
-                                    GenerateCoverage(xmlWriter, model);
+                                    GenerateCoverage(xmlWriter);
+                                    break;
+                                default :
                                     break;
                             }
                         }
                     }
                 }
-                GenerateCoverage(xmlWriter, model);
+                GenerateCoverage(xmlWriter);
                 xmlWriter.WriteEndElement();
 
                 xmlWriter.WriteEndDocument();
@@ -83,7 +85,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             model.AddSequencePoint(fileId, sourceLine, visitedCount);
         }
 
-        private void GenerateCoverage(XmlWriter xmlWriter, IModel model)
+        private void GenerateCoverage(XmlWriter xmlWriter)
         {
             foreach(IFileCoverageModel fileCoverage in model.GetCoverage())
             {
@@ -100,7 +102,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
                 xmlWriter.WriteStartElement("lineToCover");
                 string sourceLine = sequencePoint.SourceLine.ToString();
-                xmlWriter.WriteAttributeString("lineNumber", sourceLine.ToString());
+                xmlWriter.WriteAttributeString("lineNumber", sourceLine);
                 xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
                 IBranchPointAggregator branchPoint = fileCoverage.BranchPointAggregator(sourceLine);
                 if (branchPoint != null)

@@ -61,6 +61,10 @@
     <Compile Include="CommandLineParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenCover2Generic.Converter\OpenCover2Generic.Converter.csproj">
+      <Project>{7e5690a4-29a9-4df9-a002-4e530c24bfd5}</Project>
+      <Name>OpenCover2Generic.Converter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenCover2Generic\OpenCover2Generic.Console.csproj">
       <Project>{FE9FD645-E270-4EEE-A030-C92688C84383}</Project>
       <Name>OpenCover2Generic.Console</Name>

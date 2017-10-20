@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    internal class Model : IModel
+    public class Model : IModel
     {
         private Dictionary<string, IFileCoverageModel> sourceFiles = new Dictionary<string,IFileCoverageModel>();
 

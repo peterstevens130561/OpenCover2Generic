@@ -2,7 +2,7 @@
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    interface IFileCoverageModel
+    public interface IFileCoverageModel
     {
         string FullPath { get; }
 

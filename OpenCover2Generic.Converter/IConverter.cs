@@ -2,7 +2,7 @@
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    internal interface IConverter
+    public interface IConverter
     {
         void Convert(StreamWriter writer, StreamReader reader);
     }
