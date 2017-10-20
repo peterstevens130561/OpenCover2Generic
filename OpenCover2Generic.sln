@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCover2Generic.Console",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCover2Generic.UnitTests", "OpenCover2Generic.UnitTests\OpenCover2Generic.UnitTests.csproj", "{EAF86DBD-968C-4B24-8EA6-BAD7785F5DFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCover2Generic.Converter", "OpenCover2Generic.Converter\OpenCover2Generic.Converter.csproj", "{7E5690A4-29A9-4DF9-A002-4E530C24BFD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EAF86DBD-968C-4B24-8EA6-BAD7785F5DFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAF86DBD-968C-4B24-8EA6-BAD7785F5DFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAF86DBD-968C-4B24-8EA6-BAD7785F5DFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E5690A4-29A9-4DF9-A002-4E530C24BFD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E5690A4-29A9-4DF9-A002-4E530C24BFD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E5690A4-29A9-4DF9-A002-4E530C24BFD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E5690A4-29A9-4DF9-A002-4E530C24BFD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
