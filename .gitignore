@@ -241,3 +241,5 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 .sonarqube/
+/Report20171019-1553.diagsession
+/.cppoutdir

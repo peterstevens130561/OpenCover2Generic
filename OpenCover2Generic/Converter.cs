@@ -91,6 +91,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);
                 GenerateSequencePoints(xmlWriter, fileCoverage);
             }
+            model.Clear();
         }
 
         private static void GenerateSequencePoints(XmlWriter xmlWriter, IFileCoverageModel fileCoverage)

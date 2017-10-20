@@ -3,16 +3,19 @@
     internal class SequencePoint : ISequencePoint
     {
         private readonly int sourceLine;
-        private readonly string visitedCount;
+        private bool isVisited;
 
-        public SequencePoint(string sourceLine, string visitedCount)
+        public SequencePoint(string sourceLine)
         {
             this.sourceLine = int.Parse(sourceLine);
-            this.visitedCount = visitedCount;
         }
 
+        public void AddVisit(bool isVisited)
+        {
+            this.isVisited |= isVisited;
+        }
         public int SourceLine { get { return sourceLine; } }
-        public bool Covered { get { return int.Parse(visitedCount) > 0; } }
+        public bool Covered { get { return isVisited; } }
             
     
     }
