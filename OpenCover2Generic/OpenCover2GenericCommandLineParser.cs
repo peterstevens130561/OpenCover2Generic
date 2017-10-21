@@ -28,12 +28,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public string GenericPath()
         {
-            return _commandLineParser.GetArgument("-Generic:");
+            return _commandLineParser.GetArgument("-Generic");
         }
 
         public string OpenCoverPath()
         {
-            return _commandLineParser.GetArgument("-OpenCover:");
+            return _commandLineParser.GetArgument("-OpenCover");
         }
 
 

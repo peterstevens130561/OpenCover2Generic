@@ -12,9 +12,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public string[] Args { get; set; }
         public string GetArgument(string key)
         {
+            key = key.ToUpper() + ":" ;
             foreach (string arg in Args)
             {
-                if (arg.StartsWith(key))
+                if (arg.ToUpper().StartsWith(key))
                 {
                     return (arg.Substring(key.Length));
                 }

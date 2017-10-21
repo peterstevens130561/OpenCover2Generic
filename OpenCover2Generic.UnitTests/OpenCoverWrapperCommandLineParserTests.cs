@@ -63,6 +63,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void CheckOutput()
         {
             var commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
+            string[] line = { "-output:SomeFile.xml" };
+            commandLineParser.Args = line;
+            Assert.AreEqual("SomeFile.xml", commandLineParser.GetOutputPath());
+
         }
     }
 }

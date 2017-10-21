@@ -7,13 +7,24 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 {
-    class OpenCoverWrapperCommandLineParser
+    class OpenCoverWrapperCommandLineParser : IOpenCoverCommandLineParser
     {
         private readonly ICommandLineParser _commandLineParser;
 
         public OpenCoverWrapperCommandLineParser(ICommandLineParser commandLineParser)
         {
             _commandLineParser = commandLineParser;
+        }
+
+        public string[] Args
+        {
+            get { return _commandLineParser.Args; }
+            set { _commandLineParser.Args = value; }
+        }
+
+        public string GetOutputPath()
+        {
+            return _commandLineParser.GetArgument("-output");
         }
     }
 }
