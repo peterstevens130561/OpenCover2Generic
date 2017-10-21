@@ -15,13 +15,16 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         {
             var commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
             commandLineParser.Args = args;
+            string openCoverPath = commandLineParser.GetOpenCoverPath();
             string outputPath = commandLineParser.GetOutputPath();
             string targetPath = commandLineParser.GetTargetPath();
             string targetArgs = commandLineParser.GetTargetArgs();
             string arguments = $"-register:user -\"output:{outputPath}\" \"-target:{targetPath}\" \"-targetargs:{targetArgs}\"";
             var runner = new Runner();
             runner.AddArgument(arguments);
+            runner.SetPath(openCoverPath);
             runner.Run();
+
         }
     }
 }
