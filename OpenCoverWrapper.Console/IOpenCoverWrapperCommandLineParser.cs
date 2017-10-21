@@ -1,4 +1,4 @@
-﻿namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
+﻿namespace BHGE.SonarQube.OpenCoverWrapper
 {
     internal interface IOpenCoverWrapperCommandLineParser
     {

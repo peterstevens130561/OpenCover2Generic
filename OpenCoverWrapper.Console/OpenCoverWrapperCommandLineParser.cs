@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
+namespace BHGE.SonarQube.OpenCoverWrapper
 {
     class OpenCoverWrapperCommandLineParser : IOpenCoverWrapperCommandLineParser
     {

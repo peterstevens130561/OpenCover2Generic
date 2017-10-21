@@ -74,6 +74,10 @@
       <Project>{FE9FD645-E270-4EEE-A030-C92688C84383}</Project>
       <Name>OpenCover2Generic.Console</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenCoverWrapper.Console\OpenCoverWrapper.Console.csproj">
+      <Project>{D90691B7-6D6C-40FF-81E4-4B8B476F300E}</Project>
+      <Name>OpenCoverWrapper.Console</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCover2Generic.Converter
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCover2Generic.Runner", "OpenCover2Generic.Runner\OpenCover2Generic.Runner.csproj", "{C6E7FF08-8D53-4466-959D-1D34B9B8904F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCoverWrapper.Console", "OpenCoverWrapper.Console\OpenCoverWrapper.Console.csproj", "{D90691B7-6D6C-40FF-81E4-4B8B476F300E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C6E7FF08-8D53-4466-959D-1D34B9B8904F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6E7FF08-8D53-4466-959D-1D34B9B8904F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6E7FF08-8D53-4466-959D-1D34B9B8904F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D90691B7-6D6C-40FF-81E4-4B8B476F300E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D90691B7-6D6C-40FF-81E4-4B8B476F300E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D90691B7-6D6C-40FF-81E4-4B8B476F300E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D90691B7-6D6C-40FF-81E4-4B8B476F300E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
