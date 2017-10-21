@@ -11,7 +11,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         static void Main(string[] args)
         {
-            var commandLineParser = new CommandLineParser();
+            var commandLineParser = new OpenCover2GenericCommandLineParser();
             var model = new Model();
             var converter = new Converter(model);
 

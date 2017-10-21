@@ -7,8 +7,8 @@
     <ProjectGuid>{C6E7FF08-8D53-4466-959D-1D34B9B8904F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenCover2Generic.Runner</RootNamespace>
-    <AssemblyName>OpenCover2Generic.Runner</AssemblyName>
+    <RootNamespace>BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner</RootNamespace>
+    <AssemblyName>OpenCover2Generic.OpenCoverRunner</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runner.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,25 +7,14 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    public class CommandLineParser : ICommandLineParser
+    class CommandLineParser : ICommandLineParser
     {
         public string[] Args { get; set; }
-
-        public string GenericPath()
+        public string GetArgument(string key)
         {
-            return GetArgument("-Generic:");
-        }
-
-        public string OpenCoverPath()
-        {
-            return GetArgument("-OpenCover:");
-        }
-
-
-        private string GetArgument(string key)
-        {
-            foreach(string arg in Args) {
-                if(arg.StartsWith(key))
+            foreach (string arg in Args)
+            {
+                if (arg.StartsWith(key))
                 {
                     return (arg.Substring(key.Length));
                 }

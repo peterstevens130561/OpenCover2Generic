@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BHGE.SonarQube.OpenCover2Generic
+﻿namespace BHGE.SonarQube.OpenCover2Generic
 {
-    interface ICommandLineParser
+    internal interface ICommandLineParser
     {
-        string[] Args { get;  set; }
-        string OpenCoverPath();
-        string GenericPath();
+        string[] Args { get; set; }
+
+        string GetArgument(string v);
     }
 }

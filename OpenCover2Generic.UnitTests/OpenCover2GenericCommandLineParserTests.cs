@@ -4,13 +4,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
-    public class CommandLineParserTests
+    public class OpenCover2GenericCommandLineParserTests
     {
         [TestMethod]
         public void TwoArgmentsCheckOpenCoverShouldParse()
         {
             string[] args= { "-OpenCover:SomeFile.xml", "-Generic:SomeResult.xml" };
-            ICommandLineParser parser = new CommandLineParser();
+            IOpenCover2GenericCommandLineParser parser = new OpenCover2GenericCommandLineParser();
             parser.Args = args;
             Assert.AreEqual("SomeFile.xml", parser.OpenCoverPath());
         }
@@ -20,7 +20,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void TwoArgmentsCheckGenericShouldParse()
         {
             string[] args = { "-OpenCover:SomeFile.xml", "-Generic:SomeResult.xml" };
-            ICommandLineParser parser = new CommandLineParser();
+            IOpenCover2GenericCommandLineParser parser = new OpenCover2GenericCommandLineParser();
             parser.Args = args;
             Assert.AreEqual("SomeResult.xml", parser.GenericPath());
         }

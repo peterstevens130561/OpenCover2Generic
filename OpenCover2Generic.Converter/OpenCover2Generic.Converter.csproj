@@ -40,14 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLineParser.cs" />
     <Compile Include="BranchPoint.cs" />
     <Compile Include="BranchPointAggregator.cs" />
-    <Compile Include="CommandLineParser.cs" />
+    <Compile Include="ICommandLineParser.cs" />
+    <Compile Include="OpenCover2GenericCommandLineParser.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="FileCoverageModel.cs" />
     <Compile Include="IBranchPoint.cs" />
     <Compile Include="IBranchPointAggregator.cs" />
-    <Compile Include="ICommandLineParser.cs" />
+    <Compile Include="IOpenCover2GenericCommandLineParser.cs" />
     <Compile Include="IConverter.cs" />
     <Compile Include="ICoveragePoint.cs" />
     <Compile Include="IFileCoverageModel.cs" />
