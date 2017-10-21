@@ -15,16 +15,16 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         {
             var commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
             commandLineParser.Args = args;
-            string openCoverPath = commandLineParser.GetOpenCoverPath();
+            string openCoverExePath = commandLineParser.GetOpenCoverPath();
             string outputPath = commandLineParser.GetOutputPath();
             string targetPath = commandLineParser.GetTargetPath();
             string targetArgs = commandLineParser.GetTargetArgs();
             string testResultsPath = commandLineParser.GetTestResultsPath();
-            string tempPath = Path.GetTempFileName();
-            string arguments = $"-register:user -\"output:{tempPath}\" \"-target:{targetPath}\" \"-targetargs:{targetArgs}\"";
+            string openCoverOutputPath = Path.GetTempFileName();
+            string arguments = $"-register:user -\"output:{openCoverOutputPath}\" \"-target:{targetPath}\" \"-targetargs:{targetArgs}\"";
             var runner = new Runner();
             runner.AddArgument(arguments);
-            runner.SetPath(openCoverPath);
+            runner.SetPath(openCoverExePath);
             runner.Run();
             if(File.Exists(testResultsPath))
             {
@@ -33,11 +33,11 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             File.Move(runner.TestResultsPath, testResultsPath);
 
             var converter = new Converter(new Model());
+            Console.WriteLine($"Converting {openCoverOutputPath} to {outputPath}");
             var fileWriter = new StreamWriter(outputPath);
-            var fileReader = new StreamReader(openCoverPath);
+            var fileReader = new StreamReader(openCoverOutputPath);
             converter.Convert(fileWriter, fileReader);
-            fileReader.Close();
-            fileWriter.Close();
+            File.Delete(openCoverOutputPath);
         }
     }
 }
