@@ -86,5 +86,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
             commandLineParser.Args = line;
             Assert.AreEqual("fun and joy", commandLineParser.GetTargetArgs());
         }
+
+        [TestMethod]
+        public void CheckOpenCoverPath()
+        {
+            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
+            string[] line = { @"-opencover:Apps\OpenCover\OpenCover.Console.exe" };
+            commandLineParser.Args = line;
+            Assert.AreEqual(@"Apps\OpenCover\OpenCover.Console.exe", commandLineParser.GetOpenCoverPath());
+        }
     }
 }

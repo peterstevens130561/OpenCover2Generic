@@ -56,6 +56,10 @@
       <Project>{7E5690A4-29A9-4DF9-A002-4E530C24BFD5}</Project>
       <Name>OpenCover2Generic.Converter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenCover2Generic.Runner\OpenCover2Generic.Runner.csproj">
+      <Project>{C6E7FF08-8D53-4466-959D-1D34B9B8904F}</Project>
+      <Name>OpenCover2Generic.Runner</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

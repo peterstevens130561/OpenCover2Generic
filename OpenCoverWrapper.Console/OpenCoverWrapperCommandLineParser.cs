@@ -22,6 +22,11 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             set { _commandLineParser.Args = value; }
         }
 
+        public string GetOpenCoverPath()
+        {
+            return _commandLineParser.GetArgument("-opencover");
+        }
+
         public string GetOutputPath()
         {
             return _commandLineParser.GetArgument("-output");

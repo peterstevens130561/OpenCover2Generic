@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 {
-    class Runner
+    public class Runner
     {
         private string _path;
         private readonly StringBuilder _arguments = new StringBuilder(2048);
-        public void run()
+        public void Run()
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(_path, _arguments.ToString());
             startInfo.CreateNoWindow = true;
