@@ -1,6 +1,6 @@
 ﻿namespace BHGE.SonarQube.OpenCover2Generic
 {
-    internal interface ICommandLineParser
+    public interface ICommandLineParser
     {
         string[] Args { get; set; }
 

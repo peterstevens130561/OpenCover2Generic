@@ -10,7 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void TwoArgmentsCheckOpenCoverShouldParse()
         {
             string[] args= { "-OpenCover:SomeFile.xml", "-Generic:SomeResult.xml" };
-            IOpenCover2GenericCommandLineParser parser = new OpenCover2GenericCommandLineParser();
+            IOpenCover2GenericCommandLineParser parser = new OpenCover2GenericCommandLineParser(new CommandLineParser());
             parser.Args = args;
             Assert.AreEqual("SomeFile.xml", parser.OpenCoverPath());
         }
@@ -20,7 +20,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void TwoArgmentsCheckGenericShouldParse()
         {
             string[] args = { "-OpenCover:SomeFile.xml", "-Generic:SomeResult.xml" };
-            IOpenCover2GenericCommandLineParser parser = new OpenCover2GenericCommandLineParser();
+            IOpenCover2GenericCommandLineParser parser = new OpenCover2GenericCommandLineParser(new CommandLineParser());
             parser.Args = args;
             Assert.AreEqual("SomeResult.xml", parser.GenericPath());
         }

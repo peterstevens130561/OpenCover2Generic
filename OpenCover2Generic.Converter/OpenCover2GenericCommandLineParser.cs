@@ -8,27 +8,32 @@ namespace BHGE.SonarQube.OpenCover2Generic
 {
     public class OpenCover2GenericCommandLineParser : IOpenCover2GenericCommandLineParser
     {
-        readonly ICommandLineParser commandLineParser = new CommandLineParser();
+        readonly ICommandLineParser _commandLineParser = new CommandLineParser();
+        public OpenCover2GenericCommandLineParser(ICommandLineParser commandLineParser)
+        {
+            _commandLineParser = commandLineParser;
+        }
+
         public string[] Args
         {
             get
             {
-                return commandLineParser.Args;
+                return _commandLineParser.Args;
             }
             set
             {
-                commandLineParser.Args = value;
+                _commandLineParser.Args = value;
             }
         }
 
         public string GenericPath()
         {
-            return commandLineParser.GetArgument("-Generic:");
+            return _commandLineParser.GetArgument("-Generic:");
         }
 
         public string OpenCoverPath()
         {
-            return commandLineParser.GetArgument("-OpenCover:");
+            return _commandLineParser.GetArgument("-OpenCover:");
         }
 
 

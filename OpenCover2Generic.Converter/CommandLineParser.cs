@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    class CommandLineParser : ICommandLineParser
+    public class CommandLineParser : ICommandLineParser
     {
         public string[] Args { get; set; }
         public string GetArgument(string key)
