@@ -20,13 +20,24 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             string targetPath = commandLineParser.GetTargetPath();
             string targetArgs = commandLineParser.GetTargetArgs();
             string testResultsPath = commandLineParser.GetTestResultsPath();
-            string arguments = $"-register:user -\"output:{outputPath}\" \"-target:{targetPath}\" \"-targetargs:{targetArgs}\"";
+            string tempPath = Path.GetTempFileName();
+            string arguments = $"-register:user -\"output:{tempPath}\" \"-target:{targetPath}\" \"-targetargs:{targetArgs}\"";
             var runner = new Runner();
             runner.AddArgument(arguments);
             runner.SetPath(openCoverPath);
             runner.Run();
+            if(File.Exists(testResultsPath))
+            {
+                File.Delete(testResultsPath);
+            }
             File.Move(runner.TestResultsPath, testResultsPath);
 
+            var converter = new Converter(new Model());
+            var fileWriter = new StreamWriter(outputPath);
+            var fileReader = new StreamReader(openCoverPath);
+            converter.Convert(fileWriter, fileReader);
+            fileReader.Close();
+            fileWriter.Close();
         }
     }
 }

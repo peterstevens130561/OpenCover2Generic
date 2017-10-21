@@ -43,20 +43,28 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 
         }
 
-        public string TestResultsPath { get { return _testResultsPath; } }
+        public string TestResultsPath
+        {
+            get
+            {
+                if (_testResultsPath == null)
+                {
+                    throw new InvalidOperationException("Did not find line 'VsTestSonarQubeLogger.TestResults=' in log (fatal)");
+                }
+                return _testResultsPath;
+            }
+        }
 
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
+            // yes, this does happen
             if(e?.Data ==null)
             {
                 return;
             }
-            // silly defect in OpenCover, ignore
-            if(e.Data.Contains("Could not find a part of the path"))
-            {
-                return;
-            }
+            // there is no other way to find out where vstest stores his
+            //testresults
             if(e.Data.Contains("VsTestSonarQubeLogger.TestResults")) {
                 string[] parts = e.Data.Split('=');
                 if(parts.Length==2)
