@@ -19,7 +19,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             string outputPath = commandLineParser.GetOutputPath();
             string targetPath = commandLineParser.GetTargetPath();
             string targetArgs = commandLineParser.GetTargetArgs();
-            string testResultsPath = null;
+            string testResultsPath = commandLineParser.GetTestResultsPath();
             string arguments = $"-register:user -\"output:{outputPath}\" \"-target:{targetPath}\" \"-targetargs:{targetArgs}\"";
             var runner = new Runner();
             runner.AddArgument(arguments);
