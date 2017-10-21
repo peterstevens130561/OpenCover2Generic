@@ -27,7 +27,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                 process.EnableRaisingEvents = true;
                 process.OutputDataReceived += Process_OutputDataReceived;
                 process.ErrorDataReceived += Process_OutputDataReceived;
-                process.Exited += Process_Exited;
                 process.Start();
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
@@ -38,7 +37,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                 }
                 process.OutputDataReceived -= Process_OutputDataReceived;
                 process.ErrorDataReceived -= Process_OutputDataReceived;
-                process.Exited -= Process_Exited;
                 Console.WriteLine($"TestResults in {_testResultsPath}");
 
             }
@@ -47,10 +45,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 
         public string TestResultsPath { get { return _testResultsPath; } }
 
-        private void Process_Exited(object sender, EventArgs e)
-        {
-            _exited = true;
-        }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {

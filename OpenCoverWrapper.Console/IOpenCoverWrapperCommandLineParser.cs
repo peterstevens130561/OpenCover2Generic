@@ -7,5 +7,6 @@
         string GetTargetPath();
         string GetTargetArgs();
         string GetOpenCoverPath();
+        string GetTestResultsPath();
     }
 }
