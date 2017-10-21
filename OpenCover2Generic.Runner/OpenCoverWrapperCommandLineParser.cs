@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 {
-    class OpenCoverWrapperCommandLineParser : IOpenCoverCommandLineParser
+    class OpenCoverWrapperCommandLineParser : IOpenCoverWrapperCommandLineParser
     {
         private readonly ICommandLineParser _commandLineParser;
 
@@ -25,6 +25,16 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
         public string GetOutputPath()
         {
             return _commandLineParser.GetArgument("-output");
+        }
+
+        public string GetTargetArgs()
+        {
+            return _commandLineParser.GetArgument("-targetargs");
+        }
+
+        public string GetTargetPath()
+        {
+            return _commandLineParser.GetArgument("-target");
         }
     }
 }
