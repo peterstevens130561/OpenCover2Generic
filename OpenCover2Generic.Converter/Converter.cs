@@ -28,7 +28,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 using (XmlReader xmlReader = XmlReader.Create(reader))
                 {
                     xmlReader.MoveToContent();
-                    while (ParseModule(xmlReader))
+                    while (_parser.ParseModule(_model,xmlReader))
                     {
                         _coverageWriter.GenerateCoverage(_model, xmlWriter);
                         _model.Clear();
