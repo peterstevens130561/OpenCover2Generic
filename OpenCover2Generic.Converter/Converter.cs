@@ -31,7 +31,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             using (XmlTextWriter xmlWriter = new XmlTextWriter(writer))
             {
-                WriteBegin(xmlWriter);
+                _coverageWriter.WriteBegin(xmlWriter);
                 using (XmlReader xmlReader = XmlReader.Create(reader))
                 {
                     xmlReader.MoveToContent();
