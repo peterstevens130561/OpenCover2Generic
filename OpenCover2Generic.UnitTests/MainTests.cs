@@ -16,7 +16,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Initialize()
         {
             model = new Model();
-            converter = new Converter(model,new GenericCoverageWriter());
+            converter = new Converter(model,new OpenCoverCoverageParser(),new GenericCoverageWriter());
         }
 
         [TestMethod]

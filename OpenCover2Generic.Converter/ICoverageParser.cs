@@ -2,8 +2,10 @@
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    internal interface ICoverageParser
+    public interface ICoverageParser
     {
+        string Module { get; }
+
         bool ParseModule(IModel model, XmlReader xmlReader);
     }
 }

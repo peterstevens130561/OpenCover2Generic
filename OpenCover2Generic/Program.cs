@@ -13,7 +13,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             var commandLineParser = new OpenCover2GenericCommandLineParser(new CommandLineParser());
             var model = new Model();
-            var converter = new Converter(model,new GenericCoverageWriter());
+            var converter = new Converter(model,new OpenCoverCoverageParser(),new GenericCoverageWriter());
 
             commandLineParser.Args = args;
             string openCoverPath = commandLineParser.OpenCoverPath();
