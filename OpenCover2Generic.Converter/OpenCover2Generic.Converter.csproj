@@ -50,12 +50,14 @@
     <Compile Include="IBranchPoint.cs" />
     <Compile Include="IBranchPointAggregator.cs" />
     <Compile Include="IConverter.cs" />
+    <Compile Include="ICoverageParser.cs" />
     <Compile Include="ICoveragePoint.cs" />
     <Compile Include="ICoverageWriter.cs" />
     <Compile Include="IFileCoverageModel.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="ISourceFileCoverage.cs" />
     <Compile Include="Model.cs" />
+    <Compile Include="OpenCoverCoverageParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SequencePoint.cs" />
   </ItemGroup>

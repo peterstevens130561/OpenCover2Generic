@@ -1,47 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    public class Converter : IConverter
+    internal class OpenCoverCoverageParser : ICoverageParser
     {
-        private readonly IModel _model;
-        private readonly ICoverageWriter _coverageWriter;
-        private ICoverageParser _parser = new OpenCoverCoverageParser();
-
-        public Converter(IModel model,ICoverageWriter coverageWriter)
+        private IModel _model;
+        public bool ParseModule(IModel model,XmlReader xmlReader)
         {
             _model = model;
-            _coverageWriter = coverageWriter;
-        }
-
-        public void Convert(StreamWriter writer, StreamReader reader)
-        {
-            using (XmlTextWriter xmlWriter = new XmlTextWriter(writer))
-            {
-                _coverageWriter.WriteBegin(xmlWriter);
-                using (XmlReader xmlReader = XmlReader.Create(reader))
-                {
-                    xmlReader.MoveToContent();
-                    while (ParseModule(xmlReader))
-                    {
-                        _coverageWriter.GenerateCoverage(_model, xmlWriter);
-                        _model.Clear();
-                    };
-                    _coverageWriter.GenerateCoverage(_model, xmlWriter);
-                    _model.Clear();
-                }
-                _coverageWriter.WriteEnd(xmlWriter);
-            }
-        }
-
-        private bool ParseModule(XmlReader xmlReader)
-        {
             while (xmlReader.Read())
             {
                 if (xmlReader.NodeType == XmlNodeType.Element)
@@ -77,10 +43,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private void AddBranchPoint(XmlReader xmlReader)
         {
             int sourceLine = int.Parse(xmlReader.GetAttribute("sl"));
-            bool isVisited = int.Parse(xmlReader.GetAttribute("vc"))>0;
+            bool isVisited = int.Parse(xmlReader.GetAttribute("vc")) > 0;
             int fileId = int.Parse(xmlReader.GetAttribute("fileid"));
-            int path = int.Parse( xmlReader.GetAttribute("path"));
-            var branchPoint = new BranchPoint(fileId,sourceLine, path, isVisited);
+            int path = int.Parse(xmlReader.GetAttribute("path"));
+            var branchPoint = new BranchPoint(fileId, sourceLine, path, isVisited);
             _model.AddBranchPoint(branchPoint);
         }
 
