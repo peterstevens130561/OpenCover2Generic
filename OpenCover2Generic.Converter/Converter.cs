@@ -12,7 +12,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private readonly IModel _model;
         private readonly ICoverageWriter _coverageWriter;
-        private GenericCoverageWriter genericCoverageWriter;
 
         public Converter(IModel model,ICoverageWriter coverageWriter)
         {
@@ -28,14 +27,19 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 using (XmlReader xmlReader = XmlReader.Create(reader))
                 {
                     xmlReader.MoveToContent();
-                    ParseStream(xmlWriter, xmlReader);
+                    while (ParseModule(xmlReader))
+                    {
+                        _coverageWriter.GenerateCoverage(_model, xmlWriter);
+                        _model.Clear();
+                    };
+                    _coverageWriter.GenerateCoverage(_model, xmlWriter);
+                    _model.Clear();
                 }
-
                 _coverageWriter.WriteEnd(xmlWriter);
             }
         }
 
-        private void ParseStream(XmlWriter xmlWriter, XmlReader xmlReader)
+        private bool ParseModule(XmlReader xmlReader)
         {
             while (xmlReader.Read())
             {
@@ -53,16 +57,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
                             AddBranchPoint(xmlReader);
                             break;
                         case "Module":
-                            _coverageWriter.GenerateCoverage(_model,xmlWriter);
-                            _model.Clear();
-                            break;
+                            return true;
                         default:
                             break;
                     }
                 }
             }
-            _coverageWriter.GenerateCoverage(_model, xmlWriter);
-            _model.Clear();
+            return false;
         }
 
         private void AddFile(XmlReader xmlReader)
