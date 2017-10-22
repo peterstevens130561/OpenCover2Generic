@@ -18,5 +18,41 @@ namespace BHGE.SonarQube.OpenCover2Generic
             xmlWriter.WriteStartElement("coverage");
             xmlWriter.WriteAttributeString("version", "1");
         }
+
+        public  void WriteEnd(XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndDocument();
+            xmlWriter.Flush();
+        }
+
+        public void GenerateCoverage(IModel model,XmlWriter xmlWriter)
+        {
+            foreach (IFileCoverageModel fileCoverage in model.GetCoverage())
+            {
+                xmlWriter.WriteStartElement("file");
+                xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);
+                GenerateSequencePoints(xmlWriter, fileCoverage);
+            }
+        }
+
+        private  void GenerateSequencePoints(XmlWriter xmlWriter, IFileCoverageModel fileCoverage)
+        { 
+            foreach (ISequencePoint sequencePoint in fileCoverage.SequencePoints)
+            {
+                xmlWriter.WriteStartElement("lineToCover");
+                string sourceLine = sequencePoint.SourceLine.ToString();
+                xmlWriter.WriteAttributeString("lineNumber", sourceLine);
+                xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
+                IBranchPointAggregator branchPoint = fileCoverage.BranchPointAggregator(sourceLine);
+                if (branchPoint != null)
+                {
+                    xmlWriter.WriteAttributeString("branchesToCover", branchPoint.PathsToCover().ToString());
+                    xmlWriter.WriteAttributeString("coveredBranches", branchPoint.CoveredPaths().ToString());
+                }
+                xmlWriter.WriteEndElement();
+            }
+            xmlWriter.WriteEndElement();
+        }
     }
 }

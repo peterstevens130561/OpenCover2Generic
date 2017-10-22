@@ -12,19 +12,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private readonly IModel _model;
         private readonly ICoverageWriter _coverageWriter;
-        private Model model;
         private GenericCoverageWriter genericCoverageWriter;
 
         public Converter(IModel model,ICoverageWriter coverageWriter)
         {
             _model = model;
             _coverageWriter = coverageWriter;
-        }
-
-        public Converter(Model model, GenericCoverageWriter genericCoverageWriter)
-        {
-            this.model = model;
-            this.genericCoverageWriter = genericCoverageWriter;
         }
 
         public void Convert(StreamWriter writer, StreamReader reader)
@@ -38,24 +31,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
                     ParseStream(xmlWriter, xmlReader);
                 }
 
-                WriteEnd(xmlWriter);
+                _coverageWriter.WriteEnd(xmlWriter);
             }
-        }
-
-        private static void WriteEnd(XmlWriter xmlWriter)
-        {
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteEndDocument();
-            xmlWriter.Flush();
-        }
-
-        private static void WriteBegin(XmlTextWriter xmlWriter)
-        {
-            xmlWriter.Formatting = Formatting.Indented;
-            xmlWriter.Indentation = 4;
-            xmlWriter.WriteStartDocument();
-            xmlWriter.WriteStartElement("coverage");
-            xmlWriter.WriteAttributeString("version", "1");
         }
 
         private void ParseStream(XmlWriter xmlWriter, XmlReader xmlReader)
@@ -76,14 +53,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
                             AddBranchPoint(xmlReader);
                             break;
                         case "Module":
-                            GenerateCoverage(xmlWriter);
+                            _coverageWriter.GenerateCoverage(_model,xmlWriter);
+                            _model.Clear();
                             break;
                         default:
                             break;
                     }
                 }
             }
-            GenerateCoverage(xmlWriter);
+            _coverageWriter.GenerateCoverage(_model, xmlWriter);
+            _model.Clear();
         }
 
         private void AddFile(XmlReader xmlReader)
@@ -111,34 +90,5 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _model.AddSequencePoint(fileId, sourceLine, visitedCount);
         }
 
-        private void GenerateCoverage(XmlWriter xmlWriter)
-        {
-            foreach(IFileCoverageModel fileCoverage in _model.GetCoverage())
-            {
-                xmlWriter.WriteStartElement("file");
-                xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);
-                GenerateSequencePoints(xmlWriter, fileCoverage);
-            }
-            _model.Clear();
-        }
-
-        private static void GenerateSequencePoints(XmlWriter xmlWriter, IFileCoverageModel fileCoverage)
-        {
-            foreach (ISequencePoint sequencePoint in fileCoverage.SequencePoints)
-            {
-                xmlWriter.WriteStartElement("lineToCover");
-                string sourceLine = sequencePoint.SourceLine.ToString();
-                xmlWriter.WriteAttributeString("lineNumber", sourceLine);
-                xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
-                IBranchPointAggregator branchPoint = fileCoverage.BranchPointAggregator(sourceLine);
-                if (branchPoint != null)
-                {
-                    xmlWriter.WriteAttributeString("branchesToCover", branchPoint.PathsToCover().ToString());
-                    xmlWriter.WriteAttributeString("coveredBranches", branchPoint.CoveredPaths().ToString());
-                }
-                xmlWriter.WriteEndElement();
-            }
-            xmlWriter.WriteEndElement();
-        }
     }
 }
