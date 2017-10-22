@@ -32,7 +32,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             }
             File.Move(runner.TestResultsPath, testResultsPath);
 
-            var converter = new Converter(new Model());
+            var converter = new Converter(new Model(),new GenericCoverageWriter());
             Console.WriteLine($"Converting {openCoverOutputPath} to {outputPath}");
             using (var fileWriter = new StreamWriter(outputPath))
             {

@@ -7,8 +7,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class MultiAssemblyTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void ModulesShouldBeWrittenToCorrectFiles()
         {
+          /*  var converter = new ModuleConverter(new ConverterStub());
+            StreamReader reader;
+            String root = "E:\A\B\C";
+            converter.ConvertModules(reader, root);
+            // now check that it writes the parts to the correct places
+            */
         }
     }
 }
