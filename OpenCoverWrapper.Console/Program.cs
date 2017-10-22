@@ -26,7 +26,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             runner.AddArgument(arguments);
             runner.SetPath(openCoverExePath);
             runner.Run();
-            if(File.Exists(testResultsPath))
+            if (File.Exists(testResultsPath))
             {
                 File.Delete(testResultsPath);
             }
@@ -34,9 +34,13 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
             var converter = new Converter(new Model());
             Console.WriteLine($"Converting {openCoverOutputPath} to {outputPath}");
-            var fileWriter = new StreamWriter(outputPath);
-            var fileReader = new StreamReader(openCoverOutputPath);
-            converter.Convert(fileWriter, fileReader);
+            using (var fileWriter = new StreamWriter(outputPath))
+            {
+                using (var fileReader = new StreamReader(openCoverOutputPath))
+                {
+                    converter.Convert(fileWriter, fileReader);
+                }
+            }
             File.Delete(openCoverOutputPath);
         }
     }
