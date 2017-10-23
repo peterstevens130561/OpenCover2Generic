@@ -15,6 +15,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             converter.ConvertModules(reader, root);
             // now check that it writes the parts to the correct places
             */
+
         }
     }
 }

@@ -33,7 +33,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         private void WriteModule(string root, string assembly)
         {
-            string module = _parser.Module;
+            string module = _parser.ModuleName;
             if (module == null)
             {
                 return;

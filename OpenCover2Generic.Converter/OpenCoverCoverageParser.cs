@@ -1,13 +1,25 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     public class OpenCoverCoverageParser : ICoverageParser
     { 
         private IModel _model;
+        private string _moduleName;
+
+        public string ModuleName
+        {
+            get
+            {
+                return _moduleName;
+            }
+        }
+
         public bool ParseModule(IModel model,XmlReader xmlReader)
         {
             _model = model;
+            _moduleName = null;
             while (xmlReader.Read())
             {
                 if (xmlReader.NodeType == XmlNodeType.Element)
@@ -23,6 +35,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
                         case "BranchPoint":
                             AddBranchPoint(xmlReader);
                             break;
+                        case "ModuleName":
+                            ReadModuleName(xmlReader);
+                            break;
                         case "Module":
                             return true;
                         default:
@@ -31,6 +46,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 }
             }
             return false;
+        }
+
+        private void ReadModuleName(XmlReader xmlReader)
+        {
+             _moduleName = xmlReader.Value;
         }
 
         private void AddFile(XmlReader xmlReader)

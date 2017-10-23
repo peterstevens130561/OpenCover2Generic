@@ -3,12 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EAF86DBD-968C-4B24-8EA6-BAD7785F5DFF}</ProjectGuid>
+    <ProjectGuid>{02E698AB-CE09-4772-9236-03DF603072D6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BHGE.SonarQube.OpenCover2Generic</RootNamespace>
-    <AssemblyName>OpenCover2Generic.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <RootNamespace>BHGE.SonarQube.OpenCoverWrapper.IntegrarionTests</RootNamespace>
+    <AssemblyName>OpenCoverWrapper.IntegrationTests</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,7 +16,6 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,8 +35,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SpecRun.SpecFlowPlugin, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecRun.SpecFlow.2-2-0.1.7.0-rc001\lib\net45\SpecRun.SpecFlowPlugin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Xml" />
+    <Reference Include="TechTalk.SpecFlow, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecFlow.2.2.0\lib\net45\TechTalk.SpecFlow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TechTalk.SpecRun, Version=1.7.0.0, Culture=neutral, PublicKeyToken=d0fc5cc18b3b389b, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecRun.SpecFlow.2-2-0.1.7.0-rc001\lib\net45\TechTalk.SpecRun.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TechTalk.SpecRun.Common, Version=1.7.0.0, Culture=neutral, PublicKeyToken=d0fc5cc18b3b389b, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecRun.SpecFlow.2-2-0.1.7.0-rc001\lib\net45\TechTalk.SpecRun.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -47,40 +65,42 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
-          <Private>False</Private>
-        </Reference>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="MainTests.cs" />
-    <Compile Include="OpenCoverWrapperCommandLineParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CoveragePointTests.cs" />
-    <Compile Include="BanchPointTests.cs" />
-    <Compile Include="BranchPointsMultipeTimesCoveredTests.cs" />
-    <Compile Include="OpenCover2GenericCommandLineParserTests.cs" />
-    <Compile Include="MultiAssemblyTests.cs" />
-    <Compile Include="GenericCoverageParserTests.cs" />
+    <Compile Include="SplitOpenCoverCoverageFileIntoGenericCoverageFilesSteps.cs" />
+    <Compile Include="SplitOpenCoverFileIntoModuleFiles.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SplitOpenCoverFileIntoModuleFiles.feature</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenCover2Generic.Converter\OpenCover2Generic.Converter.csproj">
-      <Project>{7e5690a4-29a9-4df9-a002-4e530c24bfd5}</Project>
-      <Name>OpenCover2Generic.Converter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenCover2Generic.Runner\OpenCover2Generic.Runner.csproj">
-      <Project>{C6E7FF08-8D53-4466-959D-1D34B9B8904F}</Project>
-      <Name>OpenCover2Generic.Runner</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenCover2Generic\OpenCover2Generic.Console.csproj">
-      <Project>{FE9FD645-E270-4EEE-A030-C92688C84383}</Project>
-      <Name>OpenCover2Generic.Console</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenCoverWrapper.Console\OpenCoverWrapper.Console.csproj">
-      <Project>{D90691B7-6D6C-40FF-81E4-4B8B476F300E}</Project>
-      <Name>OpenCoverWrapper.Console</Name>
-    </ProjectReference>
+    <None Include="App.config" />
+    <None Include="Default.srprofile">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="runtests.cmd" />
+    <None Include="SplitOpenCoverFileIntoModuleFiles.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SplitOpenCoverFileIntoModuleFiles.feature.cs</LastGenOutput>
+    </None>
+    <None Include="SpecRunTestProfile.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SpecRunTestProfile_2011_09.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\TwoModules.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
