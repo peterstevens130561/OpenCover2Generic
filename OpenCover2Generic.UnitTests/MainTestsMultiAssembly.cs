@@ -9,14 +9,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class MultiAssemblyConversionMainTests
     {
-        private IConverter converter;
+        private MultiAssemblyConverter converter;
         private IModel model;
 
         [TestInitialize]
         public void Initialize()
         {
             model = new Model();
-            converter = new MultiAssemblyConverter(model,new OpenCoverCoverageParser(),new GenericCoverageWriter());
+            converter = new MultiAssemblyConverter(model,new OpenCoverCoverageParser(),
+                new GenericCoverageWriter(),new OpenCoverCoverageParser(),new OpenCoverCoverageWriter());
         }
 
         [TestMethod]

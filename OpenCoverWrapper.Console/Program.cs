@@ -32,16 +32,29 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             }
             File.Move(runner.TestResultsPath, testResultsPath);
 
-            var converter = new Converter(new Model(),new OpenCoverCoverageParser(),new GenericCoverageWriter());
+            var converter = new MultiAssemblyConverter(new Model(),
+                new OpenCoverCoverageParser(),
+                new GenericCoverageWriter(),
+                new OpenCoverCoverageParser(),
+                new OpenCoverCoverageWriter());
             Console.WriteLine($"Converting {openCoverOutputPath} to {outputPath}");
             using (var fileWriter = new StreamWriter(outputPath))
             {
                 using (var fileReader = new StreamReader(openCoverOutputPath))
                 {
+
                     converter.Convert(fileWriter, fileReader);
                 }
             }
             File.Delete(openCoverOutputPath);
+        }
+
+
+        public string CreateRootDirectory()
+        {
+            var rootPath = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "coverage_" +Guid.NewGuid().ToString()));
+            Directory.CreateDirectory(rootPath);
+            return rootPath;
         }
     }
 }

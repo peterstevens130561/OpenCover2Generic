@@ -8,20 +8,30 @@ using System.Xml;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    public class MultiAssemblyConverter : IConverter
+    public class MultiAssemblyConverter 
     {
         private readonly IModel _model;
         private readonly ICoverageWriter _coverageWriter;
         private readonly ICoverageParser _parser;
         private readonly ICoverageParser _moduleParser;
         private readonly ICoverageWriter _moduleWriter;
-        public MultiAssemblyConverter(IModel model,ICoverageParser parser,ICoverageWriter coverageWriter)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="testCoverageParser"></param>
+        /// <param name="resultCoverageWriter"></param>
+        public MultiAssemblyConverter(IModel model,
+            ICoverageParser testCoverageParser,
+            ICoverageWriter resultCoverageWriter,
+            ICoverageParser intermediateCoverageParser,
+            ICoverageWriter intermediateCoverageWriter)
         {
-            _parser = parser;
+            _parser = testCoverageParser;
             _model = model;
-            _coverageWriter = coverageWriter;
-            _moduleParser = new OpenCoverCoverageParser();
-            _moduleWriter = new OpenCoverCoverageWriter();
+            _coverageWriter = resultCoverageWriter;
+            _moduleParser = intermediateCoverageParser;
+            _moduleWriter = intermediateCoverageWriter;
         }
 
         public void Convert(StreamWriter writer, StreamReader reader)
