@@ -9,13 +9,18 @@ namespace BHGE.SonarQube.OpenCover2Generic
     /// </summary>
     internal class BranchPointAggregator : IBranchPointAggregator
     {
-        private readonly IDictionary<int, bool> pathsToCover = new Dictionary<int, bool>();
+        private readonly SortedDictionary<int, IBranchPoint> pathsToCover = new SortedDictionary<int, IBranchPoint>();
+
 
 
         public BranchPointAggregator()
         {
         }
- 
+
+        public IList<IBranchPoint> GetBranchPoints()
+        {
+            return pathsToCover.Values.ToList();
+        }
 
         public int PathsToCover()
         {
@@ -24,13 +29,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public int CoveredPaths()
         {
-                return pathsToCover.Count(p => { return p.Value; });
+                return pathsToCover.Count(p => { return p.Value.IsVisited; });
         }
 
 
-        public IBranchPointAggregator Add(int path, bool isVisited)
+        public IBranchPointAggregator Add(int sourceLine, int path, bool isVisited)
         {
-            AddPoint(path, isVisited);
+            IBranchPoint branchPoint = new BranchPoint(sourceLine, path, isVisited);
+            Add(branchPoint);
             return this;
         }
 
@@ -38,13 +44,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public IBranchPointAggregator Add(IBranchPoint branchPoint)
         {
-            AddPoint(branchPoint.Path, branchPoint.IsVisited);
+            int path = branchPoint.Path;
+            if (!pathsToCover.ContainsKey(path) || !pathsToCover[path].IsVisited)
+            {
+                pathsToCover[path] = branchPoint;
+            }
             return this;
         }
 
-        private void AddPoint(int path, bool isVisited)
-        {
-            pathsToCover[path] = pathsToCover.ContainsKey(path) ? pathsToCover[path] || isVisited : isVisited;
-        }
     }
 }

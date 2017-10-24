@@ -28,15 +28,26 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 foreach(ISequencePoint sequencePoint in sourceFile.SequencePoints)
                 {
                     xmlWriter.WriteStartElement("SequencePoint");
+                    string sourceLineNr = sequencePoint.SourceLine.ToString();
                     string visited = sequencePoint.Covered ? "1" : "0";
                     xmlWriter.WriteAttributeString("vc", visited);
-                    xmlWriter.WriteAttributeString("sl", sequencePoint.SourceLine.ToString());
+                    xmlWriter.WriteAttributeString("sl", sourceLineNr);
                     xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
                     xmlWriter.WriteEndElement();
-                    var aggregator = sourceFile.GetBranchPointAggregatorByLine(sequencePoint.SourceLine.ToString());
+                    var aggregator = sourceFile.GetBranchPointAggregatorByLine(sourceLineNr);
                     if(aggregator!=null)
                     {
+                        foreach(IBranchPoint branchPoint in aggregator.GetBranchPoints())
 
+                        {   // <BranchPoint vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
+                            xmlWriter.WriteStartElement("BranchPoint");
+                            xmlWriter.WriteAttributeString("vc", branchPoint.IsVisited ? "1" : "0");
+                            xmlWriter.WriteAttributeString("sl", branchPoint.SourceLine.ToString());
+                            xmlWriter.WriteAttributeString("path", branchPoint.Path.ToString());
+                            xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
+                            xmlWriter.WriteEndElement();
+
+                        }
                     }
                 }
             }
