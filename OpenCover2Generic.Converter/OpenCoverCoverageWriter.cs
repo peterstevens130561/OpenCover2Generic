@@ -31,6 +31,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
                     xmlWriter.WriteStartElement("SequencePoint");
                     string visited = sequencePoint.Covered ? "1" : "0";
                     xmlWriter.WriteAttributeString("vc", visited);
+                    xmlWriter.WriteAttributeString("sl", sequencePoint.SourceLine.ToString());
+                    xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
                     xmlWriter.WriteEndElement();
                 }
             }
