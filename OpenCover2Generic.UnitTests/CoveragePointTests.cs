@@ -9,7 +9,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void WeirdOrderShouldBeSorted()
         {
-            var model = new FileCoverageModel("a/b");
+            var model = new FileCoverageModel("10","a/b");
             model.AddSequencePoint("3", "0");
             model.AddSequencePoint("2", "1");
             model.AddSequencePoint("5", "2");

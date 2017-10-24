@@ -93,7 +93,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
             AssertStringsSame(expected, result);
         }
 
-        public void ValidModuleShouldBeParses()
+        [TestMethod]
+        public void OpenCoverageWriter_ValidModuleShouldBeParses()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -139,13 +140,20 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"">
-    <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"">
-        <lineToCover lineNumber=""27"" covered=""false"" />
-        <lineToCover lineNumber=""28"" covered=""true"" />
-        <lineToCover lineNumber=""29"" covered=""true"" />
-    </file>
-</coverage>";
+<CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+    <Modules>
+        <Module>
+            <Files>
+                <File uid=""1"" fullPath=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
+            </Files>
+            <SequencePoints>
+                <SequencePoint> vc=""0"" sl=""27"" </SequencePoint>
+                <SequencePoint> vc=""1"" sl=""28"" </SequencePoint>
+                <SequencePoint> vc=""1"" sl=""28"" </SequencePoint>
+            </SequencePoints>
+        </Module>
+    </Modules>
+</CoverageSession>";
             AssertStringsSame(expected, result);
         }
 

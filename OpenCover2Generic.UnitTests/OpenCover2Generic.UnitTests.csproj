@@ -65,6 +65,7 @@
     <Compile Include="BranchPointsMultipeTimesCoveredTests.cs" />
     <Compile Include="OpenCover2GenericCommandLineParserTests.cs" />
     <Compile Include="MultiAssemblyTests.cs" />
+    <Compile Include="FileCoverageModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenCover2Generic.Converter\OpenCover2Generic.Converter.csproj">

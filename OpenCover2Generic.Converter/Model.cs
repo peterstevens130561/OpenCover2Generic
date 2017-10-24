@@ -13,7 +13,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public void AddFile(string fileId, string filePath)
         {
-            sourceFiles.Add(fileId,new FileCoverageModel(filePath));
+            sourceFiles.Add(fileId,new FileCoverageModel(fileId,filePath));
         }
 
         public void AddSequencePoint(string fileId, string sourceLine, string visitedCount)

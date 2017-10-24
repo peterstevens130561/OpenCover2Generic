@@ -9,8 +9,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private readonly string filePath;
         private readonly Dictionary<string,ISequencePoint> coveragePoints = new Dictionary<string,ISequencePoint>();
         private readonly Dictionary<string, IBranchPointAggregator> branchPoints = new Dictionary<string, IBranchPointAggregator>();
-        public FileCoverageModel(string filePath)
+        private readonly string _uid;
+
+        public FileCoverageModel(string uid,string filePath)
         {
+            _uid = uid;
             this.filePath = filePath;
         }
 
@@ -22,6 +25,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
         }
 
+        public string Uid
+        {
+            get
+            {
+                return _uid;
+            }
+        }
         public IList<ISequencePoint> SequencePoints
         {
             get
