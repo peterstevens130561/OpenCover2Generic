@@ -95,7 +95,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void OpenCoverageWriter_ValidModuleShouldBeParses()
+        public void OpenCoverageWriter_ValidModuleShouldBeParsed()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -159,7 +159,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
 
-        public void BranchPointsShouldBeCovered()
+        [TestMethod]
+        public void OpenCoverCoverageWriter_BranchPointsShouldBeCovered()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -271,13 +272,24 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"">
-    <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"">
-        <lineToCover lineNumber=""27"" covered=""false"" branchesToCover=""2"" coveredBranches=""2"" />
-        <lineToCover lineNumber=""28"" covered=""true"" />
-        <lineToCover lineNumber=""29"" covered=""true"" />
-    </file>
-</coverage>";
+<CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+    <Modules>
+        <Module>
+            <Files>
+                <File uid=""1"" fullPath=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
+            </Files>
+            <SequencePoints>
+                <SequencePoint vc=""0"" sl=""27"" fileid=""1"" />
+                <SequencePoint vc=""1"" sl=""28"" fileid=""1"" />
+                <SequencePoint vc=""1"" sl=""29"" fileid=""1"" />
+            </SequencePoints>
+            <BranchPoints>
+                <BranchPoint vc=""1"" sl=""27"" path=""0"" fileid=""1"" />
+                <BranchPoint vc=""1"" sl=""27"" path=""1"" fileid=""1"" />
+            </BranchPoints>
+        </Module>
+    </Modules>
+</CoverageSession>";
             AssertStringsSame(expected, result);
         }
         private string WhenConverting(MemoryStream resultStream, string input)
