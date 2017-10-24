@@ -43,6 +43,7 @@
     <Compile Include="CommandLineParser.cs" />
     <Compile Include="BranchPoint.cs" />
     <Compile Include="BranchPointAggregator.cs" />
+    <Compile Include="MultiAssemblyConverter.cs" />
     <Compile Include="GenericCoverageWriter.cs" />
     <Compile Include="ICommandLineParser.cs" />
     <Compile Include="Converter.cs" />

@@ -34,6 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
 
+        [TestMethod]
         public void SkippedModuleOnlyShouldBeIgnored()
         {
             string input= @"<?xml version=""1.0"" encoding=""utf-8""?>
@@ -52,11 +53,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"" />";
-            Assert.AreEqual(expected, result);
+<CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" />";
+            AssertStringsSame(expected, result);
         }
 
 
+        [TestMethod]
         public void ValidModuleShouldGenerateFiles()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
@@ -79,9 +81,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"">
-    <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
-</coverage>";
+<CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+    <Modules>
+        <Module>
+            <ModuleName>Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest</ModuleName>
+            <Files>
+                <File uid=""1"" fullPath=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
+            </Files>
+        </Module>
+    </Modules>
+</CoverageSession>";
             AssertStringsSame(expected, result);
         }
 
@@ -287,7 +296,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                     int len3 = Math.Min(expected.Length - i, 10);
                     string actualFailed = actual.Substring(low,len1) + "^" + actual.Substring(i, len2);
                     string expectedFailed = expected.Substring(low,len1) + "^" + expected.Substring(i, len3);
-                    Assert.Fail($"Strings differ at pos {i} expected='{expectedFailed}' actual='{actualFailed}'");
+                    Assert.Fail($"Strings differ at pos {i} \nexpected='{expectedFailed}' \nactual='{actualFailed}'");
                 }
             }
         }

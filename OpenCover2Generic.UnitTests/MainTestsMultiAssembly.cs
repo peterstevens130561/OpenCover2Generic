@@ -7,7 +7,7 @@ using System.Text;
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
-    public class MultiAssemblyConversionTests
+    public class MultiAssemblyConversionMainTests
     {
         private IConverter converter;
         private IModel model;
@@ -16,7 +16,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Initialize()
         {
             model = new Model();
-            converter = new Converter(model,new OpenCoverCoverageParser(),new GenericCoverageWriter());
+            converter = new MultiAssemblyConverter(model,new OpenCoverCoverageParser(),new GenericCoverageWriter());
         }
 
         [TestMethod]

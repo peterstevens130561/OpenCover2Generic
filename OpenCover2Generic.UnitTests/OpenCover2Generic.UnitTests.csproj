@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MainTestsMultiAssembly.cs" />
     <Compile Include="OpenCoverCoverageWriterTests.cs" />
     <Compile Include="MainTests.cs" />
     <Compile Include="OpenCoverWrapperCommandLineParserTests.cs" />
