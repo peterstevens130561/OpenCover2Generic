@@ -219,6 +219,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             AssertStringsSame(expected, result);
         }
 
+        [TestMethod]
         public void BranchPointsReportedTwiceSecondTimeAllShouldBeCovered()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
