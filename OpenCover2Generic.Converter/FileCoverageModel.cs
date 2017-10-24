@@ -6,22 +6,22 @@ namespace BHGE.SonarQube.OpenCover2Generic
 {
     internal class SourceFileCoverageModel : ISourceFileCoverageModel
     {
-        private readonly string filePath;
-        private readonly Dictionary<string,ISequencePoint> coveragePoints = new Dictionary<string,ISequencePoint>();
-        private readonly Dictionary<string, IBranchPointAggregator> branchPoints = new Dictionary<string, IBranchPointAggregator>();
+        private readonly string _filePath;
+        private readonly Dictionary<string,ISequencePoint> _coveragePoints = new Dictionary<string,ISequencePoint>();
+        private readonly Dictionary<string, IBranchPointAggregator> _branchPoints = new Dictionary<string, IBranchPointAggregator>();
         private readonly string _uid;
 
         public SourceFileCoverageModel(string uid,string filePath)
         {
             _uid = uid;
-            this.filePath = filePath;
+            this._filePath = filePath;
         }
 
         public string FullPath
         {
             get
             {
-                return filePath;
+                return _filePath;
             }
         }
 
@@ -36,7 +36,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             get
             {
-                List<ISequencePoint> points = coveragePoints.Values.ToList();
+                List<ISequencePoint> points = _coveragePoints.Values.ToList();
                 points.Sort((pair1, pair2) => pair1.SourceLine.CompareTo(pair2.SourceLine));
                 return points;
             }
@@ -45,26 +45,26 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void AddSequencePoint(string sourceLine, string visitedCount)
         {
             bool isVisited = int.Parse(visitedCount) > 0;
-            if (!coveragePoints.ContainsKey(sourceLine))
+            if (!_coveragePoints.ContainsKey(sourceLine))
             {
-                coveragePoints[sourceLine]=new SequencePoint(sourceLine);
+                _coveragePoints[sourceLine]=new SequencePoint(sourceLine);
             }
-            coveragePoints[sourceLine].AddVisit(isVisited);
+            _coveragePoints[sourceLine].AddVisit(isVisited);
         }
 
 
         public void AddBranchPoint(string sourceLine, IBranchPoint branchPoint)
         {
-            if (!branchPoints.ContainsKey(sourceLine))
+            if (!_branchPoints.ContainsKey(sourceLine))
             {
-                branchPoints[sourceLine] = new BranchPointAggregator();
+                _branchPoints[sourceLine] = new BranchPointAggregator();
             }
-            branchPoints[sourceLine].Add(branchPoint);
+            _branchPoints[sourceLine].Add(branchPoint);
         }
 
         public IBranchPointAggregator BranchPointAggregator(string sourceLine)
         {
-            return branchPoints.ContainsKey(sourceLine)?branchPoints[sourceLine]:null;
+            return _branchPoints.ContainsKey(sourceLine)?_branchPoints[sourceLine]:null;
         }
 
         public void AddBranchPoint(string sourceLine, string IBranchPoint)
@@ -75,11 +75,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void AddBranchPoint(IBranchPoint branchPoint)
         {
             string sourceLine = branchPoint.SourceLine.ToString();
-            if (!branchPoints.ContainsKey(sourceLine))
+            if (!_branchPoints.ContainsKey(sourceLine))
             {
-                branchPoints[sourceLine] = new BranchPointAggregator();
+                _branchPoints[sourceLine] = new BranchPointAggregator();
             }
-            branchPoints[sourceLine].Add(branchPoint);
+            _branchPoints[sourceLine].Add(branchPoint);
         }
     }
 }
