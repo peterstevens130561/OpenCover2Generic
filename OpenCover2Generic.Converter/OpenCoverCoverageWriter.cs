@@ -24,7 +24,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private static void WriteFilesElement(IModel model, XmlWriter xmlWriter)
         {
             xmlWriter.WriteStartElement("Files");
-            foreach (IFileCoverageModel fileCoverage in model.GetCoverage())
+            foreach (ISourceFileCoverageModel fileCoverage in model.GetCoverage())
             {
                 //<File uid="1" fullPath="E:\Cadence\EsieTooLinkRepositoryServiceTest.cs" />
                 xmlWriter.WriteStartElement("File");

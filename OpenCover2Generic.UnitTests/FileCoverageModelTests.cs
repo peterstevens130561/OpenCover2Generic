@@ -9,7 +9,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void CreateSourceFileCoverageInfoCheckValues()
         {
-            IFileCoverageModel info = new FileCoverageModel("10", "a/b/c");
+            ISourceFileCoverageModel info = new SourceFileCoverageModel("10", "a/b/c");
             Assert.AreEqual("10", info.Uid);
             Assert.AreEqual("a/b/c", info.FullPath);
         }

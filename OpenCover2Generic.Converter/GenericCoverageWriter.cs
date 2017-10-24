@@ -28,7 +28,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public void GenerateCoverage(IModel model,XmlWriter xmlWriter)
         {
-            foreach (IFileCoverageModel fileCoverage in model.GetCoverage())
+            foreach (ISourceFileCoverageModel fileCoverage in model.GetCoverage())
             {
                 xmlWriter.WriteStartElement("file");
                 xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);
@@ -36,7 +36,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
         }
 
-        private  void GenerateSequencePoints(XmlWriter xmlWriter, IFileCoverageModel fileCoverage)
+        private  void GenerateSequencePoints(XmlWriter xmlWriter, ISourceFileCoverageModel fileCoverage)
         { 
             foreach (ISequencePoint sequencePoint in fileCoverage.SequencePoints)
             {

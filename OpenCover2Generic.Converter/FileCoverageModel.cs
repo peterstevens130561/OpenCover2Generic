@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    internal class FileCoverageModel : IFileCoverageModel
+    internal class SourceFileCoverageModel : ISourceFileCoverageModel
     {
         private readonly string filePath;
         private readonly Dictionary<string,ISequencePoint> coveragePoints = new Dictionary<string,ISequencePoint>();
         private readonly Dictionary<string, IBranchPointAggregator> branchPoints = new Dictionary<string, IBranchPointAggregator>();
         private readonly string _uid;
 
-        public FileCoverageModel(string uid,string filePath)
+        public SourceFileCoverageModel(string uid,string filePath)
         {
             _uid = uid;
             this.filePath = filePath;
