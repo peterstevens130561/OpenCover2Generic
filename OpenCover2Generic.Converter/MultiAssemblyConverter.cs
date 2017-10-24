@@ -34,6 +34,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
                     xmlReader.MoveToContent();
                     while (_parser.ParseModule(_model,xmlReader))
                     {
+                        if (_model.GetCoverage().Count == 0)
+                        {
+                            continue;
+                        }
                         string moduleFile = Path.GetTempFileName();
                         WriteModuleToFile(moduleFile);
                         _model.Clear();
@@ -48,14 +52,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
         }
 
-        private void ReadModuleFromFile(string moduleFile)
-        {
-            using (XmlReader tempFileReader = XmlReader.Create(moduleFile))
-            {
-                tempFileReader.MoveToContent();
-                _moduleParser.ParseModule(_model, tempFileReader);
-            }
-        }
 
         private void WriteModuleToFile(string moduleFile)
         {
@@ -66,5 +62,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
 
         }
+        private void ReadModuleFromFile(string moduleFile)
+        {
+            using (XmlReader tempFileReader = XmlReader.Create(moduleFile))
+            {
+                tempFileReader.MoveToContent();
+                _moduleParser.ParseModule(_model, tempFileReader);
+            }
+        }
+
     }
 }
