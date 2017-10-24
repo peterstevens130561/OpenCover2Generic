@@ -16,8 +16,24 @@ namespace BHGE.SonarQube.OpenCover2Generic
             xmlWriter.WriteStartElement("Modules");
             xmlWriter.WriteStartElement("Module");
             WriteFilesElement(model, xmlWriter);
-
+            WriteSequencePoints(model, xmlWriter);
             xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndElement();
+        }
+
+        private void WriteSequencePoints(IModel model, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("SequencePoints");
+            foreach(ISourceFileCoverageModel sourceFile in model.GetCoverage())
+            {
+                foreach(ISequencePoint sequencePoint in sourceFile.SequencePoints)
+                {
+                    xmlWriter.WriteStartElement("SequencePoint");
+                    string visited = sequencePoint.Covered ? "1" : "0";
+                    xmlWriter.WriteAttributeString("vc", visited);
+                    xmlWriter.WriteEndElement();
+                }
+            }
             xmlWriter.WriteEndElement();
         }
 
@@ -26,9 +42,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
             xmlWriter.WriteStartElement("Files");
             foreach (ISourceFileCoverageModel fileCoverage in model.GetCoverage())
             {
-                //<File uid="1" fullPath="E:\Cadence\EsieTooLinkRepositoryServiceTest.cs" />
                 xmlWriter.WriteStartElement("File");
-                //xmlWriter.WriteAttributeString("uid", fileCoverage.Id);
+                xmlWriter.WriteAttributeString("uid", fileCoverage.Uid);
                 xmlWriter.WriteAttributeString("fullPath", fileCoverage.FullPath);
                 xmlWriter.WriteEndElement();
             }
