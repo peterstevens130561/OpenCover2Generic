@@ -62,7 +62,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _branchPoints[sourceLine].Add(branchPoint);
         }
 
-        public IBranchPointAggregator BranchPointAggregator(string sourceLine)
+        public IBranchPointAggregator GetBranchPointAggregatorByLine(string sourceLine)
         {
             return _branchPoints.ContainsKey(sourceLine)?_branchPoints[sourceLine]:null;
         }

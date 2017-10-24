@@ -87,7 +87,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             <Files>
                 <File uid=""1"" fullPath=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
             </Files>
-            <SequencePoints />
         </Module>
     </Modules>
 </CoverageSession>";
@@ -147,11 +146,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
             <Files>
                 <File uid=""1"" fullPath=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
             </Files>
-            <SequencePoints>
-                <SequencePoint vc=""0"" sl=""27"" fileid=""1"" />
-                <SequencePoint vc=""1"" sl=""28"" fileid=""1"" />
-                <SequencePoint vc=""1"" sl=""29"" fileid=""1"" />
-            </SequencePoints>
+            <SequencePoint vc=""0"" sl=""27"" fileid=""1"" />
+            <SequencePoint vc=""1"" sl=""28"" fileid=""1"" />
+            <SequencePoint vc=""1"" sl=""29"" fileid=""1"" />
         </Module>
     </Modules>
 </CoverageSession>";
@@ -220,7 +217,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void BranchPointsReportedTwiceSecondTimeAllShouldBeCovered()
+        public void OpenCoverCoverageWriter_BranchPointsReportedTwiceSecondTimeAllShouldBeCovered()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -279,11 +276,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
             <Files>
                 <File uid=""1"" fullPath=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
             </Files>
-            <SequencePoints>
-                <SequencePoint vc=""0"" sl=""27"" fileid=""1"" />
-                <SequencePoint vc=""1"" sl=""28"" fileid=""1"" />
-                <SequencePoint vc=""1"" sl=""29"" fileid=""1"" />
-            </SequencePoints>
+            <SequencePoint vc=""0"" sl=""27"" fileid=""1"" />
+            <SequencePoint vc=""1"" sl=""28"" fileid=""1"" />
+            <SequencePoint vc=""1"" sl=""29"" fileid=""1"" />
             <BranchPoints>
                 <BranchPoint vc=""1"" sl=""27"" path=""0"" fileid=""1"" />
                 <BranchPoint vc=""1"" sl=""27"" path=""1"" fileid=""1"" />

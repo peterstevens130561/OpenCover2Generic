@@ -23,7 +23,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         private void WriteSequencePoints(IModel model, XmlWriter xmlWriter)
         {
-            xmlWriter.WriteStartElement("SequencePoints");
             foreach(ISourceFileCoverageModel sourceFile in model.GetCoverage())
             {
                 foreach(ISequencePoint sequencePoint in sourceFile.SequencePoints)
@@ -34,9 +33,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
                     xmlWriter.WriteAttributeString("sl", sequencePoint.SourceLine.ToString());
                     xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
                     xmlWriter.WriteEndElement();
+                    var aggregator = sourceFile.GetBranchPointAggregatorByLine(sequencePoint.SourceLine.ToString());
+                    if(aggregator!=null)
+                    {
+
+                    }
                 }
             }
-            xmlWriter.WriteEndElement();
         }
 
         private static void WriteFilesElement(IModel model, XmlWriter xmlWriter)
@@ -51,6 +54,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
             xmlWriter.WriteEndElement();
         }
+
 
         public void WriteBegin(XmlTextWriter xmlWriter)
         {
