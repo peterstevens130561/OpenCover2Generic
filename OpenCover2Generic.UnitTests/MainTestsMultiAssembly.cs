@@ -79,7 +79,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"" >
+<coverage version=""1"">
     <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
 </coverage>";
             TestUtils.AssertStringsSame(expected, result);
@@ -132,7 +132,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"" >
+<coverage version=""1"">
     <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"">
         <lineToCover lineNumber=""27"" covered=""false"" />
         <lineToCover lineNumber=""28"" covered=""true"" />
@@ -193,7 +193,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"" >
+<coverage version=""1"">
     <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"">
         <lineToCover lineNumber=""27"" covered=""false"" branchesToCover=""2"" coveredBranches=""1"" />
         <lineToCover lineNumber=""28"" covered=""true"" />
@@ -257,7 +257,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"" >
+<coverage version=""1"">
     <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"">
         <lineToCover lineNumber=""27"" covered=""false"" branchesToCover=""2"" coveredBranches=""2"" />
         <lineToCover lineNumber=""28"" covered=""true"" />
