@@ -144,7 +144,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
 
         [TestMethod]
-        public void BranchPointsShouldBeCovered()
+        public void MultiAssemblyConversion_BranchPointsShouldBeCovered()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
