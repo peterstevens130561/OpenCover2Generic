@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BHGE.SonarQube.OpenCover2Generic;
 using System.IO;
 using System.Text;
 
@@ -21,7 +20,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void EmptyModuleOnlyShouldCreateHeaderOnly()
+        public void MultiAssemblyConversion_EmptyModuleOnlyShouldCreateHeaderOnly()
         {
 
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
@@ -35,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void SkippedModuleOnlyShouldBeIgnored()
+        public void MultiAssemblyConversion_SkippedModuleOnlyShouldBeIgnored()
         {
             string input= @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -58,7 +57,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void ValidModuleShouldGenerateFiles()
+        public void MultiAssemblyConversion_ValidModuleShouldGenerateFiles()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -80,14 +79,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"">
+<coverage version=""1"" >
     <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
 </coverage>";
-            AssertStringsSame(expected, result);
+            TestUtils.AssertStringsSame(expected, result);
         }
 
         [TestMethod]
-        public void ValidModuleShouldBeParses()
+        public void MultiAssemblyConversion_ValidModuleShouldBeParses()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -133,14 +132,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"">
+<coverage version=""1"" >
     <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"">
         <lineToCover lineNumber=""27"" covered=""false"" />
         <lineToCover lineNumber=""28"" covered=""true"" />
         <lineToCover lineNumber=""29"" covered=""true"" />
     </file>
 </coverage>";
-            AssertStringsSame(expected, result);
+            TestUtils.AssertStringsSame(expected, result);
         }
 
 
@@ -194,14 +193,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"">
+<coverage version=""1"" >
     <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"">
         <lineToCover lineNumber=""27"" covered=""false"" branchesToCover=""2"" coveredBranches=""1"" />
         <lineToCover lineNumber=""28"" covered=""true"" />
         <lineToCover lineNumber=""29"" covered=""true"" />
     </file>
 </coverage>";
-            AssertStringsSame(expected, result);
+            TestUtils.AssertStringsSame(expected, result);
         }
 
         [TestMethod]
@@ -258,14 +257,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<coverage version=""1"">
+<coverage version=""1"" >
     <file path=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"">
         <lineToCover lineNumber=""27"" covered=""false"" branchesToCover=""2"" coveredBranches=""2"" />
         <lineToCover lineNumber=""28"" covered=""true"" />
         <lineToCover lineNumber=""29"" covered=""true"" />
     </file>
 </coverage>";
-            AssertStringsSame(expected, result);
+            TestUtils.AssertStringsSame(expected, result);
         }
         private string WhenConverting(MemoryStream resultStream, string input)
         {
@@ -278,18 +277,5 @@ namespace BHGE.SonarQube.OpenCover2Generic
             return text;
         }
 
-        private void AssertStringsSame(string expected,string actual)
-        {
-            int len = Math.Min(expected.Length, actual.Length);
-            for(int i = 0; i < len; i++)
-            {
-                if(expected[i] != actual[i])
-                {
-                    string actualFailed = actual.Substring(i-10,10) + "^" + actual.Substring(i, 10);
-                    string expectedFailed = expected.Substring(i-10,10) + "^" + expected.Substring(i, 10);
-                    Assert.Fail($"Strings differ at pos {i} expected='{expectedFailed}' actual='{actualFailed}'");
-                }
-            }
-        }
     }
 }

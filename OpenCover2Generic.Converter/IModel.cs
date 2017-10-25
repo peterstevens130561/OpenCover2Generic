@@ -7,7 +7,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         void AddFile(string fileId, string filePath);
         IList<ISourceFileCoverageModel> GetCoverage();
         void AddSequencePoint(string fileId, string sourceLine, string visitedCount);
-        void AddBranchPoint( IBranchPoint branchPoint);
         void Clear();
+        void AddBranchPoint(int fileId, int sourceLine, int path, bool isVisited);
     }
 }

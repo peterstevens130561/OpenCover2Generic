@@ -50,7 +50,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         private void ReadModuleName(XmlReader xmlReader)
         {
-             _moduleName = xmlReader.Value;
+            _moduleName = xmlReader.ReadElementContentAsString();
         }
 
         private void AddFile(XmlReader xmlReader)
@@ -66,8 +66,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             bool isVisited = int.Parse(xmlReader.GetAttribute("vc")) > 0;
             int fileId = int.Parse(xmlReader.GetAttribute("fileid"));
             int path = int.Parse(xmlReader.GetAttribute("path"));
-            var branchPoint = new BranchPoint(fileId, sourceLine, path, isVisited);
-            _model.AddBranchPoint(branchPoint);
+            _model.AddBranchPoint(fileId, sourceLine, path, isVisited);
         }
 
         private void AddSequencePoint(XmlReader xmlReader)
