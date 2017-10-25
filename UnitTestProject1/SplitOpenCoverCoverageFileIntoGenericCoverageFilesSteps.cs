@@ -12,11 +12,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper.IntegrarionTests
             ScenarioContext.Current.Pending();
         }
         
-        [Given(@"I have coverage file ""(.*)"" for assembly ""(.*)""")]
-        public void GivenIHaveCoverageFileForAssembly(string p0, string p1)
-        {
-            ScenarioContext.Current.Pending();
-        }
         
         [When(@"I convert it")]
         public void WhenIConvertIt()

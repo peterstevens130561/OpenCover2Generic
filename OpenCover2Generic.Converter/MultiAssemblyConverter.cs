@@ -44,7 +44,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
 
                 ConvertCoverageFileIntoIntermediate(rootPath, testAssemblyName, reader);
-                var moduleDirectories = Directory.EnumerateDirectories(rootPath,"",SearchOption.TopDirectoryOnly);
+                var moduleDirectories = Directory.EnumerateDirectories(rootPath,"*",SearchOption.TopDirectoryOnly);
                 BeginCoverageFile(xmlWriter);
                 _model.Clear();
                 foreach (string moduleDirectory in moduleDirectories)
@@ -66,7 +66,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 xmlReader.MoveToContent();
                 while (_parser.ParseModule(_model, xmlReader))
                 {
-                    WriteModule(rootPath, testAssemblyName);
+                    WriteModule(rootPath,testAssemblyName);
                 };
                 WriteModule(rootPath, testAssemblyName);
             }
@@ -76,7 +76,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             if (_model.GetCoverage().Count > 0)
             {
-                string moduleFile = GetAssemblyFilePath(rootPath, testAssemblyName);
+                string moduleFile = GetAssemblyFilePath(rootPath,testAssemblyName);
                 WriteModuleToFile(moduleFile);
                 _model.Clear();
             }
@@ -98,7 +98,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             using (XmlReader tempFileReader = XmlReader.Create(assemblyPath))
             {
                 tempFileReader.MoveToContent();
-                _moduleParser.ParseModule(_model, tempFileReader);
+                while(_moduleParser.ParseModule(_model, tempFileReader));
             }
         }
 
