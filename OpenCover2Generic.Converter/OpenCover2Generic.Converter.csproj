@@ -47,6 +47,7 @@
     <Compile Include="CommandLineParser.cs" />
     <Compile Include="BranchPoint.cs" />
     <Compile Include="BranchPointAggregator.cs" />
+    <Compile Include="ITestResultsConcatenator.cs" />
     <Compile Include="MultiAssemblyConverter.cs" />
     <Compile Include="GenericCoverageWriter.cs" />
     <Compile Include="ICommandLineParser.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="OpenCoverCoverageWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SequencePoint.cs" />
+    <Compile Include="TestResultsConcatenator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
