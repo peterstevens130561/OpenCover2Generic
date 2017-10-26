@@ -43,6 +43,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 
         }
 
+        public void SetAssembly(string assembly)
+        {
+            throw new NotImplementedException();
+        }
+
         public string TestResultsPath
         {
             get

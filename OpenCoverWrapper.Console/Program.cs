@@ -21,18 +21,22 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             string targetArgs = commandLineParser.GetTargetArgs();
             string testResultsPath = commandLineParser.GetTestResultsPath();
             string openCoverOutputPath = Path.GetTempFileName();
+            string[] testAssemblies = commandLineParser.GetTestAssemblies();
             string arguments = $"-register:user -\"output:{openCoverOutputPath}\" \"-target:{targetPath}\" \"-targetargs:{targetArgs}\"";
-            var runner = new Runner();
-            runner.AddArgument(arguments);
-            runner.SetPath(openCoverExePath);
-            
-            Task task = Task.Run( () => runner.Run());
-            task.Wait();
-            if (File.Exists(testResultsPath))
+            foreach (string assembly in testAssemblies)
             {
-                File.Delete(testResultsPath);
+                var runner = new Runner();
+                runner.AddArgument(arguments);
+                runner.SetPath(openCoverExePath);
+                runner.SetAssembly(assembly);
+                Task task = Task.Run(() => runner.Run());
+                task.Wait();
+                if (File.Exists(testResultsPath))
+                {
+                    File.Delete(testResultsPath);
+                }
+                File.Move(runner.TestResultsPath, testResultsPath);
             }
-            File.Move(runner.TestResultsPath, testResultsPath);
 
             var converter = new MultiAssemblyConverter(new Model(),
                 new OpenCoverCoverageParser(),
