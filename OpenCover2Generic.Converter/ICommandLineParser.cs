@@ -5,5 +5,6 @@
         string[] Args { get; set; }
 
         string GetArgument(string v);
+        string[] GetArgumentArray(string v);
     }
 }

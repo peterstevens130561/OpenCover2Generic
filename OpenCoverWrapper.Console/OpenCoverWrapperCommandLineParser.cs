@@ -42,6 +42,11 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             return _commandLineParser.GetArgument("-target");
         }
 
+        public string[] GetTestAssemblies()
+        {
+            return _commandLineParser.GetArgumentArray("-testassembly");
+        }
+
         public string GetTestResultsPath()
         {
             return _commandLineParser.GetArgument("-testresults");

@@ -8,5 +8,6 @@
         string GetTargetArgs();
         string GetOpenCoverPath();
         string GetTestResultsPath();
+        string[] GetTestAssemblies();
     }
 }

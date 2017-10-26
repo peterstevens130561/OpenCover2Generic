@@ -25,7 +25,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             var runner = new Runner();
             runner.AddArgument(arguments);
             runner.SetPath(openCoverExePath);
-            runner.Run();
+            
+            Task task = Task.Run( () => runner.Run());
+            task.Wait();
             if (File.Exists(testResultsPath))
             {
                 File.Delete(testResultsPath);
