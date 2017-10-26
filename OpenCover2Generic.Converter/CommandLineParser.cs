@@ -34,7 +34,17 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 {
 
                     string value = arg.Substring(key.Length);
-                    arguments.Add(value);
+                    if (value.Contains(","))
+                    {
+                        foreach (var part in value.Split(','))
+                        {
+                            arguments.Add(part);
+                        }
+                    }
+                    else
+                    {
+                        arguments.Add(value);
+                    }
                 }
             }
             if (arguments.Count == 0) { 
