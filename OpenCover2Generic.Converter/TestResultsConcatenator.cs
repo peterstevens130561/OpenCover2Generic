@@ -25,6 +25,31 @@ namespace OpenCover2Generic.Converter
             }
         }
 
+        public void Concatenate(XmlReader xmlReader)
+        {
+            xmlReader.MoveToContent();
+            while (xmlReader.Read())
+            {
+                if (xmlReader.NodeType == XmlNodeType.Element)
+                {
+                    _xmlWriter.WriteStartElement(xmlReader.Name);
+                    if(xmlReader.HasAttributes)
+                    {
+                        while(xmlReader.MoveToNextAttribute())
+                        {
+                            string value = xmlReader.Value;
+                            string name = xmlReader.Name;
+                            _xmlWriter.WriteAttributeString(name, value);
+                        }
+                    }
+                }
+                if(xmlReader.NodeType == XmlNodeType.EndElement)
+                {
+                    _xmlWriter.WriteEndElement();
+                }
+            }
+        }
+
         public void Begin()
         {
             _xmlWriter.Formatting = Formatting.Indented;

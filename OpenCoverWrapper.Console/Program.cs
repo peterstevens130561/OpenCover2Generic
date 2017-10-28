@@ -6,13 +6,21 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
+using log4net.Config;
+using System.Collections.Concurrent;
+
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace BHGE.SonarQube.OpenCoverWrapper
 {
+    
     class Program
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(Program));
         static void Main(string[] args)
         {
+            BasicConfigurator.Configure();
             var commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
             commandLineParser.Args = args;
             string openCoverExePath = commandLineParser.GetOpenCoverPath();
@@ -22,22 +30,41 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             string testResultsPath = commandLineParser.GetTestResultsPath();
             string openCoverOutputPath = Path.GetTempFileName();
             string[] testAssemblies = commandLineParser.GetTestAssemblies();
-            string arguments = $"-register:user -\"output:{openCoverOutputPath}\" \"-target:{targetPath}\" \"-targetargs:{targetArgs}\"";
-            foreach (string assembly in testAssemblies)
+            var jobs = new BlockingCollection<string>();
+            testAssemblies.ToList().ForEach(a => jobs.Add(a));
+            jobs.CompleteAdding();
+
+            while(!jobs.IsCompleted)
             {
+                string assembly = null;
+                try
+                {
+                    assembly = jobs.Take();
+                } catch ( InvalidOperationException e)
+                {
+                    log.Debug("Exception on take (ignored");
+                }
+                if(assembly==null)
+                {
+                    continue;
+                }
+                log.Info($"Running unit test on {assembly}");
+                string arguments = $"-register:user -\"output:{openCoverOutputPath}\" \"-target:{targetPath}\" \"-targetargs:{targetArgs} {assembly}\"";
                 var runner = new Runner();
                 runner.AddArgument(arguments);
                 runner.SetPath(openCoverExePath);
-                runner.SetAssembly(assembly);
                 Task task = Task.Run(() => runner.Run());
                 task.Wait();
                 if (File.Exists(testResultsPath))
                 {
                     File.Delete(testResultsPath);
                 }
-                File.Move(runner.TestResultsPath, testResultsPath);
+                if (runner.TestResultsPath != null)
+                {
+                    File.Move(runner.TestResultsPath, testResultsPath);
+                }
             }
-
+            log.Info("Assembling coverage file");
             var converter = new MultiAssemblyConverter(new Model(),
                 new OpenCoverCoverageParser(),
                 new GenericCoverageWriter(),

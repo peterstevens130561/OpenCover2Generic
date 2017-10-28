@@ -26,18 +26,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _concatenator.Writer = new XmlTextWriter(writer);
         }
         [TestMethod]
-        public void OneFileResultsInSame()
+        public void NoFileResultsInValidEmptyFile()
         {
-            string oneFile = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<unitTest version=""1"">
-	<file path=""E:\Cadence\ESIETooLink\Main\Tests\Bhi.Esie.Calibration.Algorithms.UnitTest\CircularBufferTest.cs"">
-		<testCase name=""IsFilled"" duration=""585"" />
-		<testCase name=""PushGet_RightOrder"" duration=""15"" />
-		<testCase name=""Get_IndexOutOfRangeHigh"" duration=""24"" />
-		<testCase name=""Get_IndexOutOfRangeLow"" duration=""3"" />
-		<testCase name=""Array_RightOrder"" duration=""5"" />
-	</file>
-</unitTest>";
+            
 
             _concatenator.Begin();
             _concatenator.End();
@@ -47,6 +38,69 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
 
         }
+
+        [TestMethod]
+        public void OneFileResultsInSame()
+        {
+            string oneFile = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<unitTest version=""1"">
+    <file path=""E:\Cadence\ESIETooLink\Main\Tests\Bhi.Esie.Calibration.Algorithms.UnitTest\CircularBufferTest.cs"" />
+</unitTest>";
+
+            _concatenator.Begin();
+            WhenConcatenating(oneFile);
+            _concatenator.End();
+
+            ThenResultMatches(oneFile);
+
+
+        }
+
+        [TestMethod]
+        public void TwoFilesShouldBeConcatenated()
+        {
+            string firstFile = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<unitTest version=""1"">
+	<file path=""E:\Cadence\ESIETooLink\Main\Tests\Bhi.Esie.Calibration.Algorithms.UnitTest\CircularBufferTest.cs"">
+		<testCase name=""TestA"" duration=""585"" />
+		<testCase name=""TestB"" duration=""15"" />
+	</file>
+</unitTest>";
+            string secondFile = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<unitTest version=""1"">
+	<file path=""E:\SecondTests.cs"">
+		<testCase name=""TestC"" duration=""585"" />
+		<testCase name=""TestD"" duration=""15"" />
+	</file>
+</unitTest>";
+
+            string concatenatedFile =
+@"<?xml version=""1.0"" encoding=""utf-8""?>
+<unitTest version=""1"">
+	<file path=""E:\Cadence\ESIETooLink\Main\Tests\Bhi.Esie.Calibration.Algorithms.UnitTest\CircularBufferTest.cs"">
+		<testCase name=""TestA"" duration=""585"" />
+		<testCase name=""TestB"" duration=""15"" />
+	</file>
+	<file path=""E:\SecondTests.cs"">
+		<testCase name=""TestC"" duration=""585"" />
+		<testCase name=""TestD"" duration=""15"" />
+	</file>
+</unitTest>";
+            _concatenator.Begin();
+            WhenConcatenating(firstFile);
+            WhenConcatenating(secondFile);
+            _concatenator.End();
+
+            ThenResultMatches(concatenatedFile);
+        }
+
+        private void WhenConcatenating(string input)
+        {
+            Stream inputStream = new MemoryStream(Encoding.UTF8.GetBytes(input));
+            XmlReader xmlReader = XmlReader.Create(inputStream);
+            _concatenator.Concatenate(xmlReader);
+        }
+
         private void ThenResultMatches(string expected) {
             StreamReader resultReader = new StreamReader(new MemoryStream(_resultStream.ToArray()));
             string text = resultReader.ReadToEnd();

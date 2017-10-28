@@ -9,5 +9,6 @@ namespace OpenCover2Generic.Converter
 
         void Begin();
         void End();
+        void Concatenate(XmlReader xmlReader);
     }
 }

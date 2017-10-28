@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 {
     public class Runner
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(Runner).Name);
         private string _path;
         private readonly StringBuilder _arguments = new StringBuilder(2048);
         private string _testResultsPath;
@@ -54,7 +56,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             {
                 if (_testResultsPath == null)
                 {
-                    throw new InvalidOperationException("Did not find line 'VsTestSonarQubeLogger.TestResults=' in log (fatal)");
+                    log.Warn("Did not find line 'VsTestSonarQubeLogger.TestResults=' in log ");
                 }
                 return _testResultsPath;
             }
