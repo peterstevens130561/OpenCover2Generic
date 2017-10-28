@@ -48,9 +48,11 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             log.Info($"Creating test results file into {testResultsPath}");
             var files = Directory.EnumerateFiles(resultsDirectory);
             var testResultsConcatenator = new TestResultsConcatenator();
+
             using (var writer = new XmlTextWriter(new StreamWriter(testResultsPath)))
             {
                 testResultsConcatenator.Writer = writer;
+                testResultsConcatenator.Begin();
                 foreach (var file in files)
                 {
                     using (var reader = XmlReader.Create(file))
@@ -58,7 +60,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                         log.Info($"concatenating {file}");
                         testResultsConcatenator.Concatenate(reader);
                     }
+
                 }
+                testResultsConcatenator.End();
             }
             log.Info("Assembling coverage file");
             var converter = new MultiAssemblyConverter(new Model(),
