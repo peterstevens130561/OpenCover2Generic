@@ -57,6 +57,77 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
+        public void Random()
+        {
+            string oneFile = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<unitTest version=""1"">
+    <file />
+    <file />
+</unitTest>";
+
+            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<unitTest version=""1"">
+    <file />
+    <file />
+</unitTest>";
+            _concatenator.Begin();
+            WhenConcatenating(oneFile);
+            _concatenator.End();
+
+            ThenResultMatches(expected);
+
+
+        }
+
+        [TestMethod]
+        public void WithEndElements()
+        {
+            string oneFile = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<unitTest version=""1"">
+    <file p=""a"" >
+    </file>
+    <file p=""b"" >
+    </file>
+</unitTest>";
+
+            _concatenator.Begin();
+            WhenConcatenating(oneFile);
+            _concatenator.End();
+            string expected  = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<unitTest version=""1"">
+    <file p=""a"" />
+    <file p=""b"" />
+</unitTest>";
+            ThenResultMatches(expected);
+
+
+        }
+
+        [TestMethod]
+        public void OneFileWithTestCasesResultsInSame()
+        {
+            string oneFile = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<unitTest version=""1"">
+    <file path=""E:\Cadence\ESIETooLink\Main\Tests\Bhi.Esie.Services.JobConfiguration.UnitTest\IdGeneratorTest.cs"">
+        <testCase name=""Generate_starts_with_1"" duration=""7"" />
+        <testCase name=""GenerateShort_starts_with_1"" duration=""0"" />
+        <testCase name=""Generate_starts_with_1_increments_by_1"" duration=""0"" />
+        <testCase name=""GenerateShort_starts_with_1_increments_by_1"" duration=""0"" />
+        <testCase name=""GenerateShort_ThrowsException_when_out_of_range"" duration=""11"" />
+        <testCase name=""Generate_ThrowsException_when_out_of_range"" duration=""1"" />
+    </file>
+</unitTest>";
+
+            _concatenator.Begin();
+            WhenConcatenating(oneFile);
+            _concatenator.End();
+
+            ThenResultMatches(oneFile);
+
+
+        }
+
+        [TestMethod]
         public void TwoFilesShouldBeConcatenated()
         {
             string firstFile = @"<?xml version=""1.0"" encoding=""utf-8""?>
@@ -77,14 +148,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
             string concatenatedFile =
 @"<?xml version=""1.0"" encoding=""utf-8""?>
 <unitTest version=""1"">
-	<file path=""E:\Cadence\ESIETooLink\Main\Tests\Bhi.Esie.Calibration.Algorithms.UnitTest\CircularBufferTest.cs"">
-		<testCase name=""TestA"" duration=""585"" />
-		<testCase name=""TestB"" duration=""15"" />
-	</file>
-	<file path=""E:\SecondTests.cs"">
-		<testCase name=""TestC"" duration=""585"" />
-		<testCase name=""TestD"" duration=""15"" />
-	</file>
+    <file path=""E:\Cadence\ESIETooLink\Main\Tests\Bhi.Esie.Calibration.Algorithms.UnitTest\CircularBufferTest.cs"">
+        <testCase name=""TestA"" duration=""585"" />
+        <testCase name=""TestB"" duration=""15"" />
+    </file>
+    <file path=""E:\SecondTests.cs"">
+        <testCase name=""TestC"" duration=""585"" />
+        <testCase name=""TestD"" duration=""15"" />
+    </file>
 </unitTest>";
             _concatenator.Begin();
             WhenConcatenating(firstFile);

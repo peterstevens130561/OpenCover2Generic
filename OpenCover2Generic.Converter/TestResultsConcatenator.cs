@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace OpenCover2Generic.Converter
 {
-    class TestResultsConcatenator : ITestResultsConcatenator
+    public class TestResultsConcatenator : ITestResultsConcatenator
     {
         private XmlTextWriter _xmlWriter;
 
@@ -32,18 +32,32 @@ namespace OpenCover2Generic.Converter
             {
                 if (xmlReader.NodeType == XmlNodeType.Element)
                 {
-                    _xmlWriter.WriteStartElement(xmlReader.Name);
-                    if(xmlReader.HasAttributes)
+                    CreateStartElement(xmlReader);
+                }
+                if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name != "unitTest")
+                {
+                    _xmlWriter.WriteEndElement();
+                }
+            }
+        }
+
+        private void CreateStartElement(XmlReader xmlReader)
+        {
+            bool isEmpty = xmlReader.IsEmptyElement; // has to be local, as value changes during scan of attributes
+            if (isEmpty|| xmlReader.HasAttributes)
+            {
+
+                _xmlWriter.WriteStartElement(xmlReader.Name);
+                if (xmlReader.HasAttributes)
+                {
+                    while (xmlReader.MoveToNextAttribute())
                     {
-                        while(xmlReader.MoveToNextAttribute())
-                        {
-                            string value = xmlReader.Value;
-                            string name = xmlReader.Name;
-                            _xmlWriter.WriteAttributeString(name, value);
-                        }
+                        string value = xmlReader.Value;
+                        string name = xmlReader.Name;
+                        _xmlWriter.WriteAttributeString(name, value);
                     }
                 }
-                if(xmlReader.NodeType == XmlNodeType.EndElement)
+                if (isEmpty)
                 {
                     _xmlWriter.WriteEndElement();
                 }
