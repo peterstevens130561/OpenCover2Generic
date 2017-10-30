@@ -4,7 +4,17 @@
     {
         string[] Args { get; set; }
 
-        string GetArgument(string v);
-        string[] GetArgumentArray(string v);
+        /// <summary>
+        /// Get the value of a command line option
+        /// </summary>
+        /// <param name="key">like -option</param>
+        /// <returns></returns>
+        string GetArgument(string key);
+        /// <summary>
+        /// Get the values of an array of values, either multiple time -option:value -option:value2 or -option:value1,value2
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        string[] GetArgumentArray(string key);
     }
 }

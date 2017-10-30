@@ -16,39 +16,55 @@ namespace BHGE.SonarQube.OpenCover2Generic
             xmlWriter.WriteStartElement("Modules");
             xmlWriter.WriteStartElement("Module");
             WriteFilesElement(model, xmlWriter);
-            WriteSequencePoints(model, xmlWriter);
+            WriteCoverageDateForModule(model, xmlWriter);
             xmlWriter.WriteEndElement();
             xmlWriter.WriteEndElement();
         }
 
-        private void WriteSequencePoints(IModel model, XmlWriter xmlWriter)
+        private void WriteCoverageDateForModule(IModel model, XmlWriter xmlWriter)
         {
             foreach(ISourceFileCoverageModel sourceFile in model.GetCoverage())
             {
-                foreach(ISequencePoint sequencePoint in sourceFile.SequencePoints)
-                {
-                    xmlWriter.WriteStartElement("SequencePoint");
-                    string sourceLineNr = sequencePoint.SourceLine.ToString();
-                    string visited = sequencePoint.Covered ? "1" : "0";
-                    xmlWriter.WriteAttributeString("vc", visited);
-                    xmlWriter.WriteAttributeString("sl", sourceLineNr);
+                WriteCoverageDataForSourceFile(xmlWriter, sourceFile);
+            }
+        }
+
+        private static void WriteCoverageDataForSourceFile(XmlWriter xmlWriter, ISourceFileCoverageModel sourceFile)
+        {
+            foreach (ISequencePoint sequencePoint in sourceFile.SequencePoints)
+            {
+                string sourceLineNr = WriteSequencePoint(xmlWriter, sourceFile, sequencePoint);
+                WriteBranchPointsForLine(xmlWriter, sourceFile, sourceLineNr);
+            }
+        }
+
+        private static string WriteSequencePoint(XmlWriter xmlWriter, ISourceFileCoverageModel sourceFile, ISequencePoint sequencePoint)
+        {
+            xmlWriter.WriteStartElement("SequencePoint");
+            string sourceLineNr = sequencePoint.SourceLine.ToString();
+            string visited = sequencePoint.Covered ? "1" : "0";
+            xmlWriter.WriteAttributeString("vc", visited);
+            xmlWriter.WriteAttributeString("sl", sourceLineNr);
+            xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
+            xmlWriter.WriteEndElement();
+            return sourceLineNr;
+        }
+
+        private static void WriteBranchPointsForLine(XmlWriter xmlWriter, ISourceFileCoverageModel sourceFile, string sourceLineNr)
+        {
+            var aggregator = sourceFile.GetBranchPointAggregatorByLine(sourceLineNr);
+            if (aggregator != null)
+            {
+                foreach (IBranchPoint branchPoint in aggregator.GetBranchPoints())
+
+                {   // <BranchPoint vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
+                    xmlWriter.WriteStartElement("BranchPoint");
+                    xmlWriter.WriteAttributeString("vc", branchPoint.IsVisited ? "1" : "0");
+                    xmlWriter.WriteAttributeString("sl", branchPoint.SourceLine.ToString());
+                    xmlWriter.WriteAttributeString("path", branchPoint.Path.ToString());
                     xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
                     xmlWriter.WriteEndElement();
-                    var aggregator = sourceFile.GetBranchPointAggregatorByLine(sourceLineNr);
-                    if(aggregator!=null)
-                    {
-                        foreach(IBranchPoint branchPoint in aggregator.GetBranchPoints())
 
-                        {   // <BranchPoint vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
-                            xmlWriter.WriteStartElement("BranchPoint");
-                            xmlWriter.WriteAttributeString("vc", branchPoint.IsVisited ? "1" : "0");
-                            xmlWriter.WriteAttributeString("sl", branchPoint.SourceLine.ToString());
-                            xmlWriter.WriteAttributeString("path", branchPoint.Path.ToString());
-                            xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
-                            xmlWriter.WriteEndElement();
-
-                        }
-                    }
                 }
             }
         }

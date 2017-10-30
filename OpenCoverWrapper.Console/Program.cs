@@ -33,18 +33,51 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             string testResultsPath = commandLineParser.GetTestResultsPath();
             string openCoverOutputPath = Path.GetTempFileName();
             string[] testAssemblies = commandLineParser.GetTestAssemblies();
+            string resultsDirectory = CreateResultsDirectory();
+            string coverageDirectory = CreateCoverageDirectory();
+            RunTests(openCoverExePath, targetPath, targetArgs, openCoverOutputPath, testAssemblies, resultsDirectory,coverageDirectory);
+            CreateTestResults(testResultsPath, resultsDirectory);
+            CreateCoverageFile(outputPath, openCoverOutputPath);
+        }
+
+        private static void RunTests(string openCoverExePath, string targetPath, string targetArgs, string openCoverOutputPath, string[] testAssemblies, string resultsDirectory,string coverageDirectory)
+        {
             var jobs = new BlockingCollection<string>();
             testAssemblies.ToList().ForEach(a => jobs.Add(a));
             jobs.CompleteAdding();
-            string resultsDirectory = CreateResultsDirectory();
 
             var tasks = new List<Task>();
-                for (int i = 1; i <= 5;i++) {
+            for (int i = 1; i <= 20; i++)
+            {
                 log.Info($"starting task {i}");
-                Task task = Task.Run(() => RunJobs(resultsDirectory,openCoverExePath, targetPath, targetArgs, openCoverOutputPath, jobs));
+                Task task = Task.Run(() => ConsumeJobs(resultsDirectory, openCoverExePath, targetPath, targetArgs, openCoverOutputPath, jobs,coverageDirectory));
                 tasks.Add(task);
             }
             tasks.ForEach(t => t.Wait());
+        }
+
+        private static void CreateCoverageFile(string outputPath, string openCoverOutputPath)
+        {
+            log.Info("Assembling coverage file");
+            var converter = new MultiAssemblyConverter(new Model(),
+                new OpenCoverCoverageParser(),
+                new GenericCoverageWriter(),
+                new OpenCoverCoverageParser(),
+                new OpenCoverCoverageWriter());
+            log.Info($"Converting {openCoverOutputPath} to {outputPath}");
+            using (var fileWriter = new StreamWriter(outputPath))
+            {
+                using (var fileReader = new StreamReader(openCoverOutputPath))
+                {
+
+                    converter.Convert(fileWriter, fileReader);
+                }
+            }
+            File.Delete(openCoverOutputPath);
+        }
+
+        private static void CreateTestResults(string testResultsPath, string resultsDirectory)
+        {
             log.Info($"Creating test results file into {testResultsPath}");
             var files = Directory.EnumerateFiles(resultsDirectory);
             var testResultsConcatenator = new TestResultsConcatenator();
@@ -64,61 +97,64 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 }
                 testResultsConcatenator.End();
             }
-            log.Info("Assembling coverage file");
-            var converter = new MultiAssemblyConverter(new Model(),
-                new OpenCoverCoverageParser(),
-                new GenericCoverageWriter(),
-                new OpenCoverCoverageParser(),
-                new OpenCoverCoverageWriter());
-            Console.WriteLine($"Converting {openCoverOutputPath} to {outputPath}");
-            using (var fileWriter = new StreamWriter(outputPath))
-            {
-                using (var fileReader = new StreamReader(openCoverOutputPath))
-                {
-
-                    converter.Convert(fileWriter, fileReader);
-                }
-            }
-            File.Delete(openCoverOutputPath);
         }
 
-        private static void RunJobs(string resultsDirectory, string openCoverExePath, string targetPath, string targetArgs, string openCoverOutputPath, BlockingCollection<string> jobs)
+        private static void ConsumeJobs(string resultsDirectory, string openCoverExePath, string targetPath, string targetArgs, string openCoverOutputPath, BlockingCollection<string> jobs,string coverageDirectory)
         {
             while (!jobs.IsCompleted)
             {
-                string assembly = null;
-                try
-                {
-                    assembly = jobs.Take();
-                }
-                catch (InvalidOperationException e)
-                {
-                    log.Debug("Exception on take (ignored");
-                }
+                string assembly = GetAssembly(jobs);
                 if (assembly == null)
                 {
                     continue;
                 }
                 log.Info($"Running unit test on {assembly}");
                 string arguments = $"-register:user -\"output:{openCoverOutputPath}\" \"-target:{targetPath}\" \"-targetargs:{targetArgs} {assembly}\"";
-                var runner = new Runner();
-                runner.AddArgument(arguments);
-                runner.SetPath(openCoverExePath);
-                Task task = Task.Run(() => runner.Run());
-                task.Wait();
-
-                if (runner.TestResultsPath != null)
-                {
-                    string testResultsPath = Path.Combine(resultsDirectory, Guid.NewGuid().ToString() + ".xml");
-                    log.Info($"move from {runner.TestResultsPath} to {testResultsPath}");
-                    File.Move(runner.TestResultsPath, testResultsPath);
-                }
+                RunOpenCover(resultsDirectory, openCoverExePath, arguments,coverageDirectory);
             }
+        }
+
+        private static void RunOpenCover(string resultsDirectory, string openCoverExePath, string arguments,string coverageDirectory)
+        {
+            var runner = new Runner();
+            runner.AddArgument(arguments);
+            runner.SetPath(openCoverExePath);
+            Task task = Task.Run(() => runner.Run());
+            task.Wait();
+
+            if (runner.TestResultsPath != null)
+            {
+                string testResultsPath = Path.Combine(resultsDirectory, Guid.NewGuid().ToString() + ".xml");
+                log.Info($"move from {runner.TestResultsPath} to {testResultsPath}");
+                File.Move(runner.TestResultsPath, testResultsPath);
+            }
+        }
+
+        private static string GetAssembly(BlockingCollection<string> jobs)
+        {
+            string assembly = null;
+            try
+            {
+                assembly = jobs.Take();
+            }
+            catch (InvalidOperationException e)
+            {
+                log.Debug("Exception on take (ignored");
+            }
+
+            return assembly;
         }
 
         public static  string CreateResultsDirectory()
         {
             var rootPath = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "results_" +Guid.NewGuid().ToString()));
+            Directory.CreateDirectory(rootPath);
+            return rootPath;
+        }
+
+        public static string CreateCoverageDirectory()
+        {
+            var rootPath = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "coverage_" + Guid.NewGuid().ToString()));
             Directory.CreateDirectory(rootPath);
             return rootPath;
         }

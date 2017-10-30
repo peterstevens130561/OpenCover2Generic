@@ -39,7 +39,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                 }
                 process.OutputDataReceived -= Process_OutputDataReceived;
                 process.ErrorDataReceived -= Process_OutputDataReceived;
-                Console.WriteLine($"TestResults in {_testResultsPath}");
+                log.Info($"TestResults in {_testResultsPath}");
 
             }
 
@@ -79,6 +79,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                     _testResultsPath = parts[1];
                 }
             }
+            // should really write to a stream
             Console.WriteLine(e.Data);
         }
 

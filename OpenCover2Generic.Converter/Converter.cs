@@ -33,7 +33,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                     {
                         _coverageWriter.GenerateCoverage(_model, xmlWriter);
                         _model.Clear();
-                    };
+                    }
                     _coverageWriter.GenerateCoverage(_model, xmlWriter);
                     _model.Clear();
                 }

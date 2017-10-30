@@ -8,7 +8,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 {
     public class OpenCover2GenericCommandLineParser : IOpenCover2GenericCommandLineParser
     {
-        readonly ICommandLineParser _commandLineParser = new CommandLineParser();
+        private readonly ICommandLineParser _commandLineParser ;
         public OpenCover2GenericCommandLineParser(ICommandLineParser commandLineParser)
         {
             _commandLineParser = commandLineParser;

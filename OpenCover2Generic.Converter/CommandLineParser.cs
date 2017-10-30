@@ -27,30 +27,34 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public string[] GetArgumentArray(string key)
         {
             var arguments = new Collection<String>();
-            key = key.ToUpper() + ":";
+            var realKey =  key+ ":";
             foreach (string arg in Args)
             {
-                if (arg.ToUpper().StartsWith(key))
+                if (arg.ToUpper().StartsWith(realKey,StringComparison.CurrentCultureIgnoreCase))
                 {
-
-                    string value = arg.Substring(key.Length);
-                    if (value.Contains(","))
-                    {
-                        foreach (var part in value.Split(','))
-                        {
-                            arguments.Add(part);
-                        }
-                    }
-                    else
-                    {
-                        arguments.Add(value);
-                    }
+                    GetValue(arguments, realKey, arg);
                 }
             }
             if (arguments.Count == 0) { 
             throw new ArgumentException($"commandline argument {key} missing");
         }
             return arguments.ToArray<string>();
+        }
+
+        private static void GetValue(Collection<string> arguments, string realKey, string arg)
+        {
+            string value = arg.Substring(realKey.Length);
+            if (value.Contains(","))
+            {
+                foreach (var part in value.Split(','))
+                {
+                    arguments.Add(part);
+                }
+            }
+            else
+            {
+                arguments.Add(value);
+            }
         }
     }
 }
