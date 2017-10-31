@@ -6,18 +6,21 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using log4net;
+using System.IO;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 {
-    public class Runner
+    public class OpenCoverRunner
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(Runner).Name);
+        private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverRunner).Name);
         private string _path;
         private readonly StringBuilder _arguments = new StringBuilder(2048);
         private string _testResultsPath;
+        private StreamWriter _writer;
 
-        public void Run()
+        public void Run(StreamWriter writer)
         {
+            _writer = writer;
             ProcessStartInfo startInfo = new ProcessStartInfo(_path, _arguments.ToString());
             startInfo.CreateNoWindow = true;
             startInfo.UseShellExecute = false;
@@ -80,7 +83,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                 }
             }
             // should really write to a stream
-            Console.WriteLine(e.Data);
+            _writer.WriteLine(e.Data);
         }
 
         public void AddArgument(string argument)

@@ -47,7 +47,9 @@
     <Compile Include="CommandLineParser.cs" />
     <Compile Include="BranchPoint.cs" />
     <Compile Include="BranchPointAggregator.cs" />
+    <Compile Include="IOpenCoverCommandLineBuilder.cs" />
     <Compile Include="ITestResultsConcatenator.cs" />
+    <Compile Include="JobInfo.cs" />
     <Compile Include="MultiAssemblyConverter.cs" />
     <Compile Include="GenericCoverageWriter.cs" />
     <Compile Include="ICommandLineParser.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="ISourceFileCoverage.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="ModulesInFilesConverter.cs" />
+    <Compile Include="OpenCoverCommandLineBuilder.cs" />
     <Compile Include="OpenCoverCoverageParser.cs" />
     <Compile Include="OpenCoverCoverageWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,50 +7,54 @@ namespace BHGE.SonarQube.OpenCover2Generic
 {
     public class OpenCoverCoverageWriter : ICoverageWriter
     {
+        private XmlWriter _xmlWriter;
+
         public void GenerateCoverage(IModel model, XmlWriter xmlWriter)
         {
+            _xmlWriter = xmlWriter;
             if(model.GetCoverage().Count ==0)
             {
                 return;
             }
             xmlWriter.WriteStartElement("Modules");
             xmlWriter.WriteStartElement("Module");
-            WriteFilesElement(model, xmlWriter);
-            WriteCoverageDateForModule(model, xmlWriter);
+            WriteSourceFiles(model);
+            WriteCoverageData(model, xmlWriter);
             xmlWriter.WriteEndElement();
             xmlWriter.WriteEndElement();
         }
 
-        private void WriteCoverageDateForModule(IModel model, XmlWriter xmlWriter)
+        private void WriteCoverageData(IModel model, XmlWriter xmlWriter)
         {
+            _xmlWriter = xmlWriter;
             foreach(ISourceFileCoverageModel sourceFile in model.GetCoverage())
             {
-                WriteCoverageDataForSourceFile(xmlWriter, sourceFile);
+                WriteCoverageDataForSourceFile(sourceFile);
             }
         }
 
-        private static void WriteCoverageDataForSourceFile(XmlWriter xmlWriter, ISourceFileCoverageModel sourceFile)
+        private void WriteCoverageDataForSourceFile( ISourceFileCoverageModel sourceFile)
         {
             foreach (ISequencePoint sequencePoint in sourceFile.SequencePoints)
             {
-                string sourceLineNr = WriteSequencePoint(xmlWriter, sourceFile, sequencePoint);
-                WriteBranchPointsForLine(xmlWriter, sourceFile, sourceLineNr);
+                string sourceLineNr = WriteSequencePoint(sourceFile, sequencePoint);
+                WriteBranchPointsForLine(sourceFile, sourceLineNr);
             }
         }
 
-        private static string WriteSequencePoint(XmlWriter xmlWriter, ISourceFileCoverageModel sourceFile, ISequencePoint sequencePoint)
+        private string WriteSequencePoint(ISourceFileCoverageModel sourceFile, ISequencePoint sequencePoint)
         {
-            xmlWriter.WriteStartElement("SequencePoint");
+            _xmlWriter.WriteStartElement("SequencePoint");
             string sourceLineNr = sequencePoint.SourceLine.ToString();
             string visited = sequencePoint.Covered ? "1" : "0";
-            xmlWriter.WriteAttributeString("vc", visited);
-            xmlWriter.WriteAttributeString("sl", sourceLineNr);
-            xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
-            xmlWriter.WriteEndElement();
+            _xmlWriter.WriteAttributeString("vc", visited);
+            _xmlWriter.WriteAttributeString("sl", sourceLineNr);
+            _xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
+            _xmlWriter.WriteEndElement();
             return sourceLineNr;
         }
 
-        private static void WriteBranchPointsForLine(XmlWriter xmlWriter, ISourceFileCoverageModel sourceFile, string sourceLineNr)
+        private void WriteBranchPointsForLine( ISourceFileCoverageModel sourceFile, string sourceLineNr)
         {
             var aggregator = sourceFile.GetBranchPointAggregatorByLine(sourceLineNr);
             if (aggregator != null)
@@ -58,28 +62,28 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 foreach (IBranchPoint branchPoint in aggregator.GetBranchPoints())
 
                 {   // <BranchPoint vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
-                    xmlWriter.WriteStartElement("BranchPoint");
-                    xmlWriter.WriteAttributeString("vc", branchPoint.IsVisited ? "1" : "0");
-                    xmlWriter.WriteAttributeString("sl", branchPoint.SourceLine.ToString());
-                    xmlWriter.WriteAttributeString("path", branchPoint.Path.ToString());
-                    xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
-                    xmlWriter.WriteEndElement();
+                    _xmlWriter.WriteStartElement("BranchPoint");
+                    _xmlWriter.WriteAttributeString("vc", branchPoint.IsVisited ? "1" : "0");
+                    _xmlWriter.WriteAttributeString("sl", branchPoint.SourceLine.ToString());
+                    _xmlWriter.WriteAttributeString("path", branchPoint.Path.ToString());
+                    _xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
+                    _xmlWriter.WriteEndElement();
 
                 }
             }
         }
 
-        private static void WriteFilesElement(IModel model, XmlWriter xmlWriter)
+        private void WriteSourceFiles(IModel model)
         {
-            xmlWriter.WriteStartElement("Files");
+            _xmlWriter.WriteStartElement("Files");
             foreach (ISourceFileCoverageModel fileCoverage in model.GetCoverage())
             {
-                xmlWriter.WriteStartElement("File");
-                xmlWriter.WriteAttributeString("uid", fileCoverage.Uid);
-                xmlWriter.WriteAttributeString("fullPath", fileCoverage.FullPath);
-                xmlWriter.WriteEndElement();
+                _xmlWriter.WriteStartElement("File");
+                _xmlWriter.WriteAttributeString("uid", fileCoverage.Uid);
+                _xmlWriter.WriteAttributeString("fullPath", fileCoverage.FullPath);
+                _xmlWriter.WriteEndElement();
             }
-            xmlWriter.WriteEndElement();
+            _xmlWriter.WriteEndElement();
         }
 
 
