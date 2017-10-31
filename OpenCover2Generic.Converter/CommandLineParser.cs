@@ -13,6 +13,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public string[] Args { get; set; }
         public string GetArgument(string key)
         {
+            if(Args==null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
             key = key.ToUpper() + ":" ;
             foreach (string arg in Args)
             {
