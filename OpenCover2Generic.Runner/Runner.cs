@@ -20,8 +20,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 
         public void Run(StreamWriter writer)
         {
-            _writer = writer;
             ProcessStartInfo startInfo = new ProcessStartInfo(_path, _arguments.ToString());
+            Run(startInfo, writer);
+        }
+
+        public void Run(ProcessStartInfo startInfo, StreamWriter writer)
+        {
+            _writer = writer;
             startInfo.CreateNoWindow = true;
             startInfo.UseShellExecute = false;
             startInfo.RedirectStandardOutput = true;
@@ -45,7 +50,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                 log.Info($"TestResults in {_testResultsPath}");
 
             }
-
         }
 
         public void SetAssembly(string assembly)
@@ -95,5 +99,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
         {
             _path = path;
         }
+
+
     }
 }

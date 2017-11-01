@@ -13,9 +13,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
     /// builds the commandline for OpenCover, taking the commandline supplied args, and supplemental from the
     /// application. 
     /// </summary>
-    class OpenCoverCommandLineBuilder : IOpenCoverCommandLineBuilder
+    public class OpenCoverCommandLineBuilder : IOpenCoverCommandLineBuilder
     {
+
         private readonly ICommandLineParser _commandLineParser;
+
         public OpenCoverCommandLineBuilder(ICommandLineParser commandLineParser)
         {
             _commandLineParser = commandLineParser;
@@ -29,6 +31,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
             set
             {
+                if(value==null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
                 _commandLineParser.Args = value;
             }
         }
