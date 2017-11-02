@@ -52,7 +52,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         private class TestRunner {
 
-            private JobInfo _jobFileSystemInfo = new JobInfo();
+            private readonly JobInfo _jobFileSystemInfo = new JobInfo();
             private readonly MultiAssemblyConverter _converter;
 
             public TestRunner(MultiAssemblyConverter converter)
