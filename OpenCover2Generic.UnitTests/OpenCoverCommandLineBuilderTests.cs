@@ -9,7 +9,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void TestMethod1()
         {
-            IOpenCoverCommandLineBuilder builder = new OpenCoverCommandLineBuilder(ICommandLineParser commandLineParser);
 
         }
     }
