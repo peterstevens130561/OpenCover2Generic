@@ -1,10 +1,12 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Xml;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     public class OpenCoverCoverageParser : ICoverageParser
-    { 
+    {
+        private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverCoverageParser));
         private IModel _model;
         private string _moduleName;
 
@@ -51,6 +53,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private void ReadModuleName(XmlReader xmlReader)
         {
             _moduleName = xmlReader.ReadElementContentAsString();
+            log.Info($"Module {_moduleName}");
         }
 
         private void AddFile(XmlReader xmlReader)
