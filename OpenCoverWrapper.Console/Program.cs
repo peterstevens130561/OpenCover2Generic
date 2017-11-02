@@ -30,7 +30,10 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             {
                 File.Delete(testResultsPath);
             }
-            File.Move(runner.TestResultsPath, testResultsPath);
+            if (runner.TestResultsPath != null)
+            {
+                File.Move(runner.TestResultsPath, testResultsPath);
+            }
 
             var converter = new MultiAssemblyConverter(new Model(),
                 new OpenCoverCoverageParser(),

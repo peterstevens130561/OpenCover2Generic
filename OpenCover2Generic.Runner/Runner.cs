@@ -49,7 +49,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             {
                 if (_testResultsPath == null)
                 {
-                    throw new InvalidOperationException("Did not find line 'VsTestSonarQubeLogger.TestResults=' in log (fatal)");
+                    //throw new InvalidOperationException("Did not find line 'VsTestSonarQubeLogger.TestResults=' in log (fatal)");
                 }
                 return _testResultsPath;
             }
