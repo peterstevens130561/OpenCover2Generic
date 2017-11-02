@@ -86,6 +86,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         private void WriteModule(string rootPath, string testAssemblyName)
         {
+            log.Debug($"WriteModule {rootPath},{testAssemblyName}");
             if (_model.GetCoverage().Count > 0)
             {
                 string moduleFile = GetAssemblyFilePath(rootPath,testAssemblyName);
@@ -137,6 +138,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
         private void WriteModuleToFile(string moduleFile)
         {
+            log.Debug("WriteModuleToFile({moduleFile}");
             using (XmlTextWriter tempFileWriter = new XmlTextWriter(moduleFile, Encoding.UTF8))
             {
                 //write it to the temp file
