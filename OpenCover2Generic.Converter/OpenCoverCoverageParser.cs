@@ -60,6 +60,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             string fileId = xmlReader.GetAttribute("uid");
             string filePath = xmlReader.GetAttribute("fullPath");
+            log.Info($"File {filePath}");
             _model.AddFile(fileId, filePath);
         }
 

@@ -84,25 +84,25 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
         }
 
-        private void WriteModule(string rootPath, string testAssemblyName)
+        private void WriteModule(string rootPath, string testAssemblyPath)
         {
-            log.Debug($"WriteModule {rootPath},{testAssemblyName}");
+            log.Debug($"WriteModule {rootPath},{testAssemblyPath}");
             if (_model.GetCoverage().Count > 0)
             {
-                string moduleFile = GetAssemblyFilePath(rootPath,testAssemblyName);
+                string moduleFile = GetPathForModule(rootPath,testAssemblyPath);
                 WriteModuleToFile(moduleFile);
                 _model.Clear();
             }
         }
 
-        private string GetAssemblyFilePath(string rootPath, string testAssemblyName)
+        private string GetPathForModule(string rootPath, string testAssemblyPath)
         {
             string moduleDirectoryPath = Path.Combine(rootPath, _parser.ModuleName);
             if (!Directory.Exists(moduleDirectoryPath))
             {
                 Directory.CreateDirectory(moduleDirectoryPath);
             }
-            string moduleFile = Path.Combine(moduleDirectoryPath, testAssemblyName);
+            string moduleFile = Path.Combine(moduleDirectoryPath, Path.GetFileNameWithoutExtension(testAssemblyPath) + ".xml");
             return moduleFile;
         }
 
@@ -138,7 +138,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
         private void WriteModuleToFile(string moduleFile)
         {
-            log.Debug("WriteModuleToFile({moduleFile}");
+            log.Debug($"WriteModuleToFile({moduleFile})");
             using (XmlTextWriter tempFileWriter = new XmlTextWriter(moduleFile, Encoding.UTF8))
             {
                 //write it to the temp file
