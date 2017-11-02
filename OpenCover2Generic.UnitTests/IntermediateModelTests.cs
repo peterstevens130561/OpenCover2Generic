@@ -68,6 +68,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(2, intermediateModel.GetCoverage()[0].GetBranchPointAggregatorByLine("10").PathsToCover());
             Assert.AreEqual(1, intermediateModel.GetCoverage()[0].GetBranchPointAggregatorByLine("10").CoveredPaths());
         }
-
+        [TestMethod]
+        public void CheckClear()
+        {
+            var intermediateModel = new IntermediateModel();
+            intermediateModel.AddFile("1", "a");
+            intermediateModel.Clear();
+            Assert.AreEqual(0, intermediateModel.GetCoverage().Count());
+        }
     }
 }
