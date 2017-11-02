@@ -47,6 +47,7 @@
     <Compile Include="CommandLineParser.cs" />
     <Compile Include="BranchPoint.cs" />
     <Compile Include="BranchPointAggregator.cs" />
+    <Compile Include="IntermediateModel.cs" />
     <Compile Include="IOpenCoverCommandLineBuilder.cs" />
     <Compile Include="ITestResultsConcatenator.cs" />
     <Compile Include="JobInfo.cs" />
