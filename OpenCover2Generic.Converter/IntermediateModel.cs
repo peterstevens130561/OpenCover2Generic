@@ -15,10 +15,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private readonly IModel moduleModel = new Model();
         private Dictionary<string, string> sourceFilePathToGlobalId = new Dictionary<string, string>();
         private Dictionary<string, string> localFileIdToGlobalFileId = new Dictionary<string, string>();
-        public void AddBranchPoint(int fileId, int sourceLine, int path, bool isVisited)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public void AddFile(string fileId, string filePath)
         {
@@ -35,6 +32,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             string globalFileId = localFileIdToGlobalFileId[fileId];
             moduleModel.AddSequencePoint(globalFileId, sourceLine, visitedCount);
+        }
+
+        public void AddBranchPoint(int fileId, int sourceLine, int path, bool isVisited)
+        {
+            string globalFileId = localFileIdToGlobalFileId[fileId.ToString()];
+            moduleModel.AddBranchPoint(int.Parse(globalFileId),sourceLine,path,isVisited);
         }
 
         public void Clear()
