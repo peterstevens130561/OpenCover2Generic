@@ -13,8 +13,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
     class IntermediateModel : IModel
     {
         private readonly IModel moduleModel = new Model();
-        private Dictionary<string, string> sourceFilePathToGlobalId = new Dictionary<string, string>();
-        private Dictionary<string, string> localFileIdToGlobalFileId = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> sourceFilePathToGlobalId = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> localFileIdToGlobalFileId = new Dictionary<string, string>();
 
 
         public void AddFile(string fileId, string filePath)
@@ -42,7 +42,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            sourceFilePathToGlobalId.Clear();
+            localFileIdToGlobalFileId.Clear();
+            moduleModel.Clear();
         }
 
         public IList<ISourceFileCoverageModel> GetCoverage()

@@ -36,7 +36,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _moduleWriter = intermediateCoverageWriter;
         }
 
-        public MultiAssemblyConverter() : this(new Model(), new OpenCoverCoverageParser(),
+        public MultiAssemblyConverter() : this(new IntermediateModel(), new OpenCoverCoverageParser(),
     new GenericCoverageWriter(),
     new OpenCoverCoverageParser(),
     new OpenCoverCoverageWriter())
