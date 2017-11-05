@@ -10,7 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void PointWithPathVisitedExpectOneVisited()
         {
-            IBranchPointAggregator point = new BranchPointAggregator().Add(1,0, true);
+            IBranchPoints point = new BranchPoints().Add(1,0, true);
             Assert.AreEqual(1, point.CoveredPaths());
             Assert.AreEqual(1, point.PathsToCover());
         }
@@ -18,7 +18,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void PointWithTwoPathsTwoVisitedExpectTwoVisited()
         {
-            IBranchPointAggregator point = new BranchPointAggregator().Add(1,0, true).Add(1,1, false);
+            IBranchPoints point = new BranchPoints().Add(1,0, true).Add(1,1, false);
             Assert.AreEqual(1, point.CoveredPaths());
             Assert.AreEqual(2, point.PathsToCover());
         }
@@ -26,7 +26,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void PointWithThreeathsTwoVisitedExpectTwoVisited()
         {
-            IBranchPointAggregator point = new BranchPointAggregator().Add(1,0, true).Add(1,1, false);
+            IBranchPoints point = new BranchPoints().Add(1,0, true).Add(1,1, false);
             point = point.Add(1,2,true); ;
             Assert.AreEqual(2, point.CoveredPaths());
             Assert.AreEqual(3, point.PathsToCover());
@@ -35,8 +35,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void SamePointReportedTwice()
         {
-            IBranchPointAggregator firstPoint = new BranchPointAggregator().Add(1,0, true);
-            IBranchPointAggregator resultPoint = firstPoint.Add(1,0,true);
+            IBranchPoints firstPoint = new BranchPoints().Add(1,0, true);
+            IBranchPoints resultPoint = firstPoint.Add(1,0,true);
             Assert.AreEqual(1, resultPoint.CoveredPaths(),"same path covered twice, should count as one");
             Assert.AreEqual(1, resultPoint.PathsToCover(),"same path, so expect one path");
         }
@@ -45,7 +45,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void FourBranchPointsOfWhichTwoCoveredSeenTwiceSame()
         {
             //Given a first pass of 4 points, with 2 covered
-            IBranchPointAggregator branchPoints = new BranchPointAggregator().Add(1,0, true).Add(1,1, false).Add(1,2, true).Add(1,3, false);
+            IBranchPoints branchPoints = new BranchPoints().Add(1,0, true).Add(1,1, false).Add(1,2, true).Add(1,3, false);
             // When a second pass, which has same coverage
             branchPoints.Add(1,0, true).Add(1,1, false).Add(1,2, true).Add(1,3, false);
             // Then the coverage should 4 branches, 2 covered
@@ -57,7 +57,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void FourBranchPointsOfWhichTwoCoveredSeenTwiceScondTimeMissingCovered()
         {
             //Given a first pass of 4 points, with 2 covered
-            IBranchPointAggregator branchPoints = new BranchPointAggregator()
+            IBranchPoints branchPoints = new BranchPoints()
                 .Add(1,0, true).Add(1,1, false).Add(1,2, true).Add(1,3, false);
             // When a second pass, which has same coverage
             branchPoints.Add(1,0, false).Add(1,1, true).Add(1,2, false).Add(1,3, true);
@@ -70,7 +70,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void FourBranchPointsOfWhichTwoCoveredSeenTwiceScondTimeAllCovered()
         {
             //Given a first pass of 4 points, with 2 covered
-            IBranchPointAggregator branchPoints = new BranchPointAggregator().Add(1,0, true).Add(1,1, false).Add(1,2, true).Add(1,3, false);
+            IBranchPoints branchPoints = new BranchPoints().Add(1,0, true).Add(1,1, false).Add(1,2, true).Add(1,3, false);
             // When a second pass, which has same coverage
             branchPoints.Add(1,0, true).Add(1,1, true).Add(1,2, true).Add(1,3, true);
             // Then the coverage should 4 branches, 2 covered
@@ -82,7 +82,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void FourBranchPointsOfWhichNoneCoveredSeenTwiceScondTimeNoneCovered()
         {
             //Given a first pass of 4 points, with 2 covered
-            IBranchPointAggregator branchPoints = new BranchPointAggregator().Add(1,0, false).Add(1,1, false).Add(1,2, false).Add(1,3, false);
+            IBranchPoints branchPoints = new BranchPoints().Add(1,0, false).Add(1,1, false).Add(1,2, false).Add(1,3, false);
             // When a second pass, which has same coverage
             branchPoints.Add(1,0, false).Add(1,1, false).Add(1,2, false).Add(1,3, false);
             // Then the coverage should 4 branches, 2 covered
@@ -94,7 +94,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void AddBranchPointToAggregator()
         {
             var branchPoint = new BranchPoint(10,1,1, false);
-            var aggregator = new BranchPointAggregator();
+            var aggregator = new BranchPoints();
             aggregator.Add(branchPoint);
             Assert.AreEqual(1, aggregator.PathsToCover());
             Assert.AreEqual(0, aggregator.CoveredPaths());

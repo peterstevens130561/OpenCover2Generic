@@ -3,18 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BHGE.SonarQube.OpenCover2Generic
+namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
     /// <summary>
     /// Immutable branchpoint
     /// </summary>
-    internal class BranchPointAggregator : IBranchPointAggregator
+    internal class BranchPoints : IBranchPoints
     {
         private readonly SortedDictionary<int, IBranchPoint> pathsToCover = new SortedDictionary<int, IBranchPoint>();
 
 
 
-        public BranchPointAggregator()
+        public BranchPoints()
         {
         }
 
@@ -34,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
 
-        public IBranchPointAggregator Add(int sourceLine, int path, bool isVisited)
+        public IBranchPoints Add(int sourceLine, int path, bool isVisited)
         {
             IBranchPoint branchPoint = new BranchPoint(sourceLine, path, isVisited);
             Add(branchPoint);
@@ -43,7 +43,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
 
 
-        public IBranchPointAggregator Add(IBranchPoint branchPoint)
+        public IBranchPoints Add(IBranchPoint branchPoint)
         {
             int path = branchPoint.Path;
             if (!pathsToCover.ContainsKey(path) || !pathsToCover[path].IsVisited)

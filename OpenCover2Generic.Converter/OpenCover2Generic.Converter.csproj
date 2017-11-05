@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="Utils\CommandLineParser.cs" />
     <Compile Include="Model\BranchPoint.cs" />
-    <Compile Include="BranchPointAggregator.cs" />
+    <Compile Include="Model\BranchPoints.cs" />
     <Compile Include="Model\IntermediateModel.cs" />
     <Compile Include="IOpenCoverCommandLineBuilder.cs" />
     <Compile Include="Writers\ITestResultsConcatenator.cs" />
@@ -57,7 +57,7 @@
     <Compile Include="Converter.cs" />
     <Compile Include="Model\FileCoverageModel.cs" />
     <Compile Include="Model\IBranchPoint.cs" />
-    <Compile Include="IBranchPointAggregator.cs" />
+    <Compile Include="Model\IBranchPoints.cs" />
     <Compile Include="IConverter.cs" />
     <Compile Include="Parsers\ICoverageParser.cs" />
     <Compile Include="Model\ICoveragePoint.cs" />
