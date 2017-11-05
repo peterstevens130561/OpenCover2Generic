@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OpenCover2Generic.Converter
 {
-    public class JobInfo
+    public class JobFileSystem
     {
         private readonly Object _lock = new object();
         private readonly Dictionary<string, int> lookupTable = new Dictionary<string, int>();
@@ -16,7 +16,7 @@ namespace OpenCover2Generic.Converter
         private string _openCoverIntermediateDir;
         private string _openCoverLogDir;
 
-        public JobInfo()
+        public JobFileSystem()
         {
         }
 

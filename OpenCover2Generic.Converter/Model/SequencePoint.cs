@@ -1,4 +1,4 @@
-﻿namespace BHGE.SonarQube.OpenCover2Generic
+﻿namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
     /// <summary>
     /// Entity holding information on the coverage of a line

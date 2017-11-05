@@ -44,16 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLineParser.cs" />
+    <Compile Include="Utils\CommandLineParser.cs" />
     <Compile Include="Model\BranchPoint.cs" />
     <Compile Include="BranchPointAggregator.cs" />
     <Compile Include="Model\IntermediateModel.cs" />
     <Compile Include="IOpenCoverCommandLineBuilder.cs" />
-    <Compile Include="ITestResultsConcatenator.cs" />
-    <Compile Include="JobInfo.cs" />
+    <Compile Include="Writers\ITestResultsConcatenator.cs" />
+    <Compile Include="Consumer\JobFileSystem.cs" />
     <Compile Include="MultiAssemblyConverter.cs" />
     <Compile Include="Writers\GenericCoverageWriter.cs" />
-    <Compile Include="ICommandLineParser.cs" />
+    <Compile Include="Utils\ICommandLineParser.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="Model\FileCoverageModel.cs" />
     <Compile Include="Model\IBranchPoint.cs" />
@@ -72,12 +72,13 @@
     <Compile Include="Parsers\OpenCoverCoverageParser.cs" />
     <Compile Include="Writers\OpenCoverCoverageWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SequencePoint.cs" />
+    <Compile Include="Model\SequencePoint.cs" />
     <Compile Include="TestResultsConcatenator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

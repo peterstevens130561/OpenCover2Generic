@@ -12,7 +12,7 @@ using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using OpenCover2Generic.Converter;
 using System.Xml;
-
+using BHGE.SonarQube.OpenCover2Generic.Utils;
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace BHGE.SonarQube.OpenCoverWrapper
@@ -48,7 +48,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         private class TestRunner {
 
-            private readonly JobInfo _jobFileSystemInfo = new JobInfo();
+            private readonly JobFileSystem _jobFileSystemInfo = new JobFileSystem();
             private readonly MultiAssemblyConverter _converter;
 
             public TestRunner(MultiAssemblyConverter converter)
