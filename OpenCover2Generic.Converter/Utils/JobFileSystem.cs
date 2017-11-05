@@ -94,6 +94,10 @@ namespace OpenCover2Generic.Converter
             return _testResultsDir;
         }
 
+        public IEnumerable<string> GetTestResultsPaths()
+        {
+            return _fileSystemAdapter.EnumerateFiles(_testResultsDir);
+        }
         public string GetOpenCoverLogPath(string assemblyPath)
         {
             return GetFileForAssembly(_openCoverLogDir, assemblyPath, "log");

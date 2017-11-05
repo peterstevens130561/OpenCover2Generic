@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenCover2Generic.Converter;
 using Moq;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -60,5 +62,39 @@ namespace BHGE.SonarQube.OpenCover2Generic
             var testResultsDirectory = _fileSystem.GetTestResultsDirectory();
             Assert.AreEqual(@"Q:\temp\opencover_key\TestResults", testResultsDirectory);
         }
+
+        [TestMethod]
+        public void CheckTestResultsPath()
+        {
+            _fileSystem.CreateRoot("key");
+
+            var testResultsDirectory = _fileSystem.GetTestResultsPath(@"A:B\C\test.dll");
+            Assert.AreEqual(@"Q:\temp\opencover_key\TestResults\1_test.xml", testResultsDirectory);
+        }
+
+        [TestMethod]
+        public void CheckTestResultsPaths()
+        {
+            _fileSystem.CreateRoot("key");
+            var paths = new Collection<string>();
+            paths.Add("a");
+            paths.Add("b");
+
+            _mock.Setup(f => f.EnumerateFiles(@"Q:\temp\opencover_key\TestResults")).Returns(paths);
+
+            var testResultsPaths = _fileSystem.GetTestResultsPaths();
+            Assert.AreEqual(2,testResultsPaths.Count());
+        }
+
+
+        [TestMethod]
+        public void CheckAssemblySameNameDifferentIndeix()
+        {
+            _fileSystem.CreateRoot("key");
+            _fileSystem.GetIntermediateCoverageOutputPath(@"A:B\C\test.dll", "mymodule");
+            var intermediateCoverageOuputPath = _fileSystem.GetIntermediateCoverageOutputPath(@"A:B\D\test.dll", "mymodule");
+            Assert.AreEqual(@"Q:\temp\opencover_key\OpenCoverIntermediate\mymodule\2_test.xml", intermediateCoverageOuputPath);
+        }
+
     }
 }
