@@ -25,24 +25,22 @@ namespace OpenCover2Generic.Converter
         /// <summary>
         /// Creates the root structure for the temporary files
         /// </summary>
-        public void CreateRoot()
+        public void CreateRoot(string key)
         {
-            string key = DateTime.Now.ToString("yyMMdd_HHmmss");
-
-            string rootPath = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "opencover_" + key));
-            Directory.CreateDirectory(rootPath);
+            string rootPath = Path.GetFullPath(Path.Combine(_fileSystemAdapter.GetTempPath(), "opencover_" + key));
+            _fileSystemAdapter.CreateDirectory(rootPath);
 
             _openCoverOutputDir = Path.GetFullPath(Path.Combine(rootPath, "OpenCoverOutput"));
-            Directory.CreateDirectory(_openCoverOutputDir);
+            _fileSystemAdapter.CreateDirectory(_openCoverOutputDir);
 
             _testResultsDir = Path.GetFullPath(Path.Combine(rootPath, "TestResults"));
-            Directory.CreateDirectory(_testResultsDir);
+            _fileSystemAdapter.CreateDirectory(_testResultsDir);
 
             _openCoverIntermediateDir = Path.GetFullPath(Path.Combine(rootPath, "OpenCoverIntermediate"));
-            Directory.CreateDirectory(_openCoverIntermediateDir);
+            _fileSystemAdapter.CreateDirectory(_openCoverIntermediateDir);
 
             _openCoverLogDir = Path.GetFullPath(Path.Combine(rootPath, "OpenCoverLogs"));
-            Directory.CreateDirectory(_openCoverLogDir);
+            _fileSystemAdapter.CreateDirectory(_openCoverLogDir);
         }
 
         /// <summary>
@@ -74,19 +72,17 @@ namespace OpenCover2Generic.Converter
             string moduleDirectory = Path.Combine(_openCoverIntermediateDir, moduleName);
             lock (_lock)
             {
-                if (!Directory.Exists(moduleDirectory))
+                if (!_fileSystemAdapter.DirectoryExists(moduleDirectory))
                 {
-                    Directory.CreateDirectory(moduleDirectory);
+                    _fileSystemAdapter.CreateDirectory(moduleDirectory);
                 }
             }
-            string index = GetIndex(assemblyPath);
-            return Path.Combine(moduleDirectory, index + "_" + Path.GetFileNameWithoutExtension(assemblyPath) + ".xml");
+            return GetFileForAssembly(moduleDirectory, assemblyPath, "xml");
         }
 
         public string GetTestResultsPath(string assemblyPath)
         {
-            string index = GetIndex(assemblyPath);
-            return Path.Combine(_testResultsDir, index + "_" + Path.GetFileNameWithoutExtension(assemblyPath) + "_results.xml");
+            return GetFileForAssembly(_testResultsDir, assemblyPath, "xml");
         }
 
         /// <summary>
@@ -100,10 +96,14 @@ namespace OpenCover2Generic.Converter
 
         public string GetOpenCoverLogPath(string assemblyPath)
         {
-            string index = GetIndex(assemblyPath);
-            return Path.Combine(_openCoverLogDir, index + "_" + Path.GetFileNameWithoutExtension(assemblyPath) + ".log");
+            return GetFileForAssembly(_openCoverLogDir, assemblyPath, "log");
         }
 
+        private string GetFileForAssembly(string basePath,string assemblyPath, string extension)
+        {
+            string index = GetIndex(assemblyPath);
+            return Path.Combine(basePath, index + "_" + Path.GetFileNameWithoutExtension(assemblyPath) + "." + extension);
+        }
         public string GetIntermediateCoverageDirectory()
         {
             return _openCoverIntermediateDir;

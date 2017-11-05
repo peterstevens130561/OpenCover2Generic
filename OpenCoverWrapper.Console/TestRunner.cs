@@ -29,7 +29,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         public void Initialize()
         {
-            _jobFileSystemInfo.CreateRoot();
+            _jobFileSystemInfo.CreateRoot(DateTime.Now.ToString("yyMMdd_HHmmss"));
         }
 
         internal void RunTests(OpenCoverCommandLineBuilder openCoverCommandLineBuilder, string[] testAssemblies)
