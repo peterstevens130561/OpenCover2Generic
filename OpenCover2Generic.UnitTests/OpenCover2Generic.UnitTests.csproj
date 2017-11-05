@@ -80,6 +80,7 @@
     <Compile Include="OpenCoverCoverageParserTests.cs" />
     <Compile Include="CommandLineParserTests.cs" />
     <Compile Include="IntermediateModelTests.cs" />
+    <Compile Include="JobFileSystemTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenCover2Generic.Converter\OpenCover2Generic.Converter.csproj">

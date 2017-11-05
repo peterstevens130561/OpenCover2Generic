@@ -41,6 +41,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             testRunner.CreateTestResults(testResultsPath);
             testRunner.CreateCoverageFile(outputPath);
         }
-
+    }
  
 }

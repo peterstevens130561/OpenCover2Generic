@@ -17,8 +17,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
     class TestRunner
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(Program));
-        private readonly JobFileSystem _jobFileSystemInfo = new JobFileSystem();
+        private readonly JobFileSystem _jobFileSystemInfo = new JobFileSystem(new FileSystemAdapter());
         private readonly MultiAssemblyConverter _converter;
+
 
         public TestRunner(MultiAssemblyConverter converter)
         {

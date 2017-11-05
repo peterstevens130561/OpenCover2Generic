@@ -15,9 +15,11 @@ namespace OpenCover2Generic.Converter
         private string _testResultsDir;
         private string _openCoverIntermediateDir;
         private string _openCoverLogDir;
+        private readonly IFileSystemAdapter _fileSystemAdapter;
 
-        public JobFileSystem()
+        public JobFileSystem(IFileSystemAdapter fileSystemAdapter)
         {
+            _fileSystemAdapter = fileSystemAdapter;
         }
 
         /// <summary>
