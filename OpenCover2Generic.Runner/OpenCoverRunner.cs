@@ -47,15 +47,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                 }
                 process.OutputDataReceived -= Process_OutputDataReceived;
                 process.ErrorDataReceived -= Process_OutputDataReceived;
-                log.Info($"TestResults in {_testResultsPath}");
 
             }
         }
 
-        public void SetAssembly(string assembly)
-        {
-            throw new NotImplementedException();
-        }
 
         public string TestResultsPath
         {

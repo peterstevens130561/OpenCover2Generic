@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BHGE.SonarQube.OpenCover2Generic
+namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
     /// <summary>
     /// Used to create a model from multiple coverage files. Though they pertain to the same module, each one may have different
     /// numbering for the files. Therefore,  there is small intermediate step
     /// </summary>
-    class IntermediateModel : IModel
+    class IntermediateModel : IModuleCoverageModel
     {
-        private readonly IModel moduleModel = new Model();
+        private readonly IModuleCoverageModel moduleModel = new ModuleCoverageModel();
         private readonly Dictionary<string, string> sourceFilePathToGlobalId = new Dictionary<string, string>();
         private readonly Dictionary<string, string> localFileIdToGlobalFileId = new Dictionary<string, string>();
 

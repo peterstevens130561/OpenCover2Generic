@@ -1,4 +1,6 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic;
+using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using System.IO;
 using System.Xml;
 
@@ -6,11 +8,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
 {
     class ModulesInFilesConverter : IModulesInFilesConverter
     {
-        private readonly IModel _model;
+        private readonly IModuleCoverageModel _model;
         private readonly ICoverageWriter _coverageWriter;
         private readonly ICoverageParser _parser;
 
-        public ModulesInFilesConverter(IModel model, ICoverageParser parser, ICoverageWriter coverageWriter)
+        public ModulesInFilesConverter(IModuleCoverageModel model, ICoverageParser parser, ICoverageWriter coverageWriter)
         {
             _parser = parser;
             _model = model;

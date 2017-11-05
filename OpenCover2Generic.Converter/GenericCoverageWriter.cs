@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BHGE.SonarQube.OpenCover2Generic.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             xmlWriter.Flush();
         }
 
-        public void GenerateCoverage(IModel model,XmlWriter xmlWriter)
+        public void GenerateCoverage(IModuleCoverageModel model,XmlWriter xmlWriter)
         {
             foreach (ISourceFileCoverageModel fileCoverage in model.GetCoverage())
             {

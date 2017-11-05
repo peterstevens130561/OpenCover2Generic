@@ -1,9 +1,11 @@
-﻿using System;
+﻿using BHGE.SonarQube.OpenCover2Generic.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.Parsers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -12,7 +14,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         static void Main(string[] args)
         {
             var commandLineParser = new OpenCover2GenericCommandLineParser(new CommandLineParser());
-            var model = new Model();
+            var model = new ModuleCoverageModel();
             var converter = new Converter(model,new OpenCoverCoverageParser(),new GenericCoverageWriter());
 
             commandLineParser.Args = args;

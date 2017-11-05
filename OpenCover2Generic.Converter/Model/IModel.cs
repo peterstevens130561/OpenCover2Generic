@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace BHGE.SonarQube.OpenCover2Generic
+namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
-    public interface IModel
+    public interface IModuleCoverageModel
     {
         void AddFile(string fileId, string filePath);
         IList<ISourceFileCoverageModel> GetCoverage();

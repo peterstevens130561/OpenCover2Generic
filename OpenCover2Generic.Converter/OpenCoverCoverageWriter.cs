@@ -1,5 +1,6 @@
 ﻿
 
+using BHGE.SonarQube.OpenCover2Generic.Model;
 using System;
 using System.Xml;
 
@@ -9,7 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private XmlWriter _xmlWriter;
 
-        public void GenerateCoverage(IModel model, XmlWriter xmlWriter)
+        public void GenerateCoverage(IModuleCoverageModel model, XmlWriter xmlWriter)
         {
             _xmlWriter = xmlWriter;
             if(model.GetCoverage().Count ==0)
@@ -24,7 +25,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             xmlWriter.WriteEndElement();
         }
 
-        private void WriteCoverageData(IModel model, XmlWriter xmlWriter)
+        private void WriteCoverageData(IModuleCoverageModel model, XmlWriter xmlWriter)
         {
             _xmlWriter = xmlWriter;
             foreach(ISourceFileCoverageModel sourceFile in model.GetCoverage())
@@ -73,7 +74,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
         }
 
-        private void WriteSourceFiles(IModel model)
+        private void WriteSourceFiles(IModuleCoverageModel model)
         {
             _xmlWriter.WriteStartElement("Files");
             foreach (ISourceFileCoverageModel fileCoverage in model.GetCoverage())

@@ -45,9 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLineParser.cs" />
-    <Compile Include="BranchPoint.cs" />
+    <Compile Include="Model\BranchPoint.cs" />
     <Compile Include="BranchPointAggregator.cs" />
-    <Compile Include="IntermediateModel.cs" />
+    <Compile Include="Model\IntermediateModel.cs" />
     <Compile Include="IOpenCoverCommandLineBuilder.cs" />
     <Compile Include="ITestResultsConcatenator.cs" />
     <Compile Include="JobInfo.cs" />
@@ -55,21 +55,21 @@
     <Compile Include="GenericCoverageWriter.cs" />
     <Compile Include="ICommandLineParser.cs" />
     <Compile Include="Converter.cs" />
-    <Compile Include="FileCoverageModel.cs" />
-    <Compile Include="IBranchPoint.cs" />
+    <Compile Include="Model\FileCoverageModel.cs" />
+    <Compile Include="Model\IBranchPoint.cs" />
     <Compile Include="IBranchPointAggregator.cs" />
     <Compile Include="IConverter.cs" />
-    <Compile Include="ICoverageParser.cs" />
-    <Compile Include="ICoveragePoint.cs" />
+    <Compile Include="Parsers\ICoverageParser.cs" />
+    <Compile Include="Model\ICoveragePoint.cs" />
     <Compile Include="ICoverageWriter.cs" />
-    <Compile Include="IFileCoverageModel.cs" />
-    <Compile Include="IModel.cs" />
+    <Compile Include="Model\IFileCoverageModel.cs" />
+    <Compile Include="Model\IModel.cs" />
     <Compile Include="IModulesInFilesConverter.cs" />
     <Compile Include="ISourceFileCoverage.cs" />
-    <Compile Include="Model.cs" />
+    <Compile Include="Model\Model.cs" />
     <Compile Include="ModulesInFilesConverter.cs" />
     <Compile Include="OpenCoverCommandLineBuilder.cs" />
-    <Compile Include="OpenCoverCoverageParser.cs" />
+    <Compile Include="Parsers\OpenCoverCoverageParser.cs" />
     <Compile Include="OpenCoverCoverageWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SequencePoint.cs" />

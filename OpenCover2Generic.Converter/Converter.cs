@@ -1,20 +1,19 @@
-﻿using System;
+﻿using BHGE.SonarQube.OpenCover2Generic.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Parsers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     public class Converter : IConverter
     {
-        private readonly IModel _model;
+        private readonly IModuleCoverageModel _model;
         private readonly ICoverageWriter _coverageWriter;
         private readonly ICoverageParser _parser;
 
-        public Converter(IModel model,ICoverageParser parser,ICoverageWriter coverageWriter)
+        public Converter(IModuleCoverageModel model,ICoverageParser parser,ICoverageWriter coverageWriter)
         {
             _parser = parser;
             _model = model;

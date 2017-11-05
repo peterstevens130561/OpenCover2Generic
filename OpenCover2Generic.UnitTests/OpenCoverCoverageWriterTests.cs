@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BHGE.SonarQube.OpenCover2Generic;
 using System.IO;
 using System.Text;
+using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.Parsers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -10,12 +12,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class OpenCoverCoverageWriterTests
     {
         private IConverter converter;
-        private IModel model;
+        private IModuleCoverageModel model;
 
         [TestInitialize]
         public void Initialize()
         {
-            model = new Model();
+            model = new ModuleCoverageModel();
             converter = new Converter(model,new OpenCoverCoverageParser(),new OpenCoverCoverageWriter());
         }
 

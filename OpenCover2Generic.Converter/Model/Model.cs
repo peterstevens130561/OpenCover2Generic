@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 
-namespace BHGE.SonarQube.OpenCover2Generic
+namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
-    public class Model : IModel
+    public class ModuleCoverageModel : IModuleCoverageModel
     {
         private Dictionary<string, ISourceFileCoverageModel> sourceFiles = new Dictionary<string,ISourceFileCoverageModel>();
 

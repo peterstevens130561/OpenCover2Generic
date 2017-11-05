@@ -6,13 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using log4net;
+using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.Parsers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     public class MultiAssemblyConverter 
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(MultiAssemblyConverter));
-        private readonly IModel _model;
+        private readonly IModuleCoverageModel _model;
         private readonly ICoverageWriter _coverageWriter;
         private readonly ICoverageParser _parser;
         private readonly ICoverageParser _moduleParser;
@@ -23,7 +25,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         /// <param name="model"></param>
         /// <param name="testCoverageParser"></param>
         /// <param name="resultCoverageWriter"></param>
-        public MultiAssemblyConverter(IModel model,
+        public MultiAssemblyConverter(IModuleCoverageModel model,
             ICoverageParser testCoverageParser,
             ICoverageWriter resultCoverageWriter,
             ICoverageParser intermediateCoverageParser,
@@ -86,7 +88,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         private void WriteModule(string rootPath, string testAssemblyPath)
         {
-            log.Debug($"WriteModule {rootPath},{testAssemblyPath}");
             if (_model.GetCoverage().Count > 0)
             {
                 string moduleFile = GetPathForModule(rootPath,testAssemblyPath);
@@ -138,7 +139,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
         private void WriteModuleToFile(string moduleFile)
         {
-            log.Debug($"WriteModuleToFile({moduleFile})");
             using (XmlTextWriter tempFileWriter = new XmlTextWriter(moduleFile, Encoding.UTF8))
             {
                 //write it to the temp file

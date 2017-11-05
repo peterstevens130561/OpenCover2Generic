@@ -33,11 +33,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             string targetArgs = commandLineParser.GetTargetArgs();
             string testResultsPath = commandLineParser.GetTestResultsPath();
             string openCoverOutputPath = Path.GetTempFileName();
-            var converter = new MultiAssemblyConverter(new Model(),
-    new OpenCoverCoverageParser(),
-    new GenericCoverageWriter(),
-    new OpenCoverCoverageParser(),
-    new OpenCoverCoverageWriter());
+            var converter = new MultiAssemblyConverter();
 
             var openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             openCoverCommandLineBuilder.Args = args;
@@ -69,13 +65,13 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             internal void RunTests(OpenCoverCommandLineBuilder openCoverCommandLineBuilder, string[] testAssemblies)
             {
                 var jobs = new BlockingCollection<string>();
+                log.Info($"Will run tests for {testAssemblies.Count()} assemblies");
                 testAssemblies.ToList().ForEach(a => jobs.Add(a));
                 jobs.CompleteAdding();
 
                 var tasks = new List<Task>();
-                for (int i = 1; i <= 1; i++)
+                for (int i = 1; i <= 5; i++)
                 {
-                    log.Info($"starting task {i}");
                     Task task = Task.Run(() => ConsumeJobs(openCoverCommandLineBuilder, jobs));
                     tasks.Add(task);
                 }
@@ -118,7 +114,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 {
                     using (var reader = XmlReader.Create(file))
                     {
-                        log.Info($"concatenating {file}");
                         testResultsConcatenator.Concatenate(reader);
                     }
 
@@ -137,7 +132,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                     {
                         continue;
                     }
-                    log.Info($"Running unit test on {assembly}");
+                    log.Info($"Running unit test on {Path.GetFileName(assembly)}");
                    
                     var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(assembly);
                     string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(assembly);
@@ -145,15 +140,12 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                     using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
                     {
                         var processStartInfo = openCoverCommandLineBuilder.Build(assembly, openCoverOutputPath);
-                        log.Debug($"OpenCover commandline {processStartInfo.Arguments}");
-                        log.Debug($"Log of opencover will be stored in {openCoverLogPath}");
                         Task task = Task.Run(() => runner.Run(processStartInfo,writer));
                         task.Wait();
                     }
                     if (runner.TestResultsPath != null)
                     {
                         string testResultsPath = _jobFileSystemInfo.GetTestResultsPath(assembly);
-                        log.Debug($"move from {runner.TestResultsPath} to {testResultsPath}");
                         File.Move(runner.TestResultsPath, testResultsPath);
                         try
                         {
@@ -187,7 +179,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
             return assembly;
         }
-
 
         }
     }

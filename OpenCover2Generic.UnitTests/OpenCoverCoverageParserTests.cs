@@ -4,15 +4,17 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using Moq;
+using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.Parsers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
     public class OpenCoverCoverageParserTests
     {
-        private  IModel _model;
+        private IModuleCoverageModel _model;
         private OpenCoverCoverageParser _parser;
-        private Mock<IModel> _modelMock;
+        private Mock<IModuleCoverageModel> _modelMock;
         private readonly string openCoverExample= @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
 <Modules>
@@ -55,7 +57,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestInitialize]
         public void Initialize()
         {
-            _modelMock = new Mock<IModel>();
+            _modelMock = new Mock<IModuleCoverageModel>();
             _model = _modelMock.Object;
             _parser = new OpenCoverCoverageParser();
 

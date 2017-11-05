@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BHGE.SonarQube.OpenCover2Generic.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
