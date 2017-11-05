@@ -52,5 +52,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
             var openCoverLogPath = _fileSystem.GetOpenCoverOutputPath(@"A:\B\C\output.dll");
             Assert.AreEqual(@"Q:\temp\opencover_key\OpenCoverOutput\1_output.xml", openCoverLogPath);
         }
+
+        [TestMethod]
+        public void CheckTestResultsDirectory()
+        {
+            _fileSystem.CreateRoot("key");
+            var testResultsDirectory = _fileSystem.GetTestResultsDirectory();
+            Assert.AreEqual(@"Q:\temp\opencover_key\TestResults", testResultsDirectory);
+        }
     }
 }
