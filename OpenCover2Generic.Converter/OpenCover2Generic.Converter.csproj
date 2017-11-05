@@ -54,11 +54,11 @@
     <Compile Include="MultiAssemblyConverter.cs" />
     <Compile Include="Writers\GenericCoverageWriter.cs" />
     <Compile Include="Utils\ICommandLineParser.cs" />
-    <Compile Include="Converter.cs" />
+    <Compile Include="CoverageConverters\OpenCover2GenericConverter.cs" />
     <Compile Include="Model\FileCoverageModel.cs" />
     <Compile Include="Model\IBranchPoint.cs" />
     <Compile Include="Model\IBranchPoints.cs" />
-    <Compile Include="IConverter.cs" />
+    <Compile Include="CoverageConverters\ICoverageConverter.cs" />
     <Compile Include="Parsers\ICoverageParser.cs" />
     <Compile Include="Model\ICoveragePoint.cs" />
     <Compile Include="Writers\ICoverageWriter.cs" />

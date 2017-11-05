@@ -6,15 +6,15 @@ using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 
-namespace BHGE.SonarQube.OpenCover2Generic
+namespace BHGE.SonarQube.OpenCover2Generic.CoverageConverters
 {
-    public class Converter : IConverter
+    public class OpenCover2GenericConverter : ICoverageConverter
     {
         private readonly IModuleCoverageModel _model;
         private readonly ICoverageWriter _coverageWriter;
         private readonly ICoverageParser _parser;
 
-        public Converter(IModuleCoverageModel model,ICoverageParser parser,ICoverageWriter coverageWriter)
+        public OpenCover2GenericConverter(IModuleCoverageModel model,ICoverageParser parser,ICoverageWriter coverageWriter)
         {
             _parser = parser;
             _model = model;

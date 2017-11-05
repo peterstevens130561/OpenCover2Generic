@@ -6,20 +6,21 @@ using System.Text;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
+using BHGE.SonarQube.OpenCover2Generic.CoverageConverters;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
     public class MultiAssemblyConversionTests
     {
-        private IConverter converter;
+        private ICoverageConverter converter;
         private IModuleCoverageModel model;
 
         [TestInitialize]
         public void Initialize()
         {
             model = new ModuleCoverageModel();
-            converter = new Converter(model,new OpenCoverCoverageParser(),new GenericCoverageWriter());
+            converter = new OpenCover2GenericConverter(model,new OpenCoverCoverageParser(),new GenericCoverageWriter());
         }
 
         [TestMethod]
