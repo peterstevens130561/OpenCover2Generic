@@ -13,6 +13,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
         void AddBranchPoint(string sourceLine, IBranchPoint branchPoint);
 
         void AddBranchPoint(IBranchPoint branchPoint);
-        IBranchPoints GetBranchPointAggregatorByLine(string sourceLine);
+        IBranchPoints GetBranchPointsByLine(string sourceLine);
     }
 }

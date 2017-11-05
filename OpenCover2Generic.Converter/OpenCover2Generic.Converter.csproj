@@ -65,7 +65,6 @@
     <Compile Include="Model\IFileCoverageModel.cs" />
     <Compile Include="Model\IModel.cs" />
     <Compile Include="IModulesInFilesConverter.cs" />
-    <Compile Include="Model\ISourceFileCoverage.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="ModulesInFilesConverter.cs" />
     <Compile Include="Utils\OpenCoverCommandLineBuilder.cs" />

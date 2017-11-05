@@ -57,7 +57,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
 
         private void WriteBranchPointsForLine( ISourceFileCoverageModel sourceFile, string sourceLineNr)
         {
-            var aggregator = sourceFile.GetBranchPointAggregatorByLine(sourceLineNr);
+            var aggregator = sourceFile.GetBranchPointsByLine(sourceLineNr);
             if (aggregator != null)
             {
                 foreach (IBranchPoint branchPoint in aggregator.GetBranchPoints())

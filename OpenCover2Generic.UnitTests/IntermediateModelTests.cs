@@ -67,8 +67,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
             intermediateModel.AddBranchPoint(2, 10, 1, true);
             intermediateModel.AddBranchPoint(2, 10, 2, false);
             //Then the sequence point should be as if added to 1
-            Assert.AreEqual(2, intermediateModel.GetCoverage()[0].GetBranchPointAggregatorByLine("10").PathsToCover());
-            Assert.AreEqual(1, intermediateModel.GetCoverage()[0].GetBranchPointAggregatorByLine("10").CoveredPaths());
+            Assert.AreEqual(2, intermediateModel.GetCoverage()[0].GetBranchPointsByLine("10").PathsToCover());
+            Assert.AreEqual(1, intermediateModel.GetCoverage()[0].GetBranchPointsByLine("10").CoveredPaths());
         }
         [TestMethod]
         public void CheckClear()
