@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
+using BHGE.SonarQube.OpenCover2Generic.Writers;
+
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {

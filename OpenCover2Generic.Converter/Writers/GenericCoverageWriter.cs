@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace BHGE.SonarQube.OpenCover2Generic
+namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
     public class GenericCoverageWriter : ICoverageWriter
     {

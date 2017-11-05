@@ -1,7 +1,7 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Model;
 using System.Xml;
 
-namespace BHGE.SonarQube.OpenCover2Generic
+namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
     public interface ICoverageWriter
     {

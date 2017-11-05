@@ -68,7 +68,6 @@
     <Compile Include="OpenCoverCoverageWriterTests.cs" />
     <Compile Include="MainTests.cs" />
     <Compile Include="OpenCoverWrapperCommandLineParserTests.cs" />
-    <Compile Include="OpenCoverWriterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CoveragePointTests.cs" />
     <Compile Include="BanchPointTests.cs" />

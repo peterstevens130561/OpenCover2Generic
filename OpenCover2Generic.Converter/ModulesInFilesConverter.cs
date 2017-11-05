@@ -1,6 +1,7 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
+using BHGE.SonarQube.OpenCover2Generic.Writers;
 using System.IO;
 using System.Xml;
 

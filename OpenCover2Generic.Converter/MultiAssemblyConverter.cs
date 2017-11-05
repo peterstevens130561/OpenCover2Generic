@@ -8,6 +8,7 @@ using System.Xml;
 using log4net;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
+using BHGE.SonarQube.OpenCover2Generic.Writers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
+using BHGE.SonarQube.OpenCover2Generic.Writers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
