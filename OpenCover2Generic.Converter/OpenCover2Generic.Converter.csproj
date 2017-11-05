@@ -48,7 +48,7 @@
     <Compile Include="Model\BranchPoint.cs" />
     <Compile Include="Model\BranchPoints.cs" />
     <Compile Include="Model\IntermediateModel.cs" />
-    <Compile Include="IOpenCoverCommandLineBuilder.cs" />
+    <Compile Include="Utils\IOpenCoverCommandLineBuilder.cs" />
     <Compile Include="Writers\ITestResultsConcatenator.cs" />
     <Compile Include="Consumer\JobFileSystem.cs" />
     <Compile Include="MultiAssemblyConverter.cs" />
@@ -65,10 +65,10 @@
     <Compile Include="Model\IFileCoverageModel.cs" />
     <Compile Include="Model\IModel.cs" />
     <Compile Include="IModulesInFilesConverter.cs" />
-    <Compile Include="ISourceFileCoverage.cs" />
+    <Compile Include="Model\ISourceFileCoverage.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="ModulesInFilesConverter.cs" />
-    <Compile Include="OpenCoverCommandLineBuilder.cs" />
+    <Compile Include="Utils\OpenCoverCommandLineBuilder.cs" />
     <Compile Include="Parsers\OpenCoverCoverageParser.cs" />
     <Compile Include="Writers\OpenCoverCoverageWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

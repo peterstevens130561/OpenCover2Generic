@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace BHGE.SonarQube.OpenCover2Generic
+namespace BHGE.SonarQube.OpenCover2Generic.Utils
 {
     public interface IOpenCoverCommandLineBuilder
     {
