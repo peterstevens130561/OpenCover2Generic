@@ -16,7 +16,7 @@ namespace OpenCover2Generic.Converter
         private string _openCoverIntermediateDir;
         private string _openCoverLogDir;
         private readonly IFileSystemAdapter _fileSystemAdapter;
-
+        private string _rootPath;
         public JobFileSystem(IFileSystemAdapter fileSystemAdapter)
         {
             _fileSystemAdapter = fileSystemAdapter;
@@ -27,20 +27,21 @@ namespace OpenCover2Generic.Converter
         /// </summary>
         public void CreateRoot(string key)
         {
-            string rootPath = Path.GetFullPath(Path.Combine(_fileSystemAdapter.GetTempPath(), "opencover_" + key));
-            _fileSystemAdapter.CreateDirectory(rootPath);
+            _rootPath = Path.GetFullPath(Path.Combine(_fileSystemAdapter.GetTempPath(), "opencover_" + key));
+            _fileSystemAdapter.CreateDirectory(_rootPath);
 
-            _openCoverOutputDir = Path.GetFullPath(Path.Combine(rootPath, "OpenCoverOutput"));
-            _fileSystemAdapter.CreateDirectory(_openCoverOutputDir);
+            _openCoverOutputDir = CreateChildDir("OpenCoverOutput");
+            _testResultsDir = CreateChildDir("TestResults");
+            _openCoverIntermediateDir = CreateChildDir("OpenCoverIntermediate");
+            _openCoverLogDir = CreateChildDir("OpenCoverLogs");
 
-            _testResultsDir = Path.GetFullPath(Path.Combine(rootPath, "TestResults"));
-            _fileSystemAdapter.CreateDirectory(_testResultsDir);
+        }
 
-            _openCoverIntermediateDir = Path.GetFullPath(Path.Combine(rootPath, "OpenCoverIntermediate"));
-            _fileSystemAdapter.CreateDirectory(_openCoverIntermediateDir);
-
-            _openCoverLogDir = Path.GetFullPath(Path.Combine(rootPath, "OpenCoverLogs"));
-            _fileSystemAdapter.CreateDirectory(_openCoverLogDir);
+        private string CreateChildDir(string name)
+        {
+            string path = Path.GetFullPath(Path.Combine(_rootPath, name));
+            _fileSystemAdapter.CreateDirectory(path);
+            return path;
         }
 
         /// <summary>
