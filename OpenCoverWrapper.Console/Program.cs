@@ -13,6 +13,8 @@ using System.Collections.ObjectModel;
 using OpenCover2Generic.Converter;
 using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
+using BHGE.SonarQube.OpenCover2Generic.Factories;
+
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace BHGE.SonarQube.OpenCoverWrapper
@@ -33,7 +35,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
             var openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             openCoverCommandLineBuilder.Args = args;
-            var testRunner = new TestRunner(converter);
+            var testRunner = new TestRunner(converter,new ProcessFactory());
             string[] testAssemblies = commandLineParser.GetTestAssemblies();
 
             testRunner.Initialize();

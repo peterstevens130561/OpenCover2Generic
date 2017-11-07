@@ -19,7 +19,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
         private string _testResultsPath;
         private StreamWriter _writer;
 
-        private readonly IProcessFactory _processFactory = new ProcessFactory();
+        private readonly IProcessFactory _processFactory;
+
+        public OpenCoverRunner(IProcessFactory processFactory)
+        {
+            _processFactory = processFactory;
+        }
         public void Run(StreamWriter writer)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(_path, _arguments.ToString());

@@ -1,4 +1,5 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic;
+using BHGE.SonarQube.OpenCover2Generic.Factories;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using log4net;
@@ -19,11 +20,12 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         private static readonly ILog log = LogManager.GetLogger(typeof(Program));
         private readonly JobFileSystem _jobFileSystemInfo = new JobFileSystem(new FileSystemAdapter());
         private readonly MultiAssemblyConverter _converter;
+        private readonly IProcessFactory _processFactory;
 
-
-        public TestRunner(MultiAssemblyConverter converter)
+        public TestRunner(MultiAssemblyConverter converter,IProcessFactory processFactory)
         {
             _converter = converter;
+            _processFactory = processFactory;
 
         }
 
@@ -106,7 +108,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
                 var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(assembly);
                 string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(assembly);
-                var runner = new OpenCoverRunner();
+                var runner = new OpenCoverRunner(_processFactory);
                 using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
                 {
                     var processStartInfo = openCoverCommandLineBuilder.Build(assembly, openCoverOutputPath);
