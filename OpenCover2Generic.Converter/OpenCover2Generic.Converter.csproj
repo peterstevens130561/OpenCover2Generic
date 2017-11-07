@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\IProcessFactory.cs" />
+    <Compile Include="Factories\ProcessFactory.cs" />
     <Compile Include="Utils\CommandLineParser.cs" />
     <Compile Include="Model\BranchPoint.cs" />
     <Compile Include="Model\BranchPoints.cs" />
