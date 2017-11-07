@@ -22,5 +22,18 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(@"-register:user ""-output:opencover.xml"" ""-target:bla.exe"" ""-targetargs:a,b test.dll""", processStartInfo.Arguments);
         }
 
+        [TestMethod]
+        public void CheckCommandLineArgumentsPassed()
+        {
+
+            ICommandLineParser commandLineParser = new CommandLineParser();
+            string[] args = { "-target:bla.exe", @"-opencover:Apps\OpenCover\OpenCover.Console.exe", @"-targetargs:/InIsolation /Platform:X64 /TestCaseFilter:""UnitTest|TestCategory=MM|TestCategory=HDF5|TestCategory=ESIEDECODE"" /Logger:VsTestSonarQubeLogger" };
+            commandLineParser.Args = args;
+            IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(commandLineParser);
+            ProcessStartInfo processStartInfo = openCoverCommandLineBuilder.Build("test.dll", "opencover.xml");
+            Assert.AreEqual(@"Apps\OpenCover\OpenCover.Console.exe", processStartInfo.FileName);
+            Assert.AreEqual(@"-register:user ""-output:opencover.xml"" ""-target:bla.exe"" ""-targetargs:a,b test.dll""", processStartInfo.Arguments);
+
+        }
     }
 }

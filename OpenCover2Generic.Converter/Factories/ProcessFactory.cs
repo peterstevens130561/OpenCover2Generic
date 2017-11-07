@@ -11,7 +11,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
     {
         public Process CreateProcess()
         {
-            throw new NotImplementedException();
+            return new Process();
         }
     }
 }

@@ -38,6 +38,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             startInfo.UseShellExecute = false;
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
+            _writer.WriteLine("Arguments: " + startInfo.Arguments);
             using (var process = _processFactory.CreateProcess())
             {
                 process.StartInfo = startInfo;

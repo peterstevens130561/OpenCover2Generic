@@ -67,6 +67,7 @@
     <Compile Include="OpenCoverCommandLineBuilderTests.cs" />
     <Compile Include="OpenCoverCoverageWriterTests.cs" />
     <Compile Include="MainTests.cs" />
+    <Compile Include="OpenCoverRunnerTests.cs" />
     <Compile Include="OpenCoverWrapperCommandLineParserTests.cs" />
     <Compile Include="ProcessFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

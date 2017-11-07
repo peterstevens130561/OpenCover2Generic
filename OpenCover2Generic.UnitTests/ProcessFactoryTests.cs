@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
-    class ProcessFactoryTests
+    public class ProcessFactoryTests
     {
 
         [TestMethod]
