@@ -77,6 +77,8 @@
     <Compile Include="OpenCover2GenericCommandLineParserTests.cs" />
     <Compile Include="MultiAssemblyTests.cs" />
     <Compile Include="FileCoverageModelTests.cs" />
+    <Compile Include="FilteringTestResultsConcatenatorTests.cs" />
+    <Compile Include="TestFileResultsModelTests.cs" />
     <Compile Include="TestResultsConcatenatorTests.cs" />
     <Compile Include="TestUtils.cs" />
     <Compile Include="OpenCoverCoverageParserTests.cs" />

@@ -88,6 +88,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                     }
 
                 }
+                log.Info($"Found ${testResultsConcatenator.TestCases} test cases");
                 testResultsConcatenator.End();
             }
         }

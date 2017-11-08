@@ -10,6 +10,7 @@ namespace OpenCover2Generic.Converter
 {
     public class TestResultsConcatenator : ITestResultsConcatenator
     {
+        private int _tests = 0;
         private XmlTextWriter _xmlWriter;
 
         public XmlTextWriter Writer
@@ -25,6 +26,14 @@ namespace OpenCover2Generic.Converter
             }
         }
 
+        public int TestCases
+        {
+            get
+            {
+                return _tests;
+            }
+        }
+
         public void Concatenate(XmlReader xmlReader)
         {
             xmlReader.MoveToContent();
@@ -32,7 +41,12 @@ namespace OpenCover2Generic.Converter
             {
                 if (xmlReader.NodeType == XmlNodeType.Element)
                 {
+                    if (xmlReader.Name == "testCase")
+                    {
+                        ++_tests;
+                    }
                     CreateStartElement(xmlReader);
+
                 }
                 if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name != "unitTest")
                 {

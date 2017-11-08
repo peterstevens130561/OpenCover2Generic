@@ -12,7 +12,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     /// Summary description for TestResultsConcatenatorTests
     /// </summary>
     [TestClass]
-    public class TestResultsConcatenatorTests
+    public class FilteringTestResultsConcatenatorTests
     {
         private ITestResultsConcatenator _concatenator;
         private MemoryStream _resultStream;
@@ -20,7 +20,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestInitialize]
         public void Initialize()
         {
-            _concatenator = new TestResultsConcatenator();
+            _concatenator = new FilteringTestResultsConcatenator();
             _resultStream = new MemoryStream();
             StreamWriter writer = new StreamWriter(_resultStream);
             _concatenator.Writer = new XmlTextWriter(writer);
