@@ -41,5 +41,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(1, testClasses.Values.Count(t => t.Path == "class1.cs"));
             Assert.AreEqual(1, testClasses.Values.Count(t => t.Path == "class2.cs"));
         }
+
+
+        [TestMethod]
+        public void CreateTestCase()
+        {
+            var testClasses = new TestClasses();
+            var testClass=testClasses.AddTestClass("class1.cs");
+        }
     }
 }
