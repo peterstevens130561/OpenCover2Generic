@@ -59,6 +59,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             }
         }
 
+        internal void Run(ProcessStartInfo info, object writer)
+        {
+            throw new NotImplementedException();
+        }
 
         public string TestResultsPath
         {
@@ -80,6 +84,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             {
                 return;
             }
+
             // there is no other way to find out where vstest stores his
             //testresults
             if(e.Data.Contains("VsTestSonarQubeLogger.TestResults")) {
@@ -89,8 +94,18 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                     _testResultsPath = parts[1];
                 }
             }
-            // should really write to a stream
+
+            if(e.Data.Contains("Starting test execution, please wait.."))
+            {
+                log.Info("Started");
+            }
             _writer.WriteLine(e.Data);
+
+            if (e.Data.Contains("Failed to register(user:True"))
+            {
+                log.Error("Failed to start, could not register");
+                throw new InvalidOperationException("Could not register");
+            }
         }
 
         public void AddArgument(string argument)

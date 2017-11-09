@@ -46,16 +46,14 @@
   <ItemGroup>
     <Compile Include="Factories\IProcessFactory.cs" />
     <Compile Include="Factories\ProcessFactory.cs" />
-    <Compile Include="FilteringTestResultsConcatenator.cs" />
-    <Compile Include="Model\TestResults\TestCase.cs" />
-    <Compile Include="Model\TestResults\TestClass.cs" />
-    <Compile Include="Model\TestResults\TestClasses.cs" />
     <Compile Include="Utils\CommandLineParser.cs" />
     <Compile Include="Model\BranchPoint.cs" />
     <Compile Include="Model\BranchPoints.cs" />
     <Compile Include="Model\IntermediateModel.cs" />
     <Compile Include="Utils\IFileSystemAdapter.cs" />
     <Compile Include="Utils\IOpenCoverCommandLineBuilder.cs" />
+    <Compile Include="Utils\IProcess.cs" />
+    <Compile Include="Utils\SimpleProcess.cs" />
     <Compile Include="Writers\ITestResultsConcatenator.cs" />
     <Compile Include="Utils\JobFileSystem.cs" />
     <Compile Include="MultiAssemblyConverter.cs" />
