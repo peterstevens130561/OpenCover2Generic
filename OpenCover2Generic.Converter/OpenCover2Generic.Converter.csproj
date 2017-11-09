@@ -69,9 +69,7 @@
     <Compile Include="Writers\ICoverageWriter.cs" />
     <Compile Include="Model\IFileCoverageModel.cs" />
     <Compile Include="Model\IModel.cs" />
-    <Compile Include="IModulesInFilesConverter.cs" />
     <Compile Include="Model\Model.cs" />
-    <Compile Include="ModulesInFilesConverter.cs" />
     <Compile Include="Utils\OpenCoverCommandLineBuilder.cs" />
     <Compile Include="Parsers\OpenCoverCoverageParser.cs" />
     <Compile Include="Writers\OpenCoverCoverageWriter.cs" />

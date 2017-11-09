@@ -22,26 +22,33 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void FailedToStart()
         {
             //given a valid runner which will not register on starting
-
+            int tries=0;
             Mock<IProcessFactory> processFactoryMock = new Mock<IProcessFactory>();
             Mock<IProcess> processMock = new Mock<IProcess>();
             processFactoryMock.Setup(p => p.CreateProcess()).Returns(processMock.Object);
             processMock.Setup(p => p.HasExited).Returns(true);
-            processMock.Setup(p => p.Start()).Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Failed to register(user:True"));
+            processMock.Setup(p => p.Start())
+                .Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Failed to register(user:True"));
+
+            processMock.Setup(p => p.Start())
+                           .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
+                                CreateMockDataReceivedEventArgs("Failed to register(user:True"),
+                                CreateMockDataReceivedEventArgs("Starting test execution, please wait.."),
+                                CreateMockDataReceivedEventArgs("Failed to register(user:True")
+                           }).Dequeue);
             IProcessFactory processFactory = processFactoryMock.Object;
+
             var testRunner = new OpenCoverRunner.OpenCoverRunner(processFactory);
             ProcessStartInfo info = new ProcessStartInfo();
+            
             //when starting the runner
-            try
-            {
+
                 using (StreamWriter writer = new StreamWriter(new MemoryStream()))
                 {
                     testRunner.Run(info, writer);
                 }
-            } catch ( InvalidOperationException e) {
-                return;
-            }
-            Assert.Fail("expect exception");
+            // should be called twice
+            processMock.Verify(p => p.Start(), Times.Exactly(2));
         }
 
         private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string TestData)
