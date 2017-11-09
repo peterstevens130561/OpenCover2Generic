@@ -12,7 +12,8 @@ namespace OpenCover2Generic.Converter
 {
     public class TestResultsConcatenator : ITestResultsConcatenator
     {
-        private int _tests = 0;
+        private int _executedTests = 0;
+        private int _ignoredTests = 0;
         private static readonly ILog log = LogManager.GetLogger(typeof(TestResultsConcatenator));
         private XmlTextWriter _xmlWriter;
         private ICollection<string> paths = new Collection<string>();
@@ -33,7 +34,7 @@ namespace OpenCover2Generic.Converter
         {
             get
             {
-                return _tests;
+                return _executedTests;
             }
         }
 
@@ -45,14 +46,23 @@ namespace OpenCover2Generic.Converter
             {
                 if (xmlReader.NodeType == XmlNodeType.Element)
                 {
-                    if(xmlReader.Name== "file")
-                    {
-                        bool isEmpty = xmlReader.IsEmptyElement;
-                        string path = xmlReader.GetAttribute("path");
-                        doWrite = !paths.Contains(path);
+                    bool isEmpty = xmlReader.IsEmptyElement;
+                    if(xmlReader.Name == "testCase") {
+                        
                         if(doWrite)
                         {
-                            paths.Add(path);
+                            ++_executedTests;
+                        } else
+                        {
+                            ++_ignoredTests;
+                        }
+                    }
+                    if (xmlReader.Name== "file")
+                    {
+                        string path = xmlReader.GetAttribute("path");
+                        doWrite = IsFirstTimeSeen(path);
+                        if(doWrite)
+                        {
                             _xmlWriter.WriteStartElement(xmlReader.Name);
                             _xmlWriter.WriteAttributeString("path", path);
                             if (isEmpty)
@@ -67,10 +77,7 @@ namespace OpenCover2Generic.Converter
                     }
                     else if (doWrite)
                     {
-                        if (xmlReader.Name == "testCase")
-                        {
-                            ++_tests;
-                        }
+
                         CreateStartElement(xmlReader);
                     }
 
@@ -82,6 +89,15 @@ namespace OpenCover2Generic.Converter
             }
         }
 
+        private bool IsFirstTimeSeen(string path)
+        {
+            bool seenFirstTime= !paths.Contains(path);
+            if(seenFirstTime)
+            {
+                paths.Add(path);
+            }
+            return seenFirstTime;
+        }
         private void CreateStartElement(XmlReader xmlReader)
         {
             bool isEmpty = xmlReader.IsEmptyElement; // has to be local, as value changes during scan of attributes
@@ -119,6 +135,8 @@ namespace OpenCover2Generic.Converter
             _xmlWriter.WriteEndElement();
             _xmlWriter.WriteEndDocument();
             _xmlWriter.Flush();
+            log.Info($"Executed tests           : {_executedTests}");
+            log.Info($"Duplicate (ignored) tests: {_ignoredTests}");
         }
     }
 }
