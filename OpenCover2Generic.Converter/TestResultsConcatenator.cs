@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -12,6 +13,7 @@ namespace OpenCover2Generic.Converter
     public class TestResultsConcatenator : ITestResultsConcatenator
     {
         private int _tests = 0;
+        private static readonly ILog log = LogManager.GetLogger(typeof(TestResultsConcatenator));
         private XmlTextWriter _xmlWriter;
         private ICollection<string> paths = new Collection<string>();
         public XmlTextWriter Writer
@@ -58,6 +60,9 @@ namespace OpenCover2Generic.Converter
                                 _xmlWriter.WriteEndElement();
                             }
 
+                        } else
+                        {
+                            log.Warn($"Skipping tests in {path}");
                         }
                     }
                     else if (doWrite)
