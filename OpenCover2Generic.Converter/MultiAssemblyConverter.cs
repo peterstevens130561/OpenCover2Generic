@@ -149,14 +149,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
 
         }
-        private void ReadModuleFromFile(string moduleFile)
-        {
-            using (XmlReader tempFileReader = XmlReader.Create(moduleFile))
-            {
-                tempFileReader.MoveToContent();
-                _moduleParser.ParseModule(_model, tempFileReader);
-            }
-        }
 
     }
 }

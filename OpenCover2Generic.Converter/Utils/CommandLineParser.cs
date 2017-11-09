@@ -15,7 +15,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
         {
             if(Args==null)
             {
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentNullException(nameof(Args));
             }
             key = key.ToUpper() + ":" ;
             foreach (string arg in Args)
@@ -30,6 +30,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
 
         public string[] GetArgumentArray(string key)
         {
+            if (Args == null)
+            {
+                throw new ArgumentNullException(nameof(Args));
+            }
             var arguments = new Collection<String>();
             var realKey =  key+ ":";
             foreach (string arg in Args)

@@ -30,5 +30,43 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual("a:/My Documents/fun.dll", assemblies[0]);
             Assert.AreEqual("second.dll", assemblies[1]);
         }
+
+        [TestMethod]
+        public void GetArgument_ArgsNotSet_ExpectException()
+        {
+            //Givenparser with Args not set
+            ICommandLineParser commandLineParser = new CommandLineParser();
+
+            //When
+            try
+            {
+                commandLineParser.GetArgument("-testassembly");
+            }  catch (ArgumentNullException )
+            {
+                return;
+            }
+            Assert.Fail("Expected exception");
+
+        }
+
+        [TestMethod]
+        public void GetArgumentArray_ArgsNotSet_ExpectException()
+        {
+            //Givenparser with Args not set
+            ICommandLineParser commandLineParser = new CommandLineParser();
+
+            //When
+            try
+            {
+                commandLineParser.GetArgumentArray("-testassembly");
+            }
+            catch (ArgumentNullException)
+            {
+                return;
+            }
+            Assert.Fail("Expected exception");
+
+        }
+
     }
 }
