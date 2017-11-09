@@ -1,4 +1,5 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Factories;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         [TestMethod]
         public void InstantiationTest() {
-            Process process = new ProcessFactory().CreateProcess();
+            IProcess process = new ProcessFactory().CreateProcess();
             Assert.IsNotNull(process,"Expect valid process");
         }
 

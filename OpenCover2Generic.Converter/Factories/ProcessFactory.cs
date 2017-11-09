@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BHGE.SonarQube.OpenCover2Generic.Utils;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
 {
     public class ProcessFactory : IProcessFactory
     {
-        public Process CreateProcess()
+        public IProcess CreateProcess()
         {
-            return new Process();
+            return new SimpleProcess();
         }
     }
 }

@@ -23,37 +23,28 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             //given a valid runner which will not register on starting
 
-            Mock<ProcessFactory> processFactoryMock = new Mock<ProcessFactory>();
-
-            processFactoryMock.Setup(p => p.CreateProcess()).Returns(new ProcessStub());
-            ProcessFactory processFactory = processFactoryMock.Object;
+            Mock<IProcessFactory> processFactoryMock = new Mock<IProcessFactory>();
+            Mock<IProcess> processMock = new Mock<IProcess>();
+            processFactoryMock.Setup(p => p.CreateProcess()).Returns(processMock.Object);
+            processMock.Setup(p => p.HasExited).Returns(true);
+            processMock.Setup(p => p.Start()).Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Failed to register(user:True"));
+            IProcessFactory processFactory = processFactoryMock.Object;
             var testRunner = new OpenCoverRunner.OpenCoverRunner(processFactory);
             ProcessStartInfo info = new ProcessStartInfo();
-            using (StreamWriter writer = new StreamWriter(new MemoryStream()))
-            {
-                testRunner.Run(info, writer);
-            }
             //when starting the runner
-
-            //then the registration failure will be caught, and the process will be restarted
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(new MemoryStream()))
+                {
+                    testRunner.Run(info, writer);
+                }
+            } catch ( InvalidOperationException e) {
+                return;
+            }
+            Assert.Fail("expect exception");
         }
 
-        private class ProcessStub : Process
-        {
-            public new event DataReceivedEventHandler OutputDataReceived;
-            public new void Start()
-            {
-                //we really do not want to do anything here
-            }
-
-            public new void BeginOutputReadLine()
-            {
-                DataReceivedEventArgs e = CreateMockDataReceivedEventArgs("Failed to register(user:True");
-                OutputDataReceived.Invoke(this, e);
-            }
-
-
-            private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string TestData)
+        private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string TestData)
             {
 
                 if (String.IsNullOrEmpty(TestData))
@@ -83,4 +74,3 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
         }
     }
-}

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using log4net;
 using System.IO;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 {
@@ -39,22 +40,16 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
             _writer.WriteLine("Arguments: " + startInfo.Arguments);
-            using (var process = _processFactory.CreateProcess())
+            using (IProcess process = _processFactory.CreateProcess())
             {
+                process.DataReceived += Process_OutputDataReceived;
                 process.StartInfo = startInfo;
-                process.EnableRaisingEvents = true;
-                process.OutputDataReceived += Process_OutputDataReceived;
-                process.ErrorDataReceived += Process_OutputDataReceived;
                 process.Start();
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-
                 while (!process.HasExited)
                 {
                     Thread.Sleep(10000);
                 }
-                process.OutputDataReceived -= Process_OutputDataReceived;
-                process.ErrorDataReceived -= Process_OutputDataReceived;
+                process.DataReceived -= Process_OutputDataReceived;
 
             }
         }
