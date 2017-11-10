@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
+using System.Threading;
+using System.IO;
+using log4net;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Factories
 {
     internal class OpenCoverProcess : IOpenCoverProcess
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverProcess).Name);
         private IProcess _process;
 
         public OpenCoverProcess(IProcess process)
@@ -13,6 +17,17 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
             _process = process;
         }
 
+        public event DataReceivedEventHandler DataReceived { 
+                        add
+        {
+            _process.DataReceived += value;
+        }
+        remove
+            {
+                _process.DataReceived -= value;
+            }
+
+}
         public bool HasExited
         {
             get
@@ -23,18 +38,17 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
 
         public bool RecoverableError
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
         }
 
         public bool Started
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
+        }
+
+        public string TestResultsPath
+        {
+            get; private set;
         }
 
         public ProcessStartInfo StartInfo
@@ -50,13 +64,47 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
             }
         }
 
-        public event DataReceivedEventHandler DataReceived;
 
         public void Start()
         {
+            _process.DataReceived += Process_OutputDataReceived;
+            Started = false;
+            RecoverableError = false;
             _process.Start();
+
         }
 
+        private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            // yes, this does happen
+            if (e?.Data == null)
+            {
+                return;
+            }
+
+            // there is no other way to find out where vstest stores his
+            //testresults
+            if (e.Data.Contains("VsTestSonarQubeLogger.TestResults"))
+            {
+                string[] parts = e.Data.Split('=');
+                if (parts.Length == 2)
+                {
+                    TestResultsPath = parts[1];
+                }
+            }
+
+            if (e.Data.Contains("Starting test execution, please wait.."))
+            {
+                log.Debug("Started");
+                Started = true;
+            }
+
+            if (e.Data.Contains("Failed to register(user:True"))
+            {
+                log.Error("Failed to start, could not register");
+                RecoverableError = true;
+            }
+        }
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 

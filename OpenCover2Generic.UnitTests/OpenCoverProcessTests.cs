@@ -5,6 +5,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,28 +16,64 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class OpenCoverProcessTests
     {
+        private Mock<IProcess> processMock;
+        private IOpenCoverProcess openCoverProcess;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            processMock = new Mock<IProcess>();
+            openCoverProcess = new OpenCoverProcess(processMock.Object);
+        }
         [TestMethod]
         public void RecoverableError_OnFailedRegistration_True()
         {
 
-            //given a valid runner which will not register on starting
-            Mock<IProcess> processMock = new Mock<IProcess>();
-            IOpenCoverProcess openCoverProcess = new OpenCoverProcess(processMock.Object);
+            SetupForRegistrationFailure(processMock);
+            openCoverProcess.Start();
+            Assert.IsTrue(openCoverProcess.RecoverableError);
+        }
 
+        [TestMethod]
+        public void Started_OnFailedRegistration_False()
+        {
+            SetupForRegistrationFailure(processMock);
+            openCoverProcess.Start();
+            Assert.IsFalse(openCoverProcess.Started);
+        }
+
+    
+        public void Started_OnStarted_True()
+        {
+            SetupForStart(processMock);
+            openCoverProcess.Start();
+            Assert.IsTrue(openCoverProcess.Started);
+        }
+
+        public void RecoverableError_OnStarted_False()
+        {
+            SetupForStart(processMock);
+            openCoverProcess.Start();
+            Assert.IsFalse(openCoverProcess.RecoverableError);
+        }
+
+        private void SetupForStart(Mock<IProcess> processMock)
+        {
+            processMock.Setup(p => p.HasExited).Returns(true);
+            processMock.Setup(p => p.Start())
+                .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
+                CreateMockDataReceivedEventArgs("Starting test execution, please wait.."),
+                }).Dequeue);
+        }
+
+        private void SetupForRegistrationFailure(Mock<IProcess> processMock)
+        {
             processMock.Setup(p => p.HasExited).Returns(true);
             processMock.Setup(p => p.Start())
                 .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
                 CreateMockDataReceivedEventArgs("Failed to register(user:True"),
-                CreateMockDataReceivedEventArgs("Starting test execution, please wait.."),
-                CreateMockDataReceivedEventArgs("Failed to register(user:True")
                 }).Dequeue);
-
-            //when starting the runner
-            openCoverProcess.Start();
-            // should be called twice
-            Assert.IsTrue(openCoverProcess.RecoverableError);
         }
-        
 
         private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string TestData)
 {

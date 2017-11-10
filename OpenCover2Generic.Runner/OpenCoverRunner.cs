@@ -49,7 +49,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             {
                 _registrationFailed = false;
                 _started = false;
-                using (IProcess process = _processFactory.CreateProcess())
+                using (IOpenCoverProcess process = _processFactory.CreateOpenCoverProcess())
                 {
                     process.DataReceived += Process_OutputDataReceived;
                     process.StartInfo = startInfo;
@@ -59,17 +59,19 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                         Thread.Sleep(1000);
                     }
                     process.DataReceived -= Process_OutputDataReceived;
-
+                    _registrationFailed = process.RecoverableError;
+                    _testResultsPath = process.TestResultsPath;
                 }
                 if (_registrationFailed)
                 {
                     ++tries;
-                }
+                } 
             }
             if(_registrationFailed)
             {
                 throw new InvalidOperationException("Could not start OpenCover, due to registration problems");
             }
+
         }
 
         public string TestResultsPath
@@ -92,40 +94,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             {
                 return;
             }
-
-            // there is no other way to find out where vstest stores his
-            //testresults
-            if(e.Data.Contains("VsTestSonarQubeLogger.TestResults")) {
-                string[] parts = e.Data.Split('=');
-                if(parts.Length==2)
-                {
-                    _testResultsPath = parts[1];
-                }
-            }
-
-            if(e.Data.Contains("Starting test execution, please wait.."))
-            {
-                log.Debug("Started");
-            }
             _writer.WriteLine(e.Data);
-
-            if (e.Data.Contains("Failed to register(user:True"))
-            {
-                log.Error("Failed to start, could not register");
-                _registrationFailed = true;
-            }
         }
-
-        public void AddArgument(string argument)
-        {
-            _arguments.Append(argument).Append(" ");
-        }
-
-        public void SetPath(string path)
-        {
-            _path = path;
-        }
-
-
     }
 }

@@ -11,5 +11,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
     {
         bool RecoverableError { get;}
         bool Started { get; }
+        string TestResultsPath { get; }
     }
 }
