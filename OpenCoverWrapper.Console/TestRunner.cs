@@ -107,7 +107,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
                 var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(assembly);
                 string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(assembly);
-                var runner = new OpenCoverRunner(_processFactory);
+                var runner = new OpenCoverRunnerManager(_processFactory);
                 using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
                 {
                     var processStartInfo = openCoverCommandLineBuilder.Build(assembly, openCoverOutputPath);

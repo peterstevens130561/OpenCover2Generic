@@ -60,6 +60,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
                 commandLineParser.GetArgumentArray("-testassembly");
             }
+            //then
             catch (ArgumentNullException)
             {
                 return;

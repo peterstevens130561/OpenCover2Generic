@@ -38,7 +38,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                            }).Dequeue);
             IProcessFactory processFactory = processFactoryMock.Object;
 
-            var testRunner = new OpenCoverRunner.OpenCoverRunner(processFactory);
+            var testRunner = new OpenCoverRunner.OpenCoverRunnerManager(processFactory);
             ProcessStartInfo info = new ProcessStartInfo();
             
             //when starting the runner

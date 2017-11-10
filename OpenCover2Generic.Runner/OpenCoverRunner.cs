@@ -12,9 +12,9 @@ using BHGE.SonarQube.OpenCover2Generic.Utils;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 {
-    public class OpenCoverRunner
+    public class OpenCoverRunnerManager
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverRunner).Name);
+        private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverRunnerManager).Name);
         private string _path;
         private readonly StringBuilder _arguments = new StringBuilder(2048);
         private string _testResultsPath;
@@ -24,7 +24,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 
         private readonly IProcessFactory _processFactory;
 
-        public OpenCoverRunner(IProcessFactory processFactory)
+        public OpenCoverRunnerManager(IProcessFactory processFactory)
         {
             _processFactory = processFactory;
         }
@@ -47,33 +47,34 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             _registrationFailed = true;
             while (tries<10  && _registrationFailed)
             {
-                _registrationFailed = false;
-                _started = false;
-                using (IProcess process = _processFactory.CreateProcess())
+                RunOpenOpenCover(startInfo);
+                if (_registrationFailed)
                 {
-                    process.DataReceived += Process_OutputDataReceived;
-                    process.StartInfo = startInfo;
-                    process.Start();
-                    while (!process.HasExited)
-                    {
-                        Thread.Sleep(1000);
-                    }
-                    process.DataReceived -= Process_OutputDataReceived;
-                    if (_registrationFailed)
-                    {
-                        ++tries;
-                    } 
+                    ++tries;
                 }
             }
-            if(_registrationFailed)
+            if (_registrationFailed)
             {
                 throw new InvalidOperationException("Could not start OpenCover, due to registration problems");
             }
         }
 
-        internal void Run(ProcessStartInfo info, object writer)
+        private void RunOpenOpenCover(ProcessStartInfo startInfo)
         {
-            throw new NotImplementedException();
+            _registrationFailed = false;
+            _started = false;
+            using (IProcess process = _processFactory.CreateProcess())
+            {
+                process.DataReceived += Process_OutputDataReceived;
+                process.StartInfo = startInfo;
+                process.Start();
+                while (!process.HasExited)
+                {
+                    Thread.Sleep(1000);
+                }
+                process.DataReceived -= Process_OutputDataReceived;
+
+            }
         }
 
         public string TestResultsPath

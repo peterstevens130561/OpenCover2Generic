@@ -26,11 +26,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
             return sourceFiles.Values.ToList();
         }
 
-        public void AddBranchPoint(IBranchPoint branchPoint)
-        {
-            string fileId = branchPoint.FileId.ToString();
-            sourceFiles[fileId].AddBranchPoint( branchPoint);
-        }
 
         public void Clear()
         {
