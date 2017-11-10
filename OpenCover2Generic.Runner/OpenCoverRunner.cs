@@ -47,33 +47,28 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             _registrationFailed = true;
             while (tries<10  && _registrationFailed)
             {
-                RunOpenOpenCover(startInfo);
+                _registrationFailed = false;
+                _started = false;
+                using (IProcess process = _processFactory.CreateProcess())
+                {
+                    process.DataReceived += Process_OutputDataReceived;
+                    process.StartInfo = startInfo;
+                    process.Start();
+                    while (!process.HasExited)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    process.DataReceived -= Process_OutputDataReceived;
+
+                }
                 if (_registrationFailed)
                 {
                     ++tries;
                 }
             }
-            if (_registrationFailed)
+            if(_registrationFailed)
             {
                 throw new InvalidOperationException("Could not start OpenCover, due to registration problems");
-            }
-        }
-
-        private void RunOpenOpenCover(ProcessStartInfo startInfo)
-        {
-            _registrationFailed = false;
-            _started = false;
-            using (IProcess process = _processFactory.CreateProcess())
-            {
-                process.DataReceived += Process_OutputDataReceived;
-                process.StartInfo = startInfo;
-                process.Start();
-                while (!process.HasExited)
-                {
-                    Thread.Sleep(1000);
-                }
-                process.DataReceived -= Process_OutputDataReceived;
-
             }
         }
 

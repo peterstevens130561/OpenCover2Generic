@@ -14,5 +14,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
         {
             return new SimpleProcess();
         }
+
+
+        public IOpenCoverProcess CreateOpenCoverProcess()
+        {
+            return new OpenCoverProcess(CreateProcess());
+        }
     }
 }

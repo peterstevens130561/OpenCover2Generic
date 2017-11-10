@@ -15,9 +15,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
 
         [TestMethod]
-        public void InstantiationTest() {
+        public void CreateProcess_Instantiation_Valid() {
             IProcess process = new ProcessFactory().CreateProcess();
             Assert.IsNotNull(process,"Expect valid process");
+        }
+
+        [TestMethod]
+        public void CreateOpenCoverProcess_Instantiation_Valid()
+        {
+            IOpenCoverProcess process = new ProcessFactory().CreateOpenCoverProcess();
+            Assert.IsNotNull(process, "Expect valid process");
         }
 
     }

@@ -36,6 +36,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                                 CreateMockDataReceivedEventArgs("Starting test execution, please wait.."),
                                 CreateMockDataReceivedEventArgs("Failed to register(user:True")
                            }).Dequeue);
+
             IProcessFactory processFactory = processFactoryMock.Object;
 
             var testRunner = new OpenCoverRunner.OpenCoverRunnerManager(processFactory);
