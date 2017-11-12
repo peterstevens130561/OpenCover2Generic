@@ -16,15 +16,20 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
     public class JobConsumer : IJobConsumer
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(JobConsumer));
-        private readonly JobFileSystem _jobFileSystemInfo;
+        private readonly IJobFileSystem _jobFileSystemInfo;
         private readonly IProcessFactory _processFactory;
+        private readonly IOpenCoverCommandLineBuilder _openCoverCommandLineBuilder;
 
-        public JobConsumer(JobFileSystem jobFileSystem,IProcessFactory processFactory)
+        public JobConsumer(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder,IJobFileSystem jobFileSystem,IProcessFactory processFactory)
         {
+            _openCoverCommandLineBuilder = openCoverCommandLineBuilder;
             _jobFileSystemInfo = jobFileSystem;
             _processFactory = processFactory;
+            Chunk = 1;
         }
-        public void ConsumeJobs(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, BlockingCollection<string> jobs)
+
+        public int Chunk { get; set; }
+        public void ConsumeJobs(BlockingCollection<string> jobs)
         {
             while (!jobs.IsCompleted)
             {
@@ -33,12 +38,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
                 {
                     continue;
                 }
-                Consume(openCoverCommandLineBuilder, assembly);
+                Consume(assembly);
 
             }
         }
 
-        public void Consume(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, string assembly)
+        private void Consume(string assembly)
         {
             log.Info($"Running unit test on {Path.GetFileName(assembly)}");
 
@@ -47,7 +52,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             var runner = new OpenCoverRunnerManager(_processFactory);
             using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
             {
-                var processStartInfo = openCoverCommandLineBuilder.Build(assembly, openCoverOutputPath);
+                var processStartInfo = _openCoverCommandLineBuilder.Build(assembly, openCoverOutputPath);
                 Task task = Task.Run(() => runner.Run(processStartInfo, writer));
                 task.Wait();
             }

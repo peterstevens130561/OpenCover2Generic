@@ -8,29 +8,41 @@ using System.Threading.Tasks;
 using OpenCover2Generic.Converter;
 using Moq;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
+using System.Collections.Concurrent;
+using System.IO;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
-    class JobConsumerTests
+    public class JobConsumerTests
     {
         private  IJobConsumer _jobConsumer;
-        private Mock<JobFileSystem> _jobFileSystemMock;
+        private Mock<IJobFileSystem> _jobFileSystemMock;
         private Mock<ProcessFactory> _processFactoryMock;
+        private Mock<IOpenCoverCommandLineBuilder> _openCoverCommandLineBuilder;
+        private BlockingCollection<string> jobs = new BlockingCollection<string>();
 
         [TestInitialize]
         public void Initialize()
         {
-            _jobFileSystemMock = new Mock<JobFileSystem>();
+            _jobFileSystemMock = new Mock<IJobFileSystem>();
+            _jobFileSystemMock.Setup(m => m.GetOpenCoverLogPath(It.IsAny<string>())).Returns(Path.GetTempFileName());
             _processFactoryMock = new Mock<ProcessFactory>();
-            _jobConsumer = new JobConsumer(_jobFileSystemMock.Object,_processFactoryMock.Object);
+            _openCoverCommandLineBuilder = new Mock<IOpenCoverCommandLineBuilder>();
+            _jobConsumer = new JobConsumer(_openCoverCommandLineBuilder.Object,_jobFileSystemMock.Object,_processFactoryMock.Object);
             
         }
 
         [TestMethod]
-        public void Consume_Chunk2ThreeInQueue_ExpectTwoJobsTaken()
+        public void Consume_Chunk1ThreeInQueue_ExpectOnejobTakenThreeTimes()
         {
+            _jobConsumer.Chunk = 2;
+            jobs.Add("a");
+            jobs.Add("b");
+            _jobConsumer.ConsumeJobs(jobs);
 
+            _openCoverCommandLineBuilder.Verify(v => v.Build("a b", "somepath"),Times.Exactly(3));
         }
     }
 }

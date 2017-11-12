@@ -56,6 +56,7 @@
     <Compile Include="Model\BranchPoints.cs" />
     <Compile Include="Model\IntermediateModel.cs" />
     <Compile Include="Utils\IFileSystemAdapter.cs" />
+    <Compile Include="Utils\IJobFileSystem.cs" />
     <Compile Include="Utils\IOpenCoverCommandLineBuilder.cs" />
     <Compile Include="Utils\IProcess.cs" />
     <Compile Include="Utils\SimpleProcess.cs" />
