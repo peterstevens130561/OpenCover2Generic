@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using BHGE.SonarQube.OpenCover2Generic.Consumer;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     class JobConsumerTests
     {
-        private readonly IJobConsumer _jobConsumer;
+        private  IJobConsumer _jobConsumer;
         [TestInitialize]
         public void Initialize()
         {
             _jobConsumer = new JobConsumer();
             
         }
+
+        [TestMethod]
+        public void 
     }
 }

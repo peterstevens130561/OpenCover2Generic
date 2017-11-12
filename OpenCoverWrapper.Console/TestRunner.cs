@@ -103,36 +103,40 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 {
                     continue;
                 }
-                log.Info($"Running unit test on {Path.GetFileName(assembly)}");
+                ConsumeJob(openCoverCommandLineBuilder, assembly);
 
-                var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(assembly);
-                string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(assembly);
-                var runner = new OpenCoverRunnerManager(_processFactory);
-                using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
+            }
+        }
+
+        private void ConsumeJob(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, string assembly)
+        {
+            log.Info($"Running unit test on {Path.GetFileName(assembly)}");
+
+            var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(assembly);
+            string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(assembly);
+            var runner = new OpenCoverRunnerManager(_processFactory);
+            using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
+            {
+                var processStartInfo = openCoverCommandLineBuilder.Build(assembly, openCoverOutputPath);
+                Task task = Task.Run(() => runner.Run(processStartInfo, writer));
+                task.Wait();
+            }
+            if (runner.TestResultsPath != null)
+            {
+                string testResultsPath = _jobFileSystemInfo.GetTestResultsPath(assembly);
+                File.Move(runner.TestResultsPath, testResultsPath);
+                try
                 {
-                    var processStartInfo = openCoverCommandLineBuilder.Build(assembly, openCoverOutputPath);
-                    Task task = Task.Run(() => runner.Run(processStartInfo, writer));
-                    task.Wait();
+                    using (var reader = new StreamReader(openCoverOutputPath))
+                    {
+                        new MultiAssemblyConverter().ConvertCoverageFileIntoIntermediate(_jobFileSystemInfo.GetIntermediateCoverageDirectory(), assembly, reader);
+                    }
                 }
-                if (runner.TestResultsPath != null)
+                catch (Exception e)
                 {
-                    string testResultsPath = _jobFileSystemInfo.GetTestResultsPath(assembly);
-                    File.Move(runner.TestResultsPath, testResultsPath);
-                    try
-                    {
-                        using (var reader = new StreamReader(openCoverOutputPath))
-                        {
-                            new MultiAssemblyConverter().ConvertCoverageFileIntoIntermediate(_jobFileSystemInfo.GetIntermediateCoverageDirectory(), assembly, reader);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        log.Error($"Exception thrown during reading {openCoverOutputPath}");
-                        throw;
-                    }
+                    log.Error($"Exception thrown during reading {openCoverOutputPath}");
+                    throw;
                 }
-
-
             }
         }
 
