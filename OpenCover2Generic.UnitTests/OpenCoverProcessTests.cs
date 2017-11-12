@@ -26,7 +26,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             openCoverProcess = new OpenCoverProcess(processMock.Object);
         }
         [TestMethod]
-        public void RecoverableError_OnFailedRegistration_True()
+        public void Start_OnFailedRegistration_RecoverableErrorIsTrue()
         {
 
             SetupForRegistrationFailure(processMock);
@@ -35,7 +35,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void Started_OnFailedRegistration_False()
+        public void Start_OnFailedRegistration_StartedIsFalse()
         {
             SetupForRegistrationFailure(processMock);
             openCoverProcess.Start();
@@ -43,14 +43,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
     
-        public void Started_OnStarted_True()
+        public void Start_OnStarted_StartedIsTrue()
         {
             SetupForStart(processMock);
             openCoverProcess.Start();
             Assert.IsTrue(openCoverProcess.Started);
         }
 
-        public void RecoverableError_OnStarted_False()
+        public void Start_OnStarted_RecoverableErrorIsFalse()
         {
             SetupForStart(processMock);
             openCoverProcess.Start();

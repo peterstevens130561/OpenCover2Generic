@@ -60,14 +60,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                     }
                     process.DataReceived -= Process_OutputDataReceived;
                     _registrationFailed = process.RecoverableError;
+                    if (_registrationFailed)
+                    {
+                        ++tries;
+                    }
                     _testResultsPath = process.TestResultsPath;
                 }
-                if (_registrationFailed)
-                {
-                    ++tries;
-                } 
+
             }
-            if(_registrationFailed)
+            if(tries==10)
             {
                 throw new InvalidOperationException("Could not start OpenCover, due to registration problems");
             }

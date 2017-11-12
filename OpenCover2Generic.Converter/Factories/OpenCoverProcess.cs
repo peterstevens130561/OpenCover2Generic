@@ -67,7 +67,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
 
         public void Start()
         {
-            _process.DataReceived += Process_OutputDataReceived;
+            DataReceived += Process_OutputDataReceived;
             Started = false;
             RecoverableError = false;
             _process.Start();
