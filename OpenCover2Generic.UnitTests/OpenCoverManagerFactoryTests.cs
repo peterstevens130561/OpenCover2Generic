@@ -18,7 +18,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             
             IOpenCoverManagerFactory factory = new OpenCoverManagerFactory(new ProcessFactory());
-            OpenCoverRunnerManager openCoverManager = factory.CreateManager();
+            IOpenCoverRunnerManager openCoverManager = factory.CreateManager();
             Assert.IsNotNull(openCoverManager);
         }
     }

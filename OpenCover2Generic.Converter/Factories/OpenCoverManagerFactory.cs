@@ -17,7 +17,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
             _processFactory = processFactory;
         }
 
-        public OpenCoverRunnerManager CreateManager()
+        public IOpenCoverRunnerManager CreateManager()
         {
             return new OpenCoverRunnerManager(_processFactory);
         }

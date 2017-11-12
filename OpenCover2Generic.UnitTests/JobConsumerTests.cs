@@ -11,6 +11,7 @@ using BHGE.SonarQube.OpenCover2Generic.Factories;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using System.Collections.Concurrent;
 using System.IO;
+using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -19,7 +20,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private  IJobConsumer _jobConsumer;
         private Mock<IJobFileSystem> _jobFileSystemMock;
-        private Mock<ProcessFactory> _processFactoryMock;
+        private Mock<IOpenCoverManagerFactory> _openCoverManagerFactoryMock;
         private Mock<IOpenCoverCommandLineBuilder> _openCoverCommandLineBuilder;
         private BlockingCollection<string> jobs = new BlockingCollection<string>();
 
@@ -28,21 +29,23 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             _jobFileSystemMock = new Mock<IJobFileSystem>();
             _jobFileSystemMock.Setup(m => m.GetOpenCoverLogPath(It.IsAny<string>())).Returns(Path.GetTempFileName());
-            _processFactoryMock = new Mock<ProcessFactory>();
+            _openCoverManagerFactoryMock = new Mock<IOpenCoverManagerFactory>();
+            _openCoverManagerFactoryMock.Setup(o => o.CreateManager()).Returns(new Mock<IOpenCoverRunnerManager>().Object);
             _openCoverCommandLineBuilder = new Mock<IOpenCoverCommandLineBuilder>();
-            _jobConsumer = new JobConsumer(_openCoverCommandLineBuilder.Object,_jobFileSystemMock.Object,_processFactoryMock.Object);
+            _jobConsumer = new JobConsumer(_openCoverCommandLineBuilder.Object,_jobFileSystemMock.Object,_openCoverManagerFactoryMock.Object);
             
         }
 
         [TestMethod]
-        public void Consume_Chunk1ThreeInQueue_ExpectOnejobTakenThreeTimes()
+        public void Consume_TwoInQueue_ExpectOnejobTakenTwoTimes()
         {
-            _jobConsumer.Chunk = 2;
             jobs.Add("a");
             jobs.Add("b");
+            jobs.CompleteAdding();
             _jobConsumer.ConsumeJobs(jobs);
 
-            _openCoverCommandLineBuilder.Verify(v => v.Build("a b", "somepath"),Times.Exactly(3));
+            _openCoverCommandLineBuilder.Verify(v => v.Build("a",null),Times.Exactly(1));
+            _openCoverCommandLineBuilder.Verify(v => v.Build("b", null), Times.Exactly(1));
         }
     }
 }

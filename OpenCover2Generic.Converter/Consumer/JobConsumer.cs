@@ -17,14 +17,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(JobConsumer));
         private readonly IJobFileSystem _jobFileSystemInfo;
-        private readonly IProcessFactory _processFactory;
         private readonly IOpenCoverCommandLineBuilder _openCoverCommandLineBuilder;
+        private readonly IOpenCoverManagerFactory _openCoverManagerFactory;
 
-        public JobConsumer(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder,IJobFileSystem jobFileSystem,IProcessFactory processFactory)
+        public JobConsumer(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder,IJobFileSystem jobFileSystem,IOpenCoverManagerFactory openCoverManagerFactory)
         {
             _openCoverCommandLineBuilder = openCoverCommandLineBuilder;
             _jobFileSystemInfo = jobFileSystem;
-            _processFactory = processFactory;
+            _openCoverManagerFactory = openCoverManagerFactory;
             Chunk = 1;
         }
 
@@ -49,7 +49,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
 
             var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(assembly);
             string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(assembly);
-            var runner = new OpenCoverRunnerManager(_processFactory);
+            var runner = _openCoverManagerFactory.CreateManager();
             using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
             {
                 var processStartInfo = _openCoverCommandLineBuilder.Build(assembly, openCoverOutputPath);

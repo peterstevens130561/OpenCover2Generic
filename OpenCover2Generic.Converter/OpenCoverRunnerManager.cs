@@ -12,7 +12,7 @@ using BHGE.SonarQube.OpenCover2Generic.Utils;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 {
-    public class OpenCoverRunnerManager
+    public class OpenCoverRunnerManager : IOpenCoverRunnerManager
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverRunnerManager).Name);
         private string _path;

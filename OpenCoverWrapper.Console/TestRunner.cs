@@ -97,7 +97,8 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         private void ConsumeJobs(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, BlockingCollection<string> jobs)
         {
-            var consumer = new JobConsumer(openCoverCommandLineBuilder,_jobFileSystemInfo, _processFactory);
+            IOpenCoverManagerFactory factory = new OpenCoverManagerFactory(_processFactory);
+            var consumer = new JobConsumer(openCoverCommandLineBuilder,_jobFileSystemInfo, factory);
             consumer.ConsumeJobs(jobs);
         }
   

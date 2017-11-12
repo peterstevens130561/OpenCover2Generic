@@ -52,6 +52,7 @@
     <Compile Include="Factories\OpenCoverManagerFactory.cs" />
     <Compile Include="Factories\OpenCoverProcess.cs" />
     <Compile Include="Factories\ProcessFactory.cs" />
+    <Compile Include="IOpenCoverRunnerManager.cs" />
     <Compile Include="OpenCoverRunnerManager.cs" />
     <Compile Include="Utils\CommandLineParser.cs" />
     <Compile Include="Model\BranchPoint.cs" />

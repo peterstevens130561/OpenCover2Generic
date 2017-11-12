@@ -4,6 +4,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
 {
     public interface IOpenCoverManagerFactory
     {
-        OpenCoverRunnerManager CreateManager();
+        IOpenCoverRunnerManager CreateManager();
     }
 }
