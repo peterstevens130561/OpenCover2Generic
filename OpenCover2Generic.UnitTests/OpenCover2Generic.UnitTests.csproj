@@ -82,6 +82,7 @@
     <Compile Include="MultiAssemblyTests.cs" />
     <Compile Include="FileCoverageModelTests.cs" />
     <Compile Include="TestResultsConcatenatorTests.cs" />
+    <Compile Include="TestRunnerTests.cs" />
     <Compile Include="TestUtils.cs" />
     <Compile Include="OpenCoverCoverageParserTests.cs" />
     <Compile Include="CommandLineParserTests.cs" />

@@ -62,7 +62,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         #endregion
 
         [TestMethod]
-        public void CheckOutput()
+        public void GetOutputPath_ValidValue_ShouldMatch()
         {
             var commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
             string[] line = { "-output:SomeFile.xml" };
@@ -71,7 +71,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void CheckTarget()
+        public void GetTargetPath_ValidValue_ShouldMatch()
         {
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
             string[] line = { "-target:bla.xml" };
@@ -80,7 +80,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void CheckTargetArgs()
+        public void GetTargetArgs_ValidValue_ShouldMatch()
         {
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
             string[] line = { "-targetargs:fun and joy" };
@@ -89,7 +89,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void CheckOpenCoverPath()
+        public void GetOpenCoverPath_ValueValue_ShouldMath()
         {
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
             string[] line = { @"-opencover:Apps\OpenCover\OpenCover.Console.exe" };
@@ -98,7 +98,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void CheckTestResultsPath()
+        public void GetTestResultsPath_ValidValue_ShouldMatch()
         {
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
             string[] line = { @"-testresults:../testresults.xml" };
@@ -107,7 +107,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void CheckTestAssembliesArguments()
+        public void GetTestAssemblies_SpecifyTwo_ShouldMatch()
         {
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
             string[] line = { @"-testassembly:a:/My Documents/fun.dll", "-testassembly:second.dll"};

@@ -27,21 +27,30 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         public static void Main(string[] args)
         {
             BasicConfigurator.Configure();
-            var commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
-            commandLineParser.Args = args;
-            string outputPath = commandLineParser.GetOutputPath();
-            string testResultsPath = commandLineParser.GetTestResultsPath();
+            var commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());       
             var converter = new MultiAssemblyConverter();
 
             var openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
+            JobFileSystem jobFileSystemInfo = new JobFileSystem(new FileSystemAdapter());
+            IOpenCoverManagerFactory openCoverManagerFactory = new OpenCoverManagerFactory(new ProcessFactory());
+            IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
+                jobFileSystemInfo, 
+                openCoverManagerFactory);
+            
+            var testRunner = new TestRunner(jobFileSystemInfo,converter,jobConsumerFactory);
+
+            commandLineParser.Args = args;
             openCoverCommandLineBuilder.Args = args;
-            var openCoverManagerFactory = new OpenCoverManagerFactory(new ProcessFactory());
-            var testRunner = new TestRunner(converter,openCoverManagerFactory);
-            string[] testAssemblies = commandLineParser.GetTestAssemblies();
 
             testRunner.Initialize();
-            testRunner.RunTests(openCoverCommandLineBuilder, testAssemblies);
+
+            string[] testAssemblies = commandLineParser.GetTestAssemblies();
+            testRunner.RunTests(testAssemblies,5);
+
+            string testResultsPath = commandLineParser.GetTestResultsPath();
             testRunner.CreateTestResults(testResultsPath);
+
+            string outputPath = commandLineParser.GetOutputPath();
             testRunner.CreateCoverageFile(outputPath);
         }
     }

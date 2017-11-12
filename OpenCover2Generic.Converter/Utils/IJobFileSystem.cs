@@ -6,5 +6,7 @@
         string GetOpenCoverOutputPath(string assembly);
         string GetTestResultsPath(string assembly);
         string GetIntermediateCoverageDirectory();
+        string GetTestResultsDirectory();
+        void CreateRoot(string v);
     }
 }

@@ -19,14 +19,17 @@ namespace BHGE.SonarQube.OpenCoverWrapper
     class TestRunner
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(TestRunner));
-        private readonly JobFileSystem _jobFileSystemInfo = new JobFileSystem(new FileSystemAdapter());
+        private readonly IJobFileSystem _jobFileSystemInfo;
         private readonly MultiAssemblyConverter _converter;
-        private readonly IOpenCoverManagerFactory _openCoverManagerFactory;
+        private readonly IJobConsumerFactory _jobConsumerFactory;
 
-        public TestRunner(MultiAssemblyConverter converter, IOpenCoverManagerFactory openCoverManagerFactory)
+        public TestRunner(IJobFileSystem jobFileSystemInfo,
+            MultiAssemblyConverter converter, 
+            IJobConsumerFactory jobConsumerFactory)
         {
+            _jobFileSystemInfo = jobFileSystemInfo;
             _converter = converter;
-            _openCoverManagerFactory =openCoverManagerFactory;
+            _jobConsumerFactory = jobConsumerFactory;
 
         }
 
@@ -35,7 +38,12 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             _jobFileSystemInfo.CreateRoot(DateTime.Now.ToString("yyMMdd_HHmmss"));
         }
 
-        internal void RunTests(OpenCoverCommandLineBuilder openCoverCommandLineBuilder, string[] testAssemblies)
+        /// <summary>
+        /// Runs the tests parallel
+        /// </summary>
+        /// <param name="testAssemblies"></param>
+        /// <param name="parallelJobs">number of consumers, which will run in parallel</param>
+        internal void RunTests( string[] testAssemblies,int parallelJobs)
         {
             var jobs = new BlockingCollection<string>();
             log.Info($"Will run tests for {testAssemblies.Count()} assemblies");
@@ -43,9 +51,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             jobs.CompleteAdding();
 
             var tasks = new List<Task>();
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= parallelJobs; i++)
             {
-                Task task = Task.Run(() => ConsumeJobs(openCoverCommandLineBuilder, jobs));
+                Task task = Task.Run(() => _jobConsumerFactory.Create().ConsumeJobs(jobs));
                 tasks.Add(task);
             }
             tasks.ForEach(t => t.Wait());
@@ -92,13 +100,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 log.Info($"Found ${testResultsConcatenator.TestCases} test cases");
                 testResultsConcatenator.End();
             }
-        }
-
-
-        private void ConsumeJobs(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, BlockingCollection<string> jobs)
-        {
-            var consumer = new JobConsumer(openCoverCommandLineBuilder,_jobFileSystemInfo, _openCoverManagerFactory);
-            consumer.ConsumeJobs(jobs);
         }
   
 
