@@ -1,4 +1,5 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic;
+using BHGE.SonarQube.OpenCover2Generic.Consumer;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
@@ -17,7 +18,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 {
     class TestRunner
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(Program));
+        private static readonly ILog log = LogManager.GetLogger(typeof(TestRunner));
         private readonly JobFileSystem _jobFileSystemInfo = new JobFileSystem(new FileSystemAdapter());
         private readonly MultiAssemblyConverter _converter;
         private readonly IProcessFactory _processFactory;
@@ -94,6 +95,11 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         }
 
 
+        private void ConsumeJobsNew(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, BlockingCollection<string> jobs)
+        {
+            var consumer = new JobConsumer(_jobFileSystemInfo, _processFactory);
+            consumer.ConsumeJobs(openCoverCommandLineBuilder, jobs);
+        }
         private void ConsumeJobs(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, BlockingCollection<string> jobs)
         {
             while (!jobs.IsCompleted)

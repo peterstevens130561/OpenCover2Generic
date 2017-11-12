@@ -1,4 +1,7 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Utils;
+﻿using BHGE.SonarQube.OpenCover2Generic.Factories;
+using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
+using log4net;
 using OpenCover2Generic.Converter;
 using System;
 using System.Collections.Concurrent;
@@ -10,15 +13,18 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Consumer
 {
-    class JobConsumer : IJobConsumer
+    public class JobConsumer : IJobConsumer
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(JobConsumer));
         private readonly JobFileSystem _jobFileSystemInfo;
+        private readonly IProcessFactory _processFactory;
 
-        private JobConsumer(JobFileSystem jobFileSystem)
+        public JobConsumer(JobFileSystem jobFileSystem,IProcessFactory processFactory)
         {
             _jobFileSystemInfo = jobFileSystem;
+            _processFactory = processFactory;
         }
-        private void ConsumeJobs(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, BlockingCollection<string> jobs)
+        public void ConsumeJobs(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, BlockingCollection<string> jobs)
         {
             while (!jobs.IsCompleted)
             {
@@ -27,12 +33,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
                 {
                     continue;
                 }
-                ConsumeJob(openCoverCommandLineBuilder, assembly);
+                Consume(openCoverCommandLineBuilder, assembly);
 
             }
         }
 
-        private void ConsumeJob(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, string assembly)
+        public void Consume(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, string assembly)
         {
             log.Info($"Running unit test on {Path.GetFileName(assembly)}");
 
