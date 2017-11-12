@@ -37,7 +37,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void Consume_TwoInQueue_ExpectOnejobTakenTwoTimes()
+        public void ConsumeJobs_TwoInQueue_ExpectOnejobTakenTwoTimes()
         {
             jobs.Add("a");
             jobs.Add("b");
@@ -46,6 +46,18 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             _openCoverCommandLineBuilder.Verify(v => v.Build("a",null),Times.Exactly(1));
             _openCoverCommandLineBuilder.Verify(v => v.Build("b", null), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void ConsumeJobs_TwoChunksOfTwoInQueue_ExpectOnejobTakenTwoTimes()
+        {
+            jobs.Add("a b");
+            jobs.Add("c d");
+            jobs.CompleteAdding();
+            _jobConsumer.ConsumeJobs(jobs);
+
+            _openCoverCommandLineBuilder.Verify(v => v.Build("a b", null), Times.Exactly(1));
+            _openCoverCommandLineBuilder.Verify(v => v.Build("c d", null), Times.Exactly(1));
         }
     }
 }
