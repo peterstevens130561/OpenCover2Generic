@@ -35,7 +35,8 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
             var openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             openCoverCommandLineBuilder.Args = args;
-            var testRunner = new TestRunner(converter,new ProcessFactory());
+            var openCoverManagerFactory = new OpenCoverManagerFactory(new ProcessFactory());
+            var testRunner = new TestRunner(converter,openCoverManagerFactory);
             string[] testAssemblies = commandLineParser.GetTestAssemblies();
 
             testRunner.Initialize();

@@ -21,12 +21,12 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         private static readonly ILog log = LogManager.GetLogger(typeof(TestRunner));
         private readonly JobFileSystem _jobFileSystemInfo = new JobFileSystem(new FileSystemAdapter());
         private readonly MultiAssemblyConverter _converter;
-        private readonly IProcessFactory _processFactory;
+        private readonly IOpenCoverManagerFactory _openCoverManagerFactory;
 
-        public TestRunner(MultiAssemblyConverter converter,IProcessFactory processFactory)
+        public TestRunner(MultiAssemblyConverter converter, IOpenCoverManagerFactory openCoverManagerFactory)
         {
             _converter = converter;
-            _processFactory = processFactory;
+            _openCoverManagerFactory =openCoverManagerFactory;
 
         }
 
@@ -97,8 +97,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         private void ConsumeJobs(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, BlockingCollection<string> jobs)
         {
-            IOpenCoverManagerFactory factory = new OpenCoverManagerFactory(_processFactory);
-            var consumer = new JobConsumer(openCoverCommandLineBuilder,_jobFileSystemInfo, factory);
+            var consumer = new JobConsumer(openCoverCommandLineBuilder,_jobFileSystemInfo, _openCoverManagerFactory);
             consumer.ConsumeJobs(jobs);
         }
   
