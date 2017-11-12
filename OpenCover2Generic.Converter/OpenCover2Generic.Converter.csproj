@@ -46,8 +46,10 @@
   <ItemGroup>
     <Compile Include="Consumer\IJobConsumer.cs" />
     <Compile Include="Consumer\JobConsumer.cs" />
+    <Compile Include="Factories\IOpenCoverManagerFactory.cs" />
     <Compile Include="Factories\IOpenCoverProcess.cs" />
     <Compile Include="Factories\IProcessFactory.cs" />
+    <Compile Include="Factories\OpenCoverManagerFactory.cs" />
     <Compile Include="Factories\OpenCoverProcess.cs" />
     <Compile Include="Factories\ProcessFactory.cs" />
     <Compile Include="OpenCoverRunnerManager.cs" />
