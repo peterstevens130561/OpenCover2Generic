@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
-    public class Jobs : IJobs
+    public class Jobs : IJobs, IDisposable
     {
         private readonly BlockingCollection<IJob> _jobs = new BlockingCollection<IJob>();
 
@@ -36,5 +36,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
             return _jobs.Count;
         }
 
+        public void Dispose()
+        {
+            _jobs.Dispose();
+        }
     }
 }

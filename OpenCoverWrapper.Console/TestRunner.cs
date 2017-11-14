@@ -58,10 +58,11 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             log.Info($"Will run tests for {testAssemblies.Count()} assemblies");
             var list = testAssemblies.ToList();
             int count = testAssemblies.Count();
-            for (int index=0;index<count;index+=chunkSize)
+            int currentChunkSize = chunkSize;
+            for (int index=0;index<count;index+=currentChunkSize)
             {
-                chunkSize = Math.Min(chunkSize, count - index);
-                var chunk = list.GetRange(index, chunkSize);
+                currentChunkSize = Math.Min(currentChunkSize, count - index);
+                var chunk = list.GetRange(index, currentChunkSize);
                 _jobs.Add(new Job(chunk));
             }
             _jobs.CompleteAdding();
@@ -116,7 +117,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                     }
 
                 }
-                log.Info($"Found ${testResultsConcatenator.ExecutedTestCases} test cases");
+                log.Info($"Found ${testResultsConcatenator.ExecutedTestCases} executed test cases");
                 testResultsConcatenator.End();
             }
         }
