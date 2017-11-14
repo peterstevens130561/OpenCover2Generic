@@ -14,7 +14,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
 {
     public class MultiAssemblyConverter 
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(MultiAssemblyConverter));
         private readonly IModuleCoverageModel _model;
         private readonly ICoverageWriter _coverageWriter;
         private readonly ICoverageParser _parser;
@@ -82,7 +81,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 while (_parser.ParseModule(_model, xmlReader))
                 {
                     WriteModule(rootPath, testAssemblyName);
-                };
+                }
                 WriteModule(rootPath, testAssemblyName);
             }
         }

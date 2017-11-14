@@ -163,7 +163,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _concatenator.End();
 
             ThenResultMatches(concatenatedFile);
-            Assert.AreEqual(4, _concatenator.TestCases);
+            Assert.AreEqual(4, _concatenator.ExecutedTestCases);
         }
 
         [TestMethod]
@@ -203,7 +203,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _concatenator.End();
 
             ThenResultMatches(concatenatedFile);
-            Assert.AreEqual(4, _concatenator.TestCases);
+            Assert.AreEqual(4, _concatenator.ExecutedTestCases);
         }
 
         private void WhenConcatenating(string input)

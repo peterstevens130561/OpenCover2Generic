@@ -62,7 +62,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             {
                 chunkSize = Math.Min(chunkSize, count - index);
                 var chunk = list.GetRange(index, chunkSize);
-                _jobs.Add(new Job(String.Join(" ", chunk)));
+                _jobs.Add(new Job(chunk));
             }
             _jobs.CompleteAdding();
         }
@@ -116,7 +116,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                     }
 
                 }
-                log.Info($"Found ${testResultsConcatenator.TestCases} test cases");
+                log.Info($"Found ${testResultsConcatenator.ExecutedTestCases} test cases");
                 testResultsConcatenator.End();
             }
         }

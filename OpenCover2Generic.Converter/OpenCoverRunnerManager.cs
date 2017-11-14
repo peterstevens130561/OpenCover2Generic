@@ -15,12 +15,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
     public class OpenCoverRunnerManager : IOpenCoverRunnerManager
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverRunnerManager).Name);
-        private string _path;
         private readonly StringBuilder _arguments = new StringBuilder(2048);
         private string _testResultsPath;
-        private StreamWriter _writer;
-        private bool _registrationFailed;
-        private bool _started;
+        
+
         private readonly StringBuilder _processOutput = new StringBuilder(2048);
         private readonly IProcessFactory _processFactory;
 
@@ -28,27 +26,19 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
         {
             _processFactory = processFactory;
         }
-        public void Run(StreamWriter writer)
-        {
-            ProcessStartInfo startInfo = new ProcessStartInfo(_path, _arguments.ToString());
-            Run(startInfo, writer);
-        }
 
         public void Run(ProcessStartInfo startInfo, StreamWriter writer)
         {
-            _writer = writer;
             startInfo.CreateNoWindow = true;
             startInfo.UseShellExecute = false;
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
-            _writer.WriteLine("Arguments: " + startInfo.Arguments);
+            writer.WriteLine("Arguments: " + startInfo.Arguments);
 
             int tries = 0;
-            _registrationFailed = true;
+            bool _registrationFailed = true;
             while (tries<10  && _registrationFailed)
             {
-                _registrationFailed = false;
-                _started = false;
                 using (IOpenCoverProcess process = _processFactory.CreateOpenCoverProcess())
                 {
                     process.DataReceived += Process_OutputDataReceived;

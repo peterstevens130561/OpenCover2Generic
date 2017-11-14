@@ -6,7 +6,7 @@ namespace OpenCover2Generic.Converter
     internal interface ITestResultsConcatenator
     {
         XmlTextWriter Writer { get; set; }
-        int TestCases { get; }
+        int ExecutedTestCases { get; }
 
         void Begin();
         void End();

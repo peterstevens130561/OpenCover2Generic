@@ -10,7 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
     internal class OpenCoverProcess : IOpenCoverProcess
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverProcess).Name);
-        private IProcess _process;
+        private readonly IProcess _process;
 
         public OpenCoverProcess(IProcess process)
         {
@@ -117,26 +117,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
                     _process.Dispose();
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
                 disposedValue = true;
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~OpenCoverProcess() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
         }
         #endregion
     }

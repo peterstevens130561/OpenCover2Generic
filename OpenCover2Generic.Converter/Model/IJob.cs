@@ -2,6 +2,7 @@
 {
     public interface IJob
     {
-        string Assembly { get; }
+        string Assemblies { get; }
+        string FirstAssembly { get; }
     }
 }

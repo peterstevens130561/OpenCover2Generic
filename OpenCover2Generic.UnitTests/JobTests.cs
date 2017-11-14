@@ -15,7 +15,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void GetAssembly_ValueAtInstantiation()
         {
             IJob job = new Job("my assembly");
-            Assert.AreEqual("my assembly", job.Assembly);
+            Assert.AreEqual("my assembly", job.FirstAssembly);
         }
     }
 }

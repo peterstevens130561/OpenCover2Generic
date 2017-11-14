@@ -15,22 +15,11 @@ namespace OpenCover2Generic.Converter
         private int _executedTests = 0;
         private int _ignoredTests = 0;
         private static readonly ILog log = LogManager.GetLogger(typeof(TestResultsConcatenator));
-        private XmlTextWriter _xmlWriter;
-        private ICollection<string> paths = new Collection<string>();
-        public XmlTextWriter Writer
-        {
-            get
-            {
-                return _xmlWriter;
-            }
+        private readonly ICollection<string> paths = new Collection<string>();
+        public XmlTextWriter Writer { get;set;}
 
-            set
-            {
-                _xmlWriter = value;
-            }
-        }
 
-        public int TestCases
+        public int ExecutedTestCases
         {
             get
             {
@@ -63,11 +52,11 @@ namespace OpenCover2Generic.Converter
                         doWrite = IsFirstTimeSeen(path);
                         if(doWrite)
                         {
-                            _xmlWriter.WriteStartElement(xmlReader.Name);
-                            _xmlWriter.WriteAttributeString("path", path);
+                            Writer.WriteStartElement(xmlReader.Name);
+                            Writer.WriteAttributeString("path", path);
                             if (isEmpty)
                             {
-                                _xmlWriter.WriteEndElement();
+                                Writer.WriteEndElement();
                             }
 
                         } else
@@ -84,7 +73,7 @@ namespace OpenCover2Generic.Converter
                 }
                 if (doWrite && xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name != "unitTest")
                 {
-                    _xmlWriter.WriteEndElement();
+                    Writer.WriteEndElement();
                 }
             }
         }
@@ -104,37 +93,37 @@ namespace OpenCover2Generic.Converter
             if (isEmpty|| xmlReader.HasAttributes)
             {
 
-                _xmlWriter.WriteStartElement(xmlReader.Name);
+                Writer.WriteStartElement(xmlReader.Name);
                 if (xmlReader.HasAttributes)
                 {
                     while (xmlReader.MoveToNextAttribute())
                     {
                         string value = xmlReader.Value;
                         string name = xmlReader.Name;
-                        _xmlWriter.WriteAttributeString(name, value);
+                        Writer.WriteAttributeString(name, value);
                     }
                 }
                 if (isEmpty)
                 {
-                    _xmlWriter.WriteEndElement();
+                    Writer.WriteEndElement();
                 }
             }
         }
 
         public void Begin()
         {
-            _xmlWriter.Formatting = Formatting.Indented;
-            _xmlWriter.Indentation = 4;
-            _xmlWriter.WriteStartDocument();
-            _xmlWriter.WriteStartElement("unitTest");
-            _xmlWriter.WriteAttributeString("version", "1");
+            Writer.Formatting = Formatting.Indented;
+            Writer.Indentation = 4;
+            Writer.WriteStartDocument();
+            Writer.WriteStartElement("unitTest");
+            Writer.WriteAttributeString("version", "1");
         }
 
         public void End()
         {
-            _xmlWriter.WriteEndElement();
-            _xmlWriter.WriteEndDocument();
-            _xmlWriter.Flush();
+            Writer.WriteEndElement();
+            Writer.WriteEndDocument();
+            Writer.Flush();
             log.Info($"Executed tests           : {_executedTests}");
             log.Info($"Duplicate (ignored) tests: {_ignoredTests}");
         }

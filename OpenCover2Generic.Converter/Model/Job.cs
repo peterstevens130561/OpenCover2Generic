@@ -8,11 +8,21 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
     public class Job : IJob
     {
-        public Job(string assembly)
+        public Job(List<string> assemblies)
         {
-            Assembly = assembly;
+            FirstAssembly = assemblies.First();
+            Assemblies = string.Join(" ", assemblies);
         }
 
-        public string Assembly { get; private set; }
+        public Job(string assembly)
+        {
+            FirstAssembly = assembly;
+            Assemblies = assembly;
+        }
+
+        public string FirstAssembly { get; private set; }
+
+        public string Assemblies { get; private set;  }
+
     }
 }

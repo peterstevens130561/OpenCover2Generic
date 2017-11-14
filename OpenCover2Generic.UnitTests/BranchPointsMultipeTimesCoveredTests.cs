@@ -79,7 +79,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void FourBranchPointsOfWhichNoneCoveredSeenTwiceScondTimeNoneCovered()
+        public void Add_FourBranchPointsOfWhichNoneCoveredSeenTwiceScondTimeNoneCovered_FourPathsNotCovered()
         {
             //Given a first pass of 4 points, with 2 covered
             IBranchPoints branchPoints = new BranchPoints().Add(1,0, false).Add(1,1, false).Add(1,2, false).Add(1,3, false);
@@ -91,7 +91,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void AddBranchPointToAggregator()
+        public void Add_SinglePoint_SameValue()
         {
             var branchPoint = new BranchPoint(10,1,1, false);
             var aggregator = new BranchPoints();

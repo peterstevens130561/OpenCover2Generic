@@ -23,7 +23,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             IJobs jobs = new Jobs();
             jobs.Add(new Job("a"));
-            var assembly = jobs.Take().Assembly;
+            var assembly = jobs.Take().FirstAssembly;
             Assert.AreEqual("a", assembly);
         }
 
@@ -34,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             jobs.CompleteAdding();
             try
             {
-                var assembly = jobs.Take().Assembly;
+                var assembly = jobs.Take().FirstAssembly;
             } catch (InvalidOperationException)
             {
                 return;
