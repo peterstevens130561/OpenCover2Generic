@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="JobConsumerFactoryTests.cs" />
     <Compile Include="JobConsumerTests.cs" />
+    <Compile Include="JobsTests.cs" />
     <Compile Include="JobTests.cs" />
     <Compile Include="MainTestsMultiAssembly.cs" />
     <Compile Include="OpenCoverCommandLineBuilderTests.cs" />
