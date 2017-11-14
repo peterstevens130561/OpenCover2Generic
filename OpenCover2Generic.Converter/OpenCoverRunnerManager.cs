@@ -21,7 +21,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
         private StreamWriter _writer;
         private bool _registrationFailed;
         private bool _started;
-
+        private readonly StringBuilder _processOutput = new StringBuilder(2048);
         private readonly IProcessFactory _processFactory;
 
         public OpenCoverRunnerManager(IProcessFactory processFactory)
@@ -68,7 +68,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                 }
 
             }
-            if(tries==10)
+            writer.Write(_processOutput.ToString());
+            if (tries==10)
             {
                 throw new InvalidOperationException("Could not start OpenCover, due to registration problems");
             }
@@ -95,7 +96,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             {
                 return;
             }
-            _writer.WriteLine(e.Data);
+            _processOutput.AppendLine(e.Data);
+
         }
     }
 }
