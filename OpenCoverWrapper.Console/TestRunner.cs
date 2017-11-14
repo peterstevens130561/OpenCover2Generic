@@ -16,13 +16,14 @@ using System.Xml;
 
 namespace BHGE.SonarQube.OpenCoverWrapper
 {
-    class TestRunner
+    class TestRunner : ITestRunner
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(TestRunner));
         private readonly IJobFileSystem _jobFileSystemInfo;
         private readonly MultiAssemblyConverter _converter;
         private readonly IJobConsumerFactory _jobConsumerFactory;
-
+        private readonly List<Task> _tasks = new List<Task>();
+        private readonly BlockingCollection<string>  _jobs = new BlockingCollection<string>();
         public TestRunner(IJobFileSystem jobFileSystemInfo,
             MultiAssemblyConverter converter, 
             IJobConsumerFactory jobConsumerFactory)
@@ -45,18 +46,34 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         /// <param name="parallelJobs">number of consumers, which will run in parallel</param>
         internal void RunTests( string[] testAssemblies,int parallelJobs)
         {
-            var jobs = new BlockingCollection<string>();
-            log.Info($"Will run tests for {testAssemblies.Count()} assemblies");
-            testAssemblies.ToList().ForEach(a => jobs.Add(a));
-            jobs.CompleteAdding();
 
-            var tasks = new List<Task>();
-            for (int i = 1; i <= parallelJobs; i++)
+            CreateJobs(testAssemblies, 1);
+            CreateJobConsumers(parallelJobs);
+            _tasks.ForEach(t => t.Wait());
+        }
+
+        public void CreateJobs(string[] testAssemblies, int chunkSize)
+        {
+            log.Info($"Will run tests for {testAssemblies.Count()} assemblies");
+            var list = testAssemblies.ToList();
+            int count = testAssemblies.Count();
+            for (int index=0;index<count;index+=chunkSize)
             {
-                Task task = Task.Run(() => _jobConsumerFactory.Create().ConsumeJobs(jobs));
-                tasks.Add(task);
+                var chunk = list.GetRange(index, chunkSize);
+                _jobs.Add(String.Join(" ", chunk));
             }
-            tasks.ForEach(t => t.Wait());
+            _jobs.CompleteAdding();
+        }
+
+        public BlockingCollection<string> Jobs { get { return _jobs; } }
+         public void CreateJobConsumers(int consumers)
+        {
+
+            for (int i = 1; i <= consumers; i++)
+            {
+                Task task = Task.Run(() => _jobConsumerFactory.Create().ConsumeJobs(_jobs));
+                _tasks.Add(task);
+            }
         }
 
         public void CreateCoverageFile(string outputPath)

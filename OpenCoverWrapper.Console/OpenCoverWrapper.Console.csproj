@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="FileSystemAdapter.cs" />
     <Compile Include="IOpenCoverWrapperCommandLineParser.cs" />
+    <Compile Include="ITestRunner.cs" />
     <Compile Include="OpenCoverWrapperCommandLineParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

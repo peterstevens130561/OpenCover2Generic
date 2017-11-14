@@ -117,5 +117,60 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual("a:/My Documents/fun.dll", assemblies[0]);
             Assert.AreEqual("second.dll", assemblies[1]);
         }
+
+        [TestMethod]
+        public void GetParallelJobs_SpecifyInvalid_ExpectException()
+        {
+            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
+            string[] line = { @"-parallel:none" };
+            commandLineParser.Args = line;
+            try
+            {
+                commandLineParser.GetParallelJobs();
+            } catch (CommandLineArgumentException) 
+            {
+                return;
+            }
+            Assert.Fail("expected argumentexception");
+        }
+
+        [TestMethod]
+        public void GetParallelJobs_Specify0_ExpectException()
+        {
+            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
+            string[] line = { @"-parallel:0" };
+            commandLineParser.Args = line;
+            try
+            {
+                commandLineParser.GetParallelJobs();
+            }
+            catch (CommandLineArgumentException)
+            {
+                return;
+            }
+            Assert.Fail("expected argumentexception");
+        }
+
+        [TestMethod]
+        public void GetParallelJobs_Specify1_Same()
+        {
+            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
+            string[] line = { @"-parallel:1" };
+            commandLineParser.Args = line;
+            int jobs=commandLineParser.GetParallelJobs();
+
+            Assert.AreEqual(1, jobs);
+        }
+
+        [TestMethod]
+        public void GetParallelJobs_NotSpecified_One()
+        {
+            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
+            string[] line = { @"" };
+            commandLineParser.Args = line;
+            int jobs = commandLineParser.GetParallelJobs();
+
+            Assert.AreEqual(1, jobs);
+        }
     }
 }

@@ -25,10 +25,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             _openCoverCommandLineBuilder = openCoverCommandLineBuilder;
             _jobFileSystemInfo = jobFileSystem;
             _openCoverManagerFactory = openCoverManagerFactory;
-            Chunk = 1;
         }
 
-        public int Chunk { get; set; }
         public void ConsumeJobs(BlockingCollection<string> jobs)
         {
             while (!jobs.IsCompleted)

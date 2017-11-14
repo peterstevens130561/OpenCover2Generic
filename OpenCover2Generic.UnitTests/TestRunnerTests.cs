@@ -33,5 +33,33 @@ namespace BHGE.SonarQube.OpenCover2Generic
             testRunner.RunTests(testAssemblies, 5);
             _jobConsumerFactoryMock.Verify(f => f.Create(), Times.Exactly(5));
         }
+
+        [TestMethod]
+        public void CreateJobs_ChunkSize1_SameList()
+        {
+            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
+            var testRunner = new TestRunner(_jobFileSystemMock.Object, null, _jobConsumerFactoryMock.Object);
+            string[] testAssemblies = { "one","two","three" };
+            testRunner.CreateJobs(testAssemblies, 1);
+            var jobs = testRunner.Jobs;
+            Assert.AreEqual(3, jobs.Count);
+            Assert.AreEqual("one", jobs.Take());
+            Assert.AreEqual("two", jobs.Take());
+            Assert.AreEqual("three", jobs.Take());
+        }
+
+        [TestMethod]
+        public void CreateJobs_ChunkSize2_SameList()
+        {
+            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
+            var testRunner = new TestRunner(_jobFileSystemMock.Object, null, _jobConsumerFactoryMock.Object);
+            string[] testAssemblies = { "one", "two", "three", "four" , "five" };
+            testRunner.CreateJobs(testAssemblies, 2);
+            var jobs = testRunner.Jobs;
+            Assert.AreEqual(3, jobs.Count);
+            Assert.AreEqual("one two", jobs.Take());
+            Assert.AreEqual("three four", jobs.Take());
+            Assert.AreEqual("five", jobs.Take());
+        }
     }
 }

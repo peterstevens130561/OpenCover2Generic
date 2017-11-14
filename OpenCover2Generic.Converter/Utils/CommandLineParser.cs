@@ -64,5 +64,22 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
                 arguments.Add(value);
             }
         }
+
+        public string GetOptionalArgument(string key, string @default)
+        {
+            if (Args == null)
+            {
+                throw new ArgumentNullException(nameof(Args));
+            }
+            key = key.ToUpper() + ":";
+            foreach (string arg in Args)
+            {
+                if (arg.ToUpper().StartsWith(key))
+                {
+                    return (arg.Substring(key.Length));
+                }
+            }
+            return @default;
+        }
     }
 }

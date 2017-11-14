@@ -9,5 +9,6 @@
         string GetOpenCoverPath();
         string GetTestResultsPath();
         string[] GetTestAssemblies();
+        int GetParallelJobs();
     }
 }

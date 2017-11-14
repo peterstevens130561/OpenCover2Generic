@@ -33,6 +33,17 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             return _commandLineParser.GetArgument("-output");
         }
 
+        public int GetParallelJobs()
+        {
+            string value=_commandLineParser.GetOptionalArgument("-parallel","1");
+            int jobs;
+            if(!int.TryParse(value,out jobs) || jobs <1)
+            {
+                throw new CommandLineArgumentException($"-parallel:<positive int>, i.e. -parallel:5 actual -parallel:{value}");
+            }
+            return jobs;
+        }
+
         public string GetTargetArgs()
         {
             return _commandLineParser.GetArgument("-targetargs");

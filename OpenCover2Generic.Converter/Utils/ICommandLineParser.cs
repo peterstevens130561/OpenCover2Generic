@@ -16,5 +16,6 @@
         /// <param name="key"></param>
         /// <returns></returns>
         string[] GetArgumentArray(string key);
+        string GetOptionalArgument(string v1, string v2);
     }
 }
