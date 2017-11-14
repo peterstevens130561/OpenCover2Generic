@@ -12,6 +12,7 @@ using BHGE.SonarQube.OpenCover2Generic.Utils;
 using System.Collections.Concurrent;
 using System.IO;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
+using BHGE.SonarQube.OpenCover2Generic.Model;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -22,7 +23,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<IJobFileSystem> _jobFileSystemMock;
         private Mock<IOpenCoverManagerFactory> _openCoverManagerFactoryMock;
         private Mock<IOpenCoverCommandLineBuilder> _openCoverCommandLineBuilder;
-        private BlockingCollection<string> jobs = new BlockingCollection<string>();
+        private BlockingCollection<IJob> jobs = new BlockingCollection<IJob>();
 
         [TestInitialize]
         public void Initialize()
@@ -39,8 +40,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void ConsumeJobs_TwoInQueue_ExpectOnejobTakenTwoTimes()
         {
-            jobs.Add("a");
-            jobs.Add("b");
+            jobs.Add(new Job("a"));
+            jobs.Add(new Job("b"));
             jobs.CompleteAdding();
             _jobConsumer.ConsumeJobs(jobs);
 
@@ -51,8 +52,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void ConsumeJobs_TwoChunksOfTwoInQueue_ExpectOnejobTakenTwoTimes()
         {
-            jobs.Add("a b");
-            jobs.Add("c d");
+            jobs.Add(new Job("a b"));
+            jobs.Add(new Job("c d"));
             jobs.CompleteAdding();
             _jobConsumer.ConsumeJobs(jobs);
 

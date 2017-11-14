@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using BHGE.SonarQube.OpenCover2Generic.Model;
+using System.Collections.Concurrent;
 
 namespace BHGE.SonarQube.OpenCoverWrapper
 {
@@ -6,6 +7,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper
     {
         void CreateJobs(string[] testAssemblies, int chunkSize);
         void CreateJobConsumers(int consumers);
-        BlockingCollection<string> Jobs { get; }
+        BlockingCollection<IJob> Jobs { get; }
     }
 }

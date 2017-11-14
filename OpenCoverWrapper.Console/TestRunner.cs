@@ -1,6 +1,7 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic;
 using BHGE.SonarQube.OpenCover2Generic.Consumer;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
+using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using log4net;
@@ -23,7 +24,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         private readonly MultiAssemblyConverter _converter;
         private readonly IJobConsumerFactory _jobConsumerFactory;
         private readonly List<Task> _tasks = new List<Task>();
-        private readonly BlockingCollection<string>  _jobs = new BlockingCollection<string>();
+        private readonly BlockingCollection<IJob>  _jobs = new BlockingCollection<IJob>();
         public TestRunner(IJobFileSystem jobFileSystemInfo,
             MultiAssemblyConverter converter, 
             IJobConsumerFactory jobConsumerFactory)
@@ -59,13 +60,14 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             int count = testAssemblies.Count();
             for (int index=0;index<count;index+=chunkSize)
             {
+                chunkSize = Math.Min(chunkSize, count - index);
                 var chunk = list.GetRange(index, chunkSize);
-                _jobs.Add(String.Join(" ", chunk));
+                _jobs.Add(new Job(String.Join(" ", chunk)));
             }
             _jobs.CompleteAdding();
         }
 
-        public BlockingCollection<string> Jobs { get { return _jobs; } }
+        public BlockingCollection<IJob> Jobs { get { return _jobs; } }
          public void CreateJobConsumers(int consumers)
         {
 

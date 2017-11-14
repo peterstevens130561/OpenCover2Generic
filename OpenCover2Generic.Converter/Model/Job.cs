@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
-    class Job : IJob
+    public class Job : IJob
     {
         public Job(string assembly)
         {

@@ -1,4 +1,5 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Factories;
+using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using log4net;
@@ -27,7 +28,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             _openCoverManagerFactory = openCoverManagerFactory;
         }
 
-        public void ConsumeJobs(BlockingCollection<string> jobs)
+        public void ConsumeJobs(BlockingCollection<IJob> jobs)
         {
             while (!jobs.IsCompleted)
             {
@@ -73,12 +74,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             }
         }
 
-        private static string GetAssembly(BlockingCollection<string> jobs)
+        private static string GetAssembly(BlockingCollection<IJob> jobs)
         {
             string assembly = null;
             try
             {
-                assembly = jobs.Take();
+                assembly = jobs.Take().Assembly;
             }
             catch (InvalidOperationException e)
             {

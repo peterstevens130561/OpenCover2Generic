@@ -1,6 +1,6 @@
 ﻿namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
-    internal interface IJob
+    public interface IJob
     {
         string Assembly { get; }
     }
