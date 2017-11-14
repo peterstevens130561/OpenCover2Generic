@@ -17,5 +17,29 @@ namespace BHGE.SonarQube.OpenCover2Generic
             IJobs jobs = new Jobs();
             Assert.IsNotNull(jobs);
         }
+
+        [TestMethod]
+        public void Add_CanTake()
+        {
+            IJobs jobs = new Jobs();
+            jobs.Add(new Job("a"));
+            var assembly = jobs.Take().Assembly;
+            Assert.AreEqual("a", assembly);
+        }
+
+        [TestMethod]
+        public void CompleteAdding_Take_ExpectException()
+        {
+            IJobs jobs = new Jobs();
+            jobs.CompleteAdding();
+            try
+            {
+                var assembly = jobs.Take().Assembly;
+            } catch (InvalidOperationException)
+            {
+                return;
+            }
+            Assert.Fail("Expected exception");
+        }
     }
 }

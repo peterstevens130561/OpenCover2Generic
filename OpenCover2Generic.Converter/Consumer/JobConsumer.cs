@@ -28,9 +28,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             _openCoverManagerFactory = openCoverManagerFactory;
         }
 
-        public void ConsumeJobs(BlockingCollection<IJob> jobs)
+        public void ConsumeJobs(IJobs jobs)
         {
-            while (!jobs.IsCompleted)
+            while (!jobs.IsCompleted())
             {
                 string assembly = GetAssembly(jobs);
                 if (assembly == null)
@@ -74,7 +74,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             }
         }
 
-        private static string GetAssembly(BlockingCollection<IJob> jobs)
+        private static string GetAssembly(IJobs jobs)
         {
             string assembly = null;
             try

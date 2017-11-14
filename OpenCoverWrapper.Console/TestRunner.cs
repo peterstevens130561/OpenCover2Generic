@@ -24,7 +24,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         private readonly MultiAssemblyConverter _converter;
         private readonly IJobConsumerFactory _jobConsumerFactory;
         private readonly List<Task> _tasks = new List<Task>();
-        private readonly BlockingCollection<IJob>  _jobs = new BlockingCollection<IJob>();
+        private readonly IJobs  _jobs = new Jobs();
         public TestRunner(IJobFileSystem jobFileSystemInfo,
             MultiAssemblyConverter converter, 
             IJobConsumerFactory jobConsumerFactory)
@@ -67,7 +67,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             _jobs.CompleteAdding();
         }
 
-        public BlockingCollection<IJob> Jobs { get { return _jobs; } }
+        public IJobs Jobs { get { return _jobs; } }
          public void CreateJobConsumers(int consumers)
         {
 

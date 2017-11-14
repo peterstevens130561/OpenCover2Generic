@@ -42,7 +42,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             string[] testAssemblies = { "one","two","three" };
             testRunner.CreateJobs(testAssemblies, 1);
             var jobs = testRunner.Jobs;
-            Assert.AreEqual(3, jobs.Count);
+            Assert.AreEqual(3, jobs.Count());
             Assert.AreEqual("one", jobs.Take().Assembly);
             Assert.AreEqual("two", jobs.Take().Assembly);
             Assert.AreEqual("three", jobs.Take().Assembly);
@@ -56,7 +56,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             string[] testAssemblies = { "one", "two", "three", "four" , "five" };
             testRunner.CreateJobs(testAssemblies, 2);
             var jobs = testRunner.Jobs;
-            Assert.AreEqual(3, jobs.Count);
+            Assert.AreEqual(3, jobs.Count());
             Assert.AreEqual("one two", jobs.Take().Assembly);
             Assert.AreEqual("three four", jobs.Take().Assembly);
             Assert.AreEqual("five", jobs.Take().Assembly);

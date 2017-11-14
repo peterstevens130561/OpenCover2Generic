@@ -7,6 +7,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper
     {
         void CreateJobs(string[] testAssemblies, int chunkSize);
         void CreateJobConsumers(int consumers);
-        BlockingCollection<IJob> Jobs { get; }
+        IJobs Jobs { get; }
     }
 }

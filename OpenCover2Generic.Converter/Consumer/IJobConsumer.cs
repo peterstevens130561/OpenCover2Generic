@@ -9,6 +9,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
         /// keep on consuming jobs from jobs until no more left
         /// </summary>
         /// <param name="jobs"></param>
-        void ConsumeJobs(BlockingCollection<IJob> jobs);
+        void ConsumeJobs(IJobs jobs);
     }
 }

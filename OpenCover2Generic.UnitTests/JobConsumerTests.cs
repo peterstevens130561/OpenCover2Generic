@@ -23,7 +23,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<IJobFileSystem> _jobFileSystemMock;
         private Mock<IOpenCoverManagerFactory> _openCoverManagerFactoryMock;
         private Mock<IOpenCoverCommandLineBuilder> _openCoverCommandLineBuilder;
-        private BlockingCollection<IJob> jobs = new BlockingCollection<IJob>();
+        private IJobs jobs = new Jobs();
 
         [TestInitialize]
         public void Initialize()
