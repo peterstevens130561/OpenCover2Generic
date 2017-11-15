@@ -35,40 +35,7 @@ namespace OpenCover2Generic.Converter
             {
                 if (xmlReader.NodeType == XmlNodeType.Element)
                 {
-                    bool isEmpty = xmlReader.IsEmptyElement;
-                    if(xmlReader.Name == "testCase") {
-                        
-                        if(doWrite)
-                        {
-                            ++_executedTests;
-                        } else
-                        {
-                            ++_ignoredTests;
-                        }
-                    }
-                    if (xmlReader.Name== "file")
-                    {
-                        string path = xmlReader.GetAttribute("path");
-                        doWrite = IsFirstTimeSeen(path);
-                        if(doWrite)
-                        {
-                            Writer.WriteStartElement(xmlReader.Name);
-                            Writer.WriteAttributeString("path", path);
-                            if (isEmpty)
-                            {
-                                Writer.WriteEndElement();
-                            }
-
-                        } else
-                        {
-                            log.Warn($"Skipping tests in {path}");
-                        }
-                    }
-                    else if (doWrite)
-                    {
-
-                        CreateStartElement(xmlReader);
-                    }
+                    doWrite = ParseElement(xmlReader, doWrite);
 
                 }
                 if (doWrite && xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name != "unitTest")
@@ -76,6 +43,59 @@ namespace OpenCover2Generic.Converter
                     Writer.WriteEndElement();
                 }
             }
+        }
+
+        private bool ParseElement(XmlReader xmlReader, bool doWrite)
+        {
+            bool isEmpty = xmlReader.IsEmptyElement;
+            if (xmlReader.Name == "testCase")
+            {
+                UpdateStatistics(doWrite);
+            }
+            if (xmlReader.Name == "file")
+            {
+                doWrite = ParseFile(xmlReader, isEmpty);
+            }
+            else if (doWrite)
+            {
+                CreateStartElement(xmlReader);
+            }
+            return doWrite;
+        }
+
+        private void UpdateStatistics(bool doWrite)
+        {
+            if (doWrite)
+            {
+                ++_executedTests;
+            }
+            else
+            {
+                ++_ignoredTests;
+            }
+        }
+
+        private bool ParseFile(XmlReader xmlReader, bool isEmpty)
+        {
+            bool doWrite;
+            string path = xmlReader.GetAttribute("path");
+            doWrite = IsFirstTimeSeen(path);
+            if (doWrite)
+            {
+                Writer.WriteStartElement(xmlReader.Name);
+                Writer.WriteAttributeString("path", path);
+                if (isEmpty)
+                {
+                    Writer.WriteEndElement();
+                }
+
+            }
+            else
+            {
+                log.Warn($"Skipping tests in {path}");
+            }
+
+            return doWrite;
         }
 
         private bool IsFirstTimeSeen(string path)
@@ -94,18 +114,23 @@ namespace OpenCover2Generic.Converter
             {
 
                 Writer.WriteStartElement(xmlReader.Name);
-                if (xmlReader.HasAttributes)
-                {
-                    while (xmlReader.MoveToNextAttribute())
-                    {
-                        string value = xmlReader.Value;
-                        string name = xmlReader.Name;
-                        Writer.WriteAttributeString(name, value);
-                    }
-                }
+                CreateAttributes(xmlReader);
                 if (isEmpty)
                 {
                     Writer.WriteEndElement();
+                }
+            }
+        }
+
+        private void CreateAttributes(XmlReader xmlReader)
+        {
+            if (xmlReader.HasAttributes)
+            {
+                while (xmlReader.MoveToNextAttribute())
+                {
+                    string value = xmlReader.Value;
+                    string name = xmlReader.Name;
+                    Writer.WriteAttributeString(name, value);
                 }
             }
         }

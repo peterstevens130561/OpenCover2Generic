@@ -88,7 +88,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 {
                     testRunner.Run(info, writer);
                 }
-            } catch (InvalidOperationException e )
+            } catch (InvalidOperationException )
             {
                 openCoverProcessMock.Verify(p => p.Start(), Times.Exactly(10));
                 return;
@@ -118,7 +118,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 }
                 else
                 {
-                    throw new ApplicationException(
+                    throw new InvalidOperationException(
                         "Failed to find _data field!");
                 }
 

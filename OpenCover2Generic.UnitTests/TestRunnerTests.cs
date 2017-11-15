@@ -75,5 +75,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual("three", jobs.Take().FirstAssembly);
             Assert.AreEqual("five", jobs.Take().FirstAssembly);
         }
+
+
     }
 }

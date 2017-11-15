@@ -66,7 +66,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
                         new MultiAssemblyConverter().ConvertCoverageFileIntoIntermediate(_jobFileSystemInfo.GetIntermediateCoverageDirectory(), job.FirstAssembly, reader);
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     log.Error($"Exception thrown during reading {openCoverOutputPath}");
                     throw;
@@ -81,9 +81,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             {
                 job = jobs.Take();
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
-                log.Debug("Exception on take (ignored");
+                log.Debug("Exception on take (ignored, may happen)");
             }
 
             return job;

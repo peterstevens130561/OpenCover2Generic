@@ -20,10 +20,8 @@ using BHGE.SonarQube.OpenCover2Generic.Factories;
 namespace BHGE.SonarQube.OpenCoverWrapper
 {
 
-    class Program
+    static class Program
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(Program));
-
         public static void Main(string[] args)
         {
             BasicConfigurator.Configure();

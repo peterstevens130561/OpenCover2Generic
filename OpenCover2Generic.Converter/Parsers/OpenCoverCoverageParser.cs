@@ -7,7 +7,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
 {
     public class OpenCoverCoverageParser : ICoverageParser
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverCoverageParser));
         private IModuleCoverageModel _model;
         private string _moduleName;
 
