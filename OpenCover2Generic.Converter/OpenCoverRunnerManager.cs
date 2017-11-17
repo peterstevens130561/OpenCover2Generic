@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using log4net;
 using System.IO;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
-using BHGE.SonarQube.OpenCover2Generic.Utils;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 {

@@ -1,11 +1,14 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Consumer;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
 using BHGE.SonarQube.OpenCoverWrapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using OpenCover2Generic.Converter;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +20,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private  Mock<IJobConsumerFactory> _jobConsumerFactoryMock;
         private Mock<IJobFileSystem> _jobFileSystemMock;
+        private Mock<IOpenCoverCommandLineBuilder> _openCoverCommandLineBuilderMock;
+        
         [TestInitialize]
         public void Initialize()
         {
             _jobConsumerFactoryMock = new Mock<IJobConsumerFactory>();
             _jobFileSystemMock = new Mock<IJobFileSystem>();
+            _openCoverCommandLineBuilderMock = new Mock<IOpenCoverCommandLineBuilder>();
         }
 
         [TestMethod]
@@ -76,6 +82,27 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual("five", jobs.Take().FirstAssembly);
         }
 
+        [TestMethod]
+        public void SetTimeOut_ProcessesRunTooLong_ProcessesKilled()
+        {
 
+            var processFactoryMock = new Mock<IProcessFactory>();
+            processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(new Mock<Factories.IOpenCoverProcess>().Object);
+
+            _jobFileSystemMock.Setup(j => j.GetOpenCoverLogPath(It.IsAny<string>())).Returns(Path.GetTempFileName());
+            _openCoverCommandLineBuilderMock.Setup(j => j.Build(It.IsAny<string>(), It.IsAny<string>())).Returns(new ProcessStartInfo());
+
+            IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(_openCoverCommandLineBuilderMock.Object, _jobFileSystemMock.Object, new OpenCoverManagerFactory(processFactoryMock.Object));
+            ITestRunner testRunner = new TestRunner(_jobFileSystemMock.Object, null, jobConsumerFactory);
+
+            string[] testAssemblies = { "one" };
+            const int MS2TICK = 10000;
+            TimeSpan timeOut = new TimeSpan(10 * MS2TICK); // after 10 ms timeout will occur
+            testRunner.JobTimeOut = timeOut;
+            testRunner.CreateJobs(testAssemblies, 1);
+            testRunner.CreateJobConsumers(1);
+            testRunner.Wait();
+            Assert.IsTrue(testRunner.HadJobTimeOut);
+        }
     }
 }

@@ -24,9 +24,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         private readonly MultiAssemblyConverter _converter;
         private readonly IJobConsumerFactory _jobConsumerFactory;
         private readonly List<Task> _tasks = new List<Task>();
-        private readonly IJobs  _jobs = new Jobs();
+        private readonly IJobs _jobs = new Jobs();
         public TestRunner(IJobFileSystem jobFileSystemInfo,
-            MultiAssemblyConverter converter, 
+            MultiAssemblyConverter converter,
             IJobConsumerFactory jobConsumerFactory)
         {
             _jobFileSystemInfo = jobFileSystemInfo;
@@ -45,13 +45,15 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         /// </summary>
         /// <param name="testAssemblies"></param>
         /// <param name="parallelJobs">number of consumers, which will run in parallel</param>
-        internal void RunTests( string[] testAssemblies,int parallelJobs)
+        internal void RunTests(string[] testAssemblies, int parallelJobs)
         {
 
             CreateJobs(testAssemblies, 1);
             CreateJobConsumers(parallelJobs);
-            _tasks.ForEach(t => t.Wait());
+            Wait();
         }
+
+        public TimeSpan JobTimeOut{ get;set;}
 
         public void CreateJobs(string[] testAssemblies, int chunkSize)
         {
@@ -68,8 +70,21 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             _jobs.CompleteAdding();
         }
 
+        public void Wait()
+        {
+            _tasks.ForEach(t => t.Wait());
+        }
         public IJobs Jobs { get { return _jobs; } }
-         public void CreateJobConsumers(int consumers)
+
+        public bool HadJobTimeOut
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public void CreateJobConsumers(int consumers)
         {
 
             for (int i = 1; i <= consumers; i++)
@@ -121,7 +136,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 testResultsConcatenator.End();
             }
         }
-  
+
 
     }
 }

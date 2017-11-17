@@ -112,7 +112,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                         BindingFlags.Instance |
                         BindingFlags.DeclaredOnly);
 
-                if (EventFields.Count() > 0)
+                if (EventFields.Any())
                 {
                     EventFields[0].SetValue(MockEventArgs, TestData);
                 }

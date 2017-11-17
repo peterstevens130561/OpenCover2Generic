@@ -95,14 +95,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _modelMock.Verify(parser => parser.AddBranchPoint(1,27,1,true));
         }
 
-        private bool WhenParsing( string input)
+        private void WhenParsing( string input)
         {
             Stream inputStream = new MemoryStream(Encoding.UTF8.GetBytes(input));
             StreamReader reader = new StreamReader(inputStream);
             XmlReader xmlReader = XmlReader.Create(reader);
             xmlReader.MoveToContent();
             _parser.ParseModule(_model, xmlReader);
-            return _parser.ParseModule(_model, xmlReader);
+            _parser.ParseModule(_model, xmlReader);
 
         }
     }

@@ -1,5 +1,6 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Model;
 using System.Collections.Concurrent;
+using System;
 
 namespace BHGE.SonarQube.OpenCoverWrapper
 {
@@ -8,5 +9,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         void CreateJobs(string[] testAssemblies, int chunkSize);
         void CreateJobConsumers(int consumers);
         IJobs Jobs { get; }
+        bool HadJobTimeOut { get; }
+
+        TimeSpan JobTimeOut { get; set; }
+        void Wait();
     }
 }
