@@ -11,6 +11,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverProcess).Name);
         private readonly IProcess _process;
+        private static Object _lock = new Object();
 
         public OpenCoverProcess(IProcess process)
         {
@@ -67,10 +68,17 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
 
         public void Start()
         {
-            DataReceived += Process_OutputDataReceived;
-            Started = false;
-            RecoverableError = false;
-            _process.Start();
+            lock( _lock) {
+                log.Debug("Starting");
+                DataReceived += Process_OutputDataReceived;
+                Started = false;
+                RecoverableError = false;
+                _process.Start();
+                while(!Started && !_process.HasExited)
+                {
+                    Thread.Sleep(1000);
+                }
+            }
 
         }
 

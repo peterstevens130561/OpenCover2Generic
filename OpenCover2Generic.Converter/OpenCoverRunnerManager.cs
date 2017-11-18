@@ -18,16 +18,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
         private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverRunnerManager).Name);
         private string _testResultsPath;
         private readonly ITimerSeam _watchDog ;
-
         private readonly StringBuilder _processOutput = new StringBuilder(2048);
         private readonly IProcessFactory _processFactory;
         private bool _timeOut;
-
+        private readonly Stopwatch _stopWatch = new Stopwatch();
         enum ProcessState
         {
             None,
             Busy,
-            RegistrationFailure,
+            RecoverableFailure,
             TimedOut,
             Done
         }
@@ -71,9 +70,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                 {
                     process.DataReceived += Process_OutputDataReceived;
                     process.StartInfo = startInfo;
-
                     process.Start();
+                    _stopWatch.Start();
                     _watchDog.Start();
+
                     while (!process.HasExited && ! _timeOut)
                     {
                         Thread.Sleep(1000);
@@ -88,7 +88,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                     else if (process.RecoverableError)
                     {
                         ++tries;
-                        _processState = tries < 10 ? ProcessState.Busy : ProcessState.RegistrationFailure;
+                        _processState = tries < 10 ? ProcessState.Busy : ProcessState.RecoverableFailure;
                     }
                     else {
                         _processState = ProcessState.Done;
@@ -96,8 +96,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                     }
                 }
             }
+            log.Info($"Completed after{_stopWatch.ElapsedMilliseconds}ms");
             writer.Write(_processOutput.ToString());
-            if (_processState==ProcessState.RegistrationFailure)
+            if (_processState==ProcessState.RecoverableFailure)
             {
                 throw new InvalidOperationException("Could not start OpenCover, due to registration problems");
             }
@@ -109,7 +110,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             {
                 if (_testResultsPath == null)
                 {
-                    log.Warn("Did not find line 'VsTestSonarQubeLogger.TestResults=' in log ");
+                    log.Warn($"Did not find line 'VsTestSonarQubeLogger.TestResults=' in log: \n{_processOutput.ToString()}");
+
                 }
                 return _testResultsPath;
             }
@@ -129,7 +131,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 
         private void OnTimeOut(object sender, ElapsedEventArgs e)
         {
-            log.Error("Timeout occurred");
+            log.Error($"Timeout occurred {_stopWatch.ElapsedMilliseconds}");
             _timeOut = true;
         }
     }

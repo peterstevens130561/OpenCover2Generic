@@ -64,7 +64,7 @@
     <Compile Include="OpenCoverRunnerManager.cs" />
     <Compile Include="Seams\ITimerSeam.cs" />
     <Compile Include="Seams\TimerSeam.cs" />
-    <Compile Include="Utils\CommandLineArgumentException.cs" />
+    <Compile Include="Exceptions\CommandLineArgumentException.cs" />
     <Compile Include="Utils\CommandLineParser.cs" />
     <Compile Include="Model\BranchPoint.cs" />
     <Compile Include="Model\BranchPoints.cs" />

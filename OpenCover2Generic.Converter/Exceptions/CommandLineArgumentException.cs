@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Utils
 {
+    [Serializable]
     public class CommandLineArgumentException : InvalidOperationException
 
     {
