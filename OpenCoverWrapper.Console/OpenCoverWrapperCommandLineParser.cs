@@ -61,13 +61,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         public TimeSpan GetJobTimeOut()
         {
-            string value = _commandLineParser.GetOptionalArgument("-jobtimeout", "0");
-            int timeout;
-            if (!int.TryParse(value, out timeout) || timeout < 1)
-            {
-                throw new CommandLineArgumentException($"-jobtimeout:<positive int>, invalid: {value}");
-            }
-            return new TimeSpan(0, timeout, 0);
+            int timeOut=_commandLineParser.GetOptionalPositiveInt("-jobtimeout", "0",1);
+            return new TimeSpan(0, timeOut, 0);
+
         }
 
         public string GetTestResultsPath()
@@ -77,13 +73,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         public int GetChunkSize()
         {
-            string value = _commandLineParser.GetOptionalArgument("-chunksize", "1");
-            int chunkSize;
-            if (!int.TryParse(value, out chunkSize) || chunkSize < 1)
-            {
-                throw new CommandLineArgumentException($"-chunksize:<positive int>, invalid:{value}");
-            }
-            return chunkSize;
+            return _commandLineParser.GetOptionalPositiveInt("-chunksize", "1",1);
         }
     }
 }

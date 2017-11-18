@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using System.Reflection;
 using System.Timers;
+using BHGE.SonarQube.OpenCover2Generic.Seams;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -24,7 +25,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             //given a valid runner which will not register on starting, but will on second
             Mock<IProcessFactory> processFactoryMock = new Mock<IProcessFactory>();
-            Mock<Timer> timerMock = new Mock<Timer>();
+            Mock<TimerSeam> timerMock = new Mock<TimerSeam>();
             var openCoverProcessMock = new Mock<IOpenCoverProcess>();
             processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(openCoverProcessMock.Object);
             openCoverProcessMock.Setup(p => p.HasExited).Returns(true);
@@ -54,6 +55,26 @@ namespace BHGE.SonarQube.OpenCover2Generic
             // should be called twice
             openCoverProcessMock.Verify(p => p.Start(), Times.Exactly(2));
         }
+
+        [TestMethod]
+        public void SetTimeOut_OneMinute_ExpectOneMinute()
+        {
+            Mock<TimerSeam> timerMock = new Mock<TimerSeam>();
+            IOpenCoverRunnerManager openCoverRunnerManager = new OpenCoverRunnerManager(null, timerMock.Object);
+            openCoverRunnerManager.SetTimeOut(new TimeSpan(0, 1, 0));
+            timerMock.VerifySet(t => t.Interval=60000,Times.Exactly(1));
+
+        }
+
+        [TestMethod]
+        public void SetTimeOut_ZeroMinute_ExpectNotSet()
+        {
+            Mock<TimerSeam> timerMock = new Mock<TimerSeam>();
+            IOpenCoverRunnerManager openCoverRunnerManager = new OpenCoverRunnerManager(null, timerMock.Object);
+            openCoverRunnerManager.SetTimeOut(new TimeSpan(0, 0, 0));
+            timerMock.VerifySet(t => t.Interval =It.IsAny<double>(), Times.Exactly(0));
+
+        }
         [TestMethod]
         public void Run_CouldNotRegisterAtAll_InvalidOperationExceptionThrown()
         {
@@ -79,7 +100,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 .Returns(true);
 
             IProcessFactory processFactory = processFactoryMock.Object;
-            var timerMock = new Mock<Timer>();
+            var timerMock = new Mock<TimerSeam>();
             var testRunner = new OpenCoverRunner.OpenCoverRunnerManager(processFactory,timerMock.Object);
             ProcessStartInfo info = new ProcessStartInfo();
 

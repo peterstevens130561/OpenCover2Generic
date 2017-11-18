@@ -172,5 +172,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             Assert.AreEqual(1, jobs);
         }
+
+        [TestMethod]
+        public void GetJobTimeOut_OneMinute_ExpectOneMinute()
+        {
+            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
+            string[] line = { @"-jobtimeout:1" };
+            commandLineParser.Args = line;
+            TimeSpan timeSpan= commandLineParser.GetJobTimeOut();
+
+            Assert.AreEqual(60, timeSpan.TotalSeconds);
+        }
     }
 }

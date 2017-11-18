@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using System.Timers;
+using BHGE.SonarQube.OpenCover2Generic.Seams;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Factories
 {
@@ -20,7 +21,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
 
         public IOpenCoverRunnerManager CreateManager()
         {
-            return new OpenCoverRunnerManager(_processFactory,new Timer());
+            return new OpenCoverRunnerManager(_processFactory,new TimerSeam());
         }
     }
 }

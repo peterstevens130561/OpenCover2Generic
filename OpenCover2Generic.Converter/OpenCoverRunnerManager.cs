@@ -9,6 +9,7 @@ using System.IO;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
 using System.Timers;
 using System.Threading;
+using BHGE.SonarQube.OpenCover2Generic.Seams;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 {
@@ -16,7 +17,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverRunnerManager).Name);
         private string _testResultsPath;
-        private readonly System.Timers.Timer _watchDog ;
+        private readonly ITimerSeam _watchDog ;
 
         private readonly StringBuilder _processOutput = new StringBuilder(2048);
         private readonly IProcessFactory _processFactory;
@@ -33,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 
         private ProcessState _processState;
 
-        public OpenCoverRunnerManager(IProcessFactory processFactory, System.Timers.Timer timer)
+        public OpenCoverRunnerManager(IProcessFactory processFactory, ITimerSeam timer)
         {
             _processFactory = processFactory;
             _watchDog = timer;
@@ -41,10 +42,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 
         public void SetTimeOut(TimeSpan timeOut)
         {
-            _watchDog.Interval = timeOut.Milliseconds;
-            _watchDog.AutoReset = false;
-            _watchDog.Elapsed += OnTimeOut;
-
+            if (timeOut.TotalMilliseconds > 0)
+            {
+                _watchDog.Interval = timeOut.TotalMilliseconds;
+                _watchDog.AutoReset = false;
+                _watchDog.Elapsed += OnTimeOut;
+            }
         }
 
 
