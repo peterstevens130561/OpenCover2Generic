@@ -96,7 +96,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                     }
                 }
             }
-            log.Info($"Completed after{_stopWatch.ElapsedMilliseconds}ms");
+            _watchDog.Stop();
+            log.Info($"Completed after {_stopWatch.Elapsed.TotalSeconds}s");
             writer.Write(_processOutput.ToString());
             if (_processState==ProcessState.RecoverableFailure)
             {

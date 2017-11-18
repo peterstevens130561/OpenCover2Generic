@@ -72,6 +72,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Seams
         {
             Dispose(true);
         }
+
+        public void Stop()
+        {
+            _timer.Stop();
+        }
         #endregion
     }
 }

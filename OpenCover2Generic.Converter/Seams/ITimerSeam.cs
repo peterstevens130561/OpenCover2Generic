@@ -10,5 +10,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Seams
         double Interval { get; set; }
 
         void Start();
+        void Stop();
     }
 }

@@ -52,6 +52,20 @@ and will write the failing assembly on the console
 may impact the overall duration, in that case you may want to use this.
 
 
+## Integration with SonarQube
+You need to set the following properties in the 'pre' step
+1. sonar.genericcoverage.reportPaths, this is the coverage file
+2. sonar.genericcoverage.unitTestReportPaths, this is the rest results file
+```
+    $TestResultsFile="$(Get-Location)\.sonarqube\testresults.xml"
+    $CoverageFile="$(Get-Location)\.sonarqube\opencover.xml"
+    #/d:sonar.scm.forceReloadAll=true
+    #&$SonarMsBuildRunner begin /k:$Key \
+    /v:"main" /n:"$ProjectName" \
+    /d:sonar.genericcoverage.reportPaths=$CoverageFile \
+    /d:sonar.genericcoverage.unitTestReportPaths="$TestResultsFile" \
+    /d:sonar.genericcoverage.reportPaths=$CoverageFile /d:sonar.genericcoverage.unitTestReportPaths="$TestResultsFile"
+```
 ## Notes
 The wrapper requires the SonarQubeLogger to be installed on system. In a later release the logger will be included in the
 wrapper.
