@@ -81,5 +81,16 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
             }
             return @default;
         }
+
+        public int GetOptionalPositiveInt(string argument, string @default, int lower)
+        {
+            string value = GetOptionalArgument(argument, @default);
+            int result;
+            if (!int.TryParse(value, out result) || result < lower)
+            {
+                throw new CommandLineArgumentException($"'{argument}' should be integer value >= '{lower}' but is '{value}'" );
+            }
+            return result;
+        }
     }
 }

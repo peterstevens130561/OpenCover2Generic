@@ -17,5 +17,6 @@
         /// <returns></returns>
         string[] GetArgumentArray(string key);
         string GetOptionalArgument(string v1, string v2);
+        int GetOptionalPositiveInt(string argument, string @default, int lower);
     }
 }

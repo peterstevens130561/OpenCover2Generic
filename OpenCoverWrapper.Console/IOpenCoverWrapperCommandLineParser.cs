@@ -1,4 +1,6 @@
-﻿namespace BHGE.SonarQube.OpenCoverWrapper
+﻿using System;
+
+namespace BHGE.SonarQube.OpenCoverWrapper
 {
     internal interface IOpenCoverWrapperCommandLineParser
     {
@@ -10,5 +12,8 @@
         string GetTestResultsPath();
         string[] GetTestAssemblies();
         int GetParallelJobs();
+        TimeSpan GetJobTimeOut();
+        int GetChunkSize();
+        string GetOutputPath();
     }
 }

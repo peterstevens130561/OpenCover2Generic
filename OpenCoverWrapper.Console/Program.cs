@@ -25,10 +25,10 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         public static void Main(string[] args)
         {
             BasicConfigurator.Configure();
-            var commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());       
+            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());       
             var converter = new MultiAssemblyConverter();
 
-            var openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
+            IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             JobFileSystem jobFileSystemInfo = new JobFileSystem(new FileSystemAdapter());
             IOpenCoverManagerFactory openCoverManagerFactory = new OpenCoverManagerFactory(new ProcessFactory());
             IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
@@ -42,10 +42,16 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
             testRunner.Initialize();
 
-            string[] testAssemblies = commandLineParser.GetTestAssemblies();
-            testRunner.RunTests(testAssemblies,5);
+            int consumers = commandLineParser.GetParallelJobs();
+            TimeSpan jobTimeOut = commandLineParser.GetJobTimeOut();
+            testRunner.CreateJobConsumers(consumers, jobTimeOut);
 
+            string[] testAssemblies = commandLineParser.GetTestAssemblies();
+            int chunkSize = commandLineParser.GetChunkSize();
+            testRunner.CreateJobs(testAssemblies, chunkSize);
             string testResultsPath = commandLineParser.GetTestResultsPath();
+
+            testRunner.Wait();
             testRunner.CreateTestResults(testResultsPath);
 
             string outputPath = commandLineParser.GetOutputPath();

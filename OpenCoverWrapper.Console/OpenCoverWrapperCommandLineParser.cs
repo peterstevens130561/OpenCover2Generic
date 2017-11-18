@@ -39,7 +39,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             int jobs;
             if(!int.TryParse(value,out jobs) || jobs <1)
             {
-                throw new CommandLineArgumentException($"-parallel:<positive int>, i.e. -parallel:5 actual -parallel:{value}");
+                throw new CommandLineArgumentException($"-parallel:<positive int>, invalid:{value}");
             }
             return jobs;
         }
@@ -59,9 +59,31 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             return _commandLineParser.GetArgumentArray("-testassembly");
         }
 
+        public TimeSpan GetJobTimeOut()
+        {
+            string value = _commandLineParser.GetOptionalArgument("-jobtimeout", "0");
+            int timeout;
+            if (!int.TryParse(value, out timeout) || timeout < 1)
+            {
+                throw new CommandLineArgumentException($"-jobtimeout:<positive int>, invalid: {value}");
+            }
+            return new TimeSpan(0, timeout, 0);
+        }
+
         public string GetTestResultsPath()
         {
             return _commandLineParser.GetArgument("-testresults");
+        }
+
+        public int GetChunkSize()
+        {
+            string value = _commandLineParser.GetOptionalArgument("-chunksize", "1");
+            int chunkSize;
+            if (!int.TryParse(value, out chunkSize) || chunkSize < 1)
+            {
+                throw new CommandLineArgumentException($"-chunksize:<positive int>, invalid:{value}");
+            }
+            return chunkSize;
         }
     }
 }

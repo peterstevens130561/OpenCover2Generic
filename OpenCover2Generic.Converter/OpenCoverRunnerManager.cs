@@ -98,7 +98,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             {
                 throw new InvalidOperationException("Could not start OpenCover, due to registration problems");
             }
-
         }
 
         public string TestResultsPath

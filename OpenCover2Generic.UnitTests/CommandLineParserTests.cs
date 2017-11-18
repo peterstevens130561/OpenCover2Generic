@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
+using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -8,7 +9,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class CommandLineParserTests
     {
         [TestMethod]
-        public void ArgumentArraySeperateArguments()
+        public void GetArgumentArray_SeperateArguments_ExpectArray()
         {
             ICommandLineParser commandLineParser = new CommandLineParser();
             string[] line = { @"-testassembly:a:/My Documents/fun.dll", "-testassembly:second.dll" };
@@ -20,7 +21,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void ArgumentArrayComma()
+        public void GetArgumentArray_SeperatedByComma_ExpectArray()
         {
             ICommandLineParser commandLineParser = new CommandLineParser();
             string[] line = { @"-testassembly:a:/My Documents/fun.dll,second.dll" };
@@ -69,5 +70,48 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         }
 
+        [TestMethod]
+        public void GetOptionalPositiveInt_Negative_ExpectException()
+        {
+            ICommandLineParser commandLineParser = new CommandLineParser();
+
+            //When
+            try
+            {
+                string[] line = { @"-argument:-1" };
+                commandLineParser.Args = line;
+                commandLineParser.GetOptionalPositiveInt("-argument","5",0);
+            }
+            //then
+            catch (CommandLineArgumentException)
+            {
+                return;
+            }
+            Assert.Fail("Expected exception");
+        }
+
+        [TestMethod]
+        public void GetOptionalPositiveInt_Ok_ExpectValue()
+        {
+            ICommandLineParser commandLineParser = new CommandLineParser();
+
+            string[] line = { @"-argument:3" };
+            commandLineParser.Args = line;
+            var value=commandLineParser.GetOptionalPositiveInt("-argument", "5", 0);
+
+            Assert.AreEqual(3, value);
+        }
+
+        [TestMethod]
+        public void GetOptionalPositiveInt_NotProvided_ExpectDefault()
+        {
+            ICommandLineParser commandLineParser = new CommandLineParser();
+
+            string[] line = { @"" };
+            commandLineParser.Args = line;
+            var value = commandLineParser.GetOptionalPositiveInt("-argument", "5", 0);
+
+            Assert.AreEqual(5, value);
+        }
     }
 }
