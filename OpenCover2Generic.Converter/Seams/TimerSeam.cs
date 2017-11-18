@@ -7,7 +7,7 @@ using System.Timers;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Seams
 {
-    public class TimerSeam : ITimerSeam
+    public class TimerSeam : ITimerSeam, IDisposable
     {
         private readonly Timer _timer = new Timer();
         public bool AutoReset
@@ -53,5 +53,25 @@ namespace BHGE.SonarQube.OpenCover2Generic.Seams
         {
             _timer.Start();
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _timer.Dispose();
+                }
+                disposedValue = true;
+            }
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }
