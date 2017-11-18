@@ -49,11 +49,12 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         {
 
             CreateJobs(testAssemblies, 1);
-            CreateJobConsumers(parallelJobs);
+            TimeSpan timeOut = new TimeSpan(1, 0, 0);
+            CreateJobConsumers(parallelJobs,timeOut);
             Wait();
         }
 
-        public TimeSpan JobTimeOut{ get;set;}
+
 
         public void CreateJobs(string[] testAssemblies, int chunkSize)
         {
@@ -72,24 +73,23 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         public void Wait()
         {
-            _tasks.ForEach(t => t.Wait());
+            try
+            {
+                _tasks.ForEach(t => t.Wait());
+            } catch (AggregateException e)
+            {
+                throw e.InnerException;
+            }
         }
         public IJobs Jobs { get { return _jobs; } }
 
-        public bool HadJobTimeOut
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
 
-        public void CreateJobConsumers(int consumers)
+        public void CreateJobConsumers(int consumers,TimeSpan jobTimeOut)
         {
 
             for (int i = 1; i <= consumers; i++)
             {
-                Task task = Task.Run(() => _jobConsumerFactory.Create().ConsumeJobs(_jobs));
+                Task task = Task.Run(() => _jobConsumerFactory.Create().ConsumeJobs(_jobs,jobTimeOut));
                 _tasks.Add(task);
             }
         }
@@ -137,6 +137,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             }
         }
 
-
+        public void CreateJobConsumers(int consumers)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

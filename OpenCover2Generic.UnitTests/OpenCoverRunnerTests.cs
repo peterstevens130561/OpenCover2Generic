@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using System.Reflection;
+using System.Timers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -23,6 +24,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             //given a valid runner which will not register on starting, but will on second
             Mock<IProcessFactory> processFactoryMock = new Mock<IProcessFactory>();
+            Mock<Timer> timerMock = new Mock<Timer>();
             var openCoverProcessMock = new Mock<IOpenCoverProcess>();
             processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(openCoverProcessMock.Object);
             openCoverProcessMock.Setup(p => p.HasExited).Returns(true);
@@ -40,7 +42,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             IProcessFactory processFactory = processFactoryMock.Object;
 
-            var testRunner = new OpenCoverRunner.OpenCoverRunnerManager(processFactory);
+            var testRunner = new OpenCoverRunner.OpenCoverRunnerManager(processFactory,timerMock.Object);
             ProcessStartInfo info = new ProcessStartInfo();
             
             //when starting the runner
@@ -77,8 +79,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 .Returns(true);
 
             IProcessFactory processFactory = processFactoryMock.Object;
-
-            var testRunner = new OpenCoverRunner.OpenCoverRunnerManager(processFactory);
+            var timerMock = new Mock<Timer>();
+            var testRunner = new OpenCoverRunner.OpenCoverRunnerManager(processFactory,timerMock.Object);
             ProcessStartInfo info = new ProcessStartInfo();
 
             //when starting the runner

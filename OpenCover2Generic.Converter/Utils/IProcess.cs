@@ -16,5 +16,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
 
 
         void Start();
+
+        void Kill();
     }
 }

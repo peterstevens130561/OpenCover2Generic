@@ -48,6 +48,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
             process.BeginErrorReadLine();
         }
 
+        public void Kill()
+        {
+            process.Kill();
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
@@ -67,8 +72,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
         {
             Dispose(true);
         }
+
+
+
         #endregion
-
-
     }
 }

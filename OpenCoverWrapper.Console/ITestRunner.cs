@@ -7,11 +7,8 @@ namespace BHGE.SonarQube.OpenCoverWrapper
     internal interface ITestRunner
     {
         void CreateJobs(string[] testAssemblies, int chunkSize);
-        void CreateJobConsumers(int consumers);
+        void CreateJobConsumers(int consumers, TimeSpan jobTimeOut);
         IJobs Jobs { get; }
-        bool HadJobTimeOut { get; }
-
-        TimeSpan JobTimeOut { get; set; }
         void Wait();
     }
 }

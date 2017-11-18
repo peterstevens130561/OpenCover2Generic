@@ -1,4 +1,5 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Factories;
+﻿using BHGE.SonarQube.OpenCover2Generic.Exceptions;
+using BHGE.SonarQube.OpenCover2Generic.Factories;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
@@ -28,7 +29,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             _openCoverManagerFactory = openCoverManagerFactory;
         }
 
-        public void ConsumeJobs(IJobs jobs)
+        public void ConsumeJobs(IJobs jobs,TimeSpan jobTimeOut)
         {
             while (!jobs.IsCompleted())
             {
@@ -37,23 +38,29 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
                 {
                     continue;
                 }
-                Consume(job);
+                Consume(job,jobTimeOut);
 
             }
         }
 
-        private void Consume(IJob job)
+        private void Consume(IJob job,TimeSpan jobTimeOut)
         {
             log.Info($"Running unit test on {Path.GetFileName(job.Assemblies)}");
 
             var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(job.FirstAssembly);
             string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(job.FirstAssembly);
             var runner = _openCoverManagerFactory.CreateManager();
+            runner.SetTimeOut(jobTimeOut);
             using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
             {
                 var processStartInfo = _openCoverCommandLineBuilder.Build(job.Assemblies, openCoverOutputPath);
                 Task task = Task.Run(() => runner.Run(processStartInfo, writer));
                 task.Wait();
+            }
+            if(runner.TimedOut)
+            {
+                string msg = $"Timeout on executing {job.Assemblies}";
+                throw new JobTimeOutException(msg);
             }
             if (runner.TestResultsPath != null)
             {

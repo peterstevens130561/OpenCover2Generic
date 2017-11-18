@@ -125,6 +125,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
         {
             Dispose(true);
         }
+
+        public void Kill()
+        {
+            _process.Kill();
+        }
+
         #endregion
     }
 }

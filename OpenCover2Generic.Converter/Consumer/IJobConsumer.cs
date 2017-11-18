@@ -1,5 +1,6 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Model;
 using System.Collections.Concurrent;
+using System;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Consumer
 {
@@ -9,6 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
         /// keep on consuming jobs from jobs until no more left
         /// </summary>
         /// <param name="jobs"></param>
-        void ConsumeJobs(IJobs jobs);
+        /// <param name="jobTimeOut">timeout</param>
+        void ConsumeJobs(IJobs jobs, TimeSpan jobTimeOut);
     }
 }

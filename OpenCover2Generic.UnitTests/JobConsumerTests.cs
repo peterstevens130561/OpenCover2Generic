@@ -24,6 +24,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<IOpenCoverManagerFactory> _openCoverManagerFactoryMock;
         private Mock<IOpenCoverCommandLineBuilder> _openCoverCommandLineBuilder;
         private IJobs jobs = new Jobs();
+        private TimeSpan jobTimeOut;
 
         [TestInitialize]
         public void Initialize()
@@ -34,7 +35,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _openCoverManagerFactoryMock.Setup(o => o.CreateManager()).Returns(new Mock<IOpenCoverRunnerManager>().Object);
             _openCoverCommandLineBuilder = new Mock<IOpenCoverCommandLineBuilder>();
             _jobConsumer = new JobConsumer(_openCoverCommandLineBuilder.Object,_jobFileSystemMock.Object,_openCoverManagerFactoryMock.Object);
-            
+            jobTimeOut = new TimeSpan(0);
         }
 
         [TestMethod]
@@ -43,11 +44,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
             jobs.Add(new Job("a"));
             jobs.Add(new Job("b"));
             jobs.CompleteAdding();
-            _jobConsumer.ConsumeJobs(jobs);
 
-            _openCoverCommandLineBuilder.Verify(v => v.Build("a",null),Times.Exactly(1));
+            WhenConsumingJobs();
+
+            _openCoverCommandLineBuilder.Verify(v => v.Build("a", null), Times.Exactly(1));
             _openCoverCommandLineBuilder.Verify(v => v.Build("b", null), Times.Exactly(1));
         }
+
+
 
         [TestMethod]
         public void ConsumeJobs_TwoChunksOfTwoInQueue_ExpectOnejobTakenTwoTimes()
@@ -55,10 +59,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
             jobs.Add(new Job("a b"));
             jobs.Add(new Job("c d"));
             jobs.CompleteAdding();
-            _jobConsumer.ConsumeJobs(jobs);
+
+            WhenConsumingJobs();
 
             _openCoverCommandLineBuilder.Verify(v => v.Build("a b", null), Times.Exactly(1));
             _openCoverCommandLineBuilder.Verify(v => v.Build("c d", null), Times.Exactly(1));
+        }
+
+        private void WhenConsumingJobs()
+        {
+            _jobConsumer.ConsumeJobs(jobs, jobTimeOut);
         }
     }
 }
