@@ -70,4 +70,6 @@ You need to set the following properties in the 'pre' step
 The wrapper requires the SonarQubeLogger to be installed on system. In a later release the logger will be included in the
 wrapper.
 
+This wrapper replaces sonar-mscover, except for the Re# support, which is not included. There are 
+
 
