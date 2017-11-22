@@ -113,6 +113,11 @@ namespace OpenCover2Generic.Converter
         {
             return _openCoverIntermediateDir;
         }
+
+        public IEnumerable<string> GetTestResultsFiles()
+        {
+            return Directory.EnumerateFiles(GetTestResultsDirectory());
+        }
     }
 
 }

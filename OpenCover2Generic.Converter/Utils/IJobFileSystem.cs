@@ -1,4 +1,6 @@
-﻿namespace OpenCover2Generic.Converter
+﻿using System.Collections.Generic;
+
+namespace OpenCover2Generic.Converter
 {
     public interface IJobFileSystem
     {
@@ -7,6 +9,8 @@
         string GetTestResultsPath(string assembly);
         string GetIntermediateCoverageDirectory();
         string GetTestResultsDirectory();
+
+        IEnumerable<string> GetTestResultsFiles();
         void CreateRoot(string v);
     }
 }

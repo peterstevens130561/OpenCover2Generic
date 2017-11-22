@@ -62,6 +62,8 @@
     <Compile Include="Model\Job.cs" />
     <Compile Include="Model\Jobs.cs" />
     <Compile Include="OpenCoverRunnerManager.cs" />
+    <Compile Include="Repositories\ITestResultsRepository.cs" />
+    <Compile Include="Repositories\TestResultsRepository.cs" />
     <Compile Include="Seams\ITimerSeam.cs" />
     <Compile Include="Seams\TimerSeam.cs" />
     <Compile Include="Exceptions\CommandLineArgumentException.cs" />
