@@ -16,14 +16,24 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class TestRepositoryTests
     {
+        private Mock<IJobFileSystem> _jobFileSystemMock;
+        private ITestResultsRepository _testResultsRepository;
+        private Mock<IFileSystemAdapter> _fileSystemMock;
+        [TestInitialize]
+        public void Initialize(){
+            _jobFileSystemMock = new Mock<IJobFileSystem>();
+            _fileSystemMock = new Mock<IFileSystemAdapter>();
+            _testResultsRepository = new TestResultsRepository(_jobFileSystemMock.Object,_fileSystemMock.Object);
+        }
+
+
         [TestMethod]
         public void Write_EmptyRepository_EmptyFile()
         {
-            var fileSystemMock = new Mock<IJobFileSystem>();
-            ITestResultsRepository testResultsRepository = new TestResultsRepository(fileSystemMock.Object);
+
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
-            testResultsRepository.Write(writer);
+            _testResultsRepository.Write(writer);
             var result = Encoding.ASCII.GetString(stream.ToArray());
             var expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <unitTest version=""1"" />";
@@ -33,12 +43,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Write_TwoFilesInRepository_ConcatenatedFiles()
         {
-            var fileSystemMock = new Mock<IJobFileSystem>();
-            ITestResultsRepository testResultsRepository = new TestResultsRepository(fileSystemMock.Object);
-            string[] files = {"Resources/1_TestResults.xml", "Resources/2_TestResults.xml" };
-            fileSystemMock.Setup(f => f.GetTestResultsFiles()).Returns(files);
 
-            XDocument doc = WhenWriting(testResultsRepository);
+            string[] files = {"Resources/1_TestResults.xml", "Resources/2_TestResults.xml" };
+            _jobFileSystemMock.Setup(f => f.GetTestResultsFiles()).Returns(files);
+
+            XDocument doc = WhenWriting(_testResultsRepository);
 
             var fileCount=doc.Root.Elements("file").Count();
             Assert.AreEqual(33, fileCount);
@@ -50,11 +59,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Write_TwoSameFilesInRepository_ExpectOne()
         {
-            var fileSystemMock = new Mock<IJobFileSystem>();
-            ITestResultsRepository testResultsRepository = new TestResultsRepository(fileSystemMock.Object);
             string[] files = { "Resources/1_TestResults.xml", "Resources/1_TestResults.xml" };
-            fileSystemMock.Setup(f => f.GetTestResultsFiles()).Returns(files);
-            XDocument doc = WhenWriting(testResultsRepository);
+            _jobFileSystemMock.Setup(f => f.GetTestResultsFiles()).Returns(files);
+            XDocument doc = WhenWriting(_testResultsRepository);
 
             var fileCount = doc.Root.Elements("file").Count();
             Assert.AreEqual(1, fileCount);
@@ -66,21 +73,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Add_File_ShouldBeInRepository()
         {
-            var fileSystemMock = new Mock<IJobFileSystem>();
-            ITestResultsRepository testResultsRepository = new TestResultsRepository(fileSystemMock.Object);
-
             var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(tempDir);
-            fileSystemMock.Setup(f => f.GetTestResultsDirectory()).Returns(tempDir);
+            _jobFileSystemMock.Setup(f => f.GetTestResultsDirectory()).Returns(tempDir);
 
-            testResultsRepository.Add("Resources/1_TestResults.xml");
+            var fileToAdd="Resources/1_TestResults.xml";
+            _testResultsRepository.Add(fileToAdd);
 
-            var resultsFiles = Directory.EnumerateFiles(tempDir);
-            Assert.IsNotNull(resultsFiles);
-            Assert.AreEqual(1, resultsFiles.Count());
-            Assert.AreEqual("1_TestResults.xml", resultsFiles.First());
+            _fileSystemMock.Verify(f => f.CopyFile(fileToAdd,tempDir),Times.Exactly(1));
         }
-
+  
         private static XDocument WhenWriting(ITestResultsRepository testResultsRepository)
         {
             var stream = new MemoryStream();

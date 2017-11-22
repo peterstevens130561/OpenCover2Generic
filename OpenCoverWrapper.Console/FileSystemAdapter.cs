@@ -22,6 +22,11 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             return Directory.EnumerateFiles(path);
         }
 
+        public void CopyFile(string sourceFileName,string destFileName)
+        {
+            File.Copy(sourceFileName, destFileName);
+        }
+
         public string GetTempPath()
         {
             return Path.GetTempPath();

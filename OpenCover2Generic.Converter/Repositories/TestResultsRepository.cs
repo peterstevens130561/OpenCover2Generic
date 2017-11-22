@@ -12,16 +12,18 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
 {
     public class TestResultsRepository : ITestResultsRepository
     {
+        private readonly IFileSystemAdapter _fileSystem;
         private readonly IJobFileSystem _jobFileSystem;
 
-        public TestResultsRepository(IJobFileSystem jobFileSystem)
+        public TestResultsRepository(IJobFileSystem jobFileSystem,IFileSystemAdapter fileSystem)
         {
             _jobFileSystem = jobFileSystem;
+            _fileSystem = fileSystem;
         }
 
         public void Add(string path)
         {
-            throw new NotImplementedException();
+            _fileSystem.CopyFile(path,_jobFileSystem.GetTestResultsDirectory());
         }
 
         public void Write(StreamWriter streamWriter)

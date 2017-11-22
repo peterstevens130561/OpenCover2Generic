@@ -9,5 +9,6 @@ namespace OpenCover2Generic.Converter
         bool DirectoryExists(string path);
         string GetTempPath();
         IEnumerable<string> EnumerateFiles(string path);
+        void CopyFile(string path, string v);
     }
 }
