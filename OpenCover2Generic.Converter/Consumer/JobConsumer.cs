@@ -2,6 +2,7 @@
 using BHGE.SonarQube.OpenCover2Generic.Factories;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
+using BHGE.SonarQube.OpenCover2Generic.Repositories;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using log4net;
 using OpenCover2Generic.Converter;
@@ -21,12 +22,16 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
         private readonly IJobFileSystem _jobFileSystemInfo;
         private readonly IOpenCoverCommandLineBuilder _openCoverCommandLineBuilder;
         private readonly IOpenCoverManagerFactory _openCoverManagerFactory;
-
-        public JobConsumer(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder,IJobFileSystem jobFileSystem,IOpenCoverManagerFactory openCoverManagerFactory)
+        private readonly ITestResultsRepository _testResultsRepository;
+        public JobConsumer(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder,
+            IJobFileSystem jobFileSystem,
+            IOpenCoverManagerFactory openCoverManagerFactory,
+            ITestResultsRepository testResultsRepository)
         {
             _openCoverCommandLineBuilder = openCoverCommandLineBuilder;
             _jobFileSystemInfo = jobFileSystem;
             _openCoverManagerFactory = openCoverManagerFactory;
+            _testResultsRepository = testResultsRepository;
         }
 
         public void ConsumeJobs(IJobs jobs,TimeSpan jobTimeOut)
@@ -62,22 +67,18 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
                 string msg = $"Timeout on executing {job.Assemblies}";
                 throw new JobTimeOutException(msg);
             }
-            if (runner.TestResultsPath != null)
+            _testResultsRepository.Add(runner.TestResultsPath);
+            try
             {
-                string testResultsPath = _jobFileSystemInfo.GetTestResultsPath(job.FirstAssembly);
-                File.Move(runner.TestResultsPath, testResultsPath);
-                try
+                using (var reader = new StreamReader(openCoverOutputPath))
                 {
-                    using (var reader = new StreamReader(openCoverOutputPath))
-                    {
-                        new MultiAssemblyConverter().ConvertCoverageFileIntoIntermediate(_jobFileSystemInfo.GetIntermediateCoverageDirectory(), job.FirstAssembly, reader);
-                    }
+                    new MultiAssemblyConverter().ConvertCoverageFileIntoIntermediate(_jobFileSystemInfo.GetIntermediateCoverageDirectory(), job.FirstAssembly, reader);
                 }
-                catch (Exception)
-                {
-                    log.Error($"Exception thrown during reading {openCoverOutputPath}");
-                    throw;
-                }
+            }
+            catch (Exception)
+            {
+                log.Error($"Exception thrown during reading {openCoverOutputPath}");
+                throw;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Consumer;
 using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
+using BHGE.SonarQube.OpenCover2Generic.Repositories;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using BHGE.SonarQube.OpenCoverWrapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -97,7 +98,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _jobFileSystemMock.Setup(j => j.GetOpenCoverLogPath(It.IsAny<string>())).Returns(Path.GetTempFileName());
             _openCoverCommandLineBuilderMock.Setup(j => j.Build(It.IsAny<string>(), It.IsAny<string>())).Returns(new ProcessStartInfo());
 
-            IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(_openCoverCommandLineBuilderMock.Object, _jobFileSystemMock.Object, new OpenCoverManagerFactory(processFactoryMock.Object));
+            IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(_openCoverCommandLineBuilderMock.Object,
+                _jobFileSystemMock.Object,
+                new OpenCoverManagerFactory(processFactoryMock.Object),
+                new TestResultsRepository(_jobFileSystemMock.Object, null)
+                );
             ITestRunner testRunner = new TestRunner(_jobFileSystemMock.Object, null, jobConsumerFactory);
 
             string[] testAssemblies = { "one" };

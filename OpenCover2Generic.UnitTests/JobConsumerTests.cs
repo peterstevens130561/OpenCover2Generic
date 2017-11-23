@@ -23,7 +23,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<IJobFileSystem> _jobFileSystemMock;
         private Mock<IOpenCoverManagerFactory> _openCoverManagerFactoryMock;
         private Mock<IOpenCoverCommandLineBuilder> _openCoverCommandLineBuilder;
-        private IJobs jobs = new Jobs();
+        private readonly IJobs jobs = new Jobs();
         private TimeSpan jobTimeOut;
 
         [TestInitialize]
@@ -34,7 +34,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _openCoverManagerFactoryMock = new Mock<IOpenCoverManagerFactory>();
             _openCoverManagerFactoryMock.Setup(o => o.CreateManager()).Returns(new Mock<IOpenCoverRunnerManager>().Object);
             _openCoverCommandLineBuilder = new Mock<IOpenCoverCommandLineBuilder>();
-            _jobConsumer = new JobConsumer(_openCoverCommandLineBuilder.Object,_jobFileSystemMock.Object,_openCoverManagerFactoryMock.Object);
+            _jobConsumer = new JobConsumer(_openCoverCommandLineBuilder.Object,
+                _jobFileSystemMock.Object,_openCoverManagerFactoryMock.Object,
+                null);
             jobTimeOut = new TimeSpan(0);
         }
 

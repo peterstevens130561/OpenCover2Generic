@@ -1,5 +1,6 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Consumer;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
+using BHGE.SonarQube.OpenCover2Generic.Repositories;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenCover2Generic.Converter;
@@ -20,7 +21,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
             IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = null;
             IJobFileSystem jobFileSystem = null;
             IOpenCoverManagerFactory openCoverManagerFactory = null;
-            IJobConsumerFactory factory = new JobConsumerFactory(openCoverCommandLineBuilder, jobFileSystem, openCoverManagerFactory);
+            ITestResultsRepository testResultsRepository = null;
+            IJobConsumerFactory factory = new JobConsumerFactory(openCoverCommandLineBuilder, jobFileSystem, 
+                openCoverManagerFactory,
+                testResultsRepository);
 
             IJobConsumer jobConsumer = factory.Create();
             Assert.IsNotNull(jobConsumer);

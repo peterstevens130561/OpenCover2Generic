@@ -15,6 +15,7 @@ using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
 using BHGE.SonarQube.OpenCover2Generic.Exceptions;
+using BHGE.SonarQube.OpenCover2Generic.Repositories;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -28,13 +29,14 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             BasicConfigurator.Configure();
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());       
             var converter = new MultiAssemblyConverter();
-
+            var fileSystem = new FileSystemAdapter();
             IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             JobFileSystem jobFileSystemInfo = new JobFileSystem(new FileSystemAdapter());
             IOpenCoverManagerFactory openCoverManagerFactory = new OpenCoverManagerFactory(new ProcessFactory());
+            var testResultsRepository = new TestResultsRepository(jobFileSystemInfo, fileSystem);
             IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
                 jobFileSystemInfo, 
-                openCoverManagerFactory);
+                openCoverManagerFactory,testResultsRepository);
             
             var testRunner = new TestRunner(jobFileSystemInfo,converter,jobConsumerFactory);
 
@@ -42,7 +44,8 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             openCoverCommandLineBuilder.Args = args;
 
             testRunner.Initialize();
-            try {
+            try
+            {
                 int consumers = commandLineParser.GetParallelJobs();
                 TimeSpan jobTimeOut = commandLineParser.GetJobTimeOut();
                 testRunner.CreateJobConsumers(consumers, jobTimeOut);
@@ -53,7 +56,10 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 string testResultsPath = commandLineParser.GetTestResultsPath();
 
                 testRunner.Wait();
-                testRunner.CreateTestResults(testResultsPath);
+
+                using (var writer = new StreamWriter(testResultsPath)) { 
+                    testResultsRepository.Write(writer);
+                }
 
                 string outputPath = commandLineParser.GetOutputPath();
                 testRunner.CreateCoverageFile(outputPath);
