@@ -119,25 +119,25 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.Fail("expected InvalidOperatonException");
 
         }
-        private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string TestData)
+        private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string testData)
             {
 
-                if (String.IsNullOrEmpty(TestData))
-                    throw new ArgumentException("Data is null or empty.", "TestData");
+                if (String.IsNullOrEmpty(testData))
+                    throw new ArgumentException("Data is null or empty.", "testData");
 
-                DataReceivedEventArgs MockEventArgs =
+                DataReceivedEventArgs mockEventArgs =
                     (DataReceivedEventArgs)System.Runtime.Serialization.FormatterServices
                      .GetUninitializedObject(typeof(DataReceivedEventArgs));
 
-                FieldInfo[] EventFields = typeof(DataReceivedEventArgs)
+                FieldInfo[] eventFields = typeof(DataReceivedEventArgs)
                     .GetFields(
                         BindingFlags.NonPublic |
                         BindingFlags.Instance |
                         BindingFlags.DeclaredOnly);
 
-                if (EventFields.Any())
+                if (eventFields.Any())
                 {
-                    EventFields[0].SetValue(MockEventArgs, TestData);
+                    eventFields[0].SetValue(mockEventArgs, testData);
                 }
                 else
                 {
@@ -145,7 +145,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                         "Failed to find _data field!");
                 }
 
-                return MockEventArgs;
+                return mockEventArgs;
             }
         }
     }

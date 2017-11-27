@@ -29,7 +29,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
 
         public void GenerateCoverage(IModuleCoverageModel model,XmlWriter xmlWriter)
         {
-            foreach (ISourceFileCoverageModel fileCoverage in model.GetCoverage())
+            foreach (ISourceFileCoverageModel fileCoverage in model.GetSourceFiles())
             {
                 xmlWriter.WriteStartElement("file");
                 xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);

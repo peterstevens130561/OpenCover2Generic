@@ -19,12 +19,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private readonly ICoverageParser _parser;
         private readonly ICoverageParser _moduleParser;
         private readonly ICoverageWriter _moduleWriter;
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="model"></param>
         /// <param name="testCoverageParser"></param>
         /// <param name="resultCoverageWriter"></param>
+        /// <param name="intermediateCoverageParser"></param>
+        /// <param name="intermediateCoverageWriter"></param>
         public MultiAssemblyConverter(IModuleCoverageModel model,
             ICoverageParser testCoverageParser,
             ICoverageWriter resultCoverageWriter,
@@ -88,7 +91,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         private void WriteModule(string rootPath, string testAssemblyPath)
         {
-            if (_model.GetCoverage().Count > 0)
+            if (_model.GetSourceFiles().Count > 0)
             {
                 string moduleFile = GetPathForModule(rootPath,testAssemblyPath);
                 WriteModuleToFile(moduleFile);

@@ -21,7 +21,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             //
         }
 
-        private TestContext testContextInstance;
+        private TestContext _testContextInstance;
 
         /// <summary>
         ///Gets or sets the test context which provides
@@ -31,11 +31,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             get
             {
-                return testContextInstance;
+                return _testContextInstance;
             }
             set
             {
-                testContextInstance = value;
+                _testContextInstance = value;
             }
         }
 

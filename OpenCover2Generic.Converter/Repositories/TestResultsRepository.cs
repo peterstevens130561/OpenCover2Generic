@@ -23,7 +23,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
 
         public void Add(string path)
         {
-            _fileSystem.CopyFile(path,_jobFileSystem.GetTestResultsDirectory());
+            string name = Path.GetFileName(path);
+            string destinationFilePath = Path.Combine(_jobFileSystem.GetTestResultsDirectory(), name);
+            _fileSystem.CopyFile(path,destinationFilePath);
         }
 
         public void Write(StreamWriter streamWriter)

@@ -15,7 +15,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private IModuleCoverageModel _model;
         private OpenCoverCoverageParser _parser;
         private Mock<IModuleCoverageModel> _modelMock;
-        private readonly string openCoverExample= @"<?xml version=""1.0"" encoding=""utf-8""?>
+        private readonly string _openCoverExample= @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
 <Modules>
     <Module hash=""AF-9C-7F-A4-DD-C2-F3-98-52-99-5F-75-22-1D-C1-5F-2A-5D-BE-62"">
@@ -64,34 +64,34 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void parseFile()
+        public void ParseFile()
         {
 
-            WhenParsing(openCoverExample);
+            WhenParsing(_openCoverExample);
             _modelMock.Verify(parser => parser.AddFile("1", @"E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"));
         }
 
         [TestMethod]
-        public void parseModuleName()
+        public void ParseModuleName()
         {
 
-            WhenParsing(openCoverExample);
+            WhenParsing(_openCoverExample);
             Assert.AreEqual("Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest", _parser.ModuleName);
         }
 
         [TestMethod]
-        public void parseSequencePoint()
+        public void ParseSequencePoint()
         {
 
-            WhenParsing(openCoverExample);
+            WhenParsing(_openCoverExample);
             _modelMock.Verify(parser => parser.AddSequencePoint("1","27","2"));
         }
 
         [TestMethod]
-        public void parseBranchPoint()
+        public void ParseBranchPoint()
         {
 
-            WhenParsing(openCoverExample);
+            WhenParsing(_openCoverExample);
             _modelMock.Verify(parser => parser.AddBranchPoint(1,27,1,true));
         }
 

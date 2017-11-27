@@ -22,9 +22,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
             IJobFileSystem jobFileSystem = null;
             IOpenCoverManagerFactory openCoverManagerFactory = null;
             ITestResultsRepository testResultsRepository = null;
+            ICodeCoverageRepository codeCoverageRepository = null;
             IJobConsumerFactory factory = new JobConsumerFactory(openCoverCommandLineBuilder, jobFileSystem, 
                 openCoverManagerFactory,
-                testResultsRepository);
+                testResultsRepository,
+                codeCoverageRepository);
 
             IJobConsumer jobConsumer = factory.Create();
             Assert.IsNotNull(jobConsumer);

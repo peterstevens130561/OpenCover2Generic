@@ -16,45 +16,45 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class OpenCoverProcessTests
     {
-        private Mock<IProcess> processMock;
-        private IOpenCoverProcess openCoverProcess;
+        private Mock<IProcess> _processMock;
+        private IOpenCoverProcess _openCoverProcess;
 
         [TestInitialize]
         public void Initialize()
         {
-            processMock = new Mock<IProcess>();
-            openCoverProcess = new OpenCoverProcess(processMock.Object);
+            _processMock = new Mock<IProcess>();
+            _openCoverProcess = new OpenCoverProcess(_processMock.Object);
         }
         [TestMethod]
         public void Start_OnFailedRegistration_RecoverableErrorIsTrue()
         {
 
-            SetupForRegistrationFailure(processMock);
-            openCoverProcess.Start();
-            Assert.IsTrue(openCoverProcess.RecoverableError);
+            SetupForRegistrationFailure(_processMock);
+            _openCoverProcess.Start();
+            Assert.IsTrue(_openCoverProcess.RecoverableError);
         }
 
         [TestMethod]
         public void Start_OnFailedRegistration_StartedIsFalse()
         {
-            SetupForRegistrationFailure(processMock);
-            openCoverProcess.Start();
-            Assert.IsFalse(openCoverProcess.Started);
+            SetupForRegistrationFailure(_processMock);
+            _openCoverProcess.Start();
+            Assert.IsFalse(_openCoverProcess.Started);
         }
 
     
         public void Start_OnStarted_StartedIsTrue()
         {
-            SetupForStart(processMock);
-            openCoverProcess.Start();
-            Assert.IsTrue(openCoverProcess.Started);
+            SetupForStart(_processMock);
+            _openCoverProcess.Start();
+            Assert.IsTrue(_openCoverProcess.Started);
         }
 
         public void Start_OnStarted_RecoverableErrorIsFalse()
         {
-            SetupForStart(processMock);
-            openCoverProcess.Start();
-            Assert.IsFalse(openCoverProcess.RecoverableError);
+            SetupForStart(_processMock);
+            _openCoverProcess.Start();
+            Assert.IsFalse(_openCoverProcess.RecoverableError);
         }
 
         private void SetupForStart(Mock<IProcess> processMock)
@@ -75,25 +75,25 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 }).Dequeue);
         }
 
-        private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string TestData)
+        private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string testData)
 {
 
-    if (String.IsNullOrEmpty(TestData))
-        throw new ArgumentException("Data is null or empty.", "TestData");
+    if (String.IsNullOrEmpty(testData))
+        throw new ArgumentException("Data is null or empty.", "testData");
 
-    DataReceivedEventArgs MockEventArgs =
+    DataReceivedEventArgs mockEventArgs =
         (DataReceivedEventArgs)System.Runtime.Serialization.FormatterServices
          .GetUninitializedObject(typeof(DataReceivedEventArgs));
 
-    FieldInfo[] EventFields = typeof(DataReceivedEventArgs)
+    FieldInfo[] eventFields = typeof(DataReceivedEventArgs)
         .GetFields(
             BindingFlags.NonPublic |
             BindingFlags.Instance |
             BindingFlags.DeclaredOnly);
 
-    if (EventFields.Count() > 0)
+    if (eventFields.Count() > 0)
     {
-        EventFields[0].SetValue(MockEventArgs, TestData);
+        eventFields[0].SetValue(mockEventArgs, testData);
     }
     else
     {
@@ -101,7 +101,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             "Failed to find _data field!");
     }
 
-    return MockEventArgs;
+    return mockEventArgs;
 }
         }
 

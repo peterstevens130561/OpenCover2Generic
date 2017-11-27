@@ -47,9 +47,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
             moduleModel.Clear();
         }
 
-        public IList<ISourceFileCoverageModel> GetCoverage()
+        public IList<ISourceFileCoverageModel> GetSourceFiles()
         {
-            return moduleModel.GetCoverage();
+            return moduleModel.GetSourceFiles();
         }
     }
 }

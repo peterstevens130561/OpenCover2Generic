@@ -12,14 +12,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class OpenCoverCoverageWriterTests
     {
-        private ICoverageConverter converter;
-        private IModuleCoverageModel model;
+        private ICoverageConverter _converter;
+        private IModuleCoverageModel _model;
 
         [TestInitialize]
         public void Initialize()
         {
-            model = new ModuleCoverageModel();
-            converter = new OpenCover2GenericConverter(model,new OpenCoverCoverageParser(),new OpenCoverCoverageWriter());
+            _model = new ModuleCoverageModel();
+            _converter = new OpenCover2GenericConverter(_model,new OpenCoverCoverageParser(),new OpenCoverCoverageWriter());
         }
 
         [TestMethod]
@@ -301,7 +301,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             StreamWriter writer = new StreamWriter(resultStream);
             Stream inputStream = new MemoryStream(Encoding.UTF8.GetBytes(input));
             StreamReader reader = new StreamReader(inputStream);
-            converter.Convert(writer, reader);
+            _converter.Convert(writer, reader);
             StreamReader resultReader = new StreamReader(new MemoryStream(resultStream.ToArray()));
             string text = resultReader.ReadToEnd();
             return text;

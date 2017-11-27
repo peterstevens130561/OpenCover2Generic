@@ -13,6 +13,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.Repositories;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -23,8 +24,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<IJobFileSystem> _jobFileSystemMock;
         private Mock<IOpenCoverManagerFactory> _openCoverManagerFactoryMock;
         private Mock<IOpenCoverCommandLineBuilder> _openCoverCommandLineBuilder;
-        private readonly IJobs jobs = new Jobs();
-        private TimeSpan jobTimeOut;
+        private Mock<ITestResultsRepository> _testResultsRepositoryMock;
+      
+        private readonly IJobs _jobs = new Jobs();
+        private TimeSpan _jobTimeOut;
+        private Mock<ICodeCoverageRepository> _codeCoverageRepositoryMock;
 
         [TestInitialize]
         public void Initialize()
@@ -34,23 +38,27 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _openCoverManagerFactoryMock = new Mock<IOpenCoverManagerFactory>();
             _openCoverManagerFactoryMock.Setup(o => o.CreateManager()).Returns(new Mock<IOpenCoverRunnerManager>().Object);
             _openCoverCommandLineBuilder = new Mock<IOpenCoverCommandLineBuilder>();
+            _testResultsRepositoryMock = new Mock<ITestResultsRepository>();
+            _codeCoverageRepositoryMock = new Mock<ICodeCoverageRepository>();
+
             _jobConsumer = new JobConsumer(_openCoverCommandLineBuilder.Object,
                 _jobFileSystemMock.Object,_openCoverManagerFactoryMock.Object,
-                null);
-            jobTimeOut = new TimeSpan(0);
+                _testResultsRepositoryMock.Object,
+                _codeCoverageRepositoryMock.Object);
+            _jobTimeOut = new TimeSpan(0);
         }
 
         [TestMethod]
         public void ConsumeJobs_TwoInQueue_ExpectOnejobTakenTwoTimes()
         {
-            jobs.Add(new Job("a"));
-            jobs.Add(new Job("b"));
-            jobs.CompleteAdding();
+            _jobs.Add(new Job(@"a"));
+            _jobs.Add(new Job(@"b"));
+            _jobs.CompleteAdding();
 
             WhenConsumingJobs();
 
-            _openCoverCommandLineBuilder.Verify(v => v.Build("a", null), Times.Exactly(1));
-            _openCoverCommandLineBuilder.Verify(v => v.Build("b", null), Times.Exactly(1));
+            _openCoverCommandLineBuilder.Verify(v => v.Build(@"a", null), Times.Exactly(1));
+            _openCoverCommandLineBuilder.Verify(v => v.Build(@"b", null), Times.Exactly(1));
         }
 
 
@@ -58,9 +66,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void ConsumeJobs_TwoChunksOfTwoInQueue_ExpectOnejobTakenTwoTimes()
         {
-            jobs.Add(new Job("a b"));
-            jobs.Add(new Job("c d"));
-            jobs.CompleteAdding();
+            _jobs.Add(new Job("a b"));
+            _jobs.Add(new Job("c d"));
+            _jobs.CompleteAdding();
 
             WhenConsumingJobs();
 
@@ -70,7 +78,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         private void WhenConsumingJobs()
         {
-            _jobConsumer.ConsumeJobs(jobs, jobTimeOut);
+            _jobConsumer.ConsumeJobs(_jobs, _jobTimeOut);
         }
     }
 }

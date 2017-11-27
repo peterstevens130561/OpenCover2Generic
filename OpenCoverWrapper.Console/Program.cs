@@ -31,12 +31,14 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             var converter = new MultiAssemblyConverter();
             var fileSystem = new FileSystemAdapter();
             IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
-            JobFileSystem jobFileSystemInfo = new JobFileSystem(new FileSystemAdapter());
+            JobFileSystem jobFileSystemInfo = new JobFileSystem(fileSystem);
             IOpenCoverManagerFactory openCoverManagerFactory = new OpenCoverManagerFactory(new ProcessFactory());
+
             var testResultsRepository = new TestResultsRepository(jobFileSystemInfo, fileSystem);
+            ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository();
             IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
                 jobFileSystemInfo, 
-                openCoverManagerFactory,testResultsRepository);
+                openCoverManagerFactory,testResultsRepository,codeCoverageRepository);
             
             var testRunner = new TestRunner(jobFileSystemInfo,converter,jobConsumerFactory);
 
@@ -48,15 +50,17 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             {
                 int consumers = commandLineParser.GetParallelJobs();
                 TimeSpan jobTimeOut = commandLineParser.GetJobTimeOut();
+                jobFileSystemInfo.CreateRoot(DateTime.Now.ToString(@"yyMMdd_HHmmss"));
+                codeCoverageRepository.RootDirectory = jobFileSystemInfo.GetIntermediateCoverageDirectory();
+
                 testRunner.CreateJobConsumers(consumers, jobTimeOut);
 
                 string[] testAssemblies = commandLineParser.GetTestAssemblies();
                 int chunkSize = commandLineParser.GetChunkSize();
                 testRunner.CreateJobs(testAssemblies, chunkSize);
-                string testResultsPath = commandLineParser.GetTestResultsPath();
-
                 testRunner.Wait();
 
+                string testResultsPath = commandLineParser.GetTestResultsPath();
                 using (var writer = new StreamWriter(testResultsPath)) { 
                     testResultsRepository.Write(writer);
                 }

@@ -18,20 +18,23 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
 {
     public class JobConsumer : IJobConsumer
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(JobConsumer));
+        private static readonly ILog _log = LogManager.GetLogger(typeof(JobConsumer));
         private readonly IJobFileSystem _jobFileSystemInfo;
         private readonly IOpenCoverCommandLineBuilder _openCoverCommandLineBuilder;
         private readonly IOpenCoverManagerFactory _openCoverManagerFactory;
         private readonly ITestResultsRepository _testResultsRepository;
+        private readonly ICodeCoverageRepository _codeCoverageRepository;
         public JobConsumer(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder,
             IJobFileSystem jobFileSystem,
             IOpenCoverManagerFactory openCoverManagerFactory,
-            ITestResultsRepository testResultsRepository)
+            ITestResultsRepository testResultsRepository,
+            ICodeCoverageRepository codeCoverageRepository)
         {
             _openCoverCommandLineBuilder = openCoverCommandLineBuilder;
             _jobFileSystemInfo = jobFileSystem;
             _openCoverManagerFactory = openCoverManagerFactory;
             _testResultsRepository = testResultsRepository;
+            _codeCoverageRepository = codeCoverageRepository;
         }
 
         public void ConsumeJobs(IJobs jobs,TimeSpan jobTimeOut)
@@ -50,14 +53,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
 
         private void Consume(IJob job,TimeSpan jobTimeOut)
         {
-            log.Info($"Running unit test on {Path.GetFileName(job.Assemblies)}");
+            _log.Info($"Running unit test on {Path.GetFileName(job.Assemblies)}");
 
             var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(job.FirstAssembly);
-            string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(job.FirstAssembly);
+
             var runner = _openCoverManagerFactory.CreateManager();
             runner.SetTimeOut(jobTimeOut);
             using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
             {
+                string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(job.FirstAssembly);
                 var processStartInfo = _openCoverCommandLineBuilder.Build(job.Assemblies, openCoverOutputPath);
                 Task task = Task.Run(() => runner.Run(processStartInfo, writer));
                 task.Wait();
@@ -68,18 +72,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
                 throw new JobTimeOutException(msg);
             }
             _testResultsRepository.Add(runner.TestResultsPath);
-            try
-            {
-                using (var reader = new StreamReader(openCoverOutputPath))
-                {
-                    new MultiAssemblyConverter().ConvertCoverageFileIntoIntermediate(_jobFileSystemInfo.GetIntermediateCoverageDirectory(), job.FirstAssembly, reader);
-                }
-            }
-            catch (Exception)
-            {
-                log.Error($"Exception thrown during reading {openCoverOutputPath}");
-                throw;
-            }
+            _codeCoverageRepository.Add(openCoverOutputPath, job.FirstAssembly);
+
         }
 
         private IJob GetAssembly(IJobs jobs)
@@ -91,7 +85,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             }
             catch (InvalidOperationException)
             {
-                log.Debug("Exception on take (ignored, may happen)");
+                _log.Debug("Exception on take (ignored, may happen)");
             }
 
             return job;

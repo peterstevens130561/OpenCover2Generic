@@ -101,13 +101,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
             IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(_openCoverCommandLineBuilderMock.Object,
                 _jobFileSystemMock.Object,
                 new OpenCoverManagerFactory(processFactoryMock.Object),
-                new TestResultsRepository(_jobFileSystemMock.Object, null)
+                new TestResultsRepository(_jobFileSystemMock.Object, null),
+                null
                 );
             ITestRunner testRunner = new TestRunner(_jobFileSystemMock.Object, null, jobConsumerFactory);
 
             string[] testAssemblies = { "one" };
-            const int MS2TICK = 10000;
-            TimeSpan timeOut = new TimeSpan(10 * MS2TICK); // after 10 ms timeout will occur
+            const int ms2Tick = 10000;
+            TimeSpan timeOut = new TimeSpan(10 * ms2Tick); // after 10 ms timeout will occur
 
             testRunner.CreateJobs(testAssemblies, 1);
             testRunner.CreateJobConsumers(1,timeOut);
