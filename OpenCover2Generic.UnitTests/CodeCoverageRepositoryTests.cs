@@ -32,11 +32,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.IsNotNull(repository);
         }
 
+        /// <summary>
+        /// We may have a coverage file with only skipped modules. In that case there
+        /// should be nothing stored
+        /// </summary>
         [TestMethod]
         public void Add_EmptyFile_ShouldBeInRightPlace()
         {
-
-            string path = @"Resources/OnlySkippedResources.xml";
+            string path = @"Resources/OnlySkippedModules.xml";
             _repository.Add(path,@"key");
 
         }

@@ -21,12 +21,12 @@ namespace BHGE.SonarQube.OpenCoverWrapper
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(TestRunner));
         private readonly IJobFileSystem _jobFileSystemInfo;
-        private readonly MultiAssemblyConverter _converter;
+        private readonly OpenCoverOutput2RepositorySaver _converter;
         private readonly IJobConsumerFactory _jobConsumerFactory;
         private readonly List<Task> _tasks = new List<Task>();
         private readonly IJobs _jobs = new Jobs();
         public TestRunner(IJobFileSystem jobFileSystemInfo,
-            MultiAssemblyConverter converter,
+            OpenCoverOutput2RepositorySaver converter,
             IJobConsumerFactory jobConsumerFactory)
         {
             _jobFileSystemInfo = jobFileSystemInfo;

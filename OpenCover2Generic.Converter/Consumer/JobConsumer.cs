@@ -56,12 +56,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             _log.Info($"Running unit test on {Path.GetFileName(job.Assemblies)}");
 
             var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(job.FirstAssembly);
-
+            string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(job.FirstAssembly);
             var runner = _openCoverManagerFactory.CreateManager();
             runner.SetTimeOut(jobTimeOut);
             using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
             {
-                string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(job.FirstAssembly);
+
                 var processStartInfo = _openCoverCommandLineBuilder.Build(job.Assemblies, openCoverOutputPath);
                 Task task = Task.Run(() => runner.Run(processStartInfo, writer));
                 task.Wait();

@@ -80,7 +80,7 @@
     <Compile Include="Seams\SimpleProcess.cs" />
     <Compile Include="Writers\ITestResultsConcatenator.cs" />
     <Compile Include="Utils\JobFileSystem.cs" />
-    <Compile Include="MultiAssemblyConverter.cs" />
+    <Compile Include="OpenCoverOutput2RepositorySaver.cs" />
     <Compile Include="Writers\GenericCoverageWriter.cs" />
     <Compile Include="Utils\ICommandLineParser.cs" />
     <Compile Include="CoverageConverters\OpenCover2GenericConverter.cs" />

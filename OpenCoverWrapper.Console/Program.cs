@@ -16,9 +16,7 @@ using BHGE.SonarQube.OpenCover2Generic.Utils;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
 using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 using BHGE.SonarQube.OpenCover2Generic.Repositories;
-
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
-
+[assembly: XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
 namespace BHGE.SonarQube.OpenCoverWrapper
 {
 
@@ -26,9 +24,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
     {
         public static void Main(string[] args)
         {
-            BasicConfigurator.Configure();
+            XmlConfigurator.Configure();
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());       
-            var converter = new MultiAssemblyConverter();
+            var converter = new OpenCoverOutput2RepositorySaver();
             var fileSystem = new FileSystemAdapter();
             IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             JobFileSystem jobFileSystemInfo = new JobFileSystem(fileSystem);

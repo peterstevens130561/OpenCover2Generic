@@ -1,6 +1,7 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Model;
 using log4net;
 using System;
+using System.Net.Sockets;
 using System.Xml;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Parsers
@@ -9,6 +10,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
     {
         private IModuleCoverageModel _model;
         private string _moduleName;
+
+        private enum ParserHuntState
+        {
+            None,
+            Hunt,
+            InModule,
+        }
+
 
         public string ModuleName
         {
@@ -22,32 +31,63 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
         {
             _model = model;
             _moduleName = null;
+            ParserHuntState state = ParserHuntState.Hunt;
+
             while (xmlReader.Read())
             {
-                if (xmlReader.NodeType == XmlNodeType.Element)
+                switch (state)
                 {
-                    switch (xmlReader.Name)
-                    {
-                        case "File":
-                            AddFile(xmlReader);
-                            break;
-                        case "SequencePoint":
-                            AddSequencePoint(xmlReader);
-                            break;
-                        case "BranchPoint":
-                            AddBranchPoint(xmlReader);
-                            break;
-                        case "ModuleName":
-                            ReadModuleName(xmlReader);
-                            break;
-                        case "Module":
+                    case ParserHuntState.Hunt:
+                        if (AtStartOfNotSkippedModule(xmlReader))
+                        {
+                            state = ParserHuntState.InModule;
+                        }
+                        break;
+                    case ParserHuntState.InModule:
+                        ParseElementInModule(xmlReader);
+                        if (AtEndElementOfModule(xmlReader))
+                        {
                             return true;
-                        default:
-                            break;
-                    }
+                        }
+                        break;
                 }
             }
             return false;
+        }
+
+        private static bool AtStartOfNotSkippedModule(XmlReader xmlReader)
+        {
+            return xmlReader.NodeType == XmlNodeType.Element && xmlReader.Name == "Module" && xmlReader.GetAttribute("skippedDueTo") == null;
+        }
+
+        private static bool AtEndElementOfModule(XmlReader xmlReader)
+        {
+            return xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name == "Module";
+        }
+
+        private void ParseElementInModule(XmlReader xmlReader)
+        {
+            if (xmlReader.NodeType == XmlNodeType.Element)
+            {
+                switch (xmlReader.Name)
+                {
+                    case "File":
+                        AddFile(xmlReader);
+                        break;
+                    case "SequencePoint":
+                        AddSequencePoint(xmlReader);
+                        break;
+                    case "BranchPoint":
+                        AddBranchPoint(xmlReader);
+                        break;
+                    case "ModuleName":
+                        ReadModuleName(xmlReader);
+                        break;
+                    default:
+                        // just ignore all of the other elements
+                        break;
+                }
+            }
         }
 
         private void ReadModuleName(XmlReader xmlReader)

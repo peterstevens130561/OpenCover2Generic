@@ -12,7 +12,7 @@ using BHGE.SonarQube.OpenCover2Generic.Writers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    public class MultiAssemblyConverter 
+    public class OpenCoverOutput2RepositorySaver 
     {
         private readonly IModuleCoverageModel _model;
         private readonly ICoverageWriter _coverageWriter;
@@ -28,7 +28,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         /// <param name="resultCoverageWriter"></param>
         /// <param name="intermediateCoverageParser"></param>
         /// <param name="intermediateCoverageWriter"></param>
-        public MultiAssemblyConverter(IModuleCoverageModel model,
+        public OpenCoverOutput2RepositorySaver(IModuleCoverageModel model,
             ICoverageParser testCoverageParser,
             ICoverageWriter resultCoverageWriter,
             ICoverageParser intermediateCoverageParser,
@@ -41,7 +41,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _moduleWriter = intermediateCoverageWriter;
         }
 
-        public MultiAssemblyConverter() : this(new IntermediateModel(), new OpenCoverCoverageParser(),
+        public OpenCoverOutput2RepositorySaver() : this(new IntermediateModel(), new OpenCoverCoverageParser(),
     new GenericCoverageWriter(),
     new OpenCoverCoverageParser(),
     new OpenCoverCoverageWriter())
@@ -50,7 +50,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         
-        public void Convert(StreamWriter writer, StreamReader reader)
+        public void Save(StreamWriter writer, StreamReader reader)
         {
             string rootPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             string testAssemblyName = "bogus";
