@@ -53,7 +53,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
 
         private void Consume(IJob job,TimeSpan jobTimeOut)
         {
-            _log.Info($"Running unit test on {Path.GetFileName(job.Assemblies)}");
+            _log.Info($"{Path.GetFileName(job.Assemblies)}");
 
             var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(job.FirstAssembly);
             string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(job.FirstAssembly);
