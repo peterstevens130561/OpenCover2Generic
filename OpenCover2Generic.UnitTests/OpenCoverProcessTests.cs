@@ -53,11 +53,20 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
     
+        [TestMethod]
         public void Start_OnStarted_StartedIsTrue()
         {
             SetupForStart(_processMock);
             _openCoverProcess.Start();
             Assert.IsTrue(_openCoverProcess.Started);
+        }
+
+        [TestMethod]
+        public void Start_OnStarted_StateIsStarted()
+        {
+            SetupForStart(_processMock);
+            _openCoverProcess.Start();
+            Assert.AreEqual(ProcessState.Busy, _openCoverProcess.State);
         }
 
         public void Start_OnStarted_RecoverableErrorIsFalse()
