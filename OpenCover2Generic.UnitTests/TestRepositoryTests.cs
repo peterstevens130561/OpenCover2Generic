@@ -19,6 +19,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<IJobFileSystem> _jobFileSystemMock;
         private ITestResultsRepository _testResultsRepository;
         private Mock<IFileSystemAdapter> _fileSystemMock;
+
         [TestInitialize]
         public void Initialize(){
             _jobFileSystemMock = new Mock<IJobFileSystem>();
