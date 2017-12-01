@@ -23,6 +23,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<IProcessFactory> _processFactoryMock;
         private Mock<TimerSeam> _timerMock = new Mock<TimerSeam>();
         private Mock<IOpenCoverProcess> _openCoverProcessMock = new Mock<IOpenCoverProcess>();
+        private IOpenCoverRunnerManager _testRunner;
         [TestInitialize]
         public void Initialize()
         {
@@ -30,6 +31,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _timerMock = new Mock<TimerSeam>();
             _openCoverProcessMock = new Mock<IOpenCoverProcess>();
             _processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(_openCoverProcessMock.Object);
+           _testRunner = new OpenCoverRunner.OpenCoverRunnerManager(_processFactoryMock.Object, _timerMock.Object);
         }
 
         [TestMethod]
@@ -52,14 +54,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             IProcessFactory processFactory = _processFactoryMock.Object;
 
-            var testRunner = new OpenCoverRunner.OpenCoverRunnerManager(processFactory,_timerMock.Object);
             ProcessStartInfo info = new ProcessStartInfo();
             
             //when starting the runner
 
                 using (StreamWriter writer = new StreamWriter(new MemoryStream()))
                 {
-                    testRunner.Run(info, writer);
+                    _testRunner.Run(info, writer);
                 }
             // should be called twice
             _openCoverProcessMock.Verify(p => p.Start(), Times.Exactly(2));
@@ -103,8 +104,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 .Returns(true)
                 .Returns(true);
 
-            IProcessFactory processFactory = _processFactoryMock.Object;
-            var testRunner = new OpenCoverRunner.OpenCoverRunnerManager(processFactory,_timerMock.Object);
             ProcessStartInfo info = new ProcessStartInfo();
 
             //when starting the runner
@@ -112,7 +111,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
                 using (StreamWriter writer = new StreamWriter(new MemoryStream()))
                 {
-                    testRunner.Run(info, writer);
+                    _testRunner.Run(info, writer);
                 }
             } catch (InvalidOperationException )
             {
@@ -126,7 +125,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Run_DeploymentIssue_ErrorLog()
         {
-            
+            _openCoverProcessMock.Setup(p => p.Start())
+                .Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Warning: Test Run deployment issue"));
+
         }
         private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string testData)
             {
