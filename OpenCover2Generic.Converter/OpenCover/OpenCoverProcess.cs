@@ -66,13 +66,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
             }
         }
 
-        public ProcessState State
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public ProcessState State { get; private set; }
 
         public void Start()
         {
@@ -119,6 +113,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
             {
                 log.Error("Failed to start, could not register");
                 RecoverableError = true;
+                State = ProcessState.RecoverableFailure;
             }
 
             if (e.Data.Contains("No results, this could be for a number of reasons"))
