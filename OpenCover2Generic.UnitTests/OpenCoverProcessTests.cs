@@ -69,6 +69,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(ProcessState.Busy, _openCoverProcess.State);
         }
 
+
+        [TestMethod]
+        public void Start_OnNoResults_StateIsIrrecoverableFailure()
+        {
+            SetupForNoResults(_processMock);
+            _openCoverProcess.Start();
+            Assert.AreEqual(ProcessState.IrrecoverableFailure, _openCoverProcess.State);
+        }
         public void Start_OnStarted_RecoverableErrorIsFalse()
         {
             SetupForStart(_processMock);
@@ -91,6 +99,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
             processMock.Setup(p => p.Start())
                 .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
                 CreateMockDataReceivedEventArgs("Failed to register(user:True"),
+                }).Dequeue);
+        }
+
+        private void SetupForNoResults(Mock<IProcess> processMock)
+        {
+            processMock.Setup(p => p.HasExited).Returns(true);
+            processMock.Setup(p => p.Start())
+                .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
+                    CreateMockDataReceivedEventArgs("No results, this could be for a number of reasons. The most common reasons are:"),
                 }).Dequeue);
         }
 

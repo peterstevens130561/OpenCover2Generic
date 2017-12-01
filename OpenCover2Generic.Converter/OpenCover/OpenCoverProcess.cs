@@ -107,6 +107,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
             {
                 log.Debug("Started");
                 Started = true;
+                State = ProcessState.Busy;
             }
 
             if (e.Data.Contains("Failed to register(user:True"))
