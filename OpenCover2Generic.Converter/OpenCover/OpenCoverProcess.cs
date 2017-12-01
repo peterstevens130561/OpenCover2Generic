@@ -119,7 +119,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
 
             if (e.Data.Contains("No results, this could be for a number of reasons"))
             {
-                
+                log.Error("No results");
+                State = ProcessState.IrrecoverableFailure;
             }
         }
 
