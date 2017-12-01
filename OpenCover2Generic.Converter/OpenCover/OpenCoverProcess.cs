@@ -4,6 +4,7 @@ using BHGE.SonarQube.OpenCover2Generic.Utils;
 using System.Threading;
 using System.IO;
 using log4net;
+using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Factories
 {
@@ -65,6 +66,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
             }
         }
 
+        public ProcessState State
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public void Start()
         {
@@ -112,26 +120,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
                 log.Error("Failed to start, could not register");
                 RecoverableError = true;
             }
-        }
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
+            if (e.Data.Contains("No results, this could be for a number of reasons"))
             {
-                if (disposing)
-                {
-                    _process.Dispose();
-                }
-
-                disposedValue = true;
+                
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
         }
 
         public void Kill()
@@ -139,6 +132,25 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
             _process.Kill();
         }
 
+        #region IDisposable Support
+        private bool _disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _process.Dispose();
+                }
+                _disposedValue = true;
+            }
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+        }
         #endregion
+
     }
 }

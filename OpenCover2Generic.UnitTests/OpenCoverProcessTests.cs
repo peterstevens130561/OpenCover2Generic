@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -32,6 +33,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
             SetupForRegistrationFailure(_processMock);
             _openCoverProcess.Start();
             Assert.IsTrue(_openCoverProcess.RecoverableError);
+        }
+
+        [TestMethod]
+        public void Start_OnFailedRegistration_StateIsRecoverableFailure()
+        {
+
+            SetupForRegistrationFailure(_processMock);
+            _openCoverProcess.Start();
+            Assert.AreEqual(ProcessState.RecoverableFailure,_openCoverProcess.State);
         }
 
         [TestMethod]

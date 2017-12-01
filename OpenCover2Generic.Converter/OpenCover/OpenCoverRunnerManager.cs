@@ -9,6 +9,7 @@ using System.IO;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
 using System.Timers;
 using System.Threading;
+using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Seams;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
@@ -22,14 +23,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
         private readonly IProcessFactory _processFactory;
         private bool _timeOut;
         private readonly Stopwatch _stopWatch = new Stopwatch();
-        enum ProcessState
-        {
-            None,
-            Busy,
-            RecoverableFailure,
-            TimedOut,
-            Done
-        }
+
 
         private ProcessState _processState;
 
