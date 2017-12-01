@@ -16,7 +16,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 {
     public class OpenCoverRunnerManager : IOpenCoverRunnerManager
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverRunnerManager).Name);
+        private static readonly ILog _log = LogManager.GetLogger(typeof(OpenCoverRunnerManager).Name);
         private string _testResultsPath;
         private readonly ITimerSeam _watchDog ;
         private readonly StringBuilder _processOutput = new StringBuilder(2048);
@@ -91,7 +91,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                 }
             }
             _watchDog.Stop();
-            log.Debug($"Completed after {_stopWatch.Elapsed.TotalSeconds}s");
+            _log.Debug($"Completed after {_stopWatch.Elapsed.TotalSeconds}s");
             writer.Write(_processOutput.ToString());
             if (_processState==ProcessState.RecoverableFailure)
             {
@@ -105,7 +105,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             {
                 if (_testResultsPath == null)
                 {
-                    log.Warn($"Did not find line 'VsTestSonarQubeLogger.TestResults=' in log: \n{_processOutput.ToString()}");
+                    _log.Warn($"Did not find line 'VsTestSonarQubeLogger.TestResults=' in _log: \n{_processOutput.ToString()}");
 
                 }
                 return _testResultsPath;
@@ -126,7 +126,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 
         private void OnTimeOut(object sender, ElapsedEventArgs e)
         {
-            log.Error($"Timeout occurred {_stopWatch.ElapsedMilliseconds}");
+            _log.Error($"Timeout occurred {_stopWatch.ElapsedMilliseconds}");
             _timeOut = true;
         }
     }
