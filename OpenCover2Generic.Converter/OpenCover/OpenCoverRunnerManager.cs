@@ -9,6 +9,7 @@ using System.IO;
 using BHGE.SonarQube.OpenCover2Generic.Factories;
 using System.Timers;
 using System.Threading;
+using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Seams;
 
@@ -75,6 +76,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                     process.DataReceived -= Process_OutputDataReceived;
                     switch (process.State)
                     {
+                        case ProcessState.NoResults:
+                            throw new InvalidTestConfigurationException("No results, did you miss any project references?");
                         case ProcessState.CouldNotRegister:
                             ++tries;
                             _processState = tries < 10 ? ProcessState.Busy : ProcessState.RecoverableFailure;

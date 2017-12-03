@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using System.Reflection;
 using System.Timers;
+using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Seams;
 
@@ -53,7 +54,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
                                 CreateMockDataReceivedEventArgs("Starting test execution, please wait..")
                            }).Dequeue);
 
-            IProcessFactory processFactory = _processFactoryMock.Object;
 
             ProcessStartInfo info = new ProcessStartInfo();
             
@@ -93,18 +93,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 .Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Failed to register(user:True"));
 
             // as the opencoverprocess is mocked, we need to set its property value
-            _openCoverProcessMock.SetupSequence(p => p.State)
-                .Returns(ProcessState.CouldNotRegister)
-                .Returns(ProcessState.CouldNotRegister)
-                .Returns(ProcessState.CouldNotRegister)
-                .Returns(ProcessState.CouldNotRegister)
-                .Returns(ProcessState.CouldNotRegister)
-                .Returns(ProcessState.CouldNotRegister)
-                .Returns(ProcessState.CouldNotRegister)
-                .Returns(ProcessState.CouldNotRegister)
-                .Returns(ProcessState.CouldNotRegister)
-                .Returns(ProcessState.CouldNotRegister)
-                .Returns(ProcessState.CouldNotRegister);
+            SetupToFaulToRegister10Times()
+
+                            .Returns(ProcessState.CouldNotRegister);
 
             ProcessStartInfo info = new ProcessStartInfo();
 
@@ -115,7 +106,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 {
                     _openCoverRunnerManager.Run(info, writer);
                 }
-            } catch (InvalidOperationException )
+            }
+            catch (InvalidOperationException)
             {
                 _openCoverProcessMock.Verify(p => p.Start(), Times.Exactly(10));
                 return;
@@ -123,6 +115,42 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.Fail("expected InvalidOperatonException");
 
         }
+
+        [TestMethod]
+        public void Run_NoResults_ExpectException()
+        {
+            _openCoverProcessMock.Setup(p => p.HasExited).Returns(true);
+
+            // as the opencoverprocess is mocked, we need to set its property value
+            _openCoverProcessMock.SetupSequence(p => p.State).Returns(ProcessState.NoResults);
+            try
+            {
+                ProcessStartInfo info = new ProcessStartInfo();
+                using (StreamWriter writer = new StreamWriter(new MemoryStream()))
+                {
+                    _openCoverRunnerManager.Run(info, writer);
+                }
+            }
+            catch (InvalidTestConfigurationException e)
+            {
+                return;
+            }
+            Assert.Fail("Expected exception");
+        }
+        private Moq.Language.ISetupSequentialResult<ProcessState> SetupToFaulToRegister10Times()
+        {
+            return _openCoverProcessMock.SetupSequence(p => p.State)
+                            .Returns(ProcessState.CouldNotRegister)
+                            .Returns(ProcessState.CouldNotRegister)
+                            .Returns(ProcessState.CouldNotRegister)
+                            .Returns(ProcessState.CouldNotRegister)
+                            .Returns(ProcessState.CouldNotRegister)
+                            .Returns(ProcessState.CouldNotRegister)
+                            .Returns(ProcessState.CouldNotRegister)
+                            .Returns(ProcessState.CouldNotRegister)
+                            .Returns(ProcessState.CouldNotRegister);
+        }
+
 
         [TestMethod]
         public void Run_DeploymentIssue_ErrorLog()

@@ -47,6 +47,7 @@
     <Compile Include="Consumer\IJobConsumer.cs" />
     <Compile Include="Consumer\JobConsumer.cs" />
     <Compile Include="Exceptions\InvalidCommandLineArgumentException.cs" />
+    <Compile Include="Exceptions\InvalidTestConfigurationException.cs" />
     <Compile Include="Exceptions\JobTimeOutException.cs" />
     <Compile Include="Factories\IJobConsumerFactory.cs" />
     <Compile Include="Factories\IOpenCoverManagerFactory.cs" />
