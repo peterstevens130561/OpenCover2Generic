@@ -26,22 +26,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _processMock = new Mock<IProcess>();
             _openCoverProcess = new OpenCoverProcess(_processMock.Object);
         }
+
+
         [TestMethod]
-        public void Start_OnFailedRegistration_RecoverableErrorIsTrue()
+        public void Start_OnFailedRegistration_CouldNotRegister()
         {
 
             SetupForRegistrationFailure(_processMock);
             _openCoverProcess.Start();
-            Assert.IsTrue(_openCoverProcess.RecoverableError);
-        }
-
-        [TestMethod]
-        public void Start_OnFailedRegistration_StateIsRecoverableFailure()
-        {
-
-            SetupForRegistrationFailure(_processMock);
-            _openCoverProcess.Start();
-            Assert.AreEqual(ProcessState.RecoverableFailure,_openCoverProcess.State);
+            Assert.AreEqual(ProcessState.CouldNotRegister,_openCoverProcess.State);
         }
 
         [TestMethod]
@@ -71,18 +64,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
 
         [TestMethod]
-        public void Start_OnNoResults_StateIsIrrecoverableFailure()
+        public void Start_OnNoResults_StateIsNoResults()
         {
             SetupForNoResults(_processMock);
             _openCoverProcess.Start();
-            Assert.AreEqual(ProcessState.IrrecoverableFailure, _openCoverProcess.State);
+            Assert.AreEqual(ProcessState.NoResults, _openCoverProcess.State);
         }
-        public void Start_OnStarted_RecoverableErrorIsFalse()
-        {
-            SetupForStart(_processMock);
-            _openCoverProcess.Start();
-            Assert.IsFalse(_openCoverProcess.RecoverableError);
-        }
+
 
         private void SetupForStart(Mock<IProcess> processMock)
         {

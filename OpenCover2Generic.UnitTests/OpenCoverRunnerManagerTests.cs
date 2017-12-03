@@ -114,7 +114,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void Run_NoResults_ExpectException()
+        public void Run_NoResults_InvalidTestConfigurationException()
         {
             _openCoverProcessMock.Setup(p => p.HasExited).Returns(true);
 
@@ -148,6 +148,29 @@ namespace BHGE.SonarQube.OpenCover2Generic
                             .Returns(ProcessState.CouldNotRegister);
         }
 
+        [TestMethod]
+        public void Run_TimedOut_TestTimedOutException()
+        {
+            _openCoverRunnerManager.SetTimeOut(new TimeSpan(0, 0, 1));
+            _openCoverProcessMock.Setup(p => p.HasExited).Returns(true);
+
+            // as the opencoverprocess is mocked, we need to set its property value
+            _openCoverProcessMock.SetupSequence(p => p.State).Returns(ProcessState.TimedOut);
+            try
+            {
+                ProcessStartInfo info = new ProcessStartInfo();
+                using (StreamWriter writer = new StreamWriter(new MemoryStream()))
+                {
+                    _openCoverRunnerManager.Run(info, writer);
+                }
+            }
+            catch (JobTimeOutException e)
+            {
+                return;
+            }
+            Assert.Fail("Expected exception");
+
+        }
 
         [TestMethod]
         public void Run_DeploymentIssue_ErrorLog()

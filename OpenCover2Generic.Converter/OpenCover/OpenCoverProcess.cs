@@ -38,10 +38,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
             }
         }
 
-        public bool RecoverableError
-        {
-            get; private set;
-        }
 
         public bool Started
         {
@@ -74,7 +70,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
                 log.Debug("Starting");
                 DataReceived += Process_OutputDataReceived;
                 Started = false;
-                RecoverableError = false;
                 _process.Start();
                 while(!Started && !_process.HasExited)
                 {
@@ -113,14 +108,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
             if (e.Data.Contains("Failed to register(user:True"))
             {
                 log.Error("Failed to start, could not register");
-                RecoverableError = true;
-                State = ProcessState.RecoverableFailure;
+                State = ProcessState.CouldNotRegister;
             }
 
             if (e.Data.Contains("No results, this could be for a number of reasons"))
             {
                 log.Error("No results");
-                State = ProcessState.IrrecoverableFailure;
+                State = ProcessState.NoResults;
             }
         }
 

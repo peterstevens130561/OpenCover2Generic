@@ -10,7 +10,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
 {
     public interface IOpenCoverProcess : IProcess
     {
-        bool RecoverableError { get; }
         bool Started { get; }
         string TestResultsPath { get; }
 

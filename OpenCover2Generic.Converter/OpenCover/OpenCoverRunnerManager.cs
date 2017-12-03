@@ -69,32 +69,28 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                     _stopWatch.Start();
                     _watchDog.Start();
 
-                    while (!process.HasExited && ! _timeOut)
+                    while (!process.HasExited && !_timeOut )
                     {
                         Thread.Sleep(1000);
                     }
+
+                    _processState = _timeOut ? ProcessState.TimedOut : process.State;
                     process.DataReceived -= Process_OutputDataReceived;
-                    if (_timeOut)
+                    switch (_processState)
                     {
-                        process.Kill();
-                        TimedOut = true;
-                        _processState = ProcessState.TimedOut;
-                    }
-                    else
-                    {
-                        switch (process.State)
-                        {
-                            case ProcessState.Done:
-                                _processState = ProcessState.Done;
-                                _testResultsPath = process.TestResultsPath;
-                                break;
-                            case ProcessState.NoResults:
-                                throw new InvalidTestConfigurationException("No results, did you miss any project references?");
-                            case ProcessState.CouldNotRegister:
-                                ++tries;
-                                _processState = tries < 10 ? ProcessState.Busy : ProcessState.RecoverableFailure;
-                                break;
-                        }
+                        case ProcessState.TimedOut:
+                            process.Kill();
+                            throw new JobTimeOutException("Test timed out");
+                        case ProcessState.Done:
+                            _processState = ProcessState.Done;
+                            _testResultsPath = process.TestResultsPath;
+                            break;
+                        case ProcessState.NoResults:
+                            throw new InvalidTestConfigurationException("No results, did you miss any project references?");
+                        case ProcessState.CouldNotRegister:
+                            ++tries;
+                            _processState = tries < 10 ? ProcessState.Busy : ProcessState.RecoverableFailure;
+                            break;
                     }
 
                 }

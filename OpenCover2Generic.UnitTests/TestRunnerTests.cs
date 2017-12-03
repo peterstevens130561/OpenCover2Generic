@@ -91,7 +91,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             var processFactoryMock = new Mock<IProcessFactory>();
             var processMock = new Mock<Factories.IOpenCoverProcess>();
             processMock.Setup(p => p.HasExited).Returns(false);
-            processMock.Setup(p => p.RecoverableError).Returns(false);
+
             processMock.Setup(p => p.TestResultsPath).Returns<string>(null);
             processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(processMock.Object);
 
@@ -115,8 +115,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
             try
             {
                 testRunner.Wait();
-            } catch ( JobTimeOutException e)
+            } catch ( AggregateException e)
             {
+                Assert.IsInstanceOfType(e.InnerException,typeof(JobTimeOutException));
                 return;
             }
             Assert.Fail("Expected timeout");
