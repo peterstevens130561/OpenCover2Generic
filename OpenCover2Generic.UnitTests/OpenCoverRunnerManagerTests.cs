@@ -13,17 +13,18 @@ using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using System.Reflection;
 using System.Timers;
+using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Seams;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
-    public class OpenCoverRunnerTests
+    public class OpenCoverRunnerManagerTests
     {
         private Mock<IProcessFactory> _processFactoryMock;
         private Mock<TimerSeam> _timerMock = new Mock<TimerSeam>();
         private Mock<IOpenCoverProcess> _openCoverProcessMock = new Mock<IOpenCoverProcess>();
-        private IOpenCoverRunnerManager _testRunner;
+        private IOpenCoverRunnerManager _openCoverRunnerManager;
         [TestInitialize]
         public void Initialize()
         {
@@ -31,7 +32,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _timerMock = new Mock<TimerSeam>();
             _openCoverProcessMock = new Mock<IOpenCoverProcess>();
             _processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(_openCoverProcessMock.Object);
-           _testRunner = new OpenCoverRunner.OpenCoverRunnerManager(_processFactoryMock.Object, _timerMock.Object);
+           _openCoverRunnerManager = new OpenCoverRunner.OpenCoverRunnerManager(_processFactoryMock.Object, _timerMock.Object);
         }
 
         [TestMethod]
@@ -44,8 +45,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 .Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Failed to register(user:True"));
 
             // as the opencoverprocess is mocked, we need to set its property value
-            _openCoverProcessMock.SetupSequence(p => p.RecoverableError).Returns(true).Returns(false);
-            _openCoverProcessMock.SetupSequence(p => p.Started).Returns(false).Returns(true);
+            _openCoverProcessMock.SetupSequence(p => p.State).Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.Done);
             _openCoverProcessMock.Setup(p => p.Start())
                            .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
                                 CreateMockDataReceivedEventArgs("Failed to register(user:True"),
@@ -60,7 +61,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
                 using (StreamWriter writer = new StreamWriter(new MemoryStream()))
                 {
-                    _testRunner.Run(info, writer);
+                    _openCoverRunnerManager.Run(info, writer);
                 }
             // should be called twice
             _openCoverProcessMock.Verify(p => p.Start(), Times.Exactly(2));
@@ -111,7 +112,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
                 using (StreamWriter writer = new StreamWriter(new MemoryStream()))
                 {
-                    _testRunner.Run(info, writer);
+                    _openCoverRunnerManager.Run(info, writer);
                 }
             } catch (InvalidOperationException )
             {

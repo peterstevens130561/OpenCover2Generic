@@ -79,7 +79,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                         TimedOut = true;
                         _processState = ProcessState.TimedOut;
                     }
-                    else if (process.RecoverableError)
+                    else if (process.State == ProcessState.NoResults)
                     {
                         ++tries;
                         _processState = tries < 10 ? ProcessState.Busy : ProcessState.RecoverableFailure;
