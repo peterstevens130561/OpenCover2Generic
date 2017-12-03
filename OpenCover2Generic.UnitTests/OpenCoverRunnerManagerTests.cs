@@ -42,6 +42,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             //given a valid runner which will not register on starting, but will on second
 
             _openCoverProcessMock.Setup(p => p.HasExited).Returns(true);
+            _openCoverProcessMock.Setup(p => p.TestResultsPath).Returns("bla");
             _openCoverProcessMock.Setup(p => p.Start())
                 .Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Failed to register(user:True"));
 
@@ -65,6 +66,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 }
             // should be called twice
             _openCoverProcessMock.Verify(p => p.Start(), Times.Exactly(2));
+            Assert.AreEqual("bla",_openCoverRunnerManager.TestResultsPath);
         }
 
         [TestMethod]
