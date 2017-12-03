@@ -73,21 +73,32 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                         Thread.Sleep(1000);
                     }
                     process.DataReceived -= Process_OutputDataReceived;
-                    if (_timeOut)
+                    switch (process.State)
                     {
-                        process.Kill();
-                        TimedOut = true;
-                        _processState = ProcessState.TimedOut;
+                        case ProcessState.CouldNotRegister:
+                            ++tries;
+                            _processState = tries < 10 ? ProcessState.Busy : ProcessState.RecoverableFailure;
+                            break;
+                        default:
+                            if (_timeOut)
+                            {
+                                process.Kill();
+                                TimedOut = true;
+                                _processState = ProcessState.TimedOut;
+                            }
+                            else if (process.State == ProcessState.NoResults)
+                            {
+                                ++tries;
+                                _processState = tries < 10 ? ProcessState.Busy : ProcessState.RecoverableFailure;
+                            }
+                            else
+                            {
+                                _processState = ProcessState.Done;
+                                _testResultsPath = process.TestResultsPath;
+                            }
+                            break;
                     }
-                    else if (process.State == ProcessState.NoResults)
-                    {
-                        ++tries;
-                        _processState = tries < 10 ? ProcessState.Busy : ProcessState.RecoverableFailure;
-                    }
-                    else {
-                        _processState = ProcessState.Done;
-                        _testResultsPath = process.TestResultsPath;
-                    }
+
                 }
             }
             _watchDog.Stop();

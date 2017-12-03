@@ -93,17 +93,18 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 .Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Failed to register(user:True"));
 
             // as the opencoverprocess is mocked, we need to set its property value
-            _openCoverProcessMock.SetupSequence(p => p.RecoverableError)
-                .Returns(true)
-                .Returns(true)
-                .Returns(true)
-                .Returns(true)
-                .Returns(true)
-                .Returns(true)
-                .Returns(true)
-                .Returns(true)
-                .Returns(true)
-                .Returns(true);
+            _openCoverProcessMock.SetupSequence(p => p.State)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister);
 
             ProcessStartInfo info = new ProcessStartInfo();
 
