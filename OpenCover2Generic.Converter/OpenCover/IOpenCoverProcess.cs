@@ -14,5 +14,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
         string TestResultsPath { get; }
 
         ProcessState State { get; }
+
+        void SetTimeOut(TimeSpan timeSpan);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace OpenCover2Generic.Converter
 {
@@ -10,5 +11,9 @@ namespace OpenCover2Generic.Converter
         string GetTempPath();
         IEnumerable<string> EnumerateFiles(string path);
         void CopyFile(string path, string v);
+        IEnumerable<string> EnumerateDirectories(
+            string path,
+            string searchPattern,
+            SearchOption searchOption);
     }
 }

@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Diagnostics;
-using BHGE.SonarQube.OpenCover2Generic.Utils;
 using System.Threading;
-using System.IO;
+using System.Timers;
+using BHGE.SonarQube.OpenCover2Generic.Factories;
+using BHGE.SonarQube.OpenCover2Generic.Seams;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
 using log4net;
-using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Factories
+namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
     internal class OpenCoverProcess : IOpenCoverProcess
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverProcess).Name);
         private readonly IProcess _process;
         private static Object _lock = new Object();
+        private readonly ITimerSeam _watchDog;
 
-        public OpenCoverProcess(IProcess process)
+        public OpenCoverProcess(IProcess process,ITimerSeam timer)
         {
             _process = process;
+            _watchDog = timer;
         }
 
         public event DataReceivedEventHandler DataReceived { 
@@ -63,6 +66,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
         }
 
         public ProcessState State { get; private set; }
+        public void SetTimeOut(TimeSpan timeOut)
+        {
+            if (timeOut.TotalMilliseconds > 0)
+            {
+                _watchDog.Interval = timeOut.TotalMilliseconds;
+                _watchDog.AutoReset = false;
+                
+            }
+        }
 
         public void Start()
         {
@@ -70,11 +82,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
                 log.Debug("Starting");
                 DataReceived += Process_OutputDataReceived;
                 Started = false;
+                _watchDog.Elapsed += OnTimeOut;
+                _watchDog.Start();
                 _process.Start();
-                while(!Started && !_process.HasExited)
+                while (!Started && !_process.HasExited)
                 {
                     Thread.Sleep(1000);
                 }
+                _watchDog.Elapsed -= OnTimeOut;
             }
 
         }
@@ -116,6 +131,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Factories
                 log.Error("No results");
                 State = ProcessState.NoResults;
             }
+        }
+
+        private void OnTimeOut(object sender, ElapsedEventArgs e)
+        {
+            State = ProcessState.TimedOut;
+            _process.Kill();
         }
 
         public void Kill()

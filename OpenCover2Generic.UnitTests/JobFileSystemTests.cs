@@ -4,31 +4,32 @@ using OpenCover2Generic.Converter;
 using Moq;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
     public class JobFileSystemTests
     {
-        private Mock<IFileSystemAdapter> _mock;
+        private Mock<IFileSystemAdapter> _fileSystemAdapterMock;
         private JobFileSystem _fileSystem;
         [TestInitialize]
         public void Initialize()
         {
-            _mock = new Mock<IFileSystemAdapter>();
-            _mock.Setup(f => f.GetTempPath()).Returns("Q:/temp");
-            _fileSystem= new JobFileSystem(_mock.Object);
+            _fileSystemAdapterMock = new Mock<IFileSystemAdapter>();
+            _fileSystemAdapterMock.Setup(f => f.GetTempPath()).Returns("Q:/temp");
+            _fileSystem= new JobFileSystem(_fileSystemAdapterMock.Object);
         }
         [TestMethod]
         public void CreateRootTests()
         {
             _fileSystem.CreateRoot("key");
-            _mock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key"));
-            _mock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\TestResults"));
-            _mock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\OpenCoverLogs"));
-            _mock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\OpenCoverIntermediate"));
-            _mock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\OpenCoverOutput"));
-            _mock.Verify(f => f.CreateDirectory(It.IsAny<string>()), Times.Exactly(5));
+            _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key"));
+            _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\TestResults"));
+            _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\OpenCoverLogs"));
+            _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\OpenCoverIntermediate"));
+            _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\OpenCoverOutput"));
+            _fileSystemAdapterMock.Verify(f => f.CreateDirectory(It.IsAny<string>()), Times.Exactly(5));
         }
 
         [TestMethod]
@@ -80,7 +81,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             paths.Add("a");
             paths.Add("b");
 
-            _mock.Setup(f => f.EnumerateFiles(@"Q:\temp\opencover_key\TestResults")).Returns(paths);
+            _fileSystemAdapterMock.Setup(f => f.EnumerateFiles(@"Q:\temp\opencover_key\TestResults")).Returns(paths);
 
             var testResultsPaths = _fileSystem.GetTestResultsPaths();
             Assert.AreEqual(2,testResultsPaths.Count());
@@ -96,5 +97,39 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(@"Q:\temp\opencover_key\OpenCoverIntermediate\mymodule\2_test.xml", intermediateCoverageOuputPath);
         }
 
+        [TestMethod]
+        public void GetModules_NoModules_EmptyList()
+        {
+            var dirs = GivenAModel();
+
+            var modules = _fileSystem.GetModuleCoverageDirectories();
+
+            Assert.IsNotNull(modules);
+            Assert.AreEqual(0, modules.Count());
+        }
+
+
+        [TestMethod]
+        public void GetModules_TwoModules_ListOfTwo()
+        {
+            var dirs = GivenAModel();
+            dirs.Add("a");
+            dirs.Add("b");
+
+            var modules = _fileSystem.GetModuleCoverageDirectories();
+
+            Assert.IsNotNull(modules);
+            Assert.AreEqual(2, modules.Count());
+        }
+
+        private Collection<string> GivenAModel()
+        {
+            var dirs = new Collection<string>();
+            _fileSystem.CreateRoot("key");
+            _fileSystemAdapterMock.Setup(f =>
+                f.EnumerateDirectories(It.IsAny<string>(), "*", SearchOption.TopDirectoryOnly)
+            ).Returns(dirs);
+            return dirs;
+        }
     }
 }

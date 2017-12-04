@@ -32,6 +32,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             return Path.GetTempPath();
         }
 
-
+        public IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption)
+        {
+            return Directory.EnumerateDirectories(path, searchPattern, searchOption);
+        }
     }
 }

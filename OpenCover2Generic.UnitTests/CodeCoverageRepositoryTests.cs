@@ -42,6 +42,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             string path = @"Resources/OnlySkippedModules.xml";
             _repository.Add(path,@"key");
 
+
         }
 
         [TestMethod]

@@ -118,6 +118,11 @@ namespace OpenCover2Generic.Converter
         {
             return Directory.EnumerateFiles(GetTestResultsDirectory());
         }
+
+        internal IEnumerable<string> GetModuleCoverageDirectories()
+        {
+            return _fileSystemAdapter.EnumerateDirectories(GetIntermediateCoverageDirectory(), "*", SearchOption.TopDirectoryOnly);
+        }
     }
 
 }
