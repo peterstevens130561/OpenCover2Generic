@@ -65,7 +65,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void CheckTestResultsPath()
+        public void GetTestResultsPath_Path_Converted()
         {
             _fileSystem.CreateRoot("key");
 
@@ -74,7 +74,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void CheckTestResultsPaths()
+        public void GetTestResultsPaths_TwoPaths_TwoTestResultsPaths()
         {
             _fileSystem.CreateRoot("key");
             var paths = new Collection<string>();
@@ -89,7 +89,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
 
         [TestMethod]
-        public void CheckAssemblySameNameDifferentIndeix()
+        public void GetIntermediateCoverageOutputPath_SameName_DifferentIndex()
         {
             _fileSystem.CreateRoot("key");
             _fileSystem.GetIntermediateCoverageOutputPath(@"A:B\C\test.dll", "mymodule");
@@ -98,7 +98,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void GetModules_NoModules_EmptyList()
+        public void GetModuleCoverageDirectories_NoModules_EmptyList()
         {
             var dirs = GivenAModel();
 
@@ -110,7 +110,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
 
         [TestMethod]
-        public void GetModules_TwoModules_ListOfTwo()
+        public void GetModuleCoverageDirectories_TwoModules_ListOfTwo()
         {
             var dirs = GivenAModel();
             dirs.Add("a");
