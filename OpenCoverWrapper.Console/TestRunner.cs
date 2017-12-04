@@ -99,8 +99,8 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             log.Info("Assembling coverage file");
             using (XmlTextWriter xmlWriter = new XmlTextWriter(new StreamWriter(outputPath)))
             {
-                var moduleDirectories = Directory.EnumerateDirectories(_jobFileSystemInfo.GetIntermediateCoverageDirectory(), "*", SearchOption.TopDirectoryOnly);
-                _converter.BeginCoverageFile(xmlWriter);
+                var moduleDirectories = _jobFileSystemInfo.GetModuleCoverageDirectories();
+                 _converter.BeginCoverageFile(xmlWriter);
                 foreach (string moduleDirectory in moduleDirectories)
                 {
                     _converter.BeginModule();
