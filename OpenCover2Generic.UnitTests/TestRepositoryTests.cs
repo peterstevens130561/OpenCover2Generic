@@ -81,7 +81,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             var fileToAdd="Resources/1_TestResults.xml";
             _testResultsRepository.Add(fileToAdd);
 
-            _fileSystemMock.Verify(f => f.CopyFile(fileToAdd,tempDir),Times.Exactly(1));
+            _fileSystemMock.Verify(f => f.CopyFile(fileToAdd,tempDir + "\\1_TestResults.xml"),Times.Exactly(1));
         }
   
         private static XDocument WhenWriting(ITestResultsRepository testResultsRepository)

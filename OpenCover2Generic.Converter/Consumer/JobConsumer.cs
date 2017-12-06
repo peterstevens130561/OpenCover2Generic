@@ -66,11 +66,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
                 Task task = Task.Run(() => runner.Run(processStartInfo, writer));
                 task.Wait();
             }
-            if(runner.TimedOut)
-            {
-                string msg = $"Timeout on executing {job.Assemblies}";
-                throw new JobTimeOutException(msg);
-            }
             _testResultsRepository.Add(runner.TestResultsPath);
             _codeCoverageRepository.Add(openCoverOutputPath, job.FirstAssembly);
 

@@ -51,6 +51,7 @@
     <Compile Include="Exceptions\JobTimeOutException.cs" />
     <Compile Include="Factories\IJobConsumerFactory.cs" />
     <Compile Include="Factories\IOpenCoverManagerFactory.cs" />
+    <Compile Include="IOpenCoverOutput2RepositorySaver.cs" />
     <Compile Include="OpenCover\IOpenCoverProcess.cs" />
     <Compile Include="Factories\IProcessFactory.cs" />
     <Compile Include="Factories\JobConsumerFactory.cs" />

@@ -38,8 +38,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             _openCoverProcessMock.Setup(p => p.HasExited).Returns(true);
             _openCoverProcessMock.Setup(p => p.TestResultsPath).Returns("bla");
-            _openCoverProcessMock.Setup(p => p.Start())
-                .Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Failed to register(user:True"));
+
 
             // as the opencoverprocess is mocked, we need to set its property value
             _openCoverProcessMock.SetupSequence(p => p.State).Returns(ProcessState.CouldNotRegister)
@@ -64,23 +63,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual("bla",_openCoverRunnerManager.TestResultsPath);
         }
 
-        [TestMethod]
-        public void SetTimeOut_OneMinute_ExpectOneMinute()
-        {
-            IOpenCoverRunnerManager openCoverRunnerManager = new OpenCoverRunnerManager(null, _timerMock.Object);
-            openCoverRunnerManager.SetTimeOut(new TimeSpan(0, 1, 0));
-            _timerMock.VerifySet(t => t.Interval=60000,Times.Exactly(1));
 
-        }
-
-        [TestMethod]
-        public void SetTimeOut_ZeroMinute_ExpectNotSet()
-        {
-            IOpenCoverRunnerManager openCoverRunnerManager = new OpenCoverRunnerManager(null, _timerMock.Object);
-            openCoverRunnerManager.SetTimeOut(new TimeSpan(0, 0, 0));
-            _timerMock.VerifySet(t => t.Interval =It.IsAny<double>(), Times.Exactly(0));
-
-        }
         [TestMethod]
         public void Run_CouldNotRegisterAtAll_InvalidOperationExceptionThrown()
         {
@@ -90,10 +73,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 .Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Failed to register(user:True"));
 
             // as the opencoverprocess is mocked, we need to set its property value
-            SetupToFaulToRegister10Times()
-
-                            .Returns(ProcessState.CouldNotRegister);
-
+            SetupToFaulToRegister10Times();
             ProcessStartInfo info = new ProcessStartInfo();
 
             //when starting the runner
@@ -145,6 +125,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                             .Returns(ProcessState.CouldNotRegister)
                             .Returns(ProcessState.CouldNotRegister)
                             .Returns(ProcessState.CouldNotRegister)
+                    .Returns(ProcessState.CouldNotRegister)
                             .Returns(ProcessState.CouldNotRegister);
         }
 

@@ -10,8 +10,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 
         void Run(ProcessStartInfo startInfo, StreamWriter writer);
 
-        bool TimedOut { get; }
-
         void SetTimeOut(TimeSpan timeOut);
     }
 }

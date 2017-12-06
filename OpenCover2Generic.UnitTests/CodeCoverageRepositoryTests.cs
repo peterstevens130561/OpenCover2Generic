@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BHGE.SonarQube.OpenCover2Generic.Repositories;
+using Moq;
+using OpenCover2Generic.Converter;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
     public class CodeCoverageRepositoryTests
     {
+        Mock<IJobFileSystem> _jobFileSystemMock = new Mock<IJobFileSystem>();
+        private Mock<IOpenCoverOutput2RepositorySaver> _saver = new Mock<IOpenCoverOutput2RepositorySaver>();
         private ICodeCoverageRepository _repository;
         [TestInitialize]
         public void Initialize()
         {
-            _repository = new CodeCoverageRepository();
+            _repository = new CodeCoverageRepository(_jobFileSystemMock.Object,_saver.Object);
             _repository.RootDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         }
 
@@ -28,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Instantiate()
         {
-            ICodeCoverageRepository repository = new CodeCoverageRepository();
+            ICodeCoverageRepository repository = new CodeCoverageRepository(_jobFileSystemMock.Object, _saver.Object);
             Assert.IsNotNull(repository);
         }
 
@@ -37,18 +43,23 @@ namespace BHGE.SonarQube.OpenCover2Generic
         /// should be nothing stored
         /// </summary>
         [TestMethod]
-        public void Add_EmptyFile_ShouldBeInRightPlace()
+
+        public void CreateCoverageFile_Nothing_ValidEmptyFile()
         {
-            string path = @"Resources/OnlySkippedModules.xml";
-            _repository.Add(path,@"key");
+            StringBuilder sb = new StringBuilder();
+            using (XmlTextWriter writer = new XmlTextWriter(new StreamWriter(new MemoryStream())))
+            {
+                var dirs = new Collection<string>();
+                _jobFileSystemMock.Setup(j => j.GetModuleCoverageDirectories()).Returns(dirs);
+                _repository.CreateCoverageFile(writer);
+
+                _saver.Verify(s => s.BeginCoverageFile(writer), Times.Exactly(1));
+                _saver.Verify(s => s.EndCoverageFile(writer),Times.Exactly(1));
+                _saver.Verify(s=>s.AppendModuleToCoverageFile(writer),Times.Exactly(0));
+                _saver.Verify(s => s.BeginModule(), Times.Exactly(0));
+            }
 
 
-        }
-
-        [TestMethod]
-        public void AddFileWithSomeModules_ShouldBeOnCorrectPlaces()
-        {
-            
         }
 
     }

@@ -83,44 +83,5 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual("three", jobs.Take().FirstAssembly);
             Assert.AreEqual("five", jobs.Take().FirstAssembly);
         }
-
-        [TestMethod]
-        public void SetTimeOut_ProcessesRunTooLong_ProcessesKilled()
-        {
-
-            var processFactoryMock = new Mock<IProcessFactory>();
-            var processMock = new Mock<Factories.IOpenCoverProcess>();
-            processMock.Setup(p => p.HasExited).Returns(false);
-
-            processMock.Setup(p => p.TestResultsPath).Returns<string>(null);
-            processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(processMock.Object);
-
-            _jobFileSystemMock.Setup(j => j.GetOpenCoverLogPath(It.IsAny<string>())).Returns(Path.GetTempFileName());
-            _openCoverCommandLineBuilderMock.Setup(j => j.Build(It.IsAny<string>(), It.IsAny<string>())).Returns(new ProcessStartInfo());
-
-            IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(_openCoverCommandLineBuilderMock.Object,
-                _jobFileSystemMock.Object,
-                new OpenCoverManagerFactory(processFactoryMock.Object),
-                new TestResultsRepository(_jobFileSystemMock.Object, null),
-                null
-                );
-            ITestRunner testRunner = new TestRunner(_jobFileSystemMock.Object, null, jobConsumerFactory);
-
-            string[] testAssemblies = { "one" };
-            const int ms2Tick = 10000;
-            TimeSpan timeOut = new TimeSpan(10 * ms2Tick); // after 10 ms timeout will occur
-
-            testRunner.CreateJobs(testAssemblies, 1);
-            testRunner.CreateJobConsumers(1,timeOut);
-            try
-            {
-                testRunner.Wait();
-            } catch ( AggregateException e)
-            {
-                Assert.IsInstanceOfType(e.InnerException,typeof(JobTimeOutException));
-                return;
-            }
-            Assert.Fail("Expected timeout");
-        }
     }
 }

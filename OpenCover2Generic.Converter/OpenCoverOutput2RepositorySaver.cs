@@ -12,7 +12,7 @@ using BHGE.SonarQube.OpenCover2Generic.Writers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    public class OpenCoverOutput2RepositorySaver 
+    public class OpenCoverOutput2RepositorySaver : IOpenCoverOutput2RepositorySaver
     {
         private readonly IModuleCoverageModel _model;
         private readonly ICoverageWriter _coverageWriter;

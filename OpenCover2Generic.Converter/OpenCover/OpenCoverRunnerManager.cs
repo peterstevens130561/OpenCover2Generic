@@ -22,11 +22,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
         private readonly ITimerSeam _watchDog ;
         private readonly StringBuilder _processOutput = new StringBuilder(2048);
         private readonly IProcessFactory _processFactory;
-        private bool _timeOut;
         private readonly Stopwatch _stopWatch = new Stopwatch();
 
 
         private ProcessState _processState;
+        private TimeSpan _timeOut;
 
         public OpenCoverRunnerManager(IProcessFactory processFactory, ITimerSeam timer)
         {
@@ -36,18 +36,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
 
         public void SetTimeOut(TimeSpan timeOut)
         {
-            if (timeOut.TotalMilliseconds > 0)
-            {
-                _watchDog.Interval = timeOut.TotalMilliseconds;
-                _watchDog.AutoReset = false;
-                _watchDog.Elapsed += OnTimeOut;
-            }
+            _timeOut = timeOut;
         }
 
-
-
-
-        public bool TimedOut { get; private set; }
 
         public void Run(ProcessStartInfo startInfo, StreamWriter writer)
         {
@@ -65,21 +56,19 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                 {
                     process.DataReceived += Process_OutputDataReceived;
                     process.StartInfo = startInfo;
+                    process.SetTimeOut(_timeOut);
                     process.Start();
                     _stopWatch.Start();
-                    _watchDog.Start();
 
-                    while (!process.HasExited && !_timeOut )
+                    while (!process.HasExited)
                     {
                         Thread.Sleep(1000);
                     }
-
-                    _processState = _timeOut ? ProcessState.TimedOut : process.State;
                     process.DataReceived -= Process_OutputDataReceived;
-                    switch (_processState)
+                   
+                    switch (process.State)
                     {
                         case ProcessState.TimedOut:
-                            process.Kill();
                             throw new JobTimeOutException("Test timed out");
                         case ProcessState.Done:
                             _processState = ProcessState.Done;
@@ -91,11 +80,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                             ++tries;
                             _processState = tries < 10 ? ProcessState.Busy : ProcessState.RecoverableFailure;
                             break;
+                        default:
+                            throw new InvalidOperationException($"Unexpected process state {process.State}");
                     }
 
                 }
             }
-            _watchDog.Stop();
             _log.Debug($"Completed after {_stopWatch.Elapsed.TotalSeconds}s");
             writer.Write(_processOutput.ToString());
             if (_processState==ProcessState.RecoverableFailure)
@@ -127,12 +117,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             }
             _processOutput.AppendLine(e.Data);
 
-        }
-
-        private void OnTimeOut(object sender, ElapsedEventArgs e)
-        {
-            _log.Error($"Timeout occurred {_stopWatch.ElapsedMilliseconds}");
-            _timeOut = true;
         }
     }
 }

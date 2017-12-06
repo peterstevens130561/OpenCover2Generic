@@ -17,6 +17,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
         private ICoverageParser _parser;
         private ICoverageWriter _moduleWriter;
         private readonly Object _lock = new object();
+        private readonly IJobFileSystem _jobFileSystem;
+        private readonly IOpenCoverOutput2RepositorySaver _converter;
+        public CodeCoverageRepository(IJobFileSystem jobFileSystem,IOpenCoverOutput2RepositorySaver saver)
+        {
+            _jobFileSystem = jobFileSystem;
+            _converter = saver;
+        }
+
         public string RootDirectory { get; set; }
 
         public void Add(string path, string key)
@@ -76,6 +84,22 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
                 _moduleWriter.GenerateCoverage(_model, tempFileWriter);
                 _moduleWriter.WriteEnd(tempFileWriter);
             }
+        }
+
+        public void CreateCoverageFile(XmlTextWriter xmlWriter)
+        {
+            var moduleDirectories = _jobFileSystem.GetModuleCoverageDirectories();
+            _converter.BeginCoverageFile(xmlWriter);
+            foreach (string moduleDirectory in moduleDirectories)
+            {
+                _converter.BeginModule();
+                foreach (string assemblyFile in Directory.EnumerateFiles(moduleDirectory))
+                {
+                    _converter.ReadIntermediateFile(assemblyFile);
+                }
+                _converter.AppendModuleToCoverageFile(xmlWriter);
+            }
+            _converter.EndCoverageFile(xmlWriter);
         }
     }
 }
