@@ -14,5 +14,7 @@ namespace OpenCover2Generic.Converter
         void CreateRoot(string v);
 
         IEnumerable<string> GetModuleCoverageDirectories();
+
+        IEnumerable<string> GetTestCoverageFilesOfModule(string moduleDirectory);
     }
 }

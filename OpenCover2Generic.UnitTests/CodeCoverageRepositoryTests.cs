@@ -58,8 +58,25 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 _saver.Verify(s=>s.AppendModuleToCoverageFile(writer),Times.Exactly(0));
                 _saver.Verify(s => s.BeginModule(), Times.Exactly(0));
             }
+        }
 
+        [TestMethod]
+        public void CreateCoverageFile_OneModule_FileWithOneModule()
+        {
+            StringBuilder sb = new StringBuilder();
+            using (XmlTextWriter writer = new XmlTextWriter(new StreamWriter(new MemoryStream())))
+            {
+                var dirs = new Collection<string>();
+                dirs.Add("a");
 
+                _jobFileSystemMock.Setup(j => j.GetModuleCoverageDirectories()).Returns(dirs);
+                _repository.CreateCoverageFile(writer);
+
+                _saver.Verify(s => s.BeginCoverageFile(writer), Times.Exactly(1));
+                _saver.Verify(s => s.EndCoverageFile(writer), Times.Exactly(1));
+                _saver.Verify(s => s.AppendModuleToCoverageFile(writer), Times.Exactly(1));
+                _saver.Verify(s => s.BeginModule(), Times.Exactly(1));
+            }
         }
 
     }

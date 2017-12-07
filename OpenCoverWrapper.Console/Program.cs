@@ -65,6 +65,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
                 string outputPath = commandLineParser.GetOutputPath();
                 testRunner.CreateCoverageFile(outputPath);
+                codeCoverageRepository.CreateCoverageFile(outputPath);
             } catch ( CommandLineArgumentException e)
             {
                 Console.Error.WriteLine(e.Message);

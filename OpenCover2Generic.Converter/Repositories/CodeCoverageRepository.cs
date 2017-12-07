@@ -86,6 +86,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
             }
         }
 
+        public void CreateCoverageFile(string outputPath)
+        {
+            using (var writer = new XmlTextWriter(outputPath,Encoding.UTF8))
+            {
+                CreateCoverageFile(writer);
+            }
+        }
+
         public void CreateCoverageFile(XmlTextWriter xmlWriter)
         {
             var moduleDirectories = _jobFileSystem.GetModuleCoverageDirectories();
@@ -93,7 +101,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
             foreach (string moduleDirectory in moduleDirectories)
             {
                 _converter.BeginModule();
-                foreach (string assemblyFile in Directory.EnumerateFiles(moduleDirectory))
+                foreach (string assemblyFile in _jobFileSystem.GetTestCoverageFilesOfModule(moduleDirectory))
                 {
                     _converter.ReadIntermediateFile(assemblyFile);
                 }
