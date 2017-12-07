@@ -61,23 +61,56 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void CreateCoverageFile_OneModule_FileWithOneModule()
+        public void CreateCoverageFile_OneModuleOneFile_FileWithOneModuleAndFile()
         {
             StringBuilder sb = new StringBuilder();
             using (XmlTextWriter writer = new XmlTextWriter(new StreamWriter(new MemoryStream())))
             {
                 var dirs = new Collection<string>();
                 dirs.Add("a");
-
+                var files = new Collection<string>();
+                files.Add("b");
                 _jobFileSystemMock.Setup(j => j.GetModuleCoverageDirectories()).Returns(dirs);
+                _jobFileSystemMock.Setup(j => j.GetTestCoverageFilesOfModule("a")).Returns(files);
                 _repository.CreateCoverageFile(writer);
 
-                _saver.Verify(s => s.BeginCoverageFile(writer), Times.Exactly(1));
-                _saver.Verify(s => s.EndCoverageFile(writer), Times.Exactly(1));
-                _saver.Verify(s => s.AppendModuleToCoverageFile(writer), Times.Exactly(1));
+                ThenFileIsWritten(writer);
                 _saver.Verify(s => s.BeginModule(), Times.Exactly(1));
+                _saver.Verify(s => s.ReadIntermediateFile("b"), Times.Exactly(1));
+                _saver.Verify(s => s.AppendModuleToCoverageFile(writer), Times.Exactly(1));
+
             }
         }
 
+
+
+        [TestMethod]
+        public void CreateCoverageFile_OneModuleTwoFiles_FileWithOneModuleTwoFiles()
+        {
+            StringBuilder sb = new StringBuilder();
+            using (XmlTextWriter writer = new XmlTextWriter(new StreamWriter(new MemoryStream())))
+            {
+                var dirs = new Collection<string>();
+                dirs.Add("a");
+                var files = new Collection<string>();
+                files.Add("b");
+                files.Add("c");
+                _jobFileSystemMock.Setup(j => j.GetModuleCoverageDirectories()).Returns(dirs);
+                _jobFileSystemMock.Setup(j => j.GetTestCoverageFilesOfModule("a")).Returns(files);
+                _repository.CreateCoverageFile(writer);
+
+                ThenFileIsWritten(writer);
+                _saver.Verify(s => s.BeginModule(), Times.Exactly(1));
+                _saver.Verify(s => s.ReadIntermediateFile("b"), Times.Exactly(1));
+                _saver.Verify(s => s.ReadIntermediateFile("c"), Times.Exactly(1));
+                _saver.Verify(s => s.AppendModuleToCoverageFile(writer), Times.Exactly(1));
+
+            }
+        }
+        private void ThenFileIsWritten(XmlTextWriter writer)
+        {
+            _saver.Verify(s => s.BeginCoverageFile(writer), Times.Exactly(1));
+            _saver.Verify(s => s.EndCoverageFile(writer), Times.Exactly(1));
+        }
     }
 }
