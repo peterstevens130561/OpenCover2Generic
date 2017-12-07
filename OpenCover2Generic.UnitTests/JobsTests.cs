@@ -19,7 +19,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void Add_CanTake()
+        public void Take_OneJob_Successful()
         {
             IJobs jobs = new Jobs();
             jobs.Add(new Job("a"));
