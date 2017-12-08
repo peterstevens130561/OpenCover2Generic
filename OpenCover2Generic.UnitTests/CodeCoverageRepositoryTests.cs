@@ -76,8 +76,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
                 ThenFileIsWritten(writer);
                 _saver.Verify(s => s.BeginModule(), Times.Exactly(1));
-                _saver.Verify(s => s.ReadIntermediateFile("b"), Times.Exactly(1));
-                _saver.Verify(s => s.AppendModuleToCoverageFile(writer), Times.Exactly(1));
+                ThenFileIsRead("b");
+                ThenModuleIsAppended(writer, 1);
 
             }
         }
@@ -91,26 +91,44 @@ namespace BHGE.SonarQube.OpenCover2Generic
             using (XmlTextWriter writer = new XmlTextWriter(new StreamWriter(new MemoryStream())))
             {
                 var dirs = new Collection<string>();
+                _jobFileSystemMock.Setup(j => j.GetModuleCoverageDirectories()).Returns(dirs);
                 dirs.Add("a");
+
                 var files = new Collection<string>();
                 files.Add("b");
                 files.Add("c");
-                _jobFileSystemMock.Setup(j => j.GetModuleCoverageDirectories()).Returns(dirs);
+
                 _jobFileSystemMock.Setup(j => j.GetTestCoverageFilesOfModule("a")).Returns(files);
                 _repository.CreateCoverageFile(writer);
-
                 ThenFileIsWritten(writer);
-                _saver.Verify(s => s.BeginModule(), Times.Exactly(1));
-                _saver.Verify(s => s.ReadIntermediateFile("b"), Times.Exactly(1));
-                _saver.Verify(s => s.ReadIntermediateFile("c"), Times.Exactly(1));
-                _saver.Verify(s => s.AppendModuleToCoverageFile(writer), Times.Exactly(1));
+                ThenThereAreModules(1);
+                ThenFileIsRead("b");
+                ThenFileIsRead("c");
+                ThenModuleIsAppended(writer, 1);
+
 
             }
         }
+
+        private void ThenThereAreModules(int modulesCount)
+        {
+            _saver.Verify(s => s.BeginModule(), Times.Exactly(modulesCount));
+        }
+
         private void ThenFileIsWritten(XmlTextWriter writer)
         {
             _saver.Verify(s => s.BeginCoverageFile(writer), Times.Exactly(1));
             _saver.Verify(s => s.EndCoverageFile(writer), Times.Exactly(1));
+        }
+
+        private void ThenFileIsRead(string name)
+        {
+            _saver.Verify(s => s.ReadIntermediateFile(name), Times.Exactly(1));
+        }
+
+        private void ThenModuleIsAppended(XmlTextWriter writer,int times)
+        {
+            _saver.Verify(s => s.AppendModuleToCoverageFile(writer), Times.Exactly(times));
         }
     }
 }
