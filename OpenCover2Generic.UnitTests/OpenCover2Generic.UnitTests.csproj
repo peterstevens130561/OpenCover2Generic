@@ -65,6 +65,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CodeCoverageRepositoryTests.cs" />
+    <Compile Include="CoverageStorageResolverTests.cs" />
     <Compile Include="JobConsumerFactoryTests.cs" />
     <Compile Include="JobConsumerTests.cs" />
     <Compile Include="JobsTests.cs" />

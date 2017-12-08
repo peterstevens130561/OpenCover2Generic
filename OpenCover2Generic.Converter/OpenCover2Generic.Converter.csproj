@@ -67,6 +67,7 @@
     <Compile Include="OpenCover\OpenCoverRunnerManager.cs" />
     <Compile Include="Repositories\CodeCoverageRepository.cs" />
     <Compile Include="Repositories\ICodeCoverageRepository.cs" />
+    <Compile Include="Repositories\ICoverageStorageResolver.cs" />
     <Compile Include="Repositories\ITestResultsRepository.cs" />
     <Compile Include="Repositories\TestResultsRepository.cs" />
     <Compile Include="Seams\ITimerSeam.cs" />
