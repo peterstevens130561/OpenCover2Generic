@@ -17,14 +17,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
         private ICoverageParser _parser;
         private ICoverageWriter _moduleWriter;
         private readonly Object _lock = new object();
-        private readonly IJobFileSystem _jobFileSystem;
         private readonly IOpenCoverOutput2RepositorySaver _converter;
         private readonly ICoverageStorageResolver _coverageStorageResolver;
 
-        public CodeCoverageRepository(IJobFileSystem jobFileSystem,IOpenCoverOutput2RepositorySaver saver,
+        public CodeCoverageRepository(IOpenCoverOutput2RepositorySaver saver,
             ICoverageStorageResolver coverageStorageResolver)
         {
-            _jobFileSystem = jobFileSystem;
             _converter = saver;
             _coverageStorageResolver = coverageStorageResolver;
         }

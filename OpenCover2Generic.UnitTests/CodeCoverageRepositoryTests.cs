@@ -16,14 +16,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class CodeCoverageRepositoryTests
     {
-        Mock<IJobFileSystem> _jobFileSystemMock = new Mock<IJobFileSystem>();
-        private Mock<IOpenCoverOutput2RepositorySaver> _saver = new Mock<IOpenCoverOutput2RepositorySaver>();
+        private readonly Mock<IJobFileSystem> _jobFileSystemMock = new Mock<IJobFileSystem>();
+        private readonly Mock<IOpenCoverOutput2RepositorySaver> _saver = new Mock<IOpenCoverOutput2RepositorySaver>();
         private readonly Mock<ICoverageStorageResolver> _coverageStorageResolverMock = new Mock<ICoverageStorageResolver>();
         private ICodeCoverageRepository _repository;
         [TestInitialize]
         public void Initialize()
         {
-            _repository = new CodeCoverageRepository(_jobFileSystemMock.Object,_saver.Object,_coverageStorageResolverMock.Object);
+            _repository = new CodeCoverageRepository(_saver.Object,_coverageStorageResolverMock.Object);
             _repository.RootDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         }
 
