@@ -19,10 +19,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
         private readonly Object _lock = new object();
         private readonly IJobFileSystem _jobFileSystem;
         private readonly IOpenCoverOutput2RepositorySaver _converter;
-        public CodeCoverageRepository(IJobFileSystem jobFileSystem,IOpenCoverOutput2RepositorySaver saver)
+        private readonly ICoverageStorageResolver _coverageStorageResolver;
+
+        public CodeCoverageRepository(IJobFileSystem jobFileSystem,IOpenCoverOutput2RepositorySaver saver,
+            ICoverageStorageResolver coverageStorageResolver)
         {
             _jobFileSystem = jobFileSystem;
             _converter = saver;
+            _coverageStorageResolver = coverageStorageResolver;
         }
 
         public string RootDirectory { get; set; }
@@ -59,22 +63,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
         {
             if (_model.GetSourceFiles().Count > 0)
             {
-                string moduleFile = GetPathForModule(rootPath, testAssemblyPath);
+                string moduleFile = _coverageStorageResolver.GetPathForAssembly(rootPath, _parser.ModuleName,testAssemblyPath);
                 WriteModuleToFile(moduleFile);
                 _model.Clear();
             }
         }
 
-        private string GetPathForModule(string rootPath, string testAssemblyPath)
-        {
-            string moduleDirectoryPath = Path.Combine(rootPath, _parser.ModuleName);
-            if (!Directory.Exists(moduleDirectoryPath))
-            {
-                Directory.CreateDirectory(moduleDirectoryPath);
-            }
-            string moduleFile = Path.Combine(moduleDirectoryPath, Path.GetFileNameWithoutExtension(testAssemblyPath) + ".xml");
-            return moduleFile;
-        }
         private void WriteModuleToFile(string moduleFile)
         {
             using (XmlTextWriter tempFileWriter = new XmlTextWriter(moduleFile, Encoding.UTF8))
@@ -96,12 +90,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
 
         public void CreateCoverageFile(XmlTextWriter xmlWriter)
         {
-            var moduleDirectories = _jobFileSystem.GetModuleCoverageDirectories();
+            var moduleDirectories = _coverageStorageResolver.GetPathsOfAllModules(RootDirectory);
             _converter.BeginCoverageFile(xmlWriter);
             foreach (string moduleDirectory in moduleDirectories)
             {
                 _converter.BeginModule();
-                foreach (string assemblyFile in _jobFileSystem.GetTestCoverageFilesOfModule(moduleDirectory))
+                foreach (string assemblyFile in _coverageStorageResolver.GetTestCoverageFilesOfModule(moduleDirectory))
                 {
                     _converter.ReadIntermediateFile(assemblyFile);
                 }

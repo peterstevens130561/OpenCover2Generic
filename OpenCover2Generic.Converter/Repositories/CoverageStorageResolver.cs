@@ -8,7 +8,7 @@ using OpenCover2Generic.Converter;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories
 {
-    class CoverageStorageResolver : ICoverageStorageResolver
+    public class CoverageStorageResolver : ICoverageStorageResolver
     {
         private readonly IFileSystemAdapter _fileSystem;
         public CoverageStorageResolver(IFileSystemAdapter fileSystem)
@@ -25,5 +25,16 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
             string moduleFile = Path.Combine(moduleDirectoryPath, Path.GetFileNameWithoutExtension(testAssemblyPath) + ".xml");
             return moduleFile;
         }
+
+        public IEnumerable<string> GetPathsOfAllModules(string rootPath)
+        {
+            return _fileSystem.EnumerateDirectories(rootPath, "*", SearchOption.TopDirectoryOnly);
+        }
+
+        public IEnumerable<string> GetTestCoverageFilesOfModule(string moduleDirectory)
+        {
+            return _fileSystem.EnumerateFiles(moduleDirectory);
+        }
+
     }
 }

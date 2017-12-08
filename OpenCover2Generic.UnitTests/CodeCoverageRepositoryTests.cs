@@ -18,11 +18,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         Mock<IJobFileSystem> _jobFileSystemMock = new Mock<IJobFileSystem>();
         private Mock<IOpenCoverOutput2RepositorySaver> _saver = new Mock<IOpenCoverOutput2RepositorySaver>();
+        private readonly Mock<ICoverageStorageResolver> _coverageStorageResolverMock = new Mock<ICoverageStorageResolver>();
         private ICodeCoverageRepository _repository;
         [TestInitialize]
         public void Initialize()
         {
-            _repository = new CodeCoverageRepository(_jobFileSystemMock.Object,_saver.Object);
+            _repository = new CodeCoverageRepository(_jobFileSystemMock.Object,_saver.Object,_coverageStorageResolverMock.Object);
             _repository.RootDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         }
 
@@ -34,8 +35,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Instantiate()
         {
-            ICodeCoverageRepository repository = new CodeCoverageRepository(_jobFileSystemMock.Object, _saver.Object);
-            Assert.IsNotNull(repository);
+            Assert.IsNotNull(_repository);
         }
 
         /// <summary>
@@ -66,12 +66,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
             StringBuilder sb = new StringBuilder();
             using (XmlTextWriter writer = new XmlTextWriter(new StreamWriter(new MemoryStream())))
             {
+                string root = "";
                 var dirs = new Collection<string>();
                 dirs.Add("a");
                 var files = new Collection<string>();
                 files.Add("b");
-                _jobFileSystemMock.Setup(j => j.GetModuleCoverageDirectories()).Returns(dirs);
-                _jobFileSystemMock.Setup(j => j.GetTestCoverageFilesOfModule("a")).Returns(files);
+                
+                _coverageStorageResolverMock.Setup(j => j.GetPathsOfAllModules(root)).Returns(dirs);
+                _coverageStorageResolverMock.Setup(j => j.GetTestCoverageFilesOfModule("a")).Returns(files);
+
+                _repository.RootDirectory = root;
                 _repository.CreateCoverageFile(writer);
 
                 ThenFileIsWritten(writer);
@@ -90,15 +94,18 @@ namespace BHGE.SonarQube.OpenCover2Generic
             StringBuilder sb = new StringBuilder();
             using (XmlTextWriter writer = new XmlTextWriter(new StreamWriter(new MemoryStream())))
             {
+                string root = "";
                 var dirs = new Collection<string>();
-                _jobFileSystemMock.Setup(j => j.GetModuleCoverageDirectories()).Returns(dirs);
                 dirs.Add("a");
 
                 var files = new Collection<string>();
                 files.Add("b");
                 files.Add("c");
 
-                _jobFileSystemMock.Setup(j => j.GetTestCoverageFilesOfModule("a")).Returns(files);
+                _coverageStorageResolverMock.Setup(j => j.GetPathsOfAllModules(root)).Returns(dirs);
+                _coverageStorageResolverMock.Setup(j => j.GetTestCoverageFilesOfModule("a")).Returns(files);
+
+                _repository.RootDirectory = root;
                 _repository.CreateCoverageFile(writer);
                 ThenFileIsWritten(writer);
                 ThenThereAreModules(1);

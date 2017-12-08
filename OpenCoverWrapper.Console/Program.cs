@@ -33,7 +33,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             IOpenCoverManagerFactory openCoverManagerFactory = new OpenCoverManagerFactory(new ProcessFactory());
 
             var testResultsRepository = new TestResultsRepository(jobFileSystemInfo, fileSystem);
-            ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(jobFileSystemInfo,converter);
+            IFileSystemAdapter fileSystemAdapter = new FileSystemAdapter();
+            ICoverageStorageResolver coverageStorageResolver = new CoverageStorageResolver(fileSystemAdapter);
+            ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(jobFileSystemInfo,converter,coverageStorageResolver);
             IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
                 jobFileSystemInfo, 
                 openCoverManagerFactory,testResultsRepository,codeCoverageRepository);
