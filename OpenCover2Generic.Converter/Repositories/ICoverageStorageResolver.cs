@@ -8,6 +8,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories
 {
     internal interface ICoverageStorageResolver
     {
-        string GetPathForAssembly(string rootPath, string testAssemblyPath);
+        string GetPathForAssembly(string rootPath, string moduleName, string testAssemblyPath);
     }
 }
