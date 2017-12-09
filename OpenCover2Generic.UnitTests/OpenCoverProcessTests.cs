@@ -123,6 +123,21 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         }
 
+        [TestMethod]
+        public void Run_NoTests_StateIsNoTests()
+        {
+            _processMock.SetupSequence(p => p.HasExited).Returns(false).Returns(true);
+            _processMock.Setup(p => p.Start())
+                .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
+                    CreateMockDataReceivedEventArgs(@"Starting test execution, please wait.."),
+                    CreateMockDataReceivedEventArgs(@"No test is available in "),
+                    CreateMockDataReceivedEventArgs(@"VsTestSonarQubeLogger.TestResults=E:\Cadence\ESIETooLink\Main\TestResults\287d73c4-8c3e-4ecf-b41d-3c29a5cfe375.xml"),
+                    CreateMockDataReceivedEventArgs(@"No results, this could be for a number of reasons. The most common reasons are:")
+
+                }).Dequeue);
+            _openCoverProcess.Start();
+            Assert.AreEqual(ProcessState.NoTests, _openCoverProcess.State);
+        }
         private void SetupForStart(Mock<IProcess> processMock)
         {
             processMock.Setup(p => p.HasExited).Returns(true);

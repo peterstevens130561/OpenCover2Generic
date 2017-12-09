@@ -15,6 +15,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         NoResults,
         TimedOut,
         Done,
-        CouldNotRegister
+        CouldNotRegister,
+        NoTests
     }
 }

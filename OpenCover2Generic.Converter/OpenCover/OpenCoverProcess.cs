@@ -136,7 +136,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
                     log.Error("Failed to start, could not register");
                     resultState = ProcessState.CouldNotRegister;
                 }
-
+                if (data.StartsWith("No test is available in"))
+                {
+                    resultState = ProcessState.NoTests;
+                }
                 if (data.Contains("No results, this could be for a number of reasons"))
                 {
                     log.Error("No results");
