@@ -18,7 +18,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class OpenCoverRunnerManagerTests
     {
         private Mock<IProcessFactory> _processFactoryMock;
-        private Mock<TimerSeam> _timerMock = new Mock<TimerSeam>();
         private Mock<IOpenCoverProcess> _openCoverProcessMock = new Mock<IOpenCoverProcess>();
         private IOpenCoverRunnerManager _openCoverRunnerManager;
 
@@ -26,10 +25,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Initialize()
         {
             _processFactoryMock = new Mock<IProcessFactory>();
-            _timerMock = new Mock<TimerSeam>();
             _openCoverProcessMock = new Mock<IOpenCoverProcess>();
             _processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(_openCoverProcessMock.Object);
-            _openCoverRunnerManager = new OpenCoverRunner.OpenCoverRunnerManager(_processFactoryMock.Object, _timerMock.Object);
+            _openCoverRunnerManager = new OpenCoverRunner.OpenCoverRunnerManager(_processFactoryMock.Object);
         }
 
         [TestMethod]
