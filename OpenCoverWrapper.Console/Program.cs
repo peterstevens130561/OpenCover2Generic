@@ -80,6 +80,11 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             {
                 Console.Error.WriteLine(e.Message);
                 Console.Error.WriteLine(e.StackTrace);
+                if (e.InnerException != null)
+                {
+                    Console.Error.WriteLine(e.InnerException.Message);
+                    Console.Error.WriteLine(e.InnerException.StackTrace);
+                }
                 Environment.Exit(1);
             }
         }

@@ -131,6 +131,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
                 log.Error("No results");
                 State = ProcessState.NoResults;
             }
+
+            if (e.Data.Contains("Visited Classes"))
+            {
+                State = ProcessState.Done;
+            }
+
+
         }
 
         private void OnTimeOut(object sender, ElapsedEventArgs e)

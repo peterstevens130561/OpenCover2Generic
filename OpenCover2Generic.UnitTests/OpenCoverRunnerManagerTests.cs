@@ -21,6 +21,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<TimerSeam> _timerMock = new Mock<TimerSeam>();
         private Mock<IOpenCoverProcess> _openCoverProcessMock = new Mock<IOpenCoverProcess>();
         private IOpenCoverRunnerManager _openCoverRunnerManager;
+
         [TestInitialize]
         public void Initialize()
         {
@@ -28,7 +29,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _timerMock = new Mock<TimerSeam>();
             _openCoverProcessMock = new Mock<IOpenCoverProcess>();
             _processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(_openCoverProcessMock.Object);
-           _openCoverRunnerManager = new OpenCoverRunner.OpenCoverRunnerManager(_processFactoryMock.Object, _timerMock.Object);
+            _openCoverRunnerManager = new OpenCoverRunner.OpenCoverRunnerManager(_processFactoryMock.Object, _timerMock.Object);
         }
 
         [TestMethod]
@@ -44,23 +45,20 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _openCoverProcessMock.SetupSequence(p => p.State).Returns(ProcessState.CouldNotRegister)
                 .Returns(ProcessState.Done);
             _openCoverProcessMock.Setup(p => p.Start())
-                           .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
-                                CreateMockDataReceivedEventArgs("Failed to register(user:True"),
-                                CreateMockDataReceivedEventArgs("Starting test execution, please wait..")
-                           }).Dequeue);
+                .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[]
+                {
+                    CreateMockDataReceivedEventArgs("Failed to register(user:True"),
+                    CreateMockDataReceivedEventArgs("Starting test execution, please wait..")
+                }).Dequeue);
 
 
             ProcessStartInfo info = new ProcessStartInfo();
-            
-            //when starting the runner
 
-                using (StreamWriter writer = new StreamWriter(new MemoryStream()))
-                {
-                    _openCoverRunnerManager.Run(info, writer);
-                }
+            //when starting the runner
+            WhenRun(info);
             // should be called twice
             _openCoverProcessMock.Verify(p => p.Start(), Times.Exactly(2));
-            Assert.AreEqual("bla",_openCoverRunnerManager.TestResultsPath);
+            Assert.AreEqual("bla", _openCoverRunnerManager.TestResultsPath);
         }
 
 
@@ -79,10 +77,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             //when starting the runner
             try
             {
-                using (StreamWriter writer = new StreamWriter(new MemoryStream()))
-                {
-                    _openCoverRunnerManager.Run(info, writer);
-                }
+                WhenRun(info);
             }
             catch (InvalidOperationException)
             {
@@ -92,6 +87,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.Fail("expected InvalidOperatonException");
 
         }
+
+
 
         [TestMethod]
         public void Run_NoResults_InvalidTestConfigurationException()
@@ -103,10 +100,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             try
             {
                 ProcessStartInfo info = new ProcessStartInfo();
-                using (StreamWriter writer = new StreamWriter(new MemoryStream()))
-                {
-                    _openCoverRunnerManager.Run(info, writer);
-                }
+                WhenRun(info);
             }
             catch (InvalidTestConfigurationException e)
             {
@@ -114,19 +108,20 @@ namespace BHGE.SonarQube.OpenCover2Generic
             }
             Assert.Fail("Expected exception");
         }
+
         private Moq.Language.ISetupSequentialResult<ProcessState> SetupToFaulToRegister10Times()
         {
             return _openCoverProcessMock.SetupSequence(p => p.State)
-                            .Returns(ProcessState.CouldNotRegister)
-                            .Returns(ProcessState.CouldNotRegister)
-                            .Returns(ProcessState.CouldNotRegister)
-                            .Returns(ProcessState.CouldNotRegister)
-                            .Returns(ProcessState.CouldNotRegister)
-                            .Returns(ProcessState.CouldNotRegister)
-                            .Returns(ProcessState.CouldNotRegister)
-                            .Returns(ProcessState.CouldNotRegister)
-                    .Returns(ProcessState.CouldNotRegister)
-                            .Returns(ProcessState.CouldNotRegister);
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister)
+                .Returns(ProcessState.CouldNotRegister);
         }
 
         [TestMethod]
@@ -140,10 +135,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             try
             {
                 ProcessStartInfo info = new ProcessStartInfo();
-                using (StreamWriter writer = new StreamWriter(new MemoryStream()))
-                {
-                    _openCoverRunnerManager.Run(info, writer);
-                }
+                WhenRun(info);
             }
             catch (JobTimeOutException e)
             {
@@ -160,33 +152,43 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 .Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Warning: Test Run deployment issue"));
 
         }
+
         private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string testData)
+        {
+
+            if (String.IsNullOrEmpty(testData))
+                throw new ArgumentException("Data is null or empty.", "testData");
+
+            DataReceivedEventArgs mockEventArgs =
+                (DataReceivedEventArgs) System.Runtime.Serialization.FormatterServices
+                    .GetUninitializedObject(typeof(DataReceivedEventArgs));
+
+            FieldInfo[] eventFields = typeof(DataReceivedEventArgs)
+                .GetFields(
+                    BindingFlags.NonPublic |
+                    BindingFlags.Instance |
+                    BindingFlags.DeclaredOnly);
+
+            if (eventFields.Any())
             {
+                eventFields[0].SetValue(mockEventArgs, testData);
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    "Failed to find _data field!");
+            }
 
-                if (String.IsNullOrEmpty(testData))
-                    throw new ArgumentException("Data is null or empty.", "testData");
+            return mockEventArgs;
+        }
 
-                DataReceivedEventArgs mockEventArgs =
-                    (DataReceivedEventArgs)System.Runtime.Serialization.FormatterServices
-                     .GetUninitializedObject(typeof(DataReceivedEventArgs));
 
-                FieldInfo[] eventFields = typeof(DataReceivedEventArgs)
-                    .GetFields(
-                        BindingFlags.NonPublic |
-                        BindingFlags.Instance |
-                        BindingFlags.DeclaredOnly);
-
-                if (eventFields.Any())
-                {
-                    eventFields[0].SetValue(mockEventArgs, testData);
-                }
-                else
-                {
-                    throw new InvalidOperationException(
-                        "Failed to find _data field!");
-                }
-
-                return mockEventArgs;
+        private void WhenRun(ProcessStartInfo info)
+        {
+            using (StreamWriter writer = new StreamWriter(new MemoryStream()))
+            {
+                _openCoverRunnerManager.Run(info, writer, "bla");
             }
         }
     }
+}

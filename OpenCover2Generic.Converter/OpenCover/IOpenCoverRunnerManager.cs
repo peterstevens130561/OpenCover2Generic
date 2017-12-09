@@ -8,7 +8,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
     {
         string TestResultsPath { get; }
 
-        void Run(ProcessStartInfo startInfo, StreamWriter writer);
+        void Run(ProcessStartInfo startInfo, StreamWriter writer, string assemblies);
 
         void SetTimeOut(TimeSpan timeOut);
     }

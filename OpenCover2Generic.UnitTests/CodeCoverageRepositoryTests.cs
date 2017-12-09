@@ -50,7 +50,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             using (XmlTextWriter writer = new XmlTextWriter(new StreamWriter(new MemoryStream())))
             {
                 var dirs = new Collection<string>();
-                _jobFileSystemMock.Setup(j => j.GetModuleCoverageDirectories()).Returns(dirs);
                 _repository.CreateCoverageFile(writer);
 
                 _saver.Verify(s => s.BeginCoverageFile(writer), Times.Exactly(1));

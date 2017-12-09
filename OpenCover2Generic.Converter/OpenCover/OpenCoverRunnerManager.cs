@@ -40,7 +40,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
         }
 
 
-        public void Run(ProcessStartInfo startInfo, StreamWriter writer)
+        public void Run(ProcessStartInfo startInfo, StreamWriter writer,string jobAssemblies)
         {
             startInfo.CreateNoWindow = true;
             startInfo.UseShellExecute = false;
@@ -64,18 +64,24 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                     {
                         Thread.Sleep(1000);
                     }
+                    writer.Write(_processOutput.ToString());
+                    _processOutput.Clear();
                     process.DataReceived -= Process_OutputDataReceived;
                    
                     switch (process.State)
                     {
                         case ProcessState.TimedOut:
-                            throw new JobTimeOutException("Test timed out");
+                            string msg = $"Test times out: {jobAssemblies}";
+                            _log.Error(msg);
+                            throw new JobTimeOutException(msg);
                         case ProcessState.Done:
                             _processState = ProcessState.Done;
                             _testResultsPath = process.TestResultsPath;
                             break;
                         case ProcessState.NoResults:
-                            throw new InvalidTestConfigurationException("No results, did you miss any project references?");
+                            msg = $"No results, did you miss any project references : {jobAssemblies}";
+                            _log.Error(msg);
+                            throw new InvalidTestConfigurationException(msg);
                         case ProcessState.CouldNotRegister:
                             ++tries;
                             _processState = tries < 10 ? ProcessState.Busy : ProcessState.RecoverableFailure;
@@ -90,7 +96,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
             writer.Write(_processOutput.ToString());
             if (_processState==ProcessState.RecoverableFailure)
             {
-                throw new InvalidOperationException("Could not start OpenCover, due to registration problems");
+                string msg = $"Could not start OpenCover, due to registration problem: {jobAssemblies}";
+                _log.Error(msg);
+                throw new InvalidOperationException(msg);
             }
         }
 

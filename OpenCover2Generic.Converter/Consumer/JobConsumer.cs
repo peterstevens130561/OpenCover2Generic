@@ -63,7 +63,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             {
 
                 var processStartInfo = _openCoverCommandLineBuilder.Build(job.Assemblies, openCoverOutputPath);
-                Task task = Task.Run(() => runner.Run(processStartInfo, writer));
+                Task task = Task.Run(() => runner.Run(processStartInfo, writer,job.Assemblies));
                 task.Wait();
             }
             _testResultsRepository.Add(runner.TestResultsPath);
