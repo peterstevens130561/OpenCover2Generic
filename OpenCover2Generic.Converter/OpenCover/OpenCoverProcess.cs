@@ -84,7 +84,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
                 Started = false;
                 _watchDog.Elapsed += OnTimeOut;
                 _watchDog.Start();
+                State = ProcessState.Busy;
                 _process.Start();
+                
                 while (!Started && !_process.HasExited)
                 {
                     Thread.Sleep(1000);
@@ -101,10 +103,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
             {
                 return;
             }
-
+            string data = e.Data;
             // there is no other way to find out where vstest stores his
             //testresults
-            if (e.Data.Contains("VsTestSonarQubeLogger.TestResults"))
+            if (data.Contains("VsTestSonarQubeLogger.TestResults"))
             {
                 string[] parts = e.Data.Split('=');
                 if (parts.Length == 2)
@@ -113,31 +115,41 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
                 }
             }
 
-            if (e.Data.Contains("Starting test execution, please wait.."))
+            State=OpenCoverOutputStateMachine(data,State);
+
+        }
+
+        private ProcessState OpenCoverOutputStateMachine(string data, ProcessState startState)
+        {
+            ProcessState resultState = startState;
+            if (startState == ProcessState.Busy)
             {
-                log.Debug("Started");
-                Started = true;
-                State = ProcessState.Busy;
+                if (data.Contains("Starting test execution, please wait.."))
+                {
+                    log.Debug("Started");
+                    Started = true;
+                    resultState = ProcessState.Busy;
+                }
+
+                if (data.Contains("Failed to register(user:True"))
+                {
+                    log.Error("Failed to start, could not register");
+                    resultState = ProcessState.CouldNotRegister;
+                }
+
+                if (data.Contains("No results, this could be for a number of reasons"))
+                {
+                    log.Error("No results");
+                    resultState = ProcessState.NoResults;
+                }
+
+                if (data.Contains("Visited Classes"))
+                {
+                    resultState = ProcessState.Done;
+                }
             }
 
-            if (e.Data.Contains("Failed to register(user:True"))
-            {
-                log.Error("Failed to start, could not register");
-                State = ProcessState.CouldNotRegister;
-            }
-
-            if (e.Data.Contains("No results, this could be for a number of reasons"))
-            {
-                log.Error("No results");
-                State = ProcessState.NoResults;
-            }
-
-            if (e.Data.Contains("Visited Classes"))
-            {
-                State = ProcessState.Done;
-            }
-
-
+            return resultState;
         }
 
         private void OnTimeOut(object sender, ElapsedEventArgs e)

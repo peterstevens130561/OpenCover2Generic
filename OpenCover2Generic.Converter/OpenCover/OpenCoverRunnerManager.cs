@@ -77,9 +77,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
                             _testResultsPath = process.TestResultsPath;
                             break;
                         case ProcessState.NoResults:
-                            msg = $"No results, did you miss any project references : {jobAssemblies}";
+                            _processState = ProcessState.NoResults;
+                            msg = $"No results, did you miss any project references {tries} : {jobAssemblies}";
                             _log.Error(msg);
-                            throw new InvalidTestConfigurationException(msg);
+                            ++tries;
+                            _processState = tries < 10 ? ProcessState.Busy : ProcessState.NoResults;
+                            break;
                         case ProcessState.CouldNotRegister:
                             ++tries;
                             _processState = tries < 10 ? ProcessState.Busy : ProcessState.RecoverableFailure;
