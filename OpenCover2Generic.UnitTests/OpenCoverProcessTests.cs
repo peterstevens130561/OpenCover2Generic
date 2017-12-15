@@ -64,7 +64,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             SetupForStart(_processMock);
             _openCoverProcess.Start();
-            Assert.AreEqual(ProcessState.Busy, _openCoverProcess.State);
+            Assert.AreEqual(ProcessState.RunningTests, _openCoverProcess.State);
         }
 
 

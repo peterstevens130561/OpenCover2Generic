@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Consumer
 {
@@ -53,7 +54,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
 
         private void Consume(IJob job,TimeSpan jobTimeOut)
         {
-            _log.Info($"{Path.GetFileName(job.Assemblies)}");
 
             var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(job.FirstAssembly);
             string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(job.FirstAssembly);
@@ -66,8 +66,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
                 Task task = Task.Run(() => runner.Run(processStartInfo, writer,job.Assemblies));
                 task.Wait();
             }
-            _testResultsRepository.Add(runner.TestResultsPath);
+            if (runner.HasTests)
+            {
+                _testResultsRepository.Add(runner.TestResultsPath);
+            }
             _codeCoverageRepository.Add(openCoverOutputPath, job.FirstAssembly);
+
 
         }
 

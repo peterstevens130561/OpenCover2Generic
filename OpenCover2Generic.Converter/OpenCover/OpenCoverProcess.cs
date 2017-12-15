@@ -15,11 +15,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         private readonly IProcess _process;
         private static Object _lock = new Object();
         private readonly ITimerSeam _watchDog;
-
+        private readonly StateMachine _stateMachine = new StateMachine();
         public OpenCoverProcess(IProcess process,ITimerSeam timer)
         {
             _process = process;
             _watchDog = timer;
+            State = ProcessState.Starting;
         }
 
         public event DataReceivedEventHandler DataReceived { 
@@ -78,21 +79,19 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 
         public void Start()
         {
-            lock( _lock) {
                 log.Debug("Starting");
                 DataReceived += Process_OutputDataReceived;
                 Started = false;
                 _watchDog.Elapsed += OnTimeOut;
                 _watchDog.Start();
-                State = ProcessState.Busy;
+                State = ProcessState.Starting;
                 _process.Start();
                 
-                while (!Started && !_process.HasExited)
+                while (!_process.HasExited)
                 {
                     Thread.Sleep(1000);
                 }
                 _watchDog.Elapsed -= OnTimeOut;
-            }
 
         }
 
@@ -117,42 +116,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 
             State=OpenCoverOutputStateMachine(data,State);
 
+
         }
 
         private ProcessState OpenCoverOutputStateMachine(string data, ProcessState startState)
         {
-            ProcessState resultState = startState;
-            if (startState == ProcessState.Busy)
-            {
-                if (data.Contains("Starting test execution, please wait.."))
-                {
-                    log.Debug("Started");
-                    Started = true;
-                    resultState = ProcessState.Busy;
-                }
-
-                if (data.Contains("Failed to register(user:True"))
-                {
-                    log.Error("Failed to start, could not register");
-                    resultState = ProcessState.CouldNotRegister;
-                }
-                if (data.StartsWith("No test is available in"))
-                {
-                    resultState = ProcessState.NoTests;
-                }
-                if (data.Contains("No results, this could be for a number of reasons"))
-                {
-                    log.Error("No results");
-                    resultState = ProcessState.NoResults;
-                }
-
-                if (data.Contains("Visited Classes"))
-                {
-                    resultState = ProcessState.Done;
-                }
-            }
-
-            return resultState;
+            _stateMachine.State = startState;
+            _stateMachine.Transition(data);         
+            return _stateMachine.State;
         }
 
         private void OnTimeOut(object sender, ElapsedEventArgs e)
