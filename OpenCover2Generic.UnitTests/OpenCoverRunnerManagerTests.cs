@@ -17,16 +17,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class OpenCoverRunnerManagerTests
     {
-        private Mock<IProcessFactory> _processFactoryMock;
+        private Mock<IOpenCoverProcessFactory> _processFactoryMock;
         private Mock<IOpenCoverProcess> _openCoverProcessMock = new Mock<IOpenCoverProcess>();
         private IOpenCoverRunnerManager _openCoverRunnerManager;
 
         [TestInitialize]
         public void Initialize()
         {
-            _processFactoryMock = new Mock<IProcessFactory>();
+            _processFactoryMock = new Mock<IOpenCoverProcessFactory>();
             _openCoverProcessMock = new Mock<IOpenCoverProcess>();
-            _processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(_openCoverProcessMock.Object);
+            _processFactoryMock.Setup(p => p.Create()).Returns(_openCoverProcessMock.Object);
             _openCoverRunnerManager = new OpenCoverRunnerManager(_processFactoryMock.Object);
         }
 

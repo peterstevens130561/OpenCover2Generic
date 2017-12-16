@@ -1,6 +1,6 @@
 ﻿namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
-    internal interface IOpenCoverProcessFactory
+    public interface IOpenCoverProcessFactory
     {
         IOpenCoverProcess Create();
     }

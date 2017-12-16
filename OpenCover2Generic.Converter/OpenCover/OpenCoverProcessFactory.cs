@@ -7,7 +7,7 @@ using BHGE.SonarQube.OpenCover2Generic.Seams;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
-    class OpenCoverProcessFactory : IOpenCoverProcessFactory
+    public class OpenCoverProcessFactory : IOpenCoverProcessFactory
     {
         private readonly ProcessFactory _processFactory;
 

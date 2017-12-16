@@ -4,17 +4,17 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
     public class OpenCoverManagerFactory : IOpenCoverManagerFactory
     {
+        private readonly IOpenCoverProcessFactory _openCoverProcessFactory;
 
-        private readonly IProcessFactory _processFactory;
 
-        public OpenCoverManagerFactory(IProcessFactory processFactory)
+        public OpenCoverManagerFactory(IOpenCoverProcessFactory openCoverProcessFactory)
         {
-            _processFactory = processFactory;
+            _openCoverProcessFactory = openCoverProcessFactory;
         }
 
         public IOpenCoverRunnerManager CreateManager()
         {
-            return new OpenCoverRunnerManager(_processFactory);
+            return new OpenCoverRunnerManager(_openCoverProcessFactory);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         private static readonly ILog _log = LogManager.GetLogger(typeof(OpenCoverRunnerManager).Name);
         private string _testResultsPath;
         private readonly StringBuilder _processOutput = new StringBuilder(2048);
-        private readonly IProcessFactory _processFactory;
+        private readonly IOpenCoverProcessFactory _processFactory;
         private readonly Stopwatch _stopWatch = new Stopwatch();
         private static object _lock = new object();
         private static object _queueLock = new object();
@@ -25,7 +25,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         private ProcessState _processState;
         private TimeSpan _timeOut;
 
-        public OpenCoverRunnerManager(IProcessFactory processFactory)
+        public OpenCoverRunnerManager(IOpenCoverProcessFactory processFactory)
         {
             _processFactory = processFactory;
         }
@@ -48,7 +48,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
             _processState = ProcessState.Busy;
             while (_processState== ProcessState.Busy)
             {
-                using (IOpenCoverProcess process = _processFactory.CreateOpenCoverProcess())
+                using (IOpenCoverProcess process = _processFactory.Create())
                 {
                     process.DataReceived += Process_OutputDataReceived;
                     process.StartInfo = startInfo;

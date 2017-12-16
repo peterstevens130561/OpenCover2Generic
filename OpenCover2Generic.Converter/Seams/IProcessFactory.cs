@@ -5,7 +5,5 @@ namespace BHGE.SonarQube.OpenCover2Generic.Seams
     public interface IProcessFactory
     {
            IProcess CreateProcess();
-
-        IOpenCoverProcess CreateOpenCoverProcess();
     }
 }

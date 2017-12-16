@@ -34,7 +34,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             var fileSystem = new FileSystemAdapter();
             IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             JobFileSystem jobFileSystemInfo = new JobFileSystem(fileSystem);
-            IOpenCoverManagerFactory openCoverManagerFactory = new OpenCoverManagerFactory(new ProcessFactory());
+            IOpenCoverManagerFactory openCoverManagerFactory = new OpenCoverManagerFactory(new OpenCoverProcessFactory(new ProcessFactory()));
 
             var testResultsRepository = new TestResultsRepository(jobFileSystemInfo, fileSystem);
             IFileSystemAdapter fileSystemAdapter = new FileSystemAdapter();
