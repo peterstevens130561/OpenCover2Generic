@@ -1,14 +1,12 @@
-﻿using System;
-using System.IO;
+using System;
+using System.Text;
 using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
-using log4net;
-using OpenCover2Generic.Converter;
-using System.Text;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
+using log4net;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Repositories
+namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
     public class CodeCoverageRepository : ICodeCoverageRepository
     {

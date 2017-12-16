@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenCover2Generic.Converter;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Repositories
+namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
     public class CoverageStorageResolver : ICoverageStorageResolver
     {

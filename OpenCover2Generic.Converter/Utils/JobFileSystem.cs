@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OpenCover2Generic.Converter
+namespace BHGE.SonarQube.OpenCover2Generic.Utils
 {
     public class JobFileSystem : IJobFileSystem
     {

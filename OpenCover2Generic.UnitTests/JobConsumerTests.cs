@@ -5,15 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenCover2Generic.Converter;
 using Moq;
-using BHGE.SonarQube.OpenCover2Generic.Factories;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using System.Collections.Concurrent;
 using System.IO;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Repositories;
+using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
+using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {

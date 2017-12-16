@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenCover2Generic.Converter;
 using Moq;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.IO;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {

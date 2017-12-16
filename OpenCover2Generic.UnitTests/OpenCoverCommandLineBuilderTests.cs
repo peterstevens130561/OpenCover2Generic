@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenCover2Generic.Converter;
 using System.Diagnostics;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 

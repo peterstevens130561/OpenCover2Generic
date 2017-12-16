@@ -1,5 +1,4 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Factories;
-using BHGE.SonarQube.OpenCover2Generic.Utils;
+﻿using BHGE.SonarQube.OpenCover2Generic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;

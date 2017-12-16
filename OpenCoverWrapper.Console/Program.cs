@@ -10,12 +10,16 @@ using log4net;
 using log4net.Config;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
-using OpenCover2Generic.Converter;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Consumer;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
-using BHGE.SonarQube.OpenCover2Generic.Factories;
 using BHGE.SonarQube.OpenCover2Generic.Exceptions;
+using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Repositories;
+using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
+using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
+using BHGE.SonarQube.OpenCover2Generic.Seams;
+
 [assembly: XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
 namespace BHGE.SonarQube.OpenCoverWrapper
 {

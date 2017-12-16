@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Utils
+namespace BHGE.SonarQube.OpenCover2Generic.Exceptions
 {
     [Serializable]
     public class CommandLineArgumentException : InvalidOperationException

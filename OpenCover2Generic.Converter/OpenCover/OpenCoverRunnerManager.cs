@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using log4net;
 using System.IO;
-using BHGE.SonarQube.OpenCover2Generic.Factories;
-using System.Timers;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.Consumer;
 using BHGE.SonarQube.OpenCover2Generic.Exceptions;
-using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Seams;
+using log4net;
 
-namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
+namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
     public class OpenCoverRunnerManager : IOpenCoverRunnerManager
     {

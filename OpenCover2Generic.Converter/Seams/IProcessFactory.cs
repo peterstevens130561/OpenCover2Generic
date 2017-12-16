@@ -1,7 +1,6 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Utils;
-using System.Diagnostics;
+﻿using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Factories
+namespace BHGE.SonarQube.OpenCover2Generic.Seams
 {
     public interface IProcessFactory
     {

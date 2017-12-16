@@ -1,13 +1,8 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Exceptions
+namespace BHGE.SonarQube.OpenCover2Generic.Consumer
 {
     [Serializable]
     public class JobTimeOutException : ApplicationException
@@ -16,10 +11,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Exceptions
         {
         }
 
-        public JobTimeOutException(IJob Job) : base($"Time out occurred in executing tests on {Job.Assemblies}")
-        {
-
-        }
         #region Serializable
         protected JobTimeOutException(SerializationInfo info, StreamingContext context)
             : base(info, context){

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using OpenCover2Generic.Converter;
+﻿using System.IO;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Repositories
+namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
 {
     public class TestResultsRepository : ITestResultsRepository
     {

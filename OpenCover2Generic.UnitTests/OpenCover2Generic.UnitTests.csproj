@@ -75,6 +75,7 @@
     <Compile Include="OpenCoverCoverageWriterTests.cs" />
     <Compile Include="MainTests.cs" />
     <Compile Include="OpenCoverManagerFactoryTests.cs" />
+    <Compile Include="OpenCoverProcessFactoryTests.cs" />
     <Compile Include="OpenCoverProcessTests.cs" />
     <Compile Include="OpenCoverRunnerManagerTests.cs" />
     <Compile Include="OpenCoverStateMachineTests.cs" />

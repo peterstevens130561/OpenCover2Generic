@@ -1,7 +1,6 @@
-﻿using System.IO;
-using System.Xml;
+﻿using System.Xml;
 
-namespace OpenCover2Generic.Converter
+namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
 {
     internal interface ITestResultsConcatenator
     {

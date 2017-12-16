@@ -1,11 +1,8 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Exceptions;
-using BHGE.SonarQube.OpenCover2Generic.Factories;
 using BHGE.SonarQube.OpenCover2Generic.Model;
-using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using BHGE.SonarQube.OpenCover2Generic.Repositories;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using log4net;
-using OpenCover2Generic.Converter;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -14,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
+using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
+using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Consumer
 {

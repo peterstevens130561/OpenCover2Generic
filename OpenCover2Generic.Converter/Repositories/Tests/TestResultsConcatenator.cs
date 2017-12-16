@@ -1,14 +1,10 @@
-﻿using log4net;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Writers;
+using log4net;
 
-namespace OpenCover2Generic.Converter
+namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
 {
     public class TestResultsConcatenator : ITestResultsConcatenator
     {

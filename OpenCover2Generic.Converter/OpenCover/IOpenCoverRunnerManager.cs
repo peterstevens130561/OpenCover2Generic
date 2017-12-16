@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner
+namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
     public interface IOpenCoverRunnerManager
     {

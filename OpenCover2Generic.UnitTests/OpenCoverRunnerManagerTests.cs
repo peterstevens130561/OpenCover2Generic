@@ -1,5 +1,4 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Factories;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.IO;
 using System.Linq;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using System.Reflection;
+using BHGE.SonarQube.OpenCover2Generic.Consumer;
 using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Seams;
@@ -27,7 +27,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _processFactoryMock = new Mock<IProcessFactory>();
             _openCoverProcessMock = new Mock<IOpenCoverProcess>();
             _processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(_openCoverProcessMock.Object);
-            _openCoverRunnerManager = new OpenCoverRunner.OpenCoverRunnerManager(_processFactoryMock.Object);
+            _openCoverRunnerManager = new OpenCoverRunnerManager(_processFactoryMock.Object);
         }
 
         [TestMethod]

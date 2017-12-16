@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Repositories
+namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
     public interface ICodeCoverageRepository
     {

@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Timers;
-using BHGE.SonarQube.OpenCover2Generic.Factories;
 using BHGE.SonarQube.OpenCover2Generic.Seams;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using log4net;

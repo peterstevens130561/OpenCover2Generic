@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Repositories
+namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
 {
     public interface ITestResultsRepository
     {

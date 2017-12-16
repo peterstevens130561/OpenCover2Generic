@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BHGE.SonarQube.OpenCover2Generic.Repositories;
+using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
 using Moq;
-using OpenCover2Generic.Converter;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {

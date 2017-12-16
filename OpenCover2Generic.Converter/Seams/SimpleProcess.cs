@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Utils
+namespace BHGE.SonarQube.OpenCover2Generic.Seams
 {
     public class SimpleProcess : IProcess
     {

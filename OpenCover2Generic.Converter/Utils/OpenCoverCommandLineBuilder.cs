@@ -1,5 +1,4 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic;
-using OpenCover2Generic.Converter;
 using System;
 using System.Collections.Generic;
 using System.Linq;

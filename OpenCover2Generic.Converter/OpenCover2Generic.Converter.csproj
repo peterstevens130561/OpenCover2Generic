@@ -48,17 +48,19 @@
     <Compile Include="Consumer\JobConsumer.cs" />
     <Compile Include="Exceptions\InvalidCommandLineArgumentException.cs" />
     <Compile Include="Exceptions\InvalidTestConfigurationException.cs" />
-    <Compile Include="Exceptions\JobTimeOutException.cs" />
-    <Compile Include="Factories\IJobConsumerFactory.cs" />
-    <Compile Include="Factories\IOpenCoverManagerFactory.cs" />
-    <Compile Include="IOpenCoverOutput2RepositorySaver.cs" />
+    <Compile Include="Consumer\JobTimeOutException.cs" />
+    <Compile Include="Consumer\IJobConsumerFactory.cs" />
+    <Compile Include="OpenCover\IOpenCoverManagerFactory.cs" />
+    <Compile Include="OpenCover\IOpenCoverProcessFactory.cs" />
+    <Compile Include="OpenCover\OpenCoverProcessFactory.cs" />
+    <Compile Include="Repositories\Coverage\IOpenCoverOutput2RepositorySaver.cs" />
     <Compile Include="OpenCover\IOpenCoverProcess.cs" />
-    <Compile Include="Factories\IProcessFactory.cs" />
-    <Compile Include="Factories\JobConsumerFactory.cs" />
-    <Compile Include="Factories\OpenCoverManagerFactory.cs" />
+    <Compile Include="Seams\IProcessFactory.cs" />
+    <Compile Include="Consumer\JobConsumerFactory.cs" />
+    <Compile Include="OpenCover\OpenCoverManagerFactory.cs" />
     <Compile Include="OpenCover\IStateMachine.cs" />
     <Compile Include="OpenCover\OpenCoverProcess.cs" />
-    <Compile Include="Factories\ProcessFactory.cs" />
+    <Compile Include="Seams\ProcessFactory.cs" />
     <Compile Include="OpenCover\IOpenCoverRunnerManager.cs" />
     <Compile Include="Model\IJob.cs" />
     <Compile Include="Model\IJobs.cs" />
@@ -67,12 +69,12 @@
     <Compile Include="OpenCover\OpenCoverProcessState.cs" />
     <Compile Include="OpenCover\OpenCoverRunnerManager.cs" />
     <Compile Include="OpenCover\StateMachine.cs" />
-    <Compile Include="Repositories\CodeCoverageRepository.cs" />
-    <Compile Include="Repositories\CoverageStorageResolver.cs" />
-    <Compile Include="Repositories\ICodeCoverageRepository.cs" />
-    <Compile Include="Repositories\ICoverageStorageResolver.cs" />
-    <Compile Include="Repositories\ITestResultsRepository.cs" />
-    <Compile Include="Repositories\TestResultsRepository.cs" />
+    <Compile Include="Repositories\Coverage\CodeCoverageRepository.cs" />
+    <Compile Include="Repositories\Coverage\CoverageStorageResolver.cs" />
+    <Compile Include="Repositories\Coverage\ICodeCoverageRepository.cs" />
+    <Compile Include="Repositories\Coverage\ICoverageStorageResolver.cs" />
+    <Compile Include="Repositories\Tests\ITestResultsRepository.cs" />
+    <Compile Include="Repositories\Tests\TestResultsRepository.cs" />
     <Compile Include="Seams\ITimerSeam.cs" />
     <Compile Include="Seams\TimerSeam.cs" />
     <Compile Include="Exceptions\CommandLineArgumentException.cs" />
@@ -85,9 +87,9 @@
     <Compile Include="Utils\IOpenCoverCommandLineBuilder.cs" />
     <Compile Include="Seams\IProcess.cs" />
     <Compile Include="Seams\SimpleProcess.cs" />
-    <Compile Include="Writers\ITestResultsConcatenator.cs" />
+    <Compile Include="Repositories\Tests\ITestResultsConcatenator.cs" />
     <Compile Include="Utils\JobFileSystem.cs" />
-    <Compile Include="OpenCoverOutput2RepositorySaver.cs" />
+    <Compile Include="Repositories\Coverage\OpenCoverOutput2RepositorySaver.cs" />
     <Compile Include="Writers\GenericCoverageWriter.cs" />
     <Compile Include="Utils\ICommandLineParser.cs" />
     <Compile Include="CoverageConverters\OpenCover2GenericConverter.cs" />
@@ -106,12 +108,14 @@
     <Compile Include="Writers\OpenCoverCoverageWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\SequencePoint.cs" />
-    <Compile Include="TestResultsConcatenator.cs" />
+    <Compile Include="Repositories\Tests\TestResultsConcatenator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Factories\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

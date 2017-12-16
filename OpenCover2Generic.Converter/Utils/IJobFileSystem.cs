@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OpenCover2Generic.Converter
+namespace BHGE.SonarQube.OpenCover2Generic.Utils
 {
     public interface IJobFileSystem
     {
