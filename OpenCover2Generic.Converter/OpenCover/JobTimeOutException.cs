@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Consumer
+namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
     [Serializable]
     public class JobTimeOutException : ApplicationException
