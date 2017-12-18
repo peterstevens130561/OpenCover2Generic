@@ -217,7 +217,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             _inputStream = new MemoryStream(Encoding.UTF8.GetBytes(input));
             _streamReader = new StreamReader(_inputStream);
-            _xmlReader = XmlReader.Create(_streamReader);
             using (_xmlReader = XmlReader.Create(_streamReader))
             {
                 _xmlReader.MoveToContent();
