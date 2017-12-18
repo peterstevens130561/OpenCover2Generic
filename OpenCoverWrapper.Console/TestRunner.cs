@@ -1,5 +1,4 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic;
-using BHGE.SonarQube.OpenCover2Generic.Consumer;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
@@ -15,6 +14,7 @@ using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Repositories;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
+using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
 
 namespace BHGE.SonarQube.OpenCoverWrapper
 {
@@ -90,7 +90,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
             for (int i = 1; i <= consumers; i++)
             {
-                Task task = Task.Run(() => _jobConsumerFactory.Create().ConsumeJobs(_jobs,jobTimeOut));
+                Task task = Task.Run(() => _jobConsumerFactory.Create().ConsumeTestJobs(_jobs,jobTimeOut));
                 _tasks.Add(task);
             }
         }

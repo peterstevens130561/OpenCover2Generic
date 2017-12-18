@@ -1,9 +1,8 @@
-﻿using System;
-using System.Timers;
+﻿using System.Timers;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Seams
+namespace BHGE.SonarQube.OpenCover2Generic.Adapters
 {
-    public interface ITimerSeam
+    public interface ITimerAdapter
     {
         bool AutoReset { get; set; }
         event ElapsedEventHandler Elapsed;

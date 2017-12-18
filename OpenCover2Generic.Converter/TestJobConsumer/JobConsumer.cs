@@ -1,20 +1,15 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Exceptions;
-using BHGE.SonarQube.OpenCover2Generic.Model;
-using BHGE.SonarQube.OpenCover2Generic.Repositories;
-using BHGE.SonarQube.OpenCover2Generic.Utils;
-using log4net;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
+using log4net;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Consumer
+namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
 {
     public class JobConsumer : IJobConsumer
     {
@@ -37,7 +32,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             _codeCoverageRepository = codeCoverageRepository;
         }
 
-        public void ConsumeJobs(IJobs jobs,TimeSpan jobTimeOut)
+        public void ConsumeTestJobs(IJobs jobs,TimeSpan jobTimeOut)
         {
             while (!jobs.IsCompleted())
             {
@@ -56,18 +51,18 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
 
             var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(job.FirstAssembly);
             string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(job.FirstAssembly);
-            var runner = _openCoverManagerFactory.CreateManager();
-            runner.SetTimeOut(jobTimeOut);
+            var openCoverManager = _openCoverManagerFactory.CreateManager();
+            openCoverManager.SetTimeOut(jobTimeOut);
             using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
             {
 
                 var processStartInfo = _openCoverCommandLineBuilder.Build(job.Assemblies, openCoverOutputPath);
-                Task task = Task.Run(() => runner.Run(processStartInfo, writer,job.Assemblies));
+                Task task = Task.Run(() => openCoverManager.Run(processStartInfo, writer,job.Assemblies));
                 task.Wait();
             }
-            if (runner.HasTests)
+            if (openCoverManager.HasTests)
             {
-                _testResultsRepository.Add(runner.TestResultsPath);
+                _testResultsRepository.Add(openCoverManager.TestResultsPath);
             }
             _codeCoverageRepository.Add(openCoverOutputPath, job.FirstAssembly);
 
@@ -83,6 +78,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
             }
             catch (InvalidOperationException)
             {
+                // an exception at this place may happen, as one job might be just ahead. See doc.
                 _log.Debug("Exception on take (ignored, may happen)");
             }
 

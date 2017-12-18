@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Utils
+namespace BHGE.SonarQube.OpenCover2Generic.Adapters
 {
     // Implements all required actions on the fileSystem. 
     public interface IFileSystemAdapter

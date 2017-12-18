@@ -1,6 +1,4 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Seams;
-
-namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
+﻿namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
     public class OpenCoverManagerFactory : IOpenCoverManagerFactory
     {

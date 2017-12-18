@@ -6,8 +6,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
-using BHGE.SonarQube.OpenCover2Generic.Seams;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -16,8 +16,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         [TestMethod]
         public void CreateProcess_Instantiation_Valid() {
-            IProcess process = new ProcessFactory().CreateProcess();
-            Assert.IsNotNull(process,"Expect valid process");
+            IProcessAdapter processAdapter = new ProcessFactory().CreateProcess();
+            Assert.IsNotNull(processAdapter,"Expect valid process");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace BHGE.SonarQube.OpenCover2Generic.Consumer
+﻿namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
 {
     public interface IJobConsumerFactory
     {

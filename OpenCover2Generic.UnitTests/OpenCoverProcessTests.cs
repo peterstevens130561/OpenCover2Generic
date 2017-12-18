@@ -10,23 +10,23 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
-using BHGE.SonarQube.OpenCover2Generic.Seams;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
     public class OpenCoverProcessTests
     {
-        private Mock<IProcess> _processMock;
+        private Mock<IProcessAdapter> _processMock;
         private IOpenCoverProcess _openCoverProcess;
-        private Mock<ITimerSeam> _timerMock;
+        private Mock<ITimerAdapter> _timerMock;
 
         [TestInitialize]
         public void Initialize()
         {
-            _processMock = new Mock<IProcess>();
-            _timerMock = new Mock<ITimerSeam>();
+            _processMock = new Mock<IProcessAdapter>();
+            _timerMock = new Mock<ITimerAdapter>();
             _openCoverProcess = new OpenCoverProcess(_processMock.Object,_timerMock.Object);
 
         }
@@ -111,7 +111,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Run_TimedOut_TestTimedOutException2()
         {
-            _openCoverProcess = new OpenCoverProcess(_processMock.Object, new TimerSeam());
+            _openCoverProcess = new OpenCoverProcess(_processMock.Object, new TimerAdapter());
             _openCoverProcess.SetTimeOut(new TimeSpan(0, 0, 1));
             _processMock.Setup(p => p.Kill()).Callback(() =>
                 _processMock.Setup(p => p.HasExited).Returns(true));
@@ -137,7 +137,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _openCoverProcess.Start();
             Assert.AreEqual(ProcessState.NoTests, _openCoverProcess.State);
         }
-        private void SetupForStart(Mock<IProcess> processMock)
+        private void SetupForStart(Mock<IProcessAdapter> processMock)
         {
             processMock.Setup(p => p.HasExited).Returns(true);
             processMock.Setup(p => p.Start())
@@ -146,7 +146,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 }).Dequeue);
         }
 
-        private void SetupForRegistrationFailure(Mock<IProcess> processMock)
+        private void SetupForRegistrationFailure(Mock<IProcessAdapter> processMock)
         {
             processMock.Setup(p => p.HasExited).Returns(true);
             processMock.Setup(p => p.Start())
@@ -155,7 +155,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 }).Dequeue);
         }
 
-        private void SetupForNoResults(Mock<IProcess> processMock)
+        private void SetupForNoResults(Mock<IProcessAdapter> processMock)
         {
             processMock.Setup(p => p.HasExited).Returns(true);
             processMock.Setup(p => p.Start())

@@ -1,8 +1,7 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System.Collections.Concurrent;
-using System;
+﻿using System;
+using BHGE.SonarQube.OpenCover2Generic.Model;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Consumer
+namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
 {
     public interface IJobConsumer
     {
@@ -11,6 +10,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Consumer
         /// </summary>
         /// <param name="jobs"></param>
         /// <param name="jobTimeOut">timeout</param>
-        void ConsumeJobs(IJobs jobs, TimeSpan jobTimeOut);
+        void ConsumeTestJobs(IJobs jobs, TimeSpan jobTimeOut);
     }
 }

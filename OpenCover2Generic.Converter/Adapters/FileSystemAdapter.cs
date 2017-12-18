@@ -1,11 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Collections.Generic;
-using BHGE.SonarQube.OpenCover2Generic.Utils;
 
-namespace BHGE.SonarQube.OpenCoverWrapper
+namespace BHGE.SonarQube.OpenCover2Generic.Adapters
 {
-    internal class FileSystemAdapter : IFileSystemAdapter
+    public class FileSystemAdapter : IFileSystemAdapter
     {
         public void CreateDirectory(string path)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using BHGE.SonarQube.OpenCover2Generic.Adapters;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Utils
 {

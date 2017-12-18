@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BHGE.SonarQube.OpenCover2Generic.Seams;
+using BHGE.SonarQube.OpenCover2Generic.Adapters;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
@@ -18,7 +18,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 
         public IOpenCoverProcess Create()
         {
-            return new OpenCoverProcess(_processFactory.CreateProcess(), new TimerSeam());
+            return new OpenCoverProcess(_processFactory.CreateProcess(), new TimerAdapter());
         }
     }
 }

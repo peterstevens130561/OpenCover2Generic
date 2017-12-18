@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Timers;
-using BHGE.SonarQube.OpenCover2Generic.Seams;
+using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using log4net;
 
@@ -11,13 +11,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
     internal class OpenCoverProcess : IOpenCoverProcess
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverProcess).Name);
-        private readonly IProcess _process;
+        private readonly IProcessAdapter _processAdapter;
         private static Object _lock = new Object();
-        private readonly ITimerSeam _watchDog;
+        private readonly ITimerAdapter _watchDog;
         private readonly StateMachine _stateMachine = new StateMachine();
-        public OpenCoverProcess(IProcess process,ITimerSeam timer)
+        public OpenCoverProcess(IProcessAdapter processAdapter,ITimerAdapter timer)
         {
-            _process = process;
+            _processAdapter = processAdapter;
             _watchDog = timer;
             State = ProcessState.Starting;
         }
@@ -25,11 +25,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         public event DataReceivedEventHandler DataReceived { 
                         add
         {
-            _process.DataReceived += value;
+            _processAdapter.DataReceived += value;
         }
         remove
             {
-                _process.DataReceived -= value;
+                _processAdapter.DataReceived -= value;
             }
 
 }
@@ -37,7 +37,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         {
             get
             {
-                return _process.HasExited;
+                return _processAdapter.HasExited;
             }
         }
 
@@ -56,12 +56,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         {
             get
             {
-                return _process.StartInfo;
+                return _processAdapter.StartInfo;
             }
 
             set
             {
-                _process.StartInfo = value;
+                _processAdapter.StartInfo = value;
             }
         }
 
@@ -84,9 +84,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
                 _watchDog.Elapsed += OnTimeOut;
                 _watchDog.Start();
                 State = ProcessState.Starting;
-                _process.Start();
+                _processAdapter.Start();
                 
-                while (!_process.HasExited)
+                while (!_processAdapter.HasExited)
                 {
                     Thread.Sleep(1000);
                 }
@@ -128,12 +128,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         private void OnTimeOut(object sender, ElapsedEventArgs e)
         {
             State = ProcessState.TimedOut;
-            _process.Kill();
+            _processAdapter.Kill();
         }
 
         public void Kill()
         {
-            _process.Kill();
+            _processAdapter.Kill();
         }
 
         #region IDisposable Support
@@ -145,7 +145,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
             {
                 if (disposing)
                 {
-                    _process.Dispose();
+                    _processAdapter.Dispose();
                 }
                 _disposedValue = true;
             }

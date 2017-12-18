@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Seams
+namespace BHGE.SonarQube.OpenCover2Generic.Adapters
 {
-    public class TimerSeam : ITimerSeam, IDisposable
+    public class TimerAdapter : ITimerAdapter, IDisposable
     {
         private readonly Timer _timer = new Timer();
         public bool AutoReset

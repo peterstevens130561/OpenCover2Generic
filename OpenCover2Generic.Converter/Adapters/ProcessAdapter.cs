@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Seams
+namespace BHGE.SonarQube.OpenCover2Generic.Adapters
 {
-    public class SimpleProcess : IProcess
+    public class ProcessAdapter : IProcessAdapter
     {
         private readonly Process process = new Process();
 

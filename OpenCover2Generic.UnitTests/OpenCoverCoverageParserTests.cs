@@ -64,7 +64,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void ParseModule_ValidFile_Expected()
+        public void ParseModule_Initiated_ValidFile_Expected()
         {
 
             Assert.IsTrue(WhenParsing(_openCoverExample));
@@ -72,7 +72,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void ParseModule_ValidFile_ExpectModuleName()
+        public void ParseModule_Initiated_ValidFile_ExpectModuleName()
         {
 
             Assert.IsTrue(WhenParsing(_openCoverExample));
@@ -80,7 +80,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void ParseModule_ValidFile_SequencePoint()
+        public void ParseModule_Initiated_ValidFile_SequencePoint()
         {
 
             Assert.IsTrue(WhenParsing(_openCoverExample));
@@ -88,7 +88,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void ParseModule_ValidFile_BranchPoint()
+        public void ParseModule_Initiated_ValidFile_BranchPoint()
         {
 
             Assert.IsTrue(WhenParsing(_openCoverExample));
@@ -120,7 +120,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private XmlReader _xmlReader;
 
         [TestMethod]
-        public void ParseModule_TwoModulesMixedWithSkipped_TwoModulesParsed()
+        public void ParseModule_Initiated_TwoModulesMixedWithSkipped_TwoModulesParsed()
         {
                   string coverage = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -208,7 +208,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.IsFalse(WhenContinueParsing());
         }
         [TestMethod]
-        public void ParseModule_OnlySkipped_NothingParsed()
+        public void ParseModule_Initiated_OnlySkipped_NothingParsed()
         {
 
         }
@@ -218,9 +218,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _inputStream = new MemoryStream(Encoding.UTF8.GetBytes(input));
             _streamReader = new StreamReader(_inputStream);
             _xmlReader = XmlReader.Create(_streamReader);
-            _xmlReader.MoveToContent();
-            return _parser.ParseModule(_model, _xmlReader);
-
+            using (_xmlReader = XmlReader.Create(_streamReader))
+            {
+                _xmlReader.MoveToContent();
+                return _parser.ParseModule(_model, _xmlReader);
+            }
         }
 
         private bool WhenContinueParsing()

@@ -1,5 +1,4 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Consumer;
-using BHGE.SonarQube.OpenCover2Generic.Repositories;
+﻿using BHGE.SonarQube.OpenCover2Generic.Repositories;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -10,6 +9,7 @@ using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
+using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {

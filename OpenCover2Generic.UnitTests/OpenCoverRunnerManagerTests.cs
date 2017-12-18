@@ -7,10 +7,8 @@ using System.IO;
 using System.Linq;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using System.Reflection;
-using BHGE.SonarQube.OpenCover2Generic.Consumer;
 using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
-using BHGE.SonarQube.OpenCover2Generic.Seams;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {

@@ -4,6 +4,7 @@ using Moq;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.IO;
+using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 
 namespace BHGE.SonarQube.OpenCover2Generic

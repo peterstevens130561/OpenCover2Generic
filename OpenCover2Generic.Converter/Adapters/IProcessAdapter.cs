@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Seams
+namespace BHGE.SonarQube.OpenCover2Generic.Adapters
 {
-    public interface IProcess : IDisposable
+    public interface IProcessAdapter : IDisposable
     {
 
         /// <summary>

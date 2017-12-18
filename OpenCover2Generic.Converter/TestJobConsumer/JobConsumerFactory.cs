@@ -3,7 +3,7 @@ using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Consumer
+namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
 {
     /// <summary>
     /// Creates JobConsumers
