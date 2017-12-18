@@ -41,22 +41,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(ProcessState.CouldNotRegister,_openCoverProcess.State);
         }
 
-        [TestMethod]
-        public void Start_OnFailedRegistration_StartedIsFalse()
-        {
-            SetupForRegistrationFailure(_processMock);
-            _openCoverProcess.Start();
-            Assert.IsFalse(_openCoverProcess.Started);
-        }
-
-    
-        [TestMethod]
-        public void Start_OnStarted_StartedIsTrue()
-        {
-            SetupForStart(_processMock);
-            _openCoverProcess.Start();
-            Assert.IsTrue(_openCoverProcess.Started);
-        }
 
         [TestMethod]
         public void Start_OnStarted_StateIsStarted()

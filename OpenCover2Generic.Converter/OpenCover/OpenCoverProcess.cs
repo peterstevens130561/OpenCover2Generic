@@ -42,11 +42,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         }
 
 
-        public bool Started
-        {
-            get; private set;
-        }
-
         public string TestResultsPath
         {
             get; private set;
@@ -80,7 +75,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         {
                 log.Debug("Starting");
                 DataReceived += Process_OutputDataReceived;
-                Started = false;
                 _watchDog.Elapsed += OnTimeOut;
                 _watchDog.Start();
                 State = ProcessState.Starting;

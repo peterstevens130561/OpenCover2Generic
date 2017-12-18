@@ -5,7 +5,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
     public interface IOpenCoverProcess : IProcessAdapter
     {
-        bool Started { get; }
         string TestResultsPath { get; }
 
         ProcessState State { get; }
