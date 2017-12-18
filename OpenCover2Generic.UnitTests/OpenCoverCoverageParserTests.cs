@@ -203,9 +203,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
 </Module>
     </Modules>
     </CoverageSession>";
-            Assert.IsTrue(WhenParsing(coverage));
-            Assert.IsTrue(WhenContinueParsing());
-            Assert.IsFalse(WhenContinueParsing());
+            Assert.IsTrue(WhenParsing(coverage),"parsing");
+            Assert.IsTrue(WhenContinueParsing(),"continue");
+            Assert.IsFalse(WhenContinueParsing(),"finally");
         }
         [TestMethod]
         public void ParseModule_Initiated_OnlySkipped_NothingParsed()
@@ -217,11 +217,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             _inputStream = new MemoryStream(Encoding.UTF8.GetBytes(input));
             _streamReader = new StreamReader(_inputStream);
-            using (_xmlReader = XmlReader.Create(_streamReader))
-            {
-                _xmlReader.MoveToContent();
-                return _parser.ParseModule(_model, _xmlReader);
-            }
+            _xmlReader = XmlReader.Create(_streamReader);
+            _xmlReader.MoveToContent();
+            return _parser.ParseModule(_model, _xmlReader);
         }
 
         private bool WhenContinueParsing()
