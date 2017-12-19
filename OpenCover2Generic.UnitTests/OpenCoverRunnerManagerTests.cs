@@ -28,6 +28,29 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _openCoverRunnerManager = new OpenCoverRunnerManager(_processFactoryMock.Object);
         }
 
+        [TestMethod]
+        public void Run_JobWithTests_Run_Done()
+        {
+            _openCoverProcessMock.SetupSequence(o => o.HasExited).Returns(false).Returns(true);
+            _openCoverProcessMock.SetupSequence(o => o.State)
+                .Returns(ProcessState.Starting)
+                .Returns(ProcessState.Run)
+                .Returns(ProcessState.Done)
+                .Returns(ProcessState.Done); 
+            WhenRun(new ProcessStartInfo());
+        }
+
+        [TestMethod]
+        public void Run_JobWithoutTests_Run_Done()
+        {
+            _openCoverProcessMock.SetupSequence(o => o.HasExited).Returns(false).Returns(true);
+            _openCoverProcessMock.SetupSequence(o => o.State)
+                .Returns(ProcessState.Starting)
+                .Returns(ProcessState.Run)
+                .Returns(ProcessState.NoTests)
+                .Returns(ProcessState.NoTests);
+            WhenRun(new ProcessStartInfo());
+        }
 
         [TestMethod]
         public void Run_DeploymentIssue_ErrorLog()
