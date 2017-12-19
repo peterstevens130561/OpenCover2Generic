@@ -9,11 +9,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
     public class Jobs : IJobs, IDisposable
     {
-        private readonly BlockingCollection<IJob> _jobs = new BlockingCollection<IJob>();
+        private readonly BlockingCollection<ITestJob> _jobs = new BlockingCollection<ITestJob>();
 
-        public void Add(IJob job)
+        public void Add(ITestJob testJob)
         {
-            _jobs.Add(job);
+            _jobs.Add(testJob);
         }
 
         public void CompleteAdding()
@@ -26,7 +26,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
             return _jobs.IsCompleted;
         }
 
-        public IJob Take()
+        public ITestJob Take()
         {
             return _jobs.Take();
         }

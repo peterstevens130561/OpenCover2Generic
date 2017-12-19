@@ -2,9 +2,9 @@
 {
     public interface IJobs
     {
-        void Add(IJob job);
+        void Add(ITestJob testJob);
 
-        IJob Take();
+        ITestJob Take();
         void CompleteAdding();
 
         bool IsCompleted();

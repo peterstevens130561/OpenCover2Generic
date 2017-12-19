@@ -67,7 +67,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             {
                 currentChunkSize = Math.Min(currentChunkSize, count - index);
                 var chunk = list.GetRange(index, currentChunkSize);
-                _jobs.Add(new Job(chunk));
+                _jobs.Add(new TestTestJob(chunk));
             }
             _jobs.CompleteAdding();
         }

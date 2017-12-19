@@ -36,45 +36,45 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
         {
             while (!jobs.IsCompleted())
             {
-                IJob job = GetAssembly(jobs);
-                if (job == null)
+                ITestJob testJob = GetAssembly(jobs);
+                if (testJob == null)
                 {
                     continue;
                 }
-                Consume(job,jobTimeOut);
+                Consume(testJob,jobTimeOut);
 
             }
         }
 
-        private void Consume(IJob job,TimeSpan jobTimeOut)
+        private void Consume(ITestJob testJob,TimeSpan jobTimeOut)
         {
 
-            var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(job.FirstAssembly);
-            string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(job.FirstAssembly);
+            var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(testJob.FirstAssembly);
+            string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(testJob.FirstAssembly);
             var openCoverManager = _openCoverManagerFactory.CreateManager();
             openCoverManager.SetTimeOut(jobTimeOut);
             using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
             {
 
-                var processStartInfo = _openCoverCommandLineBuilder.Build(job.Assemblies, openCoverOutputPath);
-                Task task = Task.Run(() => openCoverManager.Run(processStartInfo, writer,job.Assemblies));
+                var processStartInfo = _openCoverCommandLineBuilder.Build(testJob.Assemblies, openCoverOutputPath);
+                Task task = Task.Run(() => openCoverManager.Run(processStartInfo, writer,testJob.Assemblies));
                 task.Wait();
             }
             if (openCoverManager.HasTests)
             {
                 _testResultsRepository.Add(openCoverManager.TestResultsPath);
             }
-            _codeCoverageRepository.Add(openCoverOutputPath, job.FirstAssembly);
+            _codeCoverageRepository.Add(openCoverOutputPath, testJob.FirstAssembly);
 
 
         }
 
-        private IJob GetAssembly(IJobs jobs)
+        private ITestJob GetAssembly(IJobs jobs)
         {
-            IJob job = null;
+            ITestJob testJob = null;
             try
             {
-                job = jobs.Take();
+                testJob = jobs.Take();
             }
             catch (InvalidOperationException)
             {
@@ -82,7 +82,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
                 _log.Debug("Exception on take (ignored, may happen)");
             }
 
-            return job;
+            return testJob;
         }
     }
 }

@@ -53,8 +53,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             WhenRun(new ProcessStartInfo());
         }
 
-
-
         [TestMethod]
         public void Run_RegistrationFailureThenOk_Run_Done()
         {
@@ -62,8 +60,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             GivenFirstStateThenOkOnSecond(ProcessState.CouldNotRegister);
             WhenRun(new ProcessStartInfo());
         }
-
-
 
         [TestMethod]
         public void Run_JobWithoutResultsFirstThenOk_Run_Done()

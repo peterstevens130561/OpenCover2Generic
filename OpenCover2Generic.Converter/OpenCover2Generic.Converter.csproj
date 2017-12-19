@@ -46,8 +46,8 @@
   <ItemGroup>
     <Compile Include="TestJobConsumer\IJobConsumer.cs" />
     <Compile Include="TestJobConsumer\JobConsumer.cs" />
-    <Compile Include="Exceptions\InvalidCommandLineArgumentException.cs" />
-    <Compile Include="Exceptions\InvalidTestConfigurationException.cs" />
+    <Compile Include="CoverageConverters\Exceptions\InvalidCommandLineArgumentException.cs" />
+    <Compile Include="CoverageConverters\Exceptions\InvalidTestConfigurationException.cs" />
     <Compile Include="OpenCover\JobTimeOutException.cs" />
     <Compile Include="TestJobConsumer\IJobConsumerFactory.cs" />
     <Compile Include="OpenCover\IOpenCoverManagerFactory.cs" />
@@ -63,9 +63,9 @@
     <Compile Include="OpenCover\OpenCoverProcess.cs" />
     <Compile Include="Adapters\ProcessFactory.cs" />
     <Compile Include="OpenCover\IOpenCoverRunnerManager.cs" />
-    <Compile Include="Model\IJob.cs" />
+    <Compile Include="Model\ITestJob.cs" />
     <Compile Include="Model\IJobs.cs" />
-    <Compile Include="Model\Job.cs" />
+    <Compile Include="Model\TestTestJob.cs" />
     <Compile Include="Model\Jobs.cs" />
     <Compile Include="OpenCover\OpenCoverProcessState.cs" />
     <Compile Include="OpenCover\OpenCoverRunnerManager.cs" />
@@ -78,7 +78,7 @@
     <Compile Include="Repositories\Tests\TestResultsRepository.cs" />
     <Compile Include="Adapters\ITimerAdapter.cs" />
     <Compile Include="Adapters\TimerAdapter.cs" />
-    <Compile Include="Exceptions\CommandLineArgumentException.cs" />
+    <Compile Include="CoverageConverters\Exceptions\CommandLineArgumentException.cs" />
     <Compile Include="Utils\CommandLineParser.cs" />
     <Compile Include="Model\BranchPoint.cs" />
     <Compile Include="Model\BranchPoints.cs" />

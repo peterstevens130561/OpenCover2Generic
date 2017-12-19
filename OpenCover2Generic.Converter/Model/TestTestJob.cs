@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
-    public class Job : IJob
+    public class TestTestJob : ITestJob
     {
-        public Job(List<string> assemblies)
+        public TestTestJob(List<string> assemblies)
         {
             FirstAssembly = assemblies.First();
             Assemblies = string.Join(" ", assemblies);
         }
 
-        public Job(string assembly)
+        public TestTestJob(string assembly)
         {
             FirstAssembly = assembly;
             Assemblies = assembly;
