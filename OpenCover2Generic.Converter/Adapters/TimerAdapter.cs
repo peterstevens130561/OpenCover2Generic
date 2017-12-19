@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Timers;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Adapters
 {
+    [ExcludeFromCodeCoverage]
     public class TimerAdapter : ITimerAdapter, IDisposable
     {
         private readonly Timer _timer = new Timer();

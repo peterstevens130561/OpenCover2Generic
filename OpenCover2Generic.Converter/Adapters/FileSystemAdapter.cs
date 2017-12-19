@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Adapters
 {
+    [ExcludeFromCodeCoverage]
     public class FileSystemAdapter : IFileSystemAdapter
     {
         public void CreateDirectory(string path)

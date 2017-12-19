@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Adapters
 {
+    [ExcludeFromCodeCoverage]
     public class ProcessAdapter : IProcessAdapter
     {
         private readonly Process process = new Process();
