@@ -26,6 +26,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
                     {
                         resultState = ProcessState.RunningTests;
                     }
+                    if (line.Contains(FailedToRegisterLine))
+                    {
+                        resultState = ProcessState.CouldNotRegister;
+                    }
                     break;
                 case ProcessState.RunningTests:
                     if (line.StartsWith(NoTestAvailableLine, StringComparison.Ordinal))

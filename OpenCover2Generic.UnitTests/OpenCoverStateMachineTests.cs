@@ -12,44 +12,64 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class OpenCoverStateMachineTests
     {
 
-
-        private const string WithTests = @"Executing: C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe
-Microsoft (R) Test Execution Command Line Tool Version 14.0.25420.1
-Copyright (c) Microsoft Corporation.  All rights reserved.
-
+        private const string BeginningPart = @"Executing: C:\Program Files(x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe
+Microsoft(R) Test Execution Command Line Tool Version 14.0.25420.1
+Copyright(c) Microsoft Corporation.All rights reserved.
 Initializing VsTestSonarQubeLogger
 testRunDirectory E:\Cadence\ESIETooLink\Main\Deliverables\bin\Release\TestResults
 Starting test execution, please wait...
-Passed   ShouldCreateCorrectlyFormattedString
-Passed   ShouldThrowNotSupportedException
-Passed   Ctor_UsesCorrectDataPoints
-Passed   SetActualValues_WrongIndexThrowsException
-Passed   SetActualValues_UsesCorrectRawData
-Passed   InitializeConstructor_ShouldInitializePropertiesCorrectly
+";
+
+        private const string RegistrationFailedPart = @"
+Failed to register(user:True,register:True,is64:False):5 the profiler assembly; you may want to look into permissions or using the -register:user option instead";
+
+        private const string TestResultsPart = @"
+VsTestSonarQubeLogger.TestResults=E:\Cadence\ESIETooLink\Main\Deliverables\bin\Release\TestResults\1d643de0-bd38-4d45-890a-6b32ca42109c.xml
+";
+    private const string CommittingPart= @"Committing...
+        Visited Classes 0 of 411 (0)
+            Visited Methods 0 of 2823 (0)
+            Visited Points 0 of 11184 (0)
+            Visited Branches 0 of 6514 (0)
+
+        ==== Alternative Results(includes all methods including those without corresponding source) ====
+        Alternative Visited Classes 0 of 469 (0)
+            Alternative Visited Methods 0 of 3355 (0)";
+
+        private const string NoTestsPart = @"No test is available in E:\Cadence\ESIETooLink\Main\Services\Bhi.Esie.Services.CadenceDataManager.UnitTest\bin\Release\Bhi.Esie.Services.CadenceDataManager.UnitTest.dll. Make sure that installed test discoverers & executors, platform & framework version settings are appropriate and try again.
+Warning: No test is available in E:\Cadence\ESIETooLink\Main\Services\Bhi.Esie.Services.CadenceDataManager.UnitTest\bin\Release\Bhi.Esie.Services.CadenceDataManager.UnitTest.dll. Make sure that installed test discoverers & executors, platform & framework version settings are appropriate and try again.
 
 Ignored 0
-VsTestSonarQubeLogger.TestResults=E:\Cadence\ESIETooLink\Main\Deliverables\bin\Release\TestResults\c5ce11f8-273c-477a-8196-fd3e40dae809.xml
+VsTestSonarQubeLogger.TestResults=E:\Cadence\ESIETooLink\Main\Deliverables\bin\Release\TestResults\1d643de0-bd38-4d45-890a-6b32ca42109c.xml
 
-Total tests: 366. Passed: 365. Failed: 0. Skipped: 1.
-Test Run Successful.
-Test execution time: 14.4802 Seconds
+Information: Additionally, you can try specifying '/UseVsixExtensions' command if the test discoverer & executor is installed on the machine as vsix extensions and your installation supports vsix extensions. Example: vstest.console.exe myTests.dll /UseVsixExtensions:true";
+
+        private const string RunningPart = @"
+        Starting test execution, please wait...
+        Passed   ShouldCreateCorrectlyFormattedString
+        Passed   ShouldThrowNotSupportedException
+        Passed   Ctor_UsesCorrectDataPoints
+        Passed   SetActualValues_WrongIndexThrowsException
+        Passed   SetActualValues_UsesCorrectRawData
+        Passed   InitializeConstructor_ShouldInitializePropertiesCorrectly
+        Ignored 0";
+
+        private const string NoResultsPart = @"
 Committing...
-An System.IO.DirectoryNotFoundException occured: Could not find a part of the path 'C:\projects\fluentassertions-vf06b\Src\JetBrainsAnnotations.cs'. 
+No results, this could be for a number of reasons. The most common reasons are:
+    1) missing PDBs for the assemblies that match the filter please review the
+    output file and refer to the Usage guide (Usage.rtf) about filters.
+    2) the profiler may not be registered correctly, please refer to the Usage
+    guide and the -register switch.";
 
-Visited Classes 519 of 1551 (33.46)
-Visited Methods 2971 of 9566 (31.06)
-Visited Points 8833 of 32561 (27.13)
-Visited Branches 3927 of 18565 (21.15)
 
-==== Alternative Results (includes all methods including those without corresponding source) ====
-Alternative Visited Classes 595 of 1706 (34.88)
-Alternative Visited Methods 3490 of 11195 (31.17)"
-            ;
+
 
         private readonly StateMachine _stateMachine = new StateMachine();
         [TestMethod]
         public void CheckFinalState_NormalSequence_ExpectDone()
         {
+            string WithTests = BeginningPart + RunningPart + TestResultsPart + CommittingPart;
             Assert.AreEqual(ProcessState.Done, RunSequence(WithTests));
         }
 
@@ -57,32 +77,24 @@ Alternative Visited Methods 3490 of 11195 (31.17)"
         [TestMethod]
         public void CheckFinalState_NoTests_ExpectNoTests()
         {
-            const string NoTests = @"Executing: C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe
-Microsoft (R) Test Execution Command Line Tool Version 14.0.25420.1
-Copyright (c) Microsoft Corporation.  All rights reserved.
+            const string noTests =
+                BeginningPart + NoTestsPart + TestResultsPart + CommittingPart;
 
-Initializing VsTestSonarQubeLogger
-testRunDirectory E:\Cadence\ESIETooLink\Main\Deliverables\bin\Release\TestResults
-Starting test execution, please wait...
-No test is available in E:\Cadence\ESIETooLink\Main\Services\Bhi.Esie.Services.CadenceDataManager.UnitTest\bin\Release\Bhi.Esie.Services.CadenceDataManager.UnitTest.dll. Make sure that installed test discoverers & executors, platform & framework version settings are appropriate and try again.
-Warning: No test is available in E:\Cadence\ESIETooLink\Main\Services\Bhi.Esie.Services.CadenceDataManager.UnitTest\bin\Release\Bhi.Esie.Services.CadenceDataManager.UnitTest.dll. Make sure that installed test discoverers & executors, platform & framework version settings are appropriate and try again.
+        Assert.AreEqual(ProcessState.NoTests, RunSequence(noTests));
+        }
 
-Ignored 0
-VsTestSonarQubeLogger.TestResults=E:\Cadence\ESIETooLink\Main\Deliverables\bin\Release\TestResults\1d643de0-bd38-4d45-890a-6b32ca42109c.xml
+        [TestMethod]
+        public void CheckFinalState_NoResults_ExpectNoResults()
+        {
+            const string noResults = BeginningPart + RunningPart + TestResultsPart + NoResultsPart;
+            Assert.AreEqual(ProcessState.NoResults, RunSequence(noResults));
+        }
 
-Information: Additionally, you can try specifying '/UseVsixExtensions' command if the test discoverer & executor is installed on the machine as vsix extensions and your installation supports vsix extensions. Example: vstest.console.exe myTests.dll /UseVsixExtensions:true
-
-Committing...
-Visited Classes 0 of 411 (0)
-Visited Methods 0 of 2823 (0)
-Visited Points 0 of 11184 (0)
-Visited Branches 0 of 6514 (0)
-
-==== Alternative Results (includes all methods including those without corresponding source) ====
-Alternative Visited Classes 0 of 469 (0)
-Alternative Visited Methods 0 of 3355 (0)";
-
-        Assert.AreEqual(ProcessState.NoTests, RunSequence(NoTests));
+        [TestMethod]
+        public void CheckFinalState_RegistrationFailed_ExpectRegistrationFailed()
+        {
+            const string registrationFailed = RegistrationFailedPart;
+            Assert.AreEqual(ProcessState.CouldNotRegister, RunSequence(registrationFailed));
         }
         private ProcessState RunSequence(string output)
         {
