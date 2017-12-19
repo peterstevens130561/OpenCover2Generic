@@ -34,7 +34,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             _openCoverProcessMock.Setup(p => p.Start())
                 .Raises(p => p.DataReceived += null, CreateMockDataReceivedEventArgs("Warning: Test Run deployment issue"));
-
         }
 
         private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string testData)
