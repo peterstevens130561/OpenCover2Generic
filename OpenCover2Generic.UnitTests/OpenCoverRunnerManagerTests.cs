@@ -74,6 +74,21 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
+        public void Run_JobCrashedFirstFirstThenOk_Run_Done()
+        {
+            GivenProcessRunsTwice();
+            GivenFirstStateThenOkOnSecond(ProcessState.Starting);
+            WhenRun(new ProcessStartInfo());
+        }
+
+        [TestMethod]
+        public void Run_JobCrashedDuringRunningFirstFirstThenOk_Run_Done()
+        {
+            GivenProcessRunsTwice();
+            GivenFirstStateThenOkOnSecond(ProcessState.RunningTests);
+            WhenRun(new ProcessStartInfo());
+        }
+        [TestMethod]
         public void Run_JobTimeout_Run_JobTimeoutException()
         {
             GivenProcessRunsOnce();
@@ -87,7 +102,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 return;
             }
             Assert.Fail(@"expected JobTimeOutException");
-
         }
         #region BuildingBlocks
         private void GivenProcessRunsOnce()
