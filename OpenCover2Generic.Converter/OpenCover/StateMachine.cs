@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
-    class StateMachine : IStateMachine
+    public class StateMachine : IStateMachine
     {
         private const string StartingLine = @"Starting test execution, please wait..";
         private const string FailedToRegisterLine = @"Failed to register(user:True";
         private const string NoTestAvailableLine = @"No test is available in";
         private const string NoResultsLine = @"No results, this could be for a number of reasons";
         private const string EndOfOutputLine = "Visited Classes";
-        internal ProcessState State;
+        public ProcessState State { get; set; }
 
-        internal void Transition(string line)
+        public void Transition(string line)
         {
             ProcessState resultState = State;
             switch (State)

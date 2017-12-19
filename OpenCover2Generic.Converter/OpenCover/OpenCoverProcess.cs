@@ -14,11 +14,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         private readonly IProcessAdapter _processAdapter;
         private static Object _lock = new Object();
         private readonly ITimerAdapter _watchDog;
-        private readonly StateMachine _stateMachine = new StateMachine();
-        public OpenCoverProcess(IProcessAdapter processAdapter,ITimerAdapter timer)
-        {
+        private readonly IStateMachine _stateMachine;
+        public OpenCoverProcess(IProcessAdapter processAdapter,ITimerAdapter timer,IStateMachine stateMachine)
+        { 
             _processAdapter = processAdapter;
             _watchDog = timer;
+            _stateMachine = stateMachine;
             State = ProcessState.Starting;
         }
 
@@ -60,7 +61,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
             }
         }
 
-        public ProcessState State { get; private set; }
+        public ProcessState State {
+            get { return _stateMachine.State; }
+            private set { _stateMachine.State = value; } 
+        }
         public void SetTimeOut(TimeSpan timeOut)
         {
             if (timeOut.TotalMilliseconds > 0)

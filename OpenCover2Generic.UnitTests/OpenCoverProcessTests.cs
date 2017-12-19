@@ -21,24 +21,17 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<IProcessAdapter> _processMock;
         private IOpenCoverProcess _openCoverProcess;
         private Mock<ITimerAdapter> _timerMock;
+        private Mock<IStateMachine> _stateMachineMock;
+
 
         [TestInitialize]
         public void Initialize()
         {
             _processMock = new Mock<IProcessAdapter>();
             _timerMock = new Mock<ITimerAdapter>();
-            _openCoverProcess = new OpenCoverProcess(_processMock.Object,_timerMock.Object);
+            _stateMachineMock = new Mock<IStateMachine>();
+            _openCoverProcess = new OpenCoverProcess(_processMock.Object,_timerMock.Object,_stateMachineMock.Object);
 
-        }
-
-
-        [TestMethod]
-        public void Start_OnFailedRegistration_CouldNotRegister()
-        {
-
-            SetupForRegistrationFailure(_processMock);
-            _openCoverProcess.Start();
-            Assert.AreEqual(ProcessState.CouldNotRegister,_openCoverProcess.State);
         }
 
 
@@ -50,14 +43,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(ProcessState.RunningTests, _openCoverProcess.State);
         }
 
-
-        [TestMethod]
-        public void Start_OnNoResults_StateIsNoResults()
-        {
-            SetupForNoResults(_processMock);
-            _openCoverProcess.Start();
-            Assert.AreEqual(ProcessState.NoResults, _openCoverProcess.State);
-        }
 
         [TestMethod]
         public void SetTimeOut_OneMinute_ExpectOneMinute()
@@ -92,61 +77,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         }
 
-        [TestMethod]
-        public void Run_TimedOut_TestTimedOutException2()
-        {
-            _openCoverProcess = new OpenCoverProcess(_processMock.Object, new TimerAdapter());
-            _openCoverProcess.SetTimeOut(new TimeSpan(0, 0, 1));
-            _processMock.Setup(p => p.Kill()).Callback(() =>
-                _processMock.Setup(p => p.HasExited).Returns(true));
 
-            _openCoverProcess.Start();
 
-            Assert.AreEqual(ProcessState.TimedOut, _openCoverProcess.State);
-
-        }
-
-        [TestMethod]
-        public void Run_NoTests_StateIsNoTests()
-        {
-            _processMock.SetupSequence(p => p.HasExited).Returns(false).Returns(true);
-            _processMock.Setup(p => p.Start())
-                .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
-                    CreateMockDataReceivedEventArgs(@"Starting test execution, please wait.."),
-                    CreateMockDataReceivedEventArgs(@"No test is available in "),
-                    CreateMockDataReceivedEventArgs(@"VsTestSonarQubeLogger.TestResults=E:\Cadence\ESIETooLink\Main\TestResults\287d73c4-8c3e-4ecf-b41d-3c29a5cfe375.xml"),
-                    CreateMockDataReceivedEventArgs(@"No results, this could be for a number of reasons. The most common reasons are:")
-
-                }).Dequeue);
-            _openCoverProcess.Start();
-            Assert.AreEqual(ProcessState.NoTests, _openCoverProcess.State);
-        }
         private void SetupForStart(Mock<IProcessAdapter> processMock)
         {
             processMock.Setup(p => p.HasExited).Returns(true);
-            processMock.Setup(p => p.Start())
-                .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
-                CreateMockDataReceivedEventArgs("Starting test execution, please wait.."),
-                }).Dequeue);
+            _stateMachineMock.Setup(s => s.State).Returns(ProcessState.RunningTests);
         }
 
-        private void SetupForRegistrationFailure(Mock<IProcessAdapter> processMock)
-        {
-            processMock.Setup(p => p.HasExited).Returns(true);
-            processMock.Setup(p => p.Start())
-                .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
-                CreateMockDataReceivedEventArgs("Failed to register(user:True"),
-                }).Dequeue);
-        }
-
-        private void SetupForNoResults(Mock<IProcessAdapter> processMock)
-        {
-            processMock.Setup(p => p.HasExited).Returns(true);
-            processMock.Setup(p => p.Start())
-                .Raises(p => p.DataReceived += null, new Queue<DataReceivedEventArgs>(new[] {
-                    CreateMockDataReceivedEventArgs("No results, this could be for a number of reasons. The most common reasons are:"),
-                }).Dequeue);
-        }
 
         private T CreateMockEvent<T,Y>(Y testData)
         {

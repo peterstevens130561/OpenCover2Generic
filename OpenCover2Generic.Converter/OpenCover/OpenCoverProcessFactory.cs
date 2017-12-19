@@ -18,7 +18,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 
         public IOpenCoverProcess Create()
         {
-            return new OpenCoverProcess(_processFactory.CreateProcess(), new TimerAdapter());
+            return new OpenCoverProcess(_processFactory.CreateProcess(), new TimerAdapter(), new StateMachine());
         }
     }
 }
