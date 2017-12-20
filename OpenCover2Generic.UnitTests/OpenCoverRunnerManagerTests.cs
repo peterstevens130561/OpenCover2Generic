@@ -26,17 +26,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _openCoverProcessMock = new Mock<IOpenCoverProcess>();
             _processFactoryMock.Setup(p => p.Create()).Returns(_openCoverProcessMock.Object);
             _openCoverRunnerManager = new OpenCoverRunnerManager(_processFactoryMock.Object);
+            // make sure the wait is 1ms, i.s.o 1 second
+            ((OpenCoverRunnerManager) _openCoverRunnerManager).WaitTimeSpan = new TimeSpan(0, 0, 0, 0, 1); 
         }
 
         [TestMethod]
         public void Run_JobWithTests_Run_Done()
         {
             GivenProcessRunsOnce();
-            _openCoverProcessMock.SetupSequence(o => o.State)
-                .Returns(ProcessState.Starting)
-                .Returns(ProcessState.Run)
-                .Returns(ProcessState.Done)
-                .Returns(ProcessState.Done); 
+            GivenState(ProcessState.Done);
             WhenRun(new ProcessStartInfo());
         }
 
@@ -45,11 +43,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Run_JobWithoutTests_Run_Done()
         {
             GivenProcessRunsOnce();
-            _openCoverProcessMock.SetupSequence(o => o.State)
-                .Returns(ProcessState.Starting)
-                .Returns(ProcessState.Run)
-                .Returns(ProcessState.NoTests)
-                .Returns(ProcessState.NoTests);
+            GivenState(ProcessState.NoTests);
             WhenRun(new ProcessStartInfo());
         }
 
@@ -109,7 +103,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _openCoverProcessMock.SetupSequence(o => o.HasExited).Returns(false).Returns(true);
             _openCoverProcessMock.SetupSequence(o => o.HasExited).Returns(false).Returns(true);
         }
-
 
         public void GivenState(ProcessState state)
         {

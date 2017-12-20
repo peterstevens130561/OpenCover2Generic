@@ -26,6 +26,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         public OpenCoverRunnerManager(IOpenCoverProcessFactory processFactory)
         {
             _processFactory = processFactory;
+            WaitTimeSpan = new TimeSpan(0, 0, 1);
         }
 
         public void SetTimeOut(TimeSpan timeOut)
@@ -33,6 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
             _timeOut = timeOut;
         }
 
+        public TimeSpan WaitTimeSpan { get; set; }
 
         public void Run(ProcessStartInfo startInfo, StreamWriter writer,string jobAssemblies)
         {
@@ -60,7 +62,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
                         Task task = Task.Run(() => process.Start());
                         while (!task.IsCompleted && process.State == ProcessState.Starting)
                         {
-                            Thread.Sleep(1000);
+                            Thread.Sleep((int)WaitTimeSpan.TotalMilliseconds);
                         }
                     }
                     _log.Debug("Running");
@@ -68,7 +70,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 
                     while (!process.HasExited)
                     {
-                        Thread.Sleep(1000);
+                        Thread.Sleep((int)WaitTimeSpan.TotalMilliseconds);
                     }
                     writer.Write(_processOutput.ToString());
                     writer.Write(process.State);
