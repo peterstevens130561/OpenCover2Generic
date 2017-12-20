@@ -22,7 +22,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Take_OneJob_Successful()
         {
             IJobs jobs = new Jobs();
-            jobs.Add(new TestTestJob("a"));
+            jobs.Add(new TestJob("a"));
             var assembly = jobs.Take().FirstAssembly;
             Assert.AreEqual("a", assembly);
         }

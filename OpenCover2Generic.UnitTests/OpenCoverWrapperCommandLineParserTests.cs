@@ -108,15 +108,27 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void GetTestAssemblies_SpecifyTwo_ShouldMatch()
+        public void GetTestAssemblies_SpecifyTwo_GetTestAssemblies_ShouldMatch()
         {
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
             string[] line = { @"-testassembly:a:/My Documents/fun.dll", "-testassembly:second.dll"};
             commandLineParser.Args = line;
             string[] assemblies = commandLineParser.GetTestAssemblies();
             Assert.AreEqual(2, assemblies.Length);
-            Assert.AreEqual("a:/My Documents/fun.dll", assemblies[0]);
+            Assert.AreEqual("\"a:/My Documents/fun.dll\"", assemblies[0]);
             Assert.AreEqual("second.dll", assemblies[1]);
+        }
+
+        [TestMethod]
+        public void GetTestAssemblies_SpecifyOneWithSpaces_GetTestAssemblies_ShouldBeEscaped()
+        {
+            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());
+            string[] line = { @"-testassembly:a:/My Documents/fun.dll" };
+            commandLineParser.Args = line;
+            string[] assemblies = commandLineParser.GetTestAssemblies();
+            Assert.AreEqual(1, assemblies.Length);
+            Assert.AreEqual("\"a:/My Documents/fun.dll\"", assemblies[0]);
+ 
         }
 
         [TestMethod]

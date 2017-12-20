@@ -52,8 +52,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void ConsumeJobs_TwoInQueue_ExpectOnejobTakenTwoTimes()
         {
-            _jobs.Add(new TestTestJob(@"a"));
-            _jobs.Add(new TestTestJob(@"b"));
+            _jobs.Add(new TestJob(@"a"));
+            _jobs.Add(new TestJob(@"b"));
             _jobs.CompleteAdding();
 
             WhenConsumingJobs();
@@ -67,8 +67,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void ConsumeJobs_TwoChunksOfTwoInQueue_ExpectOnejobTakenTwoTimes()
         {
-            _jobs.Add(new TestTestJob("a b"));
-            _jobs.Add(new TestTestJob("c d"));
+            _jobs.Add(new TestJob("a b"));
+            _jobs.Add(new TestJob("c d"));
             _jobs.CompleteAdding();
 
             WhenConsumingJobs();

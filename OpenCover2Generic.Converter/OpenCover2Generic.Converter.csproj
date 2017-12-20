@@ -65,7 +65,7 @@
     <Compile Include="OpenCover\IOpenCoverRunnerManager.cs" />
     <Compile Include="Model\ITestJob.cs" />
     <Compile Include="Model\IJobs.cs" />
-    <Compile Include="Model\TestTestJob.cs" />
+    <Compile Include="Model\TestJob.cs" />
     <Compile Include="Model\Jobs.cs" />
     <Compile Include="OpenCover\OpenCoverProcessState.cs" />
     <Compile Include="OpenCover\OpenCoverRunnerManager.cs" />

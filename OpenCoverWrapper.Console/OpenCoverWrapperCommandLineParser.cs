@@ -1,6 +1,7 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,7 +58,19 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         public string[] GetTestAssemblies()
         {
-            return _commandLineParser.GetArgumentArray("-testassembly");
+            var assemblies= _commandLineParser.GetArgumentArray("-testassembly");
+            var result = new Collection<String>();
+            foreach (string assembly in assemblies)
+            {
+                if (assembly.Contains(" "))
+                {
+                    result.Add("\"" + assembly + "\"");
+                } else
+                {
+                    result.Add(assembly);
+                }
+            }
+            return result.ToArray();
         }
 
         public TimeSpan GetJobTimeOut()
