@@ -78,6 +78,22 @@ namespace BHGE.SonarQube.OpenCover2Generic
             GivenFirstStateThenOkOnSecond(ProcessState.RunningTests);
             WhenRun(new ProcessStartInfo());
         }
+
+        [TestMethod]
+        public void Run_LoggerNotInstalled_Run_LoggerNotInstalledExceptionThrown()
+        {
+            GivenProcessRunsOnce();
+            GivenState(ProcessState.LoggerNotInstalled);
+            try
+            {
+                WhenRun(new ProcessStartInfo());
+            }
+            catch (LoggerNotInstalledException)
+            {
+                return;
+            }
+            Assert.Fail(@"expected LoggerNotInstalledException");
+        }
         [TestMethod]
         public void Run_JobTimeout_Run_JobTimeoutException()
         {
@@ -110,6 +126,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 .Returns(ProcessState.Starting)
                 .Returns(ProcessState.Run)
                 .Returns(state)
+                .Returns(state)
                 .Returns(state);
         }
         public void GivenFirstStateThenOkOnSecond(ProcessState firstState)
@@ -121,6 +138,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 .Returns(firstState)
                 .Returns(ProcessState.Starting)
                 .Returns(ProcessState.Run)
+                .Returns(ProcessState.Done)
                 .Returns(ProcessState.Done)
                 .Returns(ProcessState.Done);
         }

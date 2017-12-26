@@ -14,6 +14,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         private const string NoTestAvailableLine = @"No test is available in";
         private const string NoResultsLine = @"No results, this could be for a number of reasons";
         private const string EndOfOutputLine = "Visited Classes";
+        private const string LoggerNotInstalled = @"Error: Could not find a test logger with URI or FriendlyName 'VsTestSonarQubeLogger'.";
         public ProcessState State { get; set; }
 
         public void Transition(string line)
@@ -29,6 +30,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
                     if (line.Contains(FailedToRegisterLine))
                     {
                         resultState = ProcessState.CouldNotRegister;
+                    }
+                    if (line.Contains(LoggerNotInstalled))
+                    {
+                        resultState = ProcessState.LoggerNotInstalled;
                     }
                     break;
                 case ProcessState.RunningTests:
@@ -48,6 +53,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
                 case ProcessState.NoTests:
                 case ProcessState.NoResults:
                 case ProcessState.CouldNotRegister:
+                case ProcessState.LoggerNotInstalled:
                     break;
                 default:
                     if (line.Contains(FailedToRegisterLine))

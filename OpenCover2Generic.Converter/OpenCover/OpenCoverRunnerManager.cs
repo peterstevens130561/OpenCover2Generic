@@ -109,6 +109,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
                             _log.Warn($"Could not register           : {jobAssemblies}");
                             tries = RetryPossible(writer, tries);
                             break;
+                        case ProcessState.LoggerNotInstalled:
+                            _log.Error("SonarQubeLogger not installed");
+                            throw new LoggerNotInstalledException();
                         case ProcessState.RunningTests:
                             _log.Warn($"Crashed during running tests : {jobAssemblies}");
                             tries = RetryPossible(writer, tries);

@@ -19,6 +19,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         NoTests,
         Starting,
         Run,
-        RunningTests
+        RunningTests,
+        LoggerNotInstalled
     }
 }

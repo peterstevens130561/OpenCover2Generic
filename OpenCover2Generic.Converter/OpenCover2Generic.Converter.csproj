@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OpenCover\LoggerNotInstalledException.cs" />
     <Compile Include="TestJobConsumer\IJobConsumer.cs" />
     <Compile Include="TestJobConsumer\JobConsumer.cs" />
     <Compile Include="CoverageConverters\Exceptions\InvalidCommandLineArgumentException.cs" />

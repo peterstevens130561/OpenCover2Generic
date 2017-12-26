@@ -12,10 +12,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class OpenCoverStateMachineTests
     {
 
-        private const string BeginningPart = @"Executing: C:\Program Files(x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe
+        private const string BeginningPart =
+            @"Executing: C:\Program Files(x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe
 Microsoft(R) Test Execution Command Line Tool Version 14.0.25420.1
-Copyright(c) Microsoft Corporation.All rights reserved.
-Initializing VsTestSonarQubeLogger
+Copyright(c) Microsoft Corporation.All rights reserved.";
+        private const string LoggerInstalledPart =
+@"Initializing VsTestSonarQubeLogger
 testRunDirectory E:\Cadence\ESIETooLink\Main\Deliverables\bin\Release\TestResults
 Starting test execution, please wait...
 ";
@@ -36,6 +38,7 @@ VsTestSonarQubeLogger.TestResults=E:\Cadence\ESIETooLink\Main\Deliverables\bin\R
         Alternative Visited Classes 0 of 469 (0)
             Alternative Visited Methods 0 of 3355 (0)";
 
+        private const string LoggerNotInstalled = @"Error: Could not find a test logger with URI or FriendlyName 'VsTestSonarQubeLogger'.";
         private const string NoTestsPart = @"No test is available in E:\Cadence\ESIETooLink\Main\Services\Bhi.Esie.Services.CadenceDataManager.UnitTest\bin\Release\Bhi.Esie.Services.CadenceDataManager.UnitTest.dll. Make sure that installed test discoverers & executors, platform & framework version settings are appropriate and try again.
 Warning: No test is available in E:\Cadence\ESIETooLink\Main\Services\Bhi.Esie.Services.CadenceDataManager.UnitTest\bin\Release\Bhi.Esie.Services.CadenceDataManager.UnitTest.dll. Make sure that installed test discoverers & executors, platform & framework version settings are appropriate and try again.
 
@@ -67,35 +70,43 @@ No results, this could be for a number of reasons. The most common reasons are:
 
         private readonly StateMachine _stateMachine = new StateMachine();
         [TestMethod]
-        public void CheckFinalState_NormalSequence_ExpectDone()
+        public void State_NormalSequence_State_ExpectDone()
         {
-            string WithTests = BeginningPart + RunningPart + TestResultsPart + CommittingPart;
+            string WithTests = BeginningPart + LoggerInstalledPart + RunningPart + TestResultsPart + CommittingPart;
             Assert.AreEqual(ProcessState.Done, RunSequence(WithTests));
         }
 
    
         [TestMethod]
-        public void CheckFinalState_NoTests_ExpectNoTests()
+        public void State_NoTests_State_ExpectNoTests()
         {
             const string noTests =
-                BeginningPart + NoTestsPart + TestResultsPart + CommittingPart;
+                BeginningPart + LoggerInstalledPart+NoTestsPart + TestResultsPart + CommittingPart;
 
         Assert.AreEqual(ProcessState.NoTests, RunSequence(noTests));
         }
 
         [TestMethod]
-        public void CheckFinalState_NoResults_ExpectNoResults()
+        public void State_NoResults_State_ExpectNoResults()
         {
-            const string noResults = BeginningPart + RunningPart + TestResultsPart + NoResultsPart;
+            const string noResults = BeginningPart + LoggerInstalledPart + RunningPart + TestResultsPart + NoResultsPart;
             Assert.AreEqual(ProcessState.NoResults, RunSequence(noResults));
         }
 
         [TestMethod]
-        public void CheckFinalState_RegistrationFailed_ExpectRegistrationFailed()
+        public void State_RegistrationFailed_State_ExpectRegistrationFailed()
         {
             const string registrationFailed = RegistrationFailedPart;
             Assert.AreEqual(ProcessState.CouldNotRegister, RunSequence(registrationFailed));
         }
+
+        [TestMethod]
+        public void State_LoggerNotInstalled_State_ExpectLoggerNotInstalled()
+        {
+            const string loggerNotInstalledLog = BeginningPart + LoggerNotInstalled + NoResultsPart;
+                Assert.AreEqual(ProcessState.LoggerNotInstalled, RunSequence(loggerNotInstalledLog));
+    }
+       
         private ProcessState RunSequence(string output)
         {
             string[] parts = output.Split('\n');
