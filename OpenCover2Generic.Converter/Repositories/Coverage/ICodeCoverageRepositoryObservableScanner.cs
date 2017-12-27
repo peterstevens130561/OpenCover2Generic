@@ -9,7 +9,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
     interface ICodeCoverageRepositoryObservableScanner
     {
         event EventHandler<EventArgs> OnBeginScan;
-
+        event EventHandler<EventArgs> OnEndScan;
         void Scan();
     }
 }

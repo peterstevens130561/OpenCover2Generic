@@ -13,6 +13,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private ICodeCoverageRepositoryObservableScanner _observableScanner;
         private int _timesOnBeginScanCalled = 0;
+        private int _timesOnEndScanCalled = 0;
+
         [TestInitialize]
         public void Initialize()
         {
@@ -28,9 +30,23 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         }
 
+        [TestMethod]
+        public void Scan_EmptyRepository_Scan_OnEndScanCalled()
+        {
+            _observableScanner.OnEndScan += OnEndScan;
+            _observableScanner.Scan();
+            Assert.AreEqual(1, _timesOnBeginScanCalled);
+
+        }
+
         private void OnBeginScan(object sender, EventArgs e)
         {
             ++_timesOnBeginScanCalled;
+        }
+
+        private void OnEndScan(object sender, EventArgs e)
+        {
+            ++_timesOnEndScanCalled;
         }
     }
 }
