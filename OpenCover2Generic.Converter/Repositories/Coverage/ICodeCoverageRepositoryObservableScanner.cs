@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
-    interface ICodeCoverageRepositoryScanner
+    interface ICodeCoverageRepositoryObservableScanner
     {
+        event EventHandler<EventArgs> OnBeginScan;
+
+        void Scan();
     }
 }
