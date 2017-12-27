@@ -65,16 +65,29 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void Scan_OneModule_Scan_OnBeginModuleCalled()
+        public void Scan_OneModule_Scan_OnBeginModuleCalledOnce()
+        {
+            Mock<IScannerObserver> observerMock = GivenOneModule();
+            _observableScanner.Scan();
+            observerMock.Verify(o => o.OnBeginModule(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void Scan_OneModule_Scan_OnEndModuleCalledOnce()
+        {
+            Mock<IScannerObserver> observerMock = GivenOneModule();
+            _observableScanner.Scan();
+            observerMock.Verify(o => o.OnEndModule(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Once);
+        }
+
+        private Mock<IScannerObserver> GivenOneModule()
         {
             Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
             _observableScanner.AddObserver(observerMock.Object);
             List<string> oneModule = new List<string>();
             oneModule.Add("a");
             coverageStorageResolverMock.Setup(c => c.GetPathsOfAllModules(It.IsAny<string>())).Returns(oneModule);
-            _observableScanner.Scan();
-            observerMock.Verify(o => o.OnBeginModule(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Once);
+            return observerMock;
         }
- 
     }
 }
