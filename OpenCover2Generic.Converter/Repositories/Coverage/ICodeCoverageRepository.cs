@@ -7,8 +7,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         string RootDirectory { get; set; }
 
         void Add(string path, string jobFirstAssembly);
-        void CreateCoverageFile(XmlTextWriter writer);
+        void CreateGenericCoverageFile(XmlTextWriter writer);
 
-        void CreateCoverageFile(string outputPath);
+        void CreateGenericCoverageFile(string outputPath);
     }
 }

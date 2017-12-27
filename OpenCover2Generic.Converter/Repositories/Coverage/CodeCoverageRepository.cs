@@ -76,15 +76,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             }
         }
 
-        public void CreateCoverageFile(string outputPath)
+        public void CreateGenericCoverageFile(string outputPath)
         {
             using (var writer = new XmlTextWriter(outputPath,Encoding.UTF8))
             {
-                CreateCoverageFile(writer);
+                CreateGenericCoverageFile(writer);
             }
         }
 
-        public void CreateCoverageFile(XmlTextWriter xmlWriter)
+        public void CreateGenericCoverageFile(XmlTextWriter xmlWriter)
         {
             var moduleDirectories = _coverageStorageResolver.GetPathsOfAllModules(RootDirectory);
             _converter.BeginCoverageFile(xmlWriter);

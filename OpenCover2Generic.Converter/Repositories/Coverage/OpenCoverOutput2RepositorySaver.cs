@@ -115,11 +115,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             using (XmlReader tempFileReader = XmlReader.Create(assemblyPath))
             {
                 tempFileReader.MoveToContent();
-                // intentionally
-                while (_moduleParser.ParseModule(_model, tempFileReader))
-                {
-                    // first one is empty. Really a bug
-                }
+                while (_moduleParser.ParseModule(_model, tempFileReader)) ;
             }
         }
 

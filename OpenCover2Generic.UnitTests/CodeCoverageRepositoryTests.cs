@@ -51,7 +51,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             using (XmlTextWriter writer = new XmlTextWriter(new StreamWriter(new MemoryStream())))
             {
                 var dirs = new Collection<string>();
-                _repository.CreateCoverageFile(writer);
+                _repository.CreateGenericCoverageFile(writer);
 
                 _saver.Verify(s => s.BeginCoverageFile(writer), Times.Exactly(1));
                 _saver.Verify(s => s.EndCoverageFile(writer),Times.Exactly(1));
@@ -76,7 +76,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 _coverageStorageResolverMock.Setup(j => j.GetTestCoverageFilesOfModule("a")).Returns(files);
 
                 _repository.RootDirectory = root;
-                _repository.CreateCoverageFile(writer);
+                _repository.CreateGenericCoverageFile(writer);
 
                 ThenFileIsWritten(writer);
                 _saver.Verify(s => s.BeginModule(), Times.Exactly(1));
@@ -106,7 +106,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 _coverageStorageResolverMock.Setup(j => j.GetTestCoverageFilesOfModule("a")).Returns(files);
 
                 _repository.RootDirectory = root;
-                _repository.CreateCoverageFile(writer);
+                _repository.CreateGenericCoverageFile(writer);
                 ThenFileIsWritten(writer);
                 ThenThereAreModules(1);
                 ThenFileIsRead("b");

@@ -8,7 +8,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
     public class JobFileSystem : IJobFileSystem
     {
         private readonly Object _lock = new object();
-        private readonly Dictionary<string, int> _lookupTable = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> _assemblyUsageLookupTable = new Dictionary<string, int>();
         private string _openCoverOutputDir;
         private string _testResultsDir;
         private string _openCoverIntermediateDir;
@@ -58,10 +58,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
             string index;
             lock (_lock)
             {
-                if (!_lookupTable.ContainsKey(key)) {
-                    _lookupTable.Add(key, _lookupTable.Count + 1);
+                if (!_assemblyUsageLookupTable.ContainsKey(key)) {
+                    _assemblyUsageLookupTable.Add(key, _assemblyUsageLookupTable.Count + 1);
                 }
-                index = _lookupTable[key].ToString();
+                index = _assemblyUsageLookupTable[key].ToString();
             }
             return index;
         }

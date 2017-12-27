@@ -95,57 +95,5 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             }
         }
 
-        public void CreateCoverageFile(string outputPath)
-        {
-            log.Info("Assembling coverage file");
-            using (XmlTextWriter xmlWriter = new XmlTextWriter(new StreamWriter(outputPath)))
-            {
-                CreateCoverageFile(xmlWriter);
-            }
-        }
-
-        public void CreateCoverageFile(XmlTextWriter xmlWriter)
-        {
-            var moduleDirectories = _jobFileSystemInfo.GetModuleCoverageDirectories();
-            _converter.BeginCoverageFile(xmlWriter);
-            foreach (string moduleDirectory in moduleDirectories)
-            {
-                _converter.BeginModule();
-                foreach (string assemblyFile in Directory.EnumerateFiles(moduleDirectory))
-                {
-                    _converter.ReadIntermediateFile(assemblyFile);
-                }
-                _converter.AppendModuleToCoverageFile(xmlWriter);
-            }
-            _converter.EndCoverageFile(xmlWriter);
-        }
-
-        public void CreateTestResults(string testResultsPath)
-        {
-            log.Info($"Creating test results file into {testResultsPath}");
-            var files = Directory.EnumerateFiles(_jobFileSystemInfo.GetTestResultsDirectory());
-            var testResultsConcatenator = new TestResultsConcatenator();
-
-            using (var writer = new XmlTextWriter(new StreamWriter(testResultsPath)))
-            {
-                testResultsConcatenator.Writer = writer;
-                testResultsConcatenator.Begin();
-                foreach (var file in files)
-                {
-                    using (var reader = XmlReader.Create(file))
-                    {
-                        testResultsConcatenator.Concatenate(reader);
-                    }
-
-                }
-                log.Info($"Found ${testResultsConcatenator.ExecutedTestCases} executed test cases");
-                testResultsConcatenator.End();
-            }
-        }
-
-        public void CreateJobConsumers(int consumers)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

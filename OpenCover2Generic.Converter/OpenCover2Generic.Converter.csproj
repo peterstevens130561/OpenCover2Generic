@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OpenCover\LoggerNotInstalledException.cs" />
+    <Compile Include="Repositories\Coverage\ICodeCoverageRepositoryScanner.cs" />
     <Compile Include="TestJobConsumer\IJobConsumer.cs" />
     <Compile Include="TestJobConsumer\JobConsumer.cs" />
     <Compile Include="CoverageConverters\Exceptions\InvalidCommandLineArgumentException.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="Model\IntermediateModel.cs" />
     <Compile Include="Adapters\IFileSystemAdapter.cs" />
     <Compile Include="Utils\IJobFileSystem.cs" />
-    <Compile Include="Utils\IOpenCoverCommandLineBuilder.cs" />
+    <Compile Include="TestJobConsumer\IOpenCoverCommandLineBuilder.cs" />
     <Compile Include="Adapters\IProcessAdapter.cs" />
     <Compile Include="Adapters\ProcessAdapter.cs" />
     <Compile Include="Repositories\Tests\ITestResultsConcatenator.cs" />
@@ -105,7 +106,7 @@
     <Compile Include="Model\IFileCoverageModel.cs" />
     <Compile Include="Model\IModuleCoverageModel.cs" />
     <Compile Include="Model\Model.cs" />
-    <Compile Include="Utils\OpenCoverCommandLineBuilder.cs" />
+    <Compile Include="TestJobConsumer\OpenCoverCommandLineBuilder.cs" />
     <Compile Include="Parsers\OpenCoverCoverageParser.cs" />
     <Compile Include="Writers\OpenCoverCoverageWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

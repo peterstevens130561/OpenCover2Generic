@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Text;
+using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Repositories;
@@ -11,17 +12,20 @@ using BHGE.SonarQube.OpenCover2Generic.Writers;
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     //[TestClass]
-    public class MultiAssemblyConversionMainTests
+    public class CreateCoverageFileTests
     {
-        private OpenCoverOutput2RepositorySaver _converter;
+        private CodeCoverageRepository _converter;
+        private OpenCoverOutput2RepositorySaver _saver;
         private IModuleCoverageModel _model;
+        private ICoverageStorageResolver _resolver;
 
         [TestInitialize]
         public void Initialize()
         {
             _model = new ModuleCoverageModel();
-            _converter = new OpenCoverOutput2RepositorySaver(_model,new OpenCoverCoverageParser(),
-                new GenericCoverageWriter(),new OpenCoverCoverageParser(),new OpenCoverCoverageWriter());
+            var saver = new OpenCoverOutput2RepositorySaver(_model, new OpenCoverCoverageParser(),
+                new GenericCoverageWriter(), new OpenCoverCoverageParser(), new OpenCoverCoverageWriter());
+            _converter = new CodeCoverageRepository(saver, _resolver);
         }
 
         [TestMethod]
@@ -32,7 +36,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
     </CoverageSession>";
             MemoryStream resultStream = new MemoryStream();
-            string result = WhenConverting(resultStream,input);
+            string result = WhenConverting(resultStream, input);
             string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <coverage version=""1"" />";
             Assert.AreEqual(expected, result);
@@ -41,7 +45,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void MultiAssemblyConversion_SkippedModuleOnlyShouldBeIgnored()
         {
-            string input= @"<?xml version=""1.0"" encoding=""utf-8""?>
+            string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
   <Summary numSequencePoints=""37"" visitedSequencePoints=""0"" numBranchPoints=""10"" visitedBranchPoints=""0"" sequenceCoverage=""0"" branchCoverage=""0"" maxCyclomaticComplexity=""2"" minCyclomaticComplexity=""1"" visitedClasses=""0"" numClasses=""2"" visitedMethods=""0"" numMethods=""10"" />
   <Modules>
@@ -276,7 +280,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             StreamWriter writer = new StreamWriter(resultStream);
             Stream inputStream = new MemoryStream(Encoding.UTF8.GetBytes(input));
             StreamReader reader = new StreamReader(inputStream);
-            _converter.Save(writer, reader);
+            _converter.CreateGenericCoverageFile(new XmlTextWriter(writer));
             StreamReader resultReader = new StreamReader(new MemoryStream(resultStream.ToArray()));
             string text = resultReader.ReadToEnd();
             return text;
