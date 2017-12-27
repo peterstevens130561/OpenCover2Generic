@@ -42,12 +42,22 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void Scan_EmptyRepository_Scan_OnEndScanDelegateCalled()
+        public void Scan_EmptyRepository_Scan_OnBeginScanDelegateCalled()
         {
             Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
             _observableScanner.AddObserver(observerMock.Object);
             _observableScanner.Scan();
             observerMock.Verify( o => o.OnBeginScan(It.IsAny<object>(),It.IsAny<EventArgs>()),Times.Once);
+
+        }
+
+        [TestMethod]
+        public void Scan_EmptyRepository_Scan_OnEndScanDelegateCalled()
+        {
+            Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
+            _observableScanner.AddObserver(observerMock.Object);
+            _observableScanner.Scan();
+            observerMock.Verify(o => o.OnEndScan(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Once);
 
         }
 
