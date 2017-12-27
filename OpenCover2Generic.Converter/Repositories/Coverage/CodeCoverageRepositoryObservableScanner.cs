@@ -11,7 +11,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
     {
         public event EventHandler<EventArgs> OnBeginScan;
         public event EventHandler<EventArgs> OnEndScan;
-        private ICollection<IScannerObserver> scannerObservers = new Collection<IScannerObserver>();
         public void Scan()
         {
             OnBeginScan?.Invoke(this,EventArgs.Empty);
@@ -20,7 +19,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 
         public void AddObserver(IScannerObserver observer)
         {
-            scannerObservers.Add(observer);
+            OnBeginScan += observer.OnBeginScan;
         }
     }
 }
