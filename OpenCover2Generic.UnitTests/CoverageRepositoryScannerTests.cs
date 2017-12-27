@@ -24,13 +24,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             _observableScanner.OnBeginScan += OnBeginScan;
             _observableScanner.Scan();
-
+            Assert.AreEqual(1, _timesOnBeginScanCalled);
 
         }
 
         private void OnBeginScan(object sender, EventArgs e)
         {
-            ++_timesOnBeginScanCalled();
+            ++_timesOnBeginScanCalled;
         }
     }
 }

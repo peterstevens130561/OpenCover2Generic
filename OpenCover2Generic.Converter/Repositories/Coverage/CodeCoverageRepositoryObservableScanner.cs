@@ -10,5 +10,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
     {
         public event EventHandler<EventArgs> OnBeginScan;
 
+        public void Scan()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
