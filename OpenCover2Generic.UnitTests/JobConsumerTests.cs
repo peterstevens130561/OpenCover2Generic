@@ -37,7 +37,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _jobFileSystemMock = new Mock<IJobFileSystem>();
             _jobFileSystemMock.Setup(m => m.GetOpenCoverLogPath(It.IsAny<string>())).Returns(Path.GetTempFileName());
             _openCoverManagerFactoryMock = new Mock<IOpenCoverManagerFactory>();
-            _openCoverManagerFactoryMock.Setup(o => o.CreateManager()).Returns(new Mock<IOpenCoverRunnerManager>().Object);
+            _openCoverManagerFactoryMock.Setup(o => o.CreateManager()).Returns(new Mock<IOpenCoverManager>().Object);
             _openCoverCommandLineBuilder = new Mock<IOpenCoverCommandLineBuilder>();
             _testResultsRepositoryMock = new Mock<ITestResultsRepository>();
             _codeCoverageRepositoryMock = new Mock<ICodeCoverageRepository>();

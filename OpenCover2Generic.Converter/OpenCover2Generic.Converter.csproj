@@ -63,13 +63,13 @@
     <Compile Include="OpenCover\IStateMachine.cs" />
     <Compile Include="OpenCover\OpenCoverProcess.cs" />
     <Compile Include="Adapters\ProcessFactory.cs" />
-    <Compile Include="OpenCover\IOpenCoverRunnerManager.cs" />
+    <Compile Include="OpenCover\IOpenCoverManager.cs" />
     <Compile Include="Model\ITestJob.cs" />
     <Compile Include="Model\IJobs.cs" />
     <Compile Include="Model\TestJob.cs" />
     <Compile Include="Model\Jobs.cs" />
     <Compile Include="OpenCover\OpenCoverProcessState.cs" />
-    <Compile Include="OpenCover\OpenCoverRunnerManager.cs" />
+    <Compile Include="OpenCover\OpenCoverManager.cs" />
     <Compile Include="OpenCover\StateMachine.cs" />
     <Compile Include="Repositories\Coverage\CodeCoverageRepository.cs" />
     <Compile Include="Repositories\Coverage\CoverageStorageResolver.cs" />

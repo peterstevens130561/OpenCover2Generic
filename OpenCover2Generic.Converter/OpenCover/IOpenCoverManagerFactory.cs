@@ -2,6 +2,6 @@
 {
     public interface IOpenCoverManagerFactory
     {
-        IOpenCoverRunnerManager CreateManager();
+        IOpenCoverManager CreateManager();
     }
 }

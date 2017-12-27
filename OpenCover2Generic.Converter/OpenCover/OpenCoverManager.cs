@@ -9,9 +9,9 @@ using log4net;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
-    public class OpenCoverRunnerManager : IOpenCoverRunnerManager
+    public class OpenCoverManager : IOpenCoverManager
     {
-        private static readonly ILog _log = LogManager.GetLogger(typeof(OpenCoverRunnerManager).Name);
+        private static readonly ILog _log = LogManager.GetLogger(typeof(OpenCoverManager).Name);
         private string _testResultsPath;
         private readonly StringBuilder _processOutput = new StringBuilder(2048);
         private readonly IOpenCoverProcessFactory _processFactory;
@@ -23,7 +23,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
         private ProcessState _processState;
         private TimeSpan _timeOut;
 
-        public OpenCoverRunnerManager(IOpenCoverProcessFactory processFactory)
+        public OpenCoverManager(IOpenCoverProcessFactory processFactory)
         {
             _processFactory = processFactory;
             WaitTimeSpan = new TimeSpan(0, 0, 1);

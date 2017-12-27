@@ -10,9 +10,9 @@
             _openCoverProcessFactory = openCoverProcessFactory;
         }
 
-        public IOpenCoverRunnerManager CreateManager()
+        public IOpenCoverManager CreateManager()
         {
-            return new OpenCoverRunnerManager(_openCoverProcessFactory);
+            return new OpenCoverManager(_openCoverProcessFactory);
         }
     }
 }

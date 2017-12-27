@@ -4,7 +4,7 @@ using System.IO;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
 {
-    public interface IOpenCoverRunnerManager
+    public interface IOpenCoverManager
     {
         bool HasTests { get; set; }
         string TestResultsPath { get; }

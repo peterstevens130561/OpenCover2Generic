@@ -17,7 +17,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private Mock<IOpenCoverProcessFactory> _processFactoryMock;
         private Mock<IOpenCoverProcess> _openCoverProcessMock = new Mock<IOpenCoverProcess>();
-        private IOpenCoverRunnerManager _openCoverRunnerManager;
+        private IOpenCoverManager _openCoverManager;
 
         [TestInitialize]
         public void Initialize()
@@ -25,9 +25,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _processFactoryMock = new Mock<IOpenCoverProcessFactory>();
             _openCoverProcessMock = new Mock<IOpenCoverProcess>();
             _processFactoryMock.Setup(p => p.Create()).Returns(_openCoverProcessMock.Object);
-            _openCoverRunnerManager = new OpenCoverRunnerManager(_processFactoryMock.Object);
+            _openCoverManager = new OpenCoverManager(_processFactoryMock.Object);
             // make sure the wait is 1ms, i.s.o 1 second
-            ((OpenCoverRunnerManager) _openCoverRunnerManager).WaitTimeSpan = new TimeSpan(0, 0, 0, 0, 1); 
+            ((OpenCoverManager) _openCoverManager).WaitTimeSpan = new TimeSpan(0, 0, 0, 0, 1); 
         }
 
         [TestMethod]
@@ -184,7 +184,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             using (StreamWriter writer = new StreamWriter(new MemoryStream()))
             {
-                _openCoverRunnerManager.Run(info, writer, "bla");
+                _openCoverManager.Run(info, writer, "bla");
             }
         }
 #endregion
