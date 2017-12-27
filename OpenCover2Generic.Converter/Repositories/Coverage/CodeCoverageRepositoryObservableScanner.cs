@@ -30,6 +30,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             foreach (string moduleDirectory in moduleDirectories)
             {
                 OnBeginModule?.Invoke(this,EventArgs.Empty);
+                OnEndModule?.Invoke(this,EventArgs.Empty);
             }
             OnEndScan?.Invoke(this, EventArgs.Empty);
         }
