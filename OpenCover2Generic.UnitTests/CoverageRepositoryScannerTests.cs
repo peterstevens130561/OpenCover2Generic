@@ -14,35 +14,18 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class CoverageRepositoryScannerTests
     {
         private ICodeCoverageRepositoryObservableScanner _observableScanner;
-        private int _timesOnBeginScanCalled = 0;
-        private int _timesOnEndScanCalled = 0;
+        private Mock<ICoverageStorageResolver> coverageStorageResolverMock;
 
         [TestInitialize]
         public void Initialize()
         {
-            _observableScanner = new CodeCoverageRepositoryObservableScanner();
+            coverageStorageResolverMock = new Mock<ICoverageStorageResolver>();
+            _observableScanner = new CodeCoverageRepositoryObservableScanner(coverageStorageResolverMock.Object);
         }
 
-        [TestMethod]
-        public void Scan_EmptyRepository_Scan_OnBeginScanCalled()
-        {
-            _observableScanner.OnBeginScan += OnBeginScan;
-            _observableScanner.Scan();
-            Assert.AreEqual(1, _timesOnBeginScanCalled);
-
-        }
 
         [TestMethod]
-        public void Scan_EmptyRepository_Scan_OnEndScanCalled()
-        {
-            _observableScanner.OnEndScan += OnEndScan;
-            _observableScanner.Scan();
-            Assert.AreEqual(1, _timesOnEndScanCalled);
-
-        }
-
-        [TestMethod]
-        public void Scan_EmptyRepository_Scan_OnBeginScanDelegateCalled()
+        public void Scan_EmptyRepository_Scan_OnBeginScanEventCalledOnce()
         {
             Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
             _observableScanner.AddObserver(observerMock.Object);
@@ -52,7 +35,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void Scan_EmptyRepository_Scan_OnEndScanDelegateCalled()
+        public void Scan_EmptyRepository_Scan_OnEndScanEventCalledOnce()
         {
             Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
             _observableScanner.AddObserver(observerMock.Object);
@@ -61,16 +44,27 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         }
 
-        private void OnBeginScan(object sender, EventArgs e)
+        [TestMethod]
+        public void Scan_EmptyRepository_Scan_OnBeginModuleEventNeverCalled()
         {
-            ++_timesOnBeginScanCalled;
+            Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
+            _observableScanner.AddObserver(observerMock.Object);
+            _observableScanner.Scan();
+            observerMock.Verify(o => o.OnBeginModule(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Never);
+
         }
 
-        private void OnEndScan(object sender, EventArgs e)
+        [TestMethod]
+        public void Scan_OneModule_Scan_OnBeginModuleCalled()
         {
-            ++_timesOnEndScanCalled;
+            Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
+            _observableScanner.AddObserver(observerMock.Object);
+            List<string> oneModule = new List<string>();
+            oneModule.Add("a");
+            coverageStorageResolverMock.Setup(c => c.GetPathsOfAllModules(It.IsAny<string>())).Returns(oneModule);
+            _observableScanner.Scan();
+            observerMock.Verify(o => o.OnBeginModule(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Once);
         }
-
  
     }
 }

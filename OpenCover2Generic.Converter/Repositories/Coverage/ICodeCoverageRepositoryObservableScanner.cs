@@ -11,6 +11,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         event EventHandler<EventArgs> OnBeginScan;
         event EventHandler<EventArgs> OnEndScan;
         void Scan();
-        void AddObserver(IScannerObserver @object);
+        void AddObserver(IScannerObserver scannerObserver);
     }
 }
