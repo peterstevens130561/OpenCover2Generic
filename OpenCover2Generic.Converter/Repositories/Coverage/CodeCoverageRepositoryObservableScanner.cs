@@ -13,6 +13,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         public void Scan()
         {
             OnBeginScan?.Invoke(this,EventArgs.Empty);
+            OnEndScan?.Invoke(this, EventArgs.Empty);
         }
     }
 }

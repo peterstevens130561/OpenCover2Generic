@@ -35,7 +35,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             _observableScanner.OnEndScan += OnEndScan;
             _observableScanner.Scan();
-            Assert.AreEqual(1, _timesOnBeginScanCalled);
+            Assert.AreEqual(1, _timesOnEndScanCalled);
 
         }
 
