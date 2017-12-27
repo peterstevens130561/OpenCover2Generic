@@ -20,6 +20,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         public void AddObserver(IScannerObserver observer)
         {
             OnBeginScan += observer.OnBeginScan;
+            OnEndScan += observer.OnEndScan;
         }
     }
 }
