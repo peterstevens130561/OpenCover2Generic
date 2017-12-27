@@ -16,6 +16,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             this.coverageStorageResolver = coverageStorageResolver;
         }
 
+        public string RootDirectory { get; set; }
         public event EventHandler<EventArgs> OnBeginScan;
         public event EventHandler<EventArgs> OnEndScan;
         public event EventHandler<EventArgs> OnBeginModule;
@@ -23,6 +24,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         {
             OnBeginScan?.Invoke(this,EventArgs.Empty);
 
+
+            var moduleDirectories = coverageStorageResolver.GetPathsOfAllModules(RootDirectory);
+            foreach (string moduleDirectory in moduleDirectories)
+            {
+                OnBeginModule?.Invoke(this,EventArgs.Empty);
+            }
             OnEndScan?.Invoke(this, EventArgs.Empty);
         }
 
