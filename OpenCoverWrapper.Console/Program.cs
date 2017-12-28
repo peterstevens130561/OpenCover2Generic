@@ -20,6 +20,7 @@ using BHGE.SonarQube.OpenCover2Generic.Repositories;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
 using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
+using BHGE.SonarQube.OpenCover2Generic.Writers;
 
 [assembly: XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
 namespace BHGE.SonarQube.OpenCoverWrapper
@@ -71,7 +72,13 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 }
 
                 string outputPath = commandLineParser.GetOutputPath();
-                codeCoverageRepository.CreateGenericCoverageFile(outputPath);
+                var observer = new GenericCoverageWriterObserver(new GenericCoverageWriter());
+                using (var writer = new XmlTextWriter(outputPath, Encoding.UTF8))
+                {
+                    observer.Writer = writer;
+                    codeCoverageRepository.Scanner().AddObserver(observer).Scan();
+                }
+                
             } catch ( CommandLineArgumentException e)
             {
                 Console.Error.WriteLine(e.Message);

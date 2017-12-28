@@ -9,6 +9,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
     public interface ICodeCoverageRepositoryObservableScanner
     {
         void Scan();
-        void AddObserver(IScannerObserver scannerObserver);
+        ICodeCoverageRepositoryObservableScanner AddObserver(IScannerObserver scannerObserver);
     }
 }

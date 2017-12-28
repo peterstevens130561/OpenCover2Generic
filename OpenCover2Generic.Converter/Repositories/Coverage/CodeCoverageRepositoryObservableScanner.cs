@@ -43,13 +43,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
                 OnModule?.Invoke(this, new ModuleEventArgs(_model));
             }
             OnEndScan?.Invoke(this, EventArgs.Empty);
+            
         }
 
-        public void AddObserver(IScannerObserver observer)
+        public ICodeCoverageRepositoryObservableScanner AddObserver(IScannerObserver observer)
         {
             OnBeginScan += observer.OnBeginScan;
             OnEndScan += observer.OnEndScan;
             OnModule += observer.OnModule;
+            return this;
         }
     }
 }

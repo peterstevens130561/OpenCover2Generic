@@ -10,5 +10,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         void CreateGenericCoverageFile(XmlTextWriter writer);
 
         void CreateGenericCoverageFile(string outputPath);
+        ICodeCoverageRepositoryObservableScanner Scanner();
     }
 }
