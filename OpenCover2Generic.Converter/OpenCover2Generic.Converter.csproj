@@ -94,6 +94,7 @@
     <Compile Include="Adapters\ProcessAdapter.cs" />
     <Compile Include="Repositories\Tests\ITestResultsConcatenator.cs" />
     <Compile Include="Utils\JobFileSystem.cs" />
+    <Compile Include="Writers\CoverageStatisticsAggregator.cs" />
     <Compile Include="Writers\GenericCoverageWriterObserver.cs" />
     <Compile Include="Writers\GenericCoverageWriter.cs" />
     <Compile Include="Utils\ICommandLineParser.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="CoverageConverters\ICoverageConverter.cs" />
     <Compile Include="Parsers\ICoverageParser.cs" />
     <Compile Include="Model\ICoveragePoint.cs" />
+    <Compile Include="Writers\ICoverageStatisticsAggregator.cs" />
     <Compile Include="Writers\ICoverageWriter.cs" />
     <Compile Include="Model\IFileCoverageModel.cs" />
     <Compile Include="Model\IModuleCoverageModel.cs" />

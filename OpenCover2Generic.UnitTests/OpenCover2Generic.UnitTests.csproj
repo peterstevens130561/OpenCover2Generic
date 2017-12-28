@@ -65,6 +65,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CoverageRepositoryScannerTests.cs" />
+    <Compile Include="CoverageStatisticsObserverTests.cs" />
     <Compile Include="CoverageStorageResolverTests.cs" />
     <Compile Include="CreateCoverageFileTests.cs" />
     <Compile Include="CreateGenericCoverageFileObserverTests.cs" />
