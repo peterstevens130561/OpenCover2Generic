@@ -17,5 +17,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             observer = new CoverageStatisticsAggregator();
         }
+
+        [TestMethod]
+        public void GetFiles_NoInformation_GetLines_Zero()
+        {
+            Assert.AreEqual(0,observer.Lines);
+        }
     }
 }
