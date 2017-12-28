@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -14,13 +16,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class CoverageRepositoryScannerTests
     {
         private ICodeCoverageRepositoryObservableScanner _observableScanner;
-        private Mock<ICoverageStorageResolver> coverageStorageResolverMock;
+        private Mock<ICoverageStorageResolver> _coverageStorageResolverMock;
+        private Mock<ICoverageParser> _moduleParserMock;
 
         [TestInitialize]
         public void Initialize()
         {
-            coverageStorageResolverMock = new Mock<ICoverageStorageResolver>();
-            _observableScanner = new CodeCoverageRepositoryObservableScanner(coverageStorageResolverMock.Object);
+            _coverageStorageResolverMock = new Mock<ICoverageStorageResolver>();
+            _moduleParserMock=new Mock<ICoverageParser>();
+            _observableScanner = new CodeCoverageRepositoryObservableScanner(_coverageStorageResolverMock.Object,_moduleParserMock.Object);
         }
 
 
@@ -80,14 +84,50 @@ namespace BHGE.SonarQube.OpenCover2Generic
             observerMock.Verify(o => o.OnEndModule(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Once);
         }
 
+        [TestMethod]
+        public void Scan_OneModuleWithOneFile_Scan_ParserCalledOnce()
+        {
+            Mock<IScannerObserver> observerMock = GivenOneModule();
+            GivenOneFile();
+            _observableScanner.Scan();
+            _moduleParserMock.Verify(m => m.ParseFile("f1"), Times.Once);
+            
+        }
+
+        [TestMethod]
+        public void Scan_OneModuleWithTwoFile_Scan_ParserCalledTwice()
+        {
+            Mock<IScannerObserver> observerMock = GivenOneModule();
+            GivenTwoFiles();
+            _observableScanner.Scan();
+            _moduleParserMock.Verify(m => m.ParseFile("f1"), Times.Once);
+            _moduleParserMock.Verify(m => m.ParseFile("f2"), Times.Once);
+
+        }
+
         private Mock<IScannerObserver> GivenOneModule()
         {
             Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
             _observableScanner.AddObserver(observerMock.Object);
             List<string> oneModule = new List<string>();
             oneModule.Add("a");
-            coverageStorageResolverMock.Setup(c => c.GetPathsOfAllModules(It.IsAny<string>())).Returns(oneModule);
+            _coverageStorageResolverMock.Setup(c => c.GetPathsOfAllModules(It.IsAny<string>())).Returns(oneModule);
             return observerMock;
+        }
+
+        private void GivenOneFile()
+        {
+            List<string> files = new List<string>();
+            files.Add("f1");
+            _coverageStorageResolverMock.Setup(c => c.GetTestCoverageFilesOfModule(It.IsAny<string>())).Returns(files);
+        }
+
+        private void GivenTwoFiles()
+        {
+            List<string> files = new List<string>();
+            files.Add("f1");
+            files.Add("f2");
+            _coverageStorageResolverMock.Setup(c => c.GetTestCoverageFilesOfModule(It.IsAny<string>())).Returns(files);
         }
     }
 }

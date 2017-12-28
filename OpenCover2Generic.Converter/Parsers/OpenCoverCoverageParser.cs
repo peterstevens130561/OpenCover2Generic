@@ -27,6 +27,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
             }
         }
 
+        public void ParseFile(string v)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool ParseModule(IModuleCoverageModel model,XmlReader xmlReader)
         {
             _model = model;
@@ -118,6 +123,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
             string fileId = xmlReader.GetAttribute("fileid");
             _model.AddSequencePoint(fileId, sourceLine, visitedCount);
         }
+
 
     }
 }
