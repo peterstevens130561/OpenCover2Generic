@@ -21,7 +21,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void MultiAssemblyConversion_EmptyModuleOnlyShouldCreateHeaderOnly()
+        public void GenerateCoverage_EmptyModule_GenerateCoverage_OnlyShouldCreateHeaderOnly()
         {
 
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
@@ -35,7 +35,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void MultiAssemblyConversion_SkippedModuleOnlyShouldBeIgnored()
+        public void GenerateCoverage_SkippedModule_GenerateCoverage_OnlyShouldBeIgnored()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -58,7 +58,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void MultiAssemblyConversion_ValidModuleShouldGenerateFiles()
+        public void MGenerateCoverage_ValidModule_GenerateCoverage_ShouldGenerateFiles()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -87,7 +87,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void MultiAssemblyConversion_ValidModuleShouldBeParses()
+        public void GenerateCoverage_ValidModuleShouldBeParses()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -145,7 +145,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
 
         [TestMethod]
-        public void MultiAssemblyConversion_BranchPointsShouldBeCovered()
+        public void GenerateCoverage_BranchPoints_GenerateCoverage_ShouldBeCovered()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -205,7 +205,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void BranchPointsReportedTwiceSecondTimeAllShouldBeCovered()
+        public void GenerateCoverage_BranchPointsReportedTwiceSecond_GenerateCoverage_TimeAllShouldBeCovered()
         {
             string input = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
