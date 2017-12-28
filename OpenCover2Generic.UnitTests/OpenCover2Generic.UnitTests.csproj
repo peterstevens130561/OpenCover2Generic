@@ -68,6 +68,7 @@
     <Compile Include="CoverageRepositoryScannerTests.cs" />
     <Compile Include="CoverageStorageResolverTests.cs" />
     <Compile Include="CreateCoverageFileTests.cs" />
+    <Compile Include="CreateGenericCoverageFileObserverTests.cs" />
     <Compile Include="JobConsumerFactoryTests.cs" />
     <Compile Include="JobConsumerTests.cs" />
     <Compile Include="JobsTests.cs" />
