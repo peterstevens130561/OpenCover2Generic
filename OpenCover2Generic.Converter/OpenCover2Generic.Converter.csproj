@@ -111,6 +111,7 @@
     <Compile Include="Model\Model.cs" />
     <Compile Include="TestJobConsumer\OpenCoverCommandLineBuilder.cs" />
     <Compile Include="Parsers\OpenCoverCoverageParser.cs" />
+    <Compile Include="Writers\IGenericCoverageFileWriterObserver.cs" />
     <Compile Include="Writers\OpenCoverCoverageWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\SequencePoint.cs" />

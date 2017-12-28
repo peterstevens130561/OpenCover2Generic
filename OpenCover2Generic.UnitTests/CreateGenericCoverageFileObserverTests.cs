@@ -11,7 +11,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     class CreateGenericCoverageFileObserverTests
     {
-        private IGenericCoverageFileCreatorObserver observer;
+        private IGenericCoverageFileWriterObserver observer;
         [TestInitialize]
         public void Initialize()
         {
