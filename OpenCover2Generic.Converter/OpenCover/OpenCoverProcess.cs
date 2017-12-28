@@ -65,11 +65,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
             get { return _stateMachine.State; }
             private set { _stateMachine.State = value; } 
         }
-        public void SetTimeOut(TimeSpan timeOut)
+        public void SetTimeOut(TimeSpan timeSpan)
         {
-            if (timeOut.TotalMilliseconds > 0)
+            if (timeSpan.TotalMilliseconds > 0)
             {
-                _watchDog.Interval = timeOut.TotalMilliseconds;
+                _watchDog.Interval = timeSpan.TotalMilliseconds;
                 _watchDog.AutoReset = false;
                 
             }
