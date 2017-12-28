@@ -78,30 +78,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             }
         }
 
-        public void CreateGenericCoverageFile(string outputPath)
-        {
-            using (var writer = new XmlTextWriter(outputPath,Encoding.UTF8))
-            {
-                CreateGenericCoverageFile(writer);
-            }
-        }
-
-        public void CreateGenericCoverageFile(XmlTextWriter xmlWriter)
-        {
-            var moduleDirectories = _coverageStorageResolver.GetPathsOfAllModules(RootDirectory);
-            _converter.BeginCoverageFile(xmlWriter);
-            foreach (string moduleDirectory in moduleDirectories)
-            {
-                _converter.BeginModule();
-                foreach (string assemblyFile in _coverageStorageResolver.GetTestCoverageFilesOfModule(moduleDirectory))
-                {
-                    _converter.ReadIntermediateFile(assemblyFile);
-                }
-                _converter.AppendModuleToCoverageFile(xmlWriter);
-            }
-            _converter.EndCoverageFile(xmlWriter);
-        }
-
         public ICodeCoverageRepositoryObservableScanner Scanner()
         {
             var scanner = new CodeCoverageRepositoryObservableScanner(_coverageStorageResolver, _coverageParser);

@@ -11,21 +11,13 @@ using BHGE.SonarQube.OpenCover2Generic.Writers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
-    //[TestClass]
+    [TestClass]
     public class CreateCoverageFileTests
     {
-        private CodeCoverageRepository _converter;
-        private OpenCoverOutput2RepositorySaver _saver;
-        private IModuleCoverageModel _model;
-        private ICoverageStorageResolver _resolver;
 
         [TestInitialize]
         public void Initialize()
         {
-            _model = new ModuleCoverageModel();
-            var saver = new OpenCoverOutput2RepositorySaver(_model, new OpenCoverCoverageParser(),
-                new GenericCoverageWriter(), new OpenCoverCoverageParser(), new OpenCoverCoverageWriter());
-            _converter = new CodeCoverageRepository(saver, _resolver, new OpenCoverCoverageParser());
         }
 
         [TestMethod]
@@ -277,10 +269,20 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
         private string WhenConverting(MemoryStream resultStream, string input)
         {
-            StreamWriter writer = new StreamWriter(resultStream);
+            StreamWriter streamWriter = new StreamWriter(resultStream);
             Stream inputStream = new MemoryStream(Encoding.UTF8.GetBytes(input));
             StreamReader reader = new StreamReader(inputStream);
-            _converter.CreateGenericCoverageFile(new XmlTextWriter(writer));
+            var coverageWriter = new GenericCoverageWriter();
+            using (var writer = new XmlTextWriter(streamWriter))
+            {
+                coverageWriter.WriteBegin(writer);
+                var parser = new OpenCoverCoverageParser();
+                var model=new IntermediateModel();
+                parser.ParseModule(model, XmlReader.Create(reader));
+                coverageWriter.GenerateCoverage(model, writer);
+                coverageWriter.WriteEnd(writer);
+
+            }
             StreamReader resultReader = new StreamReader(new MemoryStream(resultStream.ToArray()));
             string text = resultReader.ReadToEnd();
             return text;
