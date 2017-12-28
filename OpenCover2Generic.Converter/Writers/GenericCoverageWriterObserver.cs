@@ -27,7 +27,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
 
         public void OnBeginScan(object sender, EventArgs eventArgs)
         {
-            throw new NotImplementedException();
+            _coverageWriter.WriteBegin(Writer);
         }
 
         public void OnEndModule(object sender, EventArgs eventArgs)
