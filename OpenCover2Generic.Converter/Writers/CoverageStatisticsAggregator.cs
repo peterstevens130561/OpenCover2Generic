@@ -9,6 +9,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
     class CoverageStatisticsAggregator : ICoverageStatisticsAggregator, IScannerObserver
     {
+        public int Lines { get; private set; }
+
+
         public void OnBeginScan(object sender, EventArgs eventArgs)
         {
             throw new NotImplementedException();

@@ -8,5 +8,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
     public interface ICoverageStatisticsAggregator
     {
+        int Lines { get; }
     }
 }
