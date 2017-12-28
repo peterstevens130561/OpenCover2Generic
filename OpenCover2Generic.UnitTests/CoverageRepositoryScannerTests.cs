@@ -105,6 +105,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         }
 
+        [TestMethod]
+        public void Scan_OneModuleWithTwoFile_Scan_OnModuleCalledOnce()
+        {
+            Mock<IScannerObserver> observerMock = GivenOneModule();
+            GivenTwoFiles();
+            _observableScanner.Scan();
+            observerMock.Verify(o => o.OnModule(It.IsAny<object>(), It.IsAny<ModuleEventArgs>()), Times.Once);
+
+        }
+
         private Mock<IScannerObserver> GivenOneModule()
         {
             Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();

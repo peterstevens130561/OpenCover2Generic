@@ -48,6 +48,7 @@
     <Compile Include="Repositories\Coverage\CodeCoverageRepositoryObservableScanner.cs" />
     <Compile Include="Repositories\Coverage\ICodeCoverageRepositoryObservableScanner.cs" />
     <Compile Include="Repositories\Coverage\IScannerObserver.cs" />
+    <Compile Include="Repositories\Coverage\ModuleEventArgs.cs" />
     <Compile Include="TestJobConsumer\IJobConsumer.cs" />
     <Compile Include="TestJobConsumer\JobConsumer.cs" />
     <Compile Include="CoverageConverters\Exceptions\InvalidCommandLineArgumentException.cs" />

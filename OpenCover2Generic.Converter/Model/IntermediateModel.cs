@@ -10,7 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
     /// Used to create a model from multiple coverage files. Though they pertain to the same module, each one may have different
     /// numbering for the files. Therefore,  there is small intermediate step
     /// </summary>
-    class IntermediateModel : IModuleCoverageModel
+    public class IntermediateModel : IModuleCoverageModel
     {
         private readonly IModuleCoverageModel moduleModel = new ModuleCoverageModel();
         private readonly Dictionary<string, string> sourceFilePathToGlobalId = new Dictionary<string, string>();

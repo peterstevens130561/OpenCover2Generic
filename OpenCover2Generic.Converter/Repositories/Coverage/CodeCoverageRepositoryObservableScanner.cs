@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
@@ -14,6 +15,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
     {
         private readonly ICoverageStorageResolver coverageStorageResolver;
         private readonly ICoverageParser _coverageParser;
+        private readonly IntermediateModel _model;
 
         public CodeCoverageRepositoryObservableScanner(ICoverageStorageResolver coverageStorageResolver,ICoverageParser coverageParser)
         {
@@ -26,6 +28,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         public event EventHandler<EventArgs> OnEndScan;
         public event EventHandler<EventArgs> OnBeginModule;
         public event EventHandler<EventArgs> OnEndModule;
+        public event EventHandler<ModuleEventArgs> OnModule;
         public void Scan()
         {
             OnBeginScan?.Invoke(this,EventArgs.Empty);
@@ -38,8 +41,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
                 foreach (string assemblyPath in coverageStorageResolver.GetTestCoverageFilesOfModule(moduleDirectory))
                 {
                     _coverageParser.ParseFile(assemblyPath);
-                      //while (_moduleParser.ParseModule(_model, assemblyPath)) ;
                 }
+                OnModule?.Invoke(this, new ModuleEventArgs(_model));
                 OnEndModule?.Invoke(this,EventArgs.Empty);
             }
             OnEndScan?.Invoke(this, EventArgs.Empty);
@@ -51,6 +54,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             OnEndScan += observer.OnEndScan;
             OnBeginModule += observer.OnBeginModule;
             OnEndModule += observer.OnEndModule;
+            OnModule += observer.OnModule;
         }
     }
 }
