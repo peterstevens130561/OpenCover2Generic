@@ -32,7 +32,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         {
             XmlConfigurator.Configure();
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());       
-            var converter = new OpenCoverOutput2RepositorySaver();
             var fileSystem = new FileSystemAdapter();
             IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             JobFileSystem jobFileSystemInfo = new JobFileSystem(fileSystem);
@@ -41,12 +40,12 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             var testResultsRepository = new TestResultsRepository(jobFileSystemInfo, fileSystem);
             IFileSystemAdapter fileSystemAdapter = new FileSystemAdapter();
             ICoverageStorageResolver coverageStorageResolver = new CoverageStorageResolver(fileSystemAdapter);
-            ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(converter,coverageStorageResolver,new OpenCoverCoverageParser());
+            ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(coverageStorageResolver,new OpenCoverCoverageParser());
             IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
                 jobFileSystemInfo, 
                 openCoverManagerFactory,testResultsRepository,codeCoverageRepository);
             
-            var testRunner = new TestRunner(jobFileSystemInfo,converter,jobConsumerFactory);
+            var testRunner = new TestRunner(jobFileSystemInfo,jobConsumerFactory);
 
             commandLineParser.Args = args;
             openCoverCommandLineBuilder.Args = args;

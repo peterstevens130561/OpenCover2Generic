@@ -58,7 +58,6 @@
     <Compile Include="OpenCover\IOpenCoverManagerFactory.cs" />
     <Compile Include="OpenCover\IOpenCoverProcessFactory.cs" />
     <Compile Include="OpenCover\OpenCoverProcessFactory.cs" />
-    <Compile Include="Repositories\Coverage\IOpenCoverOutput2RepositorySaver.cs" />
     <Compile Include="OpenCover\IOpenCoverProcess.cs" />
     <Compile Include="Adapters\FileSystemAdapter.cs" />
     <Compile Include="Adapters\IProcessFactory.cs" />
@@ -95,7 +94,6 @@
     <Compile Include="Adapters\ProcessAdapter.cs" />
     <Compile Include="Repositories\Tests\ITestResultsConcatenator.cs" />
     <Compile Include="Utils\JobFileSystem.cs" />
-    <Compile Include="Repositories\Coverage\OpenCoverOutput2RepositorySaver.cs" />
     <Compile Include="Writers\GenericCoverageWriterObserver.cs" />
     <Compile Include="Writers\GenericCoverageWriter.cs" />
     <Compile Include="Utils\ICommandLineParser.cs" />

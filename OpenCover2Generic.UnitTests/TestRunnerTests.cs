@@ -34,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void RunTests_OneAssemblyFiveJobs()
         {
             _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, null, _jobConsumerFactoryMock.Object);
+            var testRunner = new TestRunner(_jobFileSystemMock.Object, _jobConsumerFactoryMock.Object);
             string[] testAssemblies = { "one" };
             testRunner.RunTests(testAssemblies, 5);
             _jobConsumerFactoryMock.Verify(f => f.Create(), Times.Exactly(5));
@@ -44,7 +44,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void CreateJobs_ChunkSize1_SameList()
         {
             _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, null, _jobConsumerFactoryMock.Object);
+            var testRunner = new TestRunner(_jobFileSystemMock.Object, _jobConsumerFactoryMock.Object);
             string[] testAssemblies = { "one","two","three" };
             testRunner.CreateJobs(testAssemblies, 1);
             var jobs = testRunner.Jobs;
@@ -58,7 +58,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void CreateJobs_ChunkSize2_SameList()
         {
             _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, null, _jobConsumerFactoryMock.Object);
+            var testRunner = new TestRunner(_jobFileSystemMock.Object, _jobConsumerFactoryMock.Object);
             string[] testAssemblies = { "one", "two", "three", "four" , "five" };
             testRunner.CreateJobs(testAssemblies, 2);
             var jobs = testRunner.Jobs;
@@ -72,7 +72,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void FirstAssembly_ChunkSize2_FirstInChunk()
         {
             _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, null, _jobConsumerFactoryMock.Object);
+            var testRunner = new TestRunner(_jobFileSystemMock.Object, _jobConsumerFactoryMock.Object);
             string[] testAssemblies = { "one", "two", "three", "four", "five" };
             testRunner.CreateJobs(testAssemblies, 2);
             var jobs = testRunner.Jobs;
