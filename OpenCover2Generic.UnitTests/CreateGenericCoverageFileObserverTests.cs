@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -27,7 +28,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void Begin_WriterSet_Begin_Header()
+        public void Begin_WriterSet_Begin_WriteBegin()
         {
             observer.Writer = null;
             ((IScannerObserver)observer).OnBeginScan(null,EventArgs.Empty);
@@ -36,12 +37,23 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void End_WriterSet_End_Header()
+        public void End_WriterSet_End_WriteEnd()
         {
             observer.Writer = null;
             ((IScannerObserver)observer).OnEndScan(null, EventArgs.Empty);
             coverageWriterMock.Verify(o => o.WriteEnd(null), Times.Once);
             coverageWriterMock.Verify(o => o.WriteBegin(null), Times.Never);
+        }
+
+        [TestMethod]
+        public void Module_WriterSet_Module_Header()
+        {
+            observer.Writer = null;
+            IntermediateModel model = new IntermediateModel();
+            ModuleEventArgs eventArgs = new ModuleEventArgs(model);
+            ((IScannerObserver)observer).OnModule(null, eventArgs);
+            coverageWriterMock.Verify(o => o.GenerateCoverage(model,null), Times.Once);
+
         }
     }
 }
