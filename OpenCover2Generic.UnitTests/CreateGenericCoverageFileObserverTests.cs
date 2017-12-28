@@ -32,6 +32,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
             observer.Writer = null;
             ((IScannerObserver)observer).OnBeginScan(null,EventArgs.Empty);
             coverageWriterMock.Verify(o => o.WriteBegin(null), Times.Once);
+            coverageWriterMock.Verify(o => o.WriteEnd(null), Times.Never);
+        }
+
+        [TestMethod]
+        public void End_WriterSet_End_Header()
+        {
+            observer.Writer = null;
+            ((IScannerObserver)observer).OnEndScan(null, EventArgs.Empty);
+            coverageWriterMock.Verify(o => o.WriteEnd(null), Times.Once);
+            coverageWriterMock.Verify(o => o.WriteBegin(null), Times.Never);
         }
     }
 }
