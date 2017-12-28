@@ -10,7 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
     class GenericCoverageWriterObserver : IScannerObserver,IGenericCoverageWriterObserver
     {
-        private ICoverageWriter _coverageWriter;
+        private readonly ICoverageWriter _coverageWriter;
 
         public GenericCoverageWriterObserver(ICoverageWriter coverageWriter)
         {

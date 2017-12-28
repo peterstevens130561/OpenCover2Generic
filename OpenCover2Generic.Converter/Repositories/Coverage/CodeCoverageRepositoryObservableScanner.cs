@@ -13,13 +13,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
     public class CodeCoverageRepositoryObservableScanner : ICodeCoverageRepositoryObservableScanner
     {
-        private readonly ICoverageStorageResolver coverageStorageResolver;
+        private readonly ICoverageStorageResolver _coverageStorageResolver;
         private readonly ICoverageParser _coverageParser;
         private  IntermediateModel _model;
 
         public CodeCoverageRepositoryObservableScanner(ICoverageStorageResolver coverageStorageResolver,ICoverageParser coverageParser)
         {
-            this.coverageStorageResolver = coverageStorageResolver;
+            this._coverageStorageResolver = coverageStorageResolver;
             _coverageParser = coverageParser;
         }
 
@@ -34,12 +34,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             OnBeginScan?.Invoke(this,EventArgs.Empty);
 
 
-            var moduleDirectories = coverageStorageResolver.GetPathsOfAllModules(RootDirectory);
+            var moduleDirectories = _coverageStorageResolver.GetPathsOfAllModules(RootDirectory);
             foreach (string moduleDirectory in moduleDirectories)
             {
                 OnBeginModule?.Invoke(this,EventArgs.Empty);
                 _model = new IntermediateModel();
-                foreach (string assemblyPath in coverageStorageResolver.GetTestCoverageFilesOfModule(moduleDirectory))
+                foreach (string assemblyPath in _coverageStorageResolver.GetTestCoverageFilesOfModule(moduleDirectory))
                 {
                     _coverageParser.ParseFile(_model,assemblyPath);
                 }
