@@ -25,7 +25,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _model = new ModuleCoverageModel();
             var saver = new OpenCoverOutput2RepositorySaver(_model, new OpenCoverCoverageParser(),
                 new GenericCoverageWriter(), new OpenCoverCoverageParser(), new OpenCoverCoverageWriter());
-            _converter = new CodeCoverageRepository(saver, _resolver);
+            _converter = new CodeCoverageRepository(saver, _resolver, new OpenCoverCoverageParser());
         }
 
         [TestMethod]

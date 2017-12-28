@@ -16,43 +16,41 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class CreateGenericCoverageFileObserverTests
     {
-        private IGenericCoverageWriterObserver observer;
-        private Mock<ICoverageWriter> coverageWriterMock;
-        private Mock<XmlTextWriter> xmlTextWriterMock;
+        private IGenericCoverageWriterObserver _observer;
+        private Mock<ICoverageWriter> _coverageWriterMock;
         [TestInitialize]
         public void Initialize()
         {
-            coverageWriterMock=new Mock<ICoverageWriter>();
-            xmlTextWriterMock = new Mock<XmlTextWriter>();
-            observer = new GenericCoverageWriterObserver(coverageWriterMock.Object);
+            _coverageWriterMock=new Mock<ICoverageWriter>();
+            _observer = new GenericCoverageWriterObserver(_coverageWriterMock.Object);
         }
 
         [TestMethod]
         public void Begin_WriterSet_Begin_WriteBegin()
         {
-            observer.Writer = null;
-            ((IScannerObserver)observer).OnBeginScan(null,EventArgs.Empty);
-            coverageWriterMock.Verify(o => o.WriteBegin(null), Times.Once);
-            coverageWriterMock.Verify(o => o.WriteEnd(null), Times.Never);
+            _observer.Writer = null;
+            ((IScannerObserver)_observer).OnBeginScan(null,EventArgs.Empty);
+            _coverageWriterMock.Verify(o => o.WriteBegin(null), Times.Once);
+            _coverageWriterMock.Verify(o => o.WriteEnd(null), Times.Never);
         }
 
         [TestMethod]
         public void End_WriterSet_End_WriteEnd()
         {
-            observer.Writer = null;
-            ((IScannerObserver)observer).OnEndScan(null, EventArgs.Empty);
-            coverageWriterMock.Verify(o => o.WriteEnd(null), Times.Once);
-            coverageWriterMock.Verify(o => o.WriteBegin(null), Times.Never);
+            _observer.Writer = null;
+            ((IScannerObserver)_observer).OnEndScan(null, EventArgs.Empty);
+            _coverageWriterMock.Verify(o => o.WriteEnd(null), Times.Once);
+            _coverageWriterMock.Verify(o => o.WriteBegin(null), Times.Never);
         }
 
         [TestMethod]
         public void Module_WriterSet_Module_Header()
         {
-            observer.Writer = null;
+            _observer.Writer = null;
             IntermediateModel model = new IntermediateModel();
             ModuleEventArgs eventArgs = new ModuleEventArgs(model);
-            ((IScannerObserver)observer).OnModule(null, eventArgs);
-            coverageWriterMock.Verify(o => o.GenerateCoverage(model,null), Times.Once);
+            ((IScannerObserver)_observer).OnModule(null, eventArgs);
+            _coverageWriterMock.Verify(o => o.GenerateCoverage(model,null), Times.Once);
 
         }
     }

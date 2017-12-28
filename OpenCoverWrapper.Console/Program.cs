@@ -15,6 +15,7 @@ using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
+using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Repositories;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
@@ -39,7 +40,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             var testResultsRepository = new TestResultsRepository(jobFileSystemInfo, fileSystem);
             IFileSystemAdapter fileSystemAdapter = new FileSystemAdapter();
             ICoverageStorageResolver coverageStorageResolver = new CoverageStorageResolver(fileSystemAdapter);
-            ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(converter,coverageStorageResolver);
+            ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(converter,coverageStorageResolver,new OpenCoverCoverageParser());
             IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
                 jobFileSystemInfo, 
                 openCoverManagerFactory,testResultsRepository,codeCoverageRepository);

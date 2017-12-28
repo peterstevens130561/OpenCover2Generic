@@ -26,8 +26,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         public string RootDirectory { get; set; }
         public event EventHandler<EventArgs> OnBeginScan;
         public event EventHandler<EventArgs> OnEndScan;
-        public event EventHandler<EventArgs> OnBeginModule;
-        public event EventHandler<EventArgs> OnEndModule;
         public event EventHandler<ModuleEventArgs> OnModule;
         public void Scan()
         {
@@ -37,14 +35,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             var moduleDirectories = _coverageStorageResolver.GetPathsOfAllModules(RootDirectory);
             foreach (string moduleDirectory in moduleDirectories)
             {
-                OnBeginModule?.Invoke(this,EventArgs.Empty);
                 _model = new IntermediateModel();
                 foreach (string assemblyPath in _coverageStorageResolver.GetTestCoverageFilesOfModule(moduleDirectory))
                 {
                     _coverageParser.ParseFile(_model,assemblyPath);
                 }
                 OnModule?.Invoke(this, new ModuleEventArgs(_model));
-                OnEndModule?.Invoke(this,EventArgs.Empty);
             }
             OnEndScan?.Invoke(this, EventArgs.Empty);
         }
@@ -53,8 +49,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         {
             OnBeginScan += observer.OnBeginScan;
             OnEndScan += observer.OnEndScan;
-            OnBeginModule += observer.OnBeginModule;
-            OnEndModule += observer.OnEndModule;
             OnModule += observer.OnModule;
         }
     }

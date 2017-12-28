@@ -24,7 +24,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestInitialize]
         public void Initialize()
         {
-            _repository = new CodeCoverageRepository(_saver.Object,_coverageStorageResolverMock.Object);
+            _repository = new CodeCoverageRepository(_saver.Object,_coverageStorageResolverMock.Object,null);
             _repository.RootDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         }
 

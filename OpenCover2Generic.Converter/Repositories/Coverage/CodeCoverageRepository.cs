@@ -17,12 +17,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         private readonly Object _lock = new object();
         private readonly IOpenCoverOutput2RepositorySaver _converter;
         private readonly ICoverageStorageResolver _coverageStorageResolver;
+        private readonly ICoverageParser _coverageParser;
 
         public CodeCoverageRepository(IOpenCoverOutput2RepositorySaver saver,
-            ICoverageStorageResolver coverageStorageResolver)
+            ICoverageStorageResolver coverageStorageResolver, ICoverageParser coverageParser)
         {
             _converter = saver;
             _coverageStorageResolver = coverageStorageResolver;
+            _coverageParser = coverageParser;
         }
 
         public string RootDirectory { get; set; }
@@ -99,5 +101,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             }
             _converter.EndCoverageFile(xmlWriter);
         }
+
+        public ICodeCoverageRepositoryObservableScanner Scanner()
+        {
+            var scanner = new CodeCoverageRepositoryObservableScanner(_coverageStorageResolver, _coverageParser);
+            scanner.RootDirectory = RootDirectory;
+            return scanner;
+        }
+
     }
 }

@@ -49,41 +49,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         }
 
-        [TestMethod]
-        public void Scan_EmptyRepository_Scan_OnBeginModuleEventNeverCalled()
-        {
-            Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
-            _observableScanner.AddObserver(observerMock.Object);
-            _observableScanner.Scan();
-            observerMock.Verify(o => o.OnBeginModule(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Never);
-
-        }
-
-        [TestMethod]
-        public void Scan_EmptyRepository_Scan_OnEndModuleEventNeverCalled()
-        {
-            Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
-            _observableScanner.AddObserver(observerMock.Object);
-            _observableScanner.Scan();
-            observerMock.Verify(o => o.OnEndModule(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Never);
-
-        }
-
-        [TestMethod]
-        public void Scan_OneModule_Scan_OnBeginModuleCalledOnce()
-        {
-            Mock<IScannerObserver> observerMock = GivenOneModule();
-            _observableScanner.Scan();
-            observerMock.Verify(o => o.OnBeginModule(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Once);
-        }
-
-        [TestMethod]
-        public void Scan_OneModule_Scan_OnEndModuleCalledOnce()
-        {
-            Mock<IScannerObserver> observerMock = GivenOneModule();
-            _observableScanner.Scan();
-            observerMock.Verify(o => o.OnEndModule(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Once);
-        }
 
         [TestMethod]
         public void Scan_OneModuleWithOneFile_Scan_ParserCalledOnce()
