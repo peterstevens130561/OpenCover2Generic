@@ -1,22 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
-    class CreateGenericCoverageFileObserverTests
+    public class CreateGenericCoverageFileObserverTests
     {
-        private IGenericCoverageFileWriterObserver observer;
+        private IGenericCoverageWriterObserver observer;
+        private Mock<ICoverageWriter> coverageWriterMock;
+        private Mock<XmlTextWriter> xmlTextWriterMock;
         [TestInitialize]
         public void Initialize()
         {
-            observer = new GenericCoverageFileWriterObserver();
+            coverageWriterMock=new Mock<ICoverageWriter>();
+            xmlTextWriterMock = new Mock<XmlTextWriter>();
+            observer = new GenericCoverageWriterObserver(coverageWriterMock.Object);
+        }
+
+        [TestMethod]
+        public void Begin_WriterSet_Begin_Header()
+        {
+            observer.Writer = null;
+            ((IScannerObserver)observer).OnBeginScan(null,EventArgs.Empty);
+            coverageWriterMock.Verify(o => o.WriteBegin(null), Times.Once);
         }
     }
 }

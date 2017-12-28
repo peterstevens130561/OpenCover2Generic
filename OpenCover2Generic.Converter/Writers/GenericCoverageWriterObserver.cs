@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
+
+namespace BHGE.SonarQube.OpenCover2Generic.Writers
+{
+    class GenericCoverageWriterObserver : IScannerObserver,IGenericCoverageWriterObserver
+    {
+        private ICoverageWriter _coverageWriter;
+
+        public GenericCoverageWriterObserver(ICoverageWriter coverageWriter)
+        {
+           _coverageWriter = coverageWriter;
+        }
+
+        public XmlTextWriter Writer { get; set; }
+
+
+        public void OnBeginModule(object sender, EventArgs eventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnBeginScan(object sender, EventArgs eventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnEndModule(object sender, EventArgs eventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnEndScan(object sender, EventArgs eventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnModule(object v, ModuleEventArgs moduleEventArgs)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
