@@ -27,9 +27,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
             }
         }
 
-        public void ParseFile(string v)
+        public void ParseFile(IntermediateModel model,string assemblyPath)
         {
-            throw new NotImplementedException();
+            using (XmlReader tempFileReader = XmlReader.Create(assemblyPath))
+            {
+                tempFileReader.MoveToContent();
+                while (ParseModule(model, tempFileReader)) ;
+            }
         }
 
         public bool ParseModule(IModuleCoverageModel model,XmlReader xmlReader)

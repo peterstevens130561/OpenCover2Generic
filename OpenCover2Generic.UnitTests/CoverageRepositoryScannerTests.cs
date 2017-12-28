@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -90,7 +91,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Mock<IScannerObserver> observerMock = GivenOneModule();
             GivenOneFile();
             _observableScanner.Scan();
-            _moduleParserMock.Verify(m => m.ParseFile("f1"), Times.Once);
+            ThenParsed("f1");
+
             
         }
 
@@ -100,8 +102,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Mock<IScannerObserver> observerMock = GivenOneModule();
             GivenTwoFiles();
             _observableScanner.Scan();
-            _moduleParserMock.Verify(m => m.ParseFile("f1"), Times.Once);
-            _moduleParserMock.Verify(m => m.ParseFile("f2"), Times.Once);
+            ThenParsed("f1");
+            ThenParsed("f2");
 
         }
 
@@ -138,6 +140,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
             files.Add("f1");
             files.Add("f2");
             _coverageStorageResolverMock.Setup(c => c.GetTestCoverageFilesOfModule(It.IsAny<string>())).Returns(files);
+        }
+
+        private void ThenParsed(string name)
+        {
+            _moduleParserMock.Verify(m => m.ParseFile(It.IsAny<IntermediateModel>(), name), Times.Once);
         }
     }
 }
