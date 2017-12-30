@@ -74,6 +74,17 @@ namespace BHGE.SonarQube.OpenCover2Generic
             WhenObservingModule(moduleEventArgs);
             Assert.AreEqual(2, observer.Files);
         }
+
+        [TestMethod]
+        public void Files_ModelWithThreeLinesObservedTiwce_Files_Four()
+        {
+            ModuleEventArgs moduleEventArgs = GivenTwoFilesWithThreeLinesAndTwoCovered();
+
+            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
+            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
+
+            Assert.AreEqual(4, observer.Files);
+        }
         private ModuleEventArgs GivenTwoFilesWithThreeLinesAndTwoCovered()
         {
             var model = new ModuleCoverageModel();
