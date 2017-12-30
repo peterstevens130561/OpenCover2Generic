@@ -12,6 +12,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
         public int Lines { get; private set; }
         public int CoveredLines { get; private set; }
 
+        public int Files { get; private set; }
         public void OnBeginScan(object sender, EventArgs eventArgs)
         {
         }
@@ -27,6 +28,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             {
                 Lines += sourceFileCoverageModel.SequencePoints.Count;
                 CoveredLines+=sourceFileCoverageModel.SequencePoints.Count(p => p.Covered);
+                ++Files;
             }
         }
 
