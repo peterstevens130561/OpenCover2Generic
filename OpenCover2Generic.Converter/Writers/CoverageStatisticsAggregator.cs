@@ -26,5 +26,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
         {
             throw new NotImplementedException();
         }
+
     }
 }

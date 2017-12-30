@@ -10,11 +10,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
     public class ModuleEventArgs : EventArgs
     {
 
-        public ModuleEventArgs(IntermediateModel model)
+        public ModuleEventArgs(IModuleCoverageModel model)
         {
             Model = model;
         }
 
-        public IntermediateModel Model { get; private set; }
+        public IModuleCoverageModel Model { get; private set; }
     }
 }
