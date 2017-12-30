@@ -27,18 +27,60 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void GetLines_ModelWithThreeLines_GetLines_Three()
+        public void Lines_ModelWithThreeLines_Lines_Three()
+        {
+            ModuleEventArgs moduleEventArgs = GivenTwoFilesWithThreeLinesAndTwoCovered();
+
+            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
+            Assert.AreEqual(3, observer.Lines);
+        }
+
+        [TestMethod]
+        public void Lines_ModelWithThreeLinesCalledTwice_Lines_Six()
+        {
+            ModuleEventArgs moduleEventArgs = GivenTwoFilesWithThreeLinesAndTwoCovered();
+            WhenObservingModule(moduleEventArgs);
+            WhenObservingModule(moduleEventArgs);
+            Assert.AreEqual(6, observer.Lines);
+        }
+
+
+
+        [TestMethod]
+        public void CoveredLines_ModelWithThreeLines_CoveredLines_Two()
+        {
+            ModuleEventArgs moduleEventArgs = GivenTwoFilesWithThreeLinesAndTwoCovered();
+
+            WhenObservingModule(moduleEventArgs);
+            Assert.AreEqual(2, observer.CoveredLines);
+        }
+
+        [TestMethod]
+        public void CoveredLines_ModelWithThreeLinesObservedTiwce_CoveredLines_Two()
+        {
+            ModuleEventArgs moduleEventArgs = GivenTwoFilesWithThreeLinesAndTwoCovered();
+
+            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
+            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
+
+            Assert.AreEqual(4, observer.CoveredLines);
+        }
+
+        private ModuleEventArgs GivenTwoFilesWithThreeLinesAndTwoCovered()
         {
             var model = new ModuleCoverageModel();
-            model.AddFile("1","a");
-            model.AddSequencePoint("1","1","1");
-            model.AddFile("2","b");
-            model.AddSequencePoint("2","1","1");
-            model.AddSequencePoint("2","2","0");
-
+            model.AddFile("1", "a");
+            model.AddSequencePoint("1", "1", "1");
+            model.AddFile("2", "b");
+            model.AddSequencePoint("2", "1", "1");
+            model.AddSequencePoint("2", "2", "0");
             ModuleEventArgs moduleEventArgs = new ModuleEventArgs(model);
-            ((IScannerObserver) observer).OnModule(this, moduleEventArgs);
+            return moduleEventArgs;
         }
-            
+
+        private void WhenObservingModule(ModuleEventArgs moduleEventArgs)
+        {
+            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
+        }
     }
 }

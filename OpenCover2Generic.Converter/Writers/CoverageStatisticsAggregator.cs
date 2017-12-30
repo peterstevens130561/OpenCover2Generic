@@ -10,21 +10,24 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
     class CoverageStatisticsAggregator : ICoverageStatisticsAggregator, IScannerObserver
     {
         public int Lines { get; private set; }
-
+        public int CoveredLines { get; private set; }
 
         public void OnBeginScan(object sender, EventArgs eventArgs)
         {
-            throw new NotImplementedException();
         }
 
         public void OnEndScan(object sender, EventArgs eventArgs)
         {
-            throw new NotImplementedException();
         }
 
         public void OnModule(object v, ModuleEventArgs moduleEventArgs)
         {
-            throw new NotImplementedException();
+            var moduleModel = moduleEventArgs.Model;
+            foreach (var sourceFileCoverageModel in moduleModel.GetSourceFiles())
+            {
+                Lines += sourceFileCoverageModel.SequencePoints.Count;
+                CoveredLines+=sourceFileCoverageModel.SequencePoints.Count(p => p.Covered);
+            }
         }
 
     }
