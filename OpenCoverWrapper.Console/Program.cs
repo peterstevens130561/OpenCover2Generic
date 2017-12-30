@@ -1,26 +1,18 @@
-﻿using BHGE.SonarQube.OpenCover2Generic;
-using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using log4net;
 using log4net.Config;
-using System.Collections.Concurrent;
-using System.Collections.ObjectModel;
 using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
-using BHGE.SonarQube.OpenCover2Generic.Repositories;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
 using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
+using log4net;
 
 [assembly: XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
 namespace BHGE.SonarQube.OpenCoverWrapper
@@ -28,6 +20,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
     static class Program
     {
+        private static readonly ILog _log = LogManager.GetLogger(typeof(Program));
         public static void Main(string[] args)
         {
             XmlConfigurator.Configure();
@@ -53,32 +46,16 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             testRunner.Initialize();
             try
             {
-                int consumers = commandLineParser.GetParallelJobs();
-                TimeSpan jobTimeOut = commandLineParser.GetJobTimeOut();
                 jobFileSystemInfo.CreateRoot(DateTime.Now.ToString(@"yyMMdd_HHmmss"));
                 codeCoverageRepository.RootDirectory = jobFileSystemInfo.GetIntermediateCoverageDirectory();
 
-                testRunner.CreateJobConsumers(consumers, jobTimeOut);
+                RunTests(commandLineParser, testRunner);
 
-                string[] testAssemblies = commandLineParser.GetTestAssemblies();
-                int chunkSize = commandLineParser.GetChunkSize();
-                testRunner.CreateJobs(testAssemblies, chunkSize);
-                testRunner.Wait();
+                CreateTestResults(commandLineParser, testResultsRepository);
+                CreateCoverageResults(commandLineParser, codeCoverageRepository);
 
-                string testResultsPath = commandLineParser.GetTestResultsPath();
-                using (var writer = new StreamWriter(testResultsPath)) { 
-                    testResultsRepository.Write(writer);
-                }
-
-                string outputPath = commandLineParser.GetOutputPath();
-                var observer = new GenericCoverageWriterObserver(new GenericCoverageWriter());
-                using (var writer = new XmlTextWriter(outputPath, Encoding.UTF8))
-                {
-                    observer.Writer = writer;
-                    codeCoverageRepository.Scanner().AddObserver(observer).Scan();
-                }
-                
-            } catch ( CommandLineArgumentException e)
+            }
+            catch ( CommandLineArgumentException e)
             {
                 Console.Error.WriteLine(e.Message);
                 Environment.Exit(1);
@@ -99,7 +76,44 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             }
         }
 
+        private static void RunTests(IOpenCoverWrapperCommandLineParser commandLineParser, TestRunner testRunner)
+        {
+            int consumers = commandLineParser.GetParallelJobs();
+            TimeSpan jobTimeOut = commandLineParser.GetJobTimeOut();
+            testRunner.CreateJobConsumers(consumers, jobTimeOut);
 
+            string[] testAssemblies = commandLineParser.GetTestAssemblies();
+            int chunkSize = commandLineParser.GetChunkSize();
+            testRunner.CreateJobs(testAssemblies, chunkSize);
+            testRunner.Wait();
+        }
+
+        private static void CreateTestResults(IOpenCoverWrapperCommandLineParser commandLineParser, TestResultsRepository testResultsRepository)
+        {
+            string testResultsPath = commandLineParser.GetTestResultsPath();
+            using (var writer = new StreamWriter(testResultsPath))
+            {
+                testResultsRepository.Write(writer);
+            }
+        }
+
+        private static void CreateCoverageResults(IOpenCoverWrapperCommandLineParser commandLineParser, ICodeCoverageRepository codeCoverageRepository)
+        {
+            string outputPath = commandLineParser.GetOutputPath();
+            var genericCoverageWriterObserver = new GenericCoverageWriterObserver(new GenericCoverageWriter());
+            var statisticsObserver = new CoverageStatisticsAggregator();
+            using (var writer = new XmlTextWriter(outputPath, Encoding.UTF8))
+            {
+                genericCoverageWriterObserver.Writer = writer;
+                codeCoverageRepository.Scanner()
+                    .AddObserver(genericCoverageWriterObserver)
+                    .AddObserver(statisticsObserver)
+                    .Scan();
+            }
+            _log.Info($"Files         : {statisticsObserver.Files}");
+            _log.Info($"Lines         : {statisticsObserver.Lines} ");
+            _log.Info($"Covered Lines : {statisticsObserver.CoveredLines}");
+        }
     }
  
 }

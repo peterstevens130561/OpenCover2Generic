@@ -7,7 +7,7 @@ using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
-    class CoverageStatisticsAggregator : ICoverageStatisticsAggregator, IScannerObserver
+    public class CoverageStatisticsAggregator : ICoverageStatisticsAggregator, IScannerObserver
     {
         public int Lines { get; private set; }
         public int CoveredLines { get; private set; }
@@ -19,6 +19,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
 
         public void OnEndScan(object sender, EventArgs eventArgs)
         {
+           
         }
 
         public void OnModule(object v, ModuleEventArgs moduleEventArgs)
