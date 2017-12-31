@@ -64,6 +64,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CoverageAggregateTests.cs" />
     <Compile Include="CoverageRepositoryScannerTests.cs" />
     <Compile Include="CoverageStatisticsObserverTests.cs" />
     <Compile Include="CoverageStorageResolverTests.cs" />
