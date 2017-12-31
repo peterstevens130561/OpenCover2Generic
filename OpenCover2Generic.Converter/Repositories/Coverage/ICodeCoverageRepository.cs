@@ -8,6 +8,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 
         void Add(string path, string jobFirstAssembly);
 
-        ICodeCoverageRepositoryObservableScanner Scanner();
+        IQueryAllModulesObservable QueryAllModules();
     }
 }

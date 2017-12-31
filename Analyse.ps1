@@ -4,7 +4,7 @@ $BuildWrapper="build-wrapper.exe"
 $OpenCover="C:/users/stevpet/AppData/Local/Apps/OpenCover/OpenCover.Console.exe"
 $VsTestConsole=
 $Repository="http://bhihoutfsapp:8086/tfs"
-
+cd 'E:\users\stevpet\My Documents\visual studio 2015\projects\OpenCover2Generic'
 
 $CppOutDir=Join-Path -Path "$(Get-Location)" -ChildPath .cppoutdir
 $files=ls "*.sln"

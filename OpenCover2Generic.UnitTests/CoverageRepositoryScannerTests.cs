@@ -16,7 +16,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class CoverageRepositoryScannerTests
     {
-        private ICodeCoverageRepositoryObservableScanner _observableScanner;
+        private IQueryAllModulesObservable _observable;
         private Mock<ICoverageStorageResolver> _coverageStorageResolverMock;
         private Mock<ICoverageParser> _moduleParserMock;
 
@@ -25,16 +25,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             _coverageStorageResolverMock = new Mock<ICoverageStorageResolver>();
             _moduleParserMock=new Mock<ICoverageParser>();
-            _observableScanner = new CodeCoverageRepositoryObservableScanner(_coverageStorageResolverMock.Object,_moduleParserMock.Object);
+            _observable = new QueryAllModulesObservable(_coverageStorageResolverMock.Object,_moduleParserMock.Object);
         }
 
 
         [TestMethod]
         public void Scan_EmptyRepository_Scan_OnBeginScanEventCalledOnce()
         {
-            Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
-            _observableScanner.AddObserver(observerMock.Object);
-            _observableScanner.Scan();
+            Mock<IQueryAllModulesResultObserver> observerMock = new Mock<IQueryAllModulesResultObserver>();
+            _observable.AddObserver(observerMock.Object);
+            _observable.Execute();
             observerMock.Verify( o => o.OnBeginScan(It.IsAny<object>(),It.IsAny<EventArgs>()),Times.Once);
 
         }
@@ -42,9 +42,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Scan_EmptyRepository_Scan_OnEndScanEventCalledOnce()
         {
-            Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
-            _observableScanner.AddObserver(observerMock.Object);
-            _observableScanner.Scan();
+            Mock<IQueryAllModulesResultObserver> observerMock = new Mock<IQueryAllModulesResultObserver>();
+            _observable.AddObserver(observerMock.Object);
+            _observable.Execute();
             observerMock.Verify(o => o.OnEndScan(It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Once);
 
         }
@@ -53,9 +53,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Scan_OneModuleWithOneFile_Scan_ParserCalledOnce()
         {
-            Mock<IScannerObserver> observerMock = GivenOneModule();
+            Mock<IQueryAllModulesResultObserver> observerMock = GivenOneModule();
             GivenOneFile();
-            _observableScanner.Scan();
+            _observable.Execute();
             ThenParsed("f1");
 
             
@@ -64,9 +64,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Scan_OneModuleWithTwoFile_Scan_ParserCalledTwice()
         {
-            Mock<IScannerObserver> observerMock = GivenOneModule();
+            Mock<IQueryAllModulesResultObserver> observerMock = GivenOneModule();
             GivenTwoFiles();
-            _observableScanner.Scan();
+            _observable.Execute();
             ThenParsed("f1");
             ThenParsed("f2");
 
@@ -75,17 +75,17 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Scan_OneModuleWithTwoFile_Scan_OnModuleCalledOnce()
         {
-            Mock<IScannerObserver> observerMock = GivenOneModule();
+            Mock<IQueryAllModulesResultObserver> observerMock = GivenOneModule();
             GivenTwoFiles();
-            _observableScanner.Scan();
+            _observable.Execute();
             observerMock.Verify(o => o.OnModule(It.IsAny<object>(), It.IsAny<ModuleEventArgs>()), Times.Once);
 
         }
 
-        private Mock<IScannerObserver> GivenOneModule()
+        private Mock<IQueryAllModulesResultObserver> GivenOneModule()
         {
-            Mock<IScannerObserver> observerMock = new Mock<IScannerObserver>();
-            _observableScanner.AddObserver(observerMock.Object);
+            Mock<IQueryAllModulesResultObserver> observerMock = new Mock<IQueryAllModulesResultObserver>();
+            _observable.AddObserver(observerMock.Object);
             List<string> oneModule = new List<string>();
             oneModule.Add("a");
             _coverageStorageResolverMock.Setup(c => c.GetPathsOfAllModules(It.IsAny<string>())).Returns(oneModule);

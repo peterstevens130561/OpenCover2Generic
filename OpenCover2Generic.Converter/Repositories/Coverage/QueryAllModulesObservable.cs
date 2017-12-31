@@ -11,13 +11,13 @@ using BHGE.SonarQube.OpenCover2Generic.Parsers;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
-    public class CodeCoverageRepositoryObservableScanner : ICodeCoverageRepositoryObservableScanner
+    public class QueryAllModulesObservable : IQueryAllModulesObservable
     {
         private readonly ICoverageStorageResolver _coverageStorageResolver;
         private readonly ICoverageParser _coverageParser;
-        private  IntermediateModel _model;
+        
 
-        public CodeCoverageRepositoryObservableScanner(ICoverageStorageResolver coverageStorageResolver,ICoverageParser coverageParser)
+        public QueryAllModulesObservable(ICoverageStorageResolver coverageStorageResolver,ICoverageParser coverageParser)
         {
             this._coverageStorageResolver = coverageStorageResolver;
             _coverageParser = coverageParser;
@@ -27,7 +27,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         public event EventHandler<EventArgs> OnBeginScan;
         public event EventHandler<EventArgs> OnEndScan;
         public event EventHandler<ModuleEventArgs> OnModule;
-        public void Scan()
+        public void Execute()
         {
             OnBeginScan?.Invoke(this,EventArgs.Empty);
 
@@ -35,18 +35,18 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             var moduleDirectories = _coverageStorageResolver.GetPathsOfAllModules(RootDirectory);
             foreach (string moduleDirectory in moduleDirectories)
             {
-                _model = new IntermediateModel();
+                var model = new IntermediateModel();
                 foreach (string assemblyPath in _coverageStorageResolver.GetTestCoverageFilesOfModule(moduleDirectory))
                 {
-                    _coverageParser.ParseFile(_model,assemblyPath);
+                    _coverageParser.ParseFile(model,assemblyPath);
                 }
-                OnModule?.Invoke(this, new ModuleEventArgs(_model));
+                OnModule?.Invoke(this, new ModuleEventArgs(model));
             }
             OnEndScan?.Invoke(this, EventArgs.Empty);
             
         }
 
-        public ICodeCoverageRepositoryObservableScanner AddObserver(IScannerObserver observer)
+        public IQueryAllModulesObservable AddObserver(IQueryAllModulesResultObserver observer)
         {
             OnBeginScan += observer.OnBeginScan;
             OnEndScan += observer.OnEndScan;

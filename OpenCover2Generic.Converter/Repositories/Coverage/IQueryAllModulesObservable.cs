@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
-    public interface ICodeCoverageRepositoryObservableScanner
+    public interface IQueryAllModulesObservable
     {
-        void Scan();
-        ICodeCoverageRepositoryObservableScanner AddObserver(IScannerObserver scannerObserver);
+        void Execute();
+        IQueryAllModulesObservable AddObserver(IQueryAllModulesResultObserver queryAllModulesResultObserver);
     }
 }

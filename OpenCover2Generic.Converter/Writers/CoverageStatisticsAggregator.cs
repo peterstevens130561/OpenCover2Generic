@@ -7,7 +7,7 @@ using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
-    public class CoverageStatisticsAggregator : ICoverageStatisticsAggregator, IScannerObserver
+    public class CoverageStatisticsAggregator : ICoverageStatisticsAggregator, IQueryAllModulesResultObserver
     {
         public int Lines { get; private set; }
         public int CoveredLines { get; private set; }

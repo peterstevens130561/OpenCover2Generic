@@ -105,10 +105,10 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             using (var writer = new XmlTextWriter(outputPath, Encoding.UTF8))
             {
                 genericCoverageWriterObserver.Writer = writer;
-                codeCoverageRepository.Scanner()
+                codeCoverageRepository.QueryAllModules()
                     .AddObserver(genericCoverageWriterObserver)
                     .AddObserver(statisticsObserver)
-                    .Scan();
+                    .Execute();
             }
             _log.Info($"Files         : {statisticsObserver.Files}");
             _log.Info($"Lines         : {statisticsObserver.Lines} ");

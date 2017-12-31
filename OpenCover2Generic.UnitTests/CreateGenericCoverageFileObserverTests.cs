@@ -29,7 +29,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Begin_WriterSet_Begin_WriteBegin()
         {
             _observer.Writer = null;
-            ((IScannerObserver)_observer).OnBeginScan(null,EventArgs.Empty);
+            ((IQueryAllModulesResultObserver)_observer).OnBeginScan(null,EventArgs.Empty);
             _coverageWriterMock.Verify(o => o.WriteBegin(null), Times.Once);
             _coverageWriterMock.Verify(o => o.WriteEnd(null), Times.Never);
         }
@@ -38,7 +38,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void End_WriterSet_End_WriteEnd()
         {
             _observer.Writer = null;
-            ((IScannerObserver)_observer).OnEndScan(null, EventArgs.Empty);
+            ((IQueryAllModulesResultObserver)_observer).OnEndScan(null, EventArgs.Empty);
             _coverageWriterMock.Verify(o => o.WriteEnd(null), Times.Once);
             _coverageWriterMock.Verify(o => o.WriteBegin(null), Times.Never);
         }
@@ -49,7 +49,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _observer.Writer = null;
             IntermediateModel model = new IntermediateModel();
             ModuleEventArgs eventArgs = new ModuleEventArgs(model);
-            ((IScannerObserver)_observer).OnModule(null, eventArgs);
+            ((IQueryAllModulesResultObserver)_observer).OnModule(null, eventArgs);
             _coverageWriterMock.Verify(o => o.GenerateCoverage(model,null), Times.Once);
 
         }

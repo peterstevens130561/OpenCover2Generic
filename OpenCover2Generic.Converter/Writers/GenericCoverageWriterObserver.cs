@@ -8,7 +8,7 @@ using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
-    public class GenericCoverageWriterObserver : IScannerObserver,IGenericCoverageWriterObserver
+    public class GenericCoverageWriterObserver : IQueryAllModulesResultObserver,IGenericCoverageWriterObserver
     {
         private readonly ICoverageWriter _coverageWriter;
 

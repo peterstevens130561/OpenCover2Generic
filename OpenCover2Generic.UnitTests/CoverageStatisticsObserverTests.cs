@@ -31,7 +31,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             ModuleEventArgs moduleEventArgs = GivenTwoFilesWithThreeLinesAndTwoCovered();
 
-            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
+            ((IQueryAllModulesResultObserver)observer).OnModule(this, moduleEventArgs);
             Assert.AreEqual(3, observer.Lines);
         }
 
@@ -60,8 +60,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             ModuleEventArgs moduleEventArgs = GivenTwoFilesWithThreeLinesAndTwoCovered();
 
-            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
-            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
+            ((IQueryAllModulesResultObserver)observer).OnModule(this, moduleEventArgs);
+            ((IQueryAllModulesResultObserver)observer).OnModule(this, moduleEventArgs);
 
             Assert.AreEqual(4, observer.CoveredLines);
         }
@@ -80,8 +80,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             ModuleEventArgs moduleEventArgs = GivenTwoFilesWithThreeLinesAndTwoCovered();
 
-            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
-            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
+            ((IQueryAllModulesResultObserver)observer).OnModule(this, moduleEventArgs);
+            ((IQueryAllModulesResultObserver)observer).OnModule(this, moduleEventArgs);
 
             Assert.AreEqual(4, observer.Files);
         }
@@ -99,7 +99,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         private void WhenObservingModule(ModuleEventArgs moduleEventArgs)
         {
-            ((IScannerObserver)observer).OnModule(this, moduleEventArgs);
+            ((IQueryAllModulesResultObserver)observer).OnModule(this, moduleEventArgs);
         }
     }
 }

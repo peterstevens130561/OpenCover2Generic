@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Model;
@@ -8,6 +8,9 @@ using log4net;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
+    /// <summary>
+    /// provides abstraction of storage/retrieval of the code coverage information
+    /// </summary>
     public class CodeCoverageRepository : ICodeCoverageRepository
     {
         private static readonly ILog _log = LogManager.GetLogger(typeof(CodeCoverageRepository));
@@ -27,6 +30,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 
         public string RootDirectory { get; set; }
 
+        /// <summary>
+        /// Add a coverage output file of OpenCover to the repository
+        /// </summary>
+        /// <param name="path">to the openCover file</param>
+        /// <param name="key">some unique key</param>
         public void Add(string path, string key)
         {
             lock (_lock)
@@ -76,9 +84,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             }
         }
 
-        public ICodeCoverageRepositoryObservableScanner Scanner()
+        /// <summary>
+        /// provides an observable fluent query of the coverage information by module.
+        /// As the repository can be many GB, this query should be executed once, first registering all
+        /// observers, then executing
+        /// </summary>
+        /// <returns></returns>
+        public IQueryAllModulesObservable QueryAllModules()
         {
-            var scanner = new CodeCoverageRepositoryObservableScanner(_coverageStorageResolver, _coverageParser);
+            var scanner = new QueryAllModulesObservable(_coverageStorageResolver, _coverageParser);
             scanner.RootDirectory = RootDirectory;
             return scanner;
         }

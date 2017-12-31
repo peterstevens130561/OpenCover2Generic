@@ -19,11 +19,9 @@ namespace VsTestSonarQubeLogger
     [FriendlyName("VsTestSonarQubeLogger")]
     public class SonarQubeLogger : ITestLogger
     {
-        private string testRunDirectory;
 
         public void Initialize(TestLoggerEvents events, string testRunDirectory)
         {
-            this.testRunDirectory = testRunDirectory;
 
             Console.WriteLine("Initializing VsTestSonarQubeLogger");
             Console.WriteLine("testRunDirectory {0}", testRunDirectory);

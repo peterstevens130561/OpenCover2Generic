@@ -45,9 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OpenCover\LoggerNotInstalledException.cs" />
-    <Compile Include="Repositories\Coverage\CodeCoverageRepositoryObservableScanner.cs" />
-    <Compile Include="Repositories\Coverage\ICodeCoverageRepositoryObservableScanner.cs" />
-    <Compile Include="Repositories\Coverage\IScannerObserver.cs" />
+    <Compile Include="Repositories\Coverage\QueryAllModulesObservable.cs" />
+    <Compile Include="Repositories\Coverage\IQueryAllModulesObservable.cs" />
+    <Compile Include="Repositories\Coverage\IQueryAllModulesResultObserver.cs" />
     <Compile Include="Repositories\Coverage\ModuleEventArgs.cs" />
     <Compile Include="TestJobConsumer\IJobConsumer.cs" />
     <Compile Include="TestJobConsumer\JobConsumer.cs" />

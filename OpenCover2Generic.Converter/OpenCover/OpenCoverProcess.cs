@@ -12,7 +12,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(OpenCoverProcess).Name);
         private readonly IProcessAdapter _processAdapter;
-        private static Object _lock = new Object();
         private readonly ITimerAdapter _watchDog;
         private readonly IStateMachine _stateMachine;
         public OpenCoverProcess(IProcessAdapter processAdapter,ITimerAdapter timer,IStateMachine stateMachine)

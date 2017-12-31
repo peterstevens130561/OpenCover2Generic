@@ -9,15 +9,12 @@ namespace VsTestSonarQubeLogger
 {
     internal class SonarQubeXmlWriter
     {
-        private readonly TestRunCompleteEventArgs args;
         private readonly List<TestResult> testResults;
-        private readonly DateTime testRunStarted;
         private XmlWriter xmlWriter;
         public SonarQubeXmlWriter(List<TestResult> testResults, TestRunCompleteEventArgs args, DateTime testRunStarted)
         {
             this.testResults = testResults;
-            this.args = args;
-            this.testRunStarted = testRunStarted;
+  
         }
 
         internal void Write(string resultsPath)
