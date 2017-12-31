@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
@@ -6,7 +7,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
     {
         string RootDirectory { get; set; }
 
-        void Add(string path, string jobFirstAssembly);
+        void Add(ICoverageAggregate coverageAggregate);
 
         IQueryAllModulesObservable QueryAllModules();
     }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
@@ -64,7 +65,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
             {
                 _testResultsRepository.Add(openCoverManager.TestResultsPath);
             }
-            _codeCoverageRepository.Add(openCoverOutputPath, testJob.FirstAssembly);
+            ICoverageAggregate coverageAggregate = new CoverageAggregate(openCoverOutputPath, testJob.FirstAssembly);
+            _codeCoverageRepository.Add(coverageAggregate);
 
 
         }

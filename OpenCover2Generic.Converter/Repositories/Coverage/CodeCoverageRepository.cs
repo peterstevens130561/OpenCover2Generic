@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
@@ -30,12 +31,16 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 
         public string RootDirectory { get; set; }
 
+        public void Add(ICoverageAggregate coverageAggregate)
+        {
+            Add(coverageAggregate.Path,coverageAggregate.Key);
+        }
         /// <summary>
         /// Add a coverage output file of OpenCover to the repository
         /// </summary>
         /// <param name="path">to the openCover file</param>
         /// <param name="key">some unique key</param>
-        public void Add(string path, string key)
+        private void Add(string path, string key)
         {
             lock (_lock)
             {
