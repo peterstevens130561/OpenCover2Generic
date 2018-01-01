@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
+using BHGE.SonarQube.OpenCover2Generic.Writers;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
 {
@@ -24,6 +26,26 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
 
         public void Modules(Action<IntermediateModel> action)
         {
+            var parser = _openCoverageParserFactory.Create();
+            try
+            {
+                using (var xmlReader = XmlReader.Create(Path))
+                {
+                    xmlReader.MoveToContent();
+                    var model = new IntermediateModel();
+                    while (parser.ParseModule(model, xmlReader))
+                    {
+                        action.Invoke(model);
+                        model=new IntermediateModel();
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                _log.Error($"Exception thrown during reading {path}\n{e.Message}\n{e.StackTrace}");
+                throw;
+            }
             action.Invoke(null);
         }
     }

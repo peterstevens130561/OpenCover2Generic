@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\IXmlAdapter.cs" />
+    <Compile Include="Adapters\XmlAdapter.cs" />
     <Compile Include="Aggregates\Coverage\CoverageAggregate.cs" />
     <Compile Include="Aggregates\Coverage\CoverageAggregateFactory.cs" />
     <Compile Include="Aggregates\Coverage\ICoverageAggregate.cs" />
