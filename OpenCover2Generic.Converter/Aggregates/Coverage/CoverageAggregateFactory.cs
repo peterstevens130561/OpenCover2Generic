@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
@@ -19,7 +20,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
 
         public ICoverageAggregate Create(string path, string key)
         {
-            return new CoverageAggregate(path, key, _coverageParserFactory);
+            return new CoverageAggregate(path, key, _coverageParserFactory,new XmlAdapter());
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
@@ -12,13 +13,20 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
 {
     public class CoverageAggregate : ICoverageAggregate
     {
+        private readonly IXmlAdapter _xmlAdapter;
         private readonly IOpenCoverageParserFactory _openCoverageParserFactory;
 
-        public CoverageAggregate(string path, string key,IOpenCoverageParserFactory openCoverageParserFactory)
+
+        public CoverageAggregate(string path, string key, 
+            IOpenCoverageParserFactory openCoverageParserFactory, 
+            IXmlAdapter xmlAdapter
+            ) 
+            
         {
             Path = path;
             Key = key;
             _openCoverageParserFactory = openCoverageParserFactory;
+            _xmlAdapter = xmlAdapter;
         }
 
         public string Key { get; private set; }
@@ -29,24 +37,23 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
             var parser = _openCoverageParserFactory.Create();
             try
             {
-                using (var xmlReader = XmlReader.Create(Path))
+                using (var xmlReader = _xmlAdapter.CreateReader(Path))
                 {
                     xmlReader.MoveToContent();
                     var model = new IntermediateModel();
                     while (parser.ParseModule(model, xmlReader))
                     {
                         action.Invoke(model);
-                        model=new IntermediateModel();
+                        model = new IntermediateModel();
                     }
                 }
 
             }
             catch (Exception e)
             {
-                _log.Error($"Exception thrown during reading {path}\n{e.Message}\n{e.StackTrace}");
+                //_log.Error($"Exception thrown during reading {path}\n{e.Message}\n{e.StackTrace}");
                 throw;
             }
-            action.Invoke(null);
         }
     }
 }
