@@ -13,6 +13,7 @@ using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
 using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 using log4net;
+using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 
 [assembly: XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
 namespace BHGE.SonarQube.OpenCoverWrapper
@@ -34,9 +35,14 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             IFileSystemAdapter fileSystemAdapter = new FileSystemAdapter();
             ICoverageStorageResolver coverageStorageResolver = new CoverageStorageResolver(fileSystemAdapter);
             ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(coverageStorageResolver,new OpenCoverCoverageParser());
+            IOpenCoverageParserFactory openCoverageParserFactory = new OpenCoverageParserFactory();
+            ICoverageAggregateFactory coverageAggregateFactory=new CoverageAggregateFactory(openCoverageParserFactory);
             IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
                 jobFileSystemInfo, 
-                openCoverManagerFactory,testResultsRepository,codeCoverageRepository);
+                openCoverManagerFactory,
+                testResultsRepository,
+                codeCoverageRepository,
+                coverageAggregateFactory);
             
             var testRunner = new TestRunner(jobFileSystemInfo,jobConsumerFactory);
 

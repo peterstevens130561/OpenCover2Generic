@@ -27,7 +27,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             IJobConsumerFactory factory = new JobConsumerFactory(openCoverCommandLineBuilder, jobFileSystem, 
                 openCoverManagerFactory,
                 testResultsRepository,
-                codeCoverageRepository);
+                codeCoverageRepository,null);
 
             IJobConsumer jobConsumer = factory.Create();
             Assert.IsNotNull(jobConsumer);

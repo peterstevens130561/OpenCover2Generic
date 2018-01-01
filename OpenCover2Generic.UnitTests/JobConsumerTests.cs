@@ -8,6 +8,7 @@ using Moq;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using System.Collections.Concurrent;
 using System.IO;
+using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
@@ -26,6 +27,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<IOpenCoverManagerFactory> _openCoverManagerFactoryMock;
         private Mock<IOpenCoverCommandLineBuilder> _openCoverCommandLineBuilder;
         private Mock<ITestResultsRepository> _testResultsRepositoryMock;
+        private Mock<ICoverageAggregateFactory> _coverageAggregateFactoryMock;
       
         private readonly IJobs _jobs = new Jobs();
         private TimeSpan _jobTimeOut;
@@ -41,11 +43,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _openCoverCommandLineBuilder = new Mock<IOpenCoverCommandLineBuilder>();
             _testResultsRepositoryMock = new Mock<ITestResultsRepository>();
             _codeCoverageRepositoryMock = new Mock<ICodeCoverageRepository>();
+            _coverageAggregateFactoryMock = new Mock<ICoverageAggregateFactory>();
 
             _jobConsumer = new JobConsumer(_openCoverCommandLineBuilder.Object,
                 _jobFileSystemMock.Object,_openCoverManagerFactoryMock.Object,
                 _testResultsRepositoryMock.Object,
-                _codeCoverageRepositoryMock.Object);
+                _codeCoverageRepositoryMock.Object,
+                _coverageAggregateFactoryMock.Object);
             _jobTimeOut = new TimeSpan(0);
         }
 

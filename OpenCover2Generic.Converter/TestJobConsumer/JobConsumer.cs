@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
+using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
@@ -20,17 +21,21 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
         private readonly IOpenCoverManagerFactory _openCoverManagerFactory;
         private readonly ITestResultsRepository _testResultsRepository;
         private readonly ICodeCoverageRepository _codeCoverageRepository;
+        private readonly ICoverageAggregateFactory _coverageAggregateFactory;
+
         public JobConsumer(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder,
             IJobFileSystem jobFileSystem,
             IOpenCoverManagerFactory openCoverManagerFactory,
             ITestResultsRepository testResultsRepository,
-            ICodeCoverageRepository codeCoverageRepository)
+            ICodeCoverageRepository codeCoverageRepository,
+            ICoverageAggregateFactory coverageAggregateFactory)
         {
             _openCoverCommandLineBuilder = openCoverCommandLineBuilder;
             _jobFileSystemInfo = jobFileSystem;
             _openCoverManagerFactory = openCoverManagerFactory;
             _testResultsRepository = testResultsRepository;
             _codeCoverageRepository = codeCoverageRepository;
+            _coverageAggregateFactory = coverageAggregateFactory;
         }
 
         public void ConsumeTestJobs(IJobs jobs,TimeSpan jobTimeOut)
@@ -65,10 +70,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
             {
                 _testResultsRepository.Add(openCoverManager.TestResultsPath);
             }
-            ICoverageAggregate coverageAggregate = new CoverageAggregate(openCoverOutputPath, testJob.FirstAssembly);
+            var coverageAggregate = _coverageAggregateFactory.Create(openCoverOutputPath, testJob.FirstAssembly);
             _codeCoverageRepository.Add(coverageAggregate);
-
-
         }
 
         private ITestJob GetAssembly(IJobs jobs)

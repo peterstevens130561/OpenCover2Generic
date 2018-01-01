@@ -45,8 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregates\Coverage\CoverageAggregate.cs" />
+    <Compile Include="Aggregates\Coverage\CoverageAggregateFactory.cs" />
     <Compile Include="Aggregates\Coverage\ICoverageAggregate.cs" />
+    <Compile Include="Aggregates\Coverage\ICoverageAggregateFactory.cs" />
     <Compile Include="OpenCover\LoggerNotInstalledException.cs" />
+    <Compile Include="Parsers\IOpenCoverageParserFactory.cs" />
+    <Compile Include="Parsers\OpenCoverageParserFactory.cs" />
     <Compile Include="Repositories\Coverage\QueryAllModulesObservable.cs" />
     <Compile Include="Repositories\Coverage\IQueryAllModulesObservable.cs" />
     <Compile Include="Repositories\Coverage\IQueryAllModulesResultObserver.cs" />
