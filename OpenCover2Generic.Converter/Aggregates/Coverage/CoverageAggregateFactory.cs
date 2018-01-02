@@ -18,9 +18,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
             _coverageParserFactory = coverageParserFactory;
         }
 
-        public ICoverageAggregate Create(string path, string key)
+        public ICoverageAggregate Create(string path)
         {
-            return new CoverageAggregate(path, key, _coverageParserFactory,new XmlAdapter());
+            return new CoverageAggregate(path, _coverageParserFactory,new XmlAdapter());
         }
     }
 }

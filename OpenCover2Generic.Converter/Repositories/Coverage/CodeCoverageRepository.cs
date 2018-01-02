@@ -68,11 +68,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             }
         }
 
-        private void WriteModule(string rootPath, string testAssemblyPath)
+        private void WriteModule(string rootPath, string key)
         {
             if (_model.GetSourceFiles().Count > 0)
             {
-                string moduleFile = _coverageStorageResolver.GetPathForAssembly(rootPath, _parser.ModuleName,testAssemblyPath);
+                string moduleFile = _coverageStorageResolver.GetPathForAssembly(rootPath, _parser.ModuleName,key);
                 WriteModuleToFile(moduleFile);
                 _model.Clear();
             }

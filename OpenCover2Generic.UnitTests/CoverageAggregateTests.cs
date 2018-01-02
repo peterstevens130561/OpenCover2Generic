@@ -34,12 +34,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Create_ValidObject()
         {
             string path = "my.xml";
-            string key = "key";
-
-            var aggregate = CreateCoverageAggregate(path, key);
-
+            var aggregate = CreateCoverageAggregate(path);
             Assert.AreEqual("my.xml", aggregate.Path);
-            Assert.AreEqual("key",aggregate.Key);
         }
 
         [TestMethod]
@@ -53,7 +49,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     </CoverageSession>";
             _xmlAdapterMock.Setup(x => x.CreateReader("a")).Returns(XmlReader.Create(new StringReader(coverage)));
 
-            var aggregate = CreateCoverageAggregate("a", "b");
+            var aggregate = CreateCoverageAggregate("a");
 
             aggregate.Modules(_actionMock.Object);
             _actionMock.Verify(p => p(It.IsAny<IntermediateModel>()), Times.Never);
@@ -135,7 +131,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     </CoverageSession>";
             _xmlAdapterMock.Setup(x => x.CreateReader("a")).Returns(XmlReader.Create(new StringReader(coverage)));
          
-            var aggregate = CreateCoverageAggregate("a", "b");           
+            var aggregate = CreateCoverageAggregate("a");           
             aggregate.Modules(_actionMock.Object);
             _actionMock.Verify(p => p(It.IsAny<IntermediateModel>()), Times.Exactly(2));
 
@@ -185,14 +181,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
     </CoverageSession>";
             _xmlAdapterMock.Setup(x => x.CreateReader("a")).Returns(XmlReader.Create(new StringReader(coverage)));
 
-            var aggregate = CreateCoverageAggregate("a", "b");
+            var aggregate = CreateCoverageAggregate("a");
             
             aggregate.Modules(model => { Assert.AreEqual(1, model.GetSourceFiles().Count); });
         }
 
-        private ICoverageAggregate CreateCoverageAggregate(string path, string key)
+        private ICoverageAggregate CreateCoverageAggregate(string path)
         {
-            ICoverageAggregate aggregate = new CoverageAggregate(path, key, _coverageParserFactoryMock.Object,_xmlAdapterMock.Object);
+            ICoverageAggregate aggregate = new CoverageAggregate(path, _coverageParserFactoryMock.Object,_xmlAdapterMock.Object);
             return aggregate;
         }
     }

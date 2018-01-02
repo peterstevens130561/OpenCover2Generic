@@ -70,7 +70,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
             {
                 _testResultsRepository.Add(openCoverManager.TestResultsPath);
             }
-            var coverageAggregate = _coverageAggregateFactory.Create(openCoverOutputPath, testJob.FirstAssembly);
+            var coverageAggregate = _coverageAggregateFactory.Create(openCoverOutputPath);
             _codeCoverageRepository.Add(coverageAggregate);
         }
 

@@ -17,14 +17,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
         private readonly IOpenCoverageParserFactory _openCoverageParserFactory;
 
 
-        public CoverageAggregate(string path, string key, 
+        public CoverageAggregate(string path,
             IOpenCoverageParserFactory openCoverageParserFactory, 
             IXmlAdapter xmlAdapter
             ) 
             
         {
             Path = path;
-            Key = key;
             _openCoverageParserFactory = openCoverageParserFactory;
             _xmlAdapter = xmlAdapter;
         }

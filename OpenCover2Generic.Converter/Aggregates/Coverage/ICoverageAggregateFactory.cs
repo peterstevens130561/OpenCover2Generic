@@ -2,6 +2,6 @@
 {
     public interface ICoverageAggregateFactory
     {
-        ICoverageAggregate Create(string path, string key);
+        ICoverageAggregate Create(string path);
     }
 }
