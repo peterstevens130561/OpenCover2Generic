@@ -11,7 +11,7 @@ using BHGE.SonarQube.OpenCover2Generic.CoverageConverters;
 namespace BHGE.SonarQube.OpenCover2Generic
 {
     [TestClass]
-    public class MultiAssemblyConversionTests
+    public class ConversionTests
     {
         private ICoverageConverter _converter;
         private IModuleCoverageModel _model;

@@ -16,6 +16,18 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
         private readonly Dictionary<string, string> _sourceFilePathToGlobalId = new Dictionary<string, string>();
         private readonly Dictionary<string, string> _localFileIdToGlobalFileId = new Dictionary<string, string>();
 
+        public string Name
+        {
+            get
+            {
+                return _moduleModel.Name;
+            }
+
+            set
+            {
+                _moduleModel.Name = value;
+            }
+        }
 
         public void AddFile(string fileId, string filePath)
         {

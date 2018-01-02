@@ -9,33 +9,35 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
     public class ModuleCoverageModel : IModuleCoverageModel
     {
-        private Dictionary<string, ISourceFileCoverageModel> sourceFiles = new Dictionary<string,ISourceFileCoverageModel>();
+        private Dictionary<string, ISourceFileCoverageModel> _sourceFiles = new Dictionary<string,ISourceFileCoverageModel>();
+
+        public string Name { get; set; }
 
         public void AddFile(string fileId, string filePath)
         {
-            sourceFiles.Add(fileId,new SourceFileCoverageModel(fileId,filePath));
+            _sourceFiles.Add(fileId,new SourceFileCoverageModel(fileId,filePath));
         }
 
         public void AddSequencePoint(string fileId, string sourceLine, string visitedCount)
         {
-            sourceFiles[fileId].AddSequencePoint(sourceLine, visitedCount);
+            _sourceFiles[fileId].AddSequencePoint(sourceLine, visitedCount);
         }
 
         public IList<ISourceFileCoverageModel> GetSourceFiles()
         {
-            return sourceFiles.Values.ToList();
+            return _sourceFiles.Values.ToList();
         }
 
 
         public void Clear()
         {
-            sourceFiles = new Dictionary<string, ISourceFileCoverageModel>();
+            _sourceFiles = new Dictionary<string, ISourceFileCoverageModel>();
         }
 
         public void AddBranchPoint(int fileId, int sourceLine, int path, bool isVisited)
         {
             var branchPoint = new BranchPoint(fileId, sourceLine, path, isVisited);
-            sourceFiles[fileId.ToString()].AddBranchPoint(branchPoint);
+            _sourceFiles[fileId.ToString()].AddBranchPoint(branchPoint);
         }
     }
 }
