@@ -23,5 +23,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             Assert.IsNull(_model.Name);
         }
+
+        [TestMethod]
+        public void ModuleName_Set_ModuleName_EqualToSet()
+        {
+            _model.Name = "myname";
+            Assert.AreEqual("myname",_model.Name);
+        }
     }
 }
