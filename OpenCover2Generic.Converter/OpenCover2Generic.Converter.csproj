@@ -117,7 +117,7 @@
     <Compile Include="Writers\ICoverageWriter.cs" />
     <Compile Include="Model\IFileCoverageModel.cs" />
     <Compile Include="Model\IModuleCoverageModel.cs" />
-    <Compile Include="Model\Model.cs" />
+    <Compile Include="Model\ModuleCoverageModel.cs" />
     <Compile Include="TestJobConsumer\OpenCoverCommandLineBuilder.cs" />
     <Compile Include="Parsers\OpenCoverCoverageParser.cs" />
     <Compile Include="Writers\IGenericCoverageWriterObserver.cs" />

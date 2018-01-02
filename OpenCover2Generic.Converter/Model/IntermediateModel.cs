@@ -12,44 +12,44 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
     /// </summary>
     public class IntermediateModel : IModuleCoverageModel
     {
-        private readonly IModuleCoverageModel moduleModel = new ModuleCoverageModel();
-        private readonly Dictionary<string, string> sourceFilePathToGlobalId = new Dictionary<string, string>();
-        private readonly Dictionary<string, string> localFileIdToGlobalFileId = new Dictionary<string, string>();
+        private readonly IModuleCoverageModel _moduleModel = new ModuleCoverageModel();
+        private readonly Dictionary<string, string> _sourceFilePathToGlobalId = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _localFileIdToGlobalFileId = new Dictionary<string, string>();
 
 
         public void AddFile(string fileId, string filePath)
         {
-            if(!sourceFilePathToGlobalId.ContainsKey(filePath))
+            if(!_sourceFilePathToGlobalId.ContainsKey(filePath))
             {
-                sourceFilePathToGlobalId[filePath] = fileId;
-                moduleModel.AddFile(fileId, filePath);
+                _sourceFilePathToGlobalId[filePath] = fileId;
+                _moduleModel.AddFile(fileId, filePath);
             }
-            string globalFileId = sourceFilePathToGlobalId[filePath];
-            localFileIdToGlobalFileId[fileId] = globalFileId;
+            string globalFileId = _sourceFilePathToGlobalId[filePath];
+            _localFileIdToGlobalFileId[fileId] = globalFileId;
         }
 
         public void AddSequencePoint(string fileId, string sourceLine, string visitedCount)
         {
-            string globalFileId = localFileIdToGlobalFileId[fileId];
-            moduleModel.AddSequencePoint(globalFileId, sourceLine, visitedCount);
+            string globalFileId = _localFileIdToGlobalFileId[fileId];
+            _moduleModel.AddSequencePoint(globalFileId, sourceLine, visitedCount);
         }
 
         public void AddBranchPoint(int fileId, int sourceLine, int path, bool isVisited)
         {
-            string globalFileId = localFileIdToGlobalFileId[fileId.ToString()];
-            moduleModel.AddBranchPoint(int.Parse(globalFileId),sourceLine,path,isVisited);
+            string globalFileId = _localFileIdToGlobalFileId[fileId.ToString()];
+            _moduleModel.AddBranchPoint(int.Parse(globalFileId),sourceLine,path,isVisited);
         }
 
         public void Clear()
         {
-            sourceFilePathToGlobalId.Clear();
-            localFileIdToGlobalFileId.Clear();
-            moduleModel.Clear();
+            _sourceFilePathToGlobalId.Clear();
+            _localFileIdToGlobalFileId.Clear();
+            _moduleModel.Clear();
         }
 
         public IList<ISourceFileCoverageModel> GetSourceFiles()
         {
-            return moduleModel.GetSourceFiles();
+            return _moduleModel.GetSourceFiles();
         }
     }
 }
