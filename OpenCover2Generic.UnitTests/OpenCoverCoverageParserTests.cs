@@ -72,6 +72,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
+        public void ParseModule_OneModule_ParseModule_NameValid()
+        {
+
+            Assert.IsTrue(WhenParsing(_openCoverExample));
+            Assert.AreEqual(@"Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest",_model.Name);
+        }
+
+        [TestMethod]
         public void ParseModule_Initiated_ValidFile_ExpectModuleName()
         {
 

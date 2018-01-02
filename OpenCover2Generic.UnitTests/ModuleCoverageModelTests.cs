@@ -12,11 +12,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class ModuleCoverageModelTests
     {
         private readonly IModuleCoverageModel _model = new ModuleCoverageModel();
-        [TestInitialize]
-        public void Initialize()
-        {
-            
-        }
+
 
         [TestMethod]
         public void ModuleName_NotSet_ModuleName_Null()
