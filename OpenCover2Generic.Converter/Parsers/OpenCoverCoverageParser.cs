@@ -101,7 +101,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
 
         private void ReadModuleName(XmlReader xmlReader)
         {
-            _moduleName = xmlReader.ReadElementContentAsString();
+            string name = xmlReader.ReadElementContentAsString();
+            _model.Name = name;
+            _moduleName = name;
         }
 
         private void AddFile(XmlReader xmlReader)
