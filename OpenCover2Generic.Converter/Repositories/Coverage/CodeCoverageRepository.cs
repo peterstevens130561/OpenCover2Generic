@@ -17,10 +17,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
     public class CodeCoverageRepository : ICodeCoverageRepository
     {
         private static readonly ILog _log = LogManager.GetLogger(typeof(CodeCoverageRepository));
-        private IModuleCoverageModel _model;
-        private ICoverageParser _parser;
-        private ICoverageWriter _moduleWriter;
-        private readonly Object _lock = new object();
         private readonly ICoverageStorageResolver _coverageStorageResolver;
         private readonly ICoverageParser _coverageParser;
         private readonly IXmlAdapter _xmlAdapter;
@@ -52,10 +48,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
                 string moduleFile = _coverageStorageResolver.GetPathForAssembly(RootDirectory, model.Name, Guid.NewGuid().ToString());
                 using (XmlTextWriter tempFileWriter = _xmlAdapter.CreateTextWriter(moduleFile))
                 {
-                    _moduleWriter = _coverageWriterFactory.CreateOpenCoverCoverageWriter();
-                    _moduleWriter.WriteBegin(tempFileWriter);
-                    _moduleWriter.GenerateCoverage(model, tempFileWriter);
-                    _moduleWriter.WriteEnd(tempFileWriter);
+                    var moduleWriter = _coverageWriterFactory.CreateOpenCoverCoverageWriter();
+                    moduleWriter.WriteBegin(tempFileWriter);
+                    moduleWriter.GenerateCoverage(model, tempFileWriter);
+                    moduleWriter.WriteEnd(tempFileWriter);
                 }
             }
         }
