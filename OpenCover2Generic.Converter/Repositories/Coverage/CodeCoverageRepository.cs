@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
@@ -21,20 +23,43 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         private readonly Object _lock = new object();
         private readonly ICoverageStorageResolver _coverageStorageResolver;
         private readonly ICoverageParser _coverageParser;
+        private readonly IXmlAdapter _xmlAdapter;
+        private readonly ICoverageWriterFactory _coverageWriterFactory;
 
         public CodeCoverageRepository(
-            ICoverageStorageResolver coverageStorageResolver, ICoverageParser coverageParser)
+            ICoverageStorageResolver coverageStorageResolver, 
+            ICoverageParser coverageParser,
+            IXmlAdapter xmlAdapter,
+            ICoverageWriterFactory coverageWriterFactory)
         {
             _coverageStorageResolver = coverageStorageResolver;
             _coverageParser = coverageParser;
+            _xmlAdapter = xmlAdapter;
+            _coverageWriterFactory = coverageWriterFactory;
         }
 
         public string RootDirectory { get; set; }
 
         public void Add(ICoverageAggregate coverageAggregate)
         {
-            Add(coverageAggregate.Path,coverageAggregate.Key);
+            coverageAggregate.Modules(WriteModule);
         }
+
+        private void WriteModule(IModuleCoverageModel model)
+        {
+            if (model.GetSourceFiles().Any())
+            {
+                string moduleFile = _coverageStorageResolver.GetPathForAssembly(RootDirectory, model.Name, Guid.NewGuid().ToString());
+                using (XmlTextWriter tempFileWriter = _xmlAdapter.CreateTextWriter(moduleFile))
+                {
+                    _moduleWriter = _coverageWriterFactory.CreateOpenCoverCoverageWriter();
+                    _moduleWriter.WriteBegin(tempFileWriter);
+                    _moduleWriter.GenerateCoverage(model, tempFileWriter);
+                    _moduleWriter.WriteEnd(tempFileWriter);
+                }
+            }
+        }
+
         /// <summary>
         /// Add a coverage output file of OpenCover to the repository
         /// </summary>
@@ -73,18 +98,18 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             if (_model.GetSourceFiles().Count > 0)
             {
                 string moduleFile = _coverageStorageResolver.GetPathForAssembly(rootPath, _parser.ModuleName,key);
-                WriteModuleToFile(moduleFile);
+                WriteModuleToFile(_model,moduleFile);
                 _model.Clear();
             }
         }
 
-        private void WriteModuleToFile(string moduleFile)
+        private void WriteModuleToFile(IModuleCoverageModel model,string moduleFile)
         {
             using (XmlTextWriter tempFileWriter = new XmlTextWriter(moduleFile, Encoding.UTF8))
             {
                 //write it to the temp file
                 _moduleWriter.WriteBegin(tempFileWriter);
-                _moduleWriter.GenerateCoverage(_model, tempFileWriter);
+                _moduleWriter.GenerateCoverage(model, tempFileWriter);
                 _moduleWriter.WriteEnd(tempFileWriter);
             }
         }

@@ -19,7 +19,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private Mock<IOpenCoverageParserFactory> _coverageParserFactoryMock;
         private Mock<IXmlAdapter> _xmlAdapterMock;
-        Mock<Action<IntermediateModel>> _actionMock = new Mock<Action<IntermediateModel>>();
+        private Mock<Action<IModuleCoverageModel>> _actionMock = new Mock<Action<IModuleCoverageModel>>();
         [TestInitialize]
         public void Initialize()
         {
@@ -133,7 +133,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
          
             var aggregate = CreateCoverageAggregate("a");           
             aggregate.Modules(_actionMock.Object);
-            _actionMock.Verify(p => p(It.IsAny<IntermediateModel>()), Times.Exactly(2));
+            _actionMock.Verify(p => p(It.IsAny<IModuleCoverageModel>()), Times.Exactly(2));
 
         }
 

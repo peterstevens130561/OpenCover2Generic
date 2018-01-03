@@ -13,5 +13,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.Adapters
         {
             return XmlReader.Create(path);
         }
+
+        public XmlTextWriter CreateTextWriter(string path)
+        {
+            return new XmlTextWriter(path, Encoding.UTF8);
+        }
     }
 }

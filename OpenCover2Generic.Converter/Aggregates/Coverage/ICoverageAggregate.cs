@@ -8,6 +8,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
         string Key { get; }
         string Path { get; }
 
-        void Modules(Action<IntermediateModel> action);
+        void Modules(Action<IModuleCoverageModel> action);
     }
 }
