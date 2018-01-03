@@ -68,6 +68,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _repository.Add(_aggregateMock.Object);
 
             _coverageStorageResolverMock.Verify(c => c.GetPathForAssembly(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+           _coverageWriterMock.Verify(c => c.GenerateCoverage(_moduleCoverageModel,null),Times.Once);
         }
     }
 }
