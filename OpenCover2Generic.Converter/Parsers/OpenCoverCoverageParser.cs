@@ -24,7 +24,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
             }
         }
 
-        public void ParseFile(IntermediateEntity entity,string assemblyPath)
+        public void ParseFile(AggregatedModuleCoverageEntity entity,string assemblyPath)
         {
             using (XmlReader tempFileReader = XmlReader.Create(assemblyPath))
             {
@@ -99,7 +99,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
         private void ReadModuleName(XmlReader xmlReader)
         {
             string name = xmlReader.ReadElementContentAsString();
-            _entity.Name = name;
+            _entity.NameId = name;
             _moduleName = name;
         }
 

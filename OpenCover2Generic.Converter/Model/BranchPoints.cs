@@ -34,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
 
         public IBranchPoints Add(int sourceLine, int path, bool isVisited)
         {
-            IBranchPointValue branchPointValue = new BranchPointValueValue(sourceLine, path, isVisited);
+            IBranchPointValue branchPointValue = new BranchPointValue(sourceLine, path, isVisited);
             Add(branchPointValue);
             return this;
         }

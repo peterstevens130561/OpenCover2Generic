@@ -8,6 +8,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
         string ModuleName { get; }
 
         bool ParseModule(IModuleCoverageEntity entity, XmlReader xmlReader);
-        void ParseFile(IntermediateEntity entity, string coveragePath);
+        void ParseFile(AggregatedModuleCoverageEntity entity, string coveragePath);
     }
 }

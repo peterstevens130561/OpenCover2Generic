@@ -23,7 +23,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
             get
             {
                 List<ISequencePointEntity> points = _coveragePoints.Values.ToList();
-                points.Sort((pair1, pair2) => pair1.SourceLine.CompareTo(pair2.SourceLine));
+                points.Sort((pair1, pair2) => pair1.SourceLineId.CompareTo(pair2.SourceLineId));
                 return points;
             }
         }

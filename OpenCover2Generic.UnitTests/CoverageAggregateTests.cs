@@ -48,7 +48,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             var aggregate = CreateCoverageAggregate("a");
 
             aggregate.Modules(_actionMock.Object);
-            _actionMock.Verify(p => p(It.IsAny<IntermediateEntity>()), Times.Never);
+            _actionMock.Verify(p => p(It.IsAny<AggregatedModuleCoverageEntity>()), Times.Never);
 
         }
 

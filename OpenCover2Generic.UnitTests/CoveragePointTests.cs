@@ -14,9 +14,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
             model.AddSequencePoint("2", "1");
             model.AddSequencePoint("5", "2");
             var points = model.SequencePoints;
-            Assert.AreEqual(2, points[0].SourceLine);
-            Assert.AreEqual(3, points[1].SourceLine);
-            Assert.AreEqual(5, points[2].SourceLine);
+            Assert.AreEqual(2, points[0].SourceLineId);
+            Assert.AreEqual(3, points[1].SourceLineId);
+            Assert.AreEqual(5, points[2].SourceLineId);
 
         }
     }

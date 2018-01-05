@@ -3,16 +3,16 @@
     /// <summary>
     /// Immutable branchpoint
     /// </summary>
-    internal class BranchPointValueValue : IBranchPointValue
+    internal class BranchPointValue : IBranchPointValue
     {
-        public BranchPointValueValue(int sourceLine,int path, bool isVisited)
+        public BranchPointValue(int sourceLine,int path, bool isVisited)
         {
             Path = path;
             IsVisited = isVisited;
             SourceLine = sourceLine;
         }
 
-        public BranchPointValueValue(int fileId, int sourceLine, int path, bool isVisited)
+        public BranchPointValue(int fileId, int sourceLine, int path, bool isVisited)
         {
             FileId = fileId;
             Path = path;

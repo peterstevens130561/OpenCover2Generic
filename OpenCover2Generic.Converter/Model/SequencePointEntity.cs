@@ -7,14 +7,14 @@
     {
         public SequencePointEntityEntity(string sourceLine)
         {
-            SourceLine = int.Parse(sourceLine);
+            SourceLineId = int.Parse(sourceLine);
         }
 
         public void AddVisit(bool isVisited)
         {
             Covered |= isVisited;
         }
-        public int SourceLine { get; }
+        public int SourceLineId { get; }
         public bool Covered { get; private set; }
     }
 }

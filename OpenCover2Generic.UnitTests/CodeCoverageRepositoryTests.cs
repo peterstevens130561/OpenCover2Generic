@@ -36,7 +36,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 _coverageWriterFactoryMock.Object);
 
             _moduleCoverageEntity = new ModuleCoverageEntity();
-            _moduleCoverageEntity.Name = "module";
+            _moduleCoverageEntity.NameId = "module";
             _repository.RootDirectory = "root";
             _aggregateMock
                 .Setup(p => p.Modules(It.IsAny<Action<IModuleCoverageEntity>>()))

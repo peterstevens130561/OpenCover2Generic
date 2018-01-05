@@ -44,7 +44,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         {
             if (entity.GetSourceFiles().Any())
             {
-                string moduleFile = _coverageStorageResolver.GetPathForAssembly(RootDirectory, entity.Name, Guid.NewGuid().ToString());
+                string moduleFile = _coverageStorageResolver.GetPathForAssembly(RootDirectory, entity.NameId, Guid.NewGuid().ToString());
                 using (XmlTextWriter tempFileWriter = _xmlAdapter.CreateTextWriter(moduleFile))
                 {
                     var moduleWriter = _coverageWriterFactory.CreateOpenCoverCoverageWriter();

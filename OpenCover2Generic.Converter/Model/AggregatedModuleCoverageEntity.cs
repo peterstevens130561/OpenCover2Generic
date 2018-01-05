@@ -6,22 +6,22 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
     /// Used to create a entity from multiple coverage files. Though they pertain to the same module, each one may have different
     /// numbering for the files. Therefore,  there is small intermediate step
     /// </summary>
-    public class IntermediateEntity : IModuleCoverageEntity
+    public class AggregatedModuleCoverageEntity : IModuleCoverageEntity
     {
         private readonly IModuleCoverageEntity _moduleEntity = new ModuleCoverageEntity();
         private readonly Dictionary<string, string> _sourceFilePathToGlobalId = new Dictionary<string, string>();
         private readonly Dictionary<string, string> _localFileIdToGlobalFileId = new Dictionary<string, string>();
 
-        public string Name
+        public string NameId
         {
             get
             {
-                return _moduleEntity.Name;
+                return _moduleEntity.NameId;
             }
 
             set
             {
-                _moduleEntity.Name = value;
+                _moduleEntity.NameId = value;
             }
         }
 

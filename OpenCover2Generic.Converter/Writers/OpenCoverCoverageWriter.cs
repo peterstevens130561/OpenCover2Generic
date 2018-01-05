@@ -45,7 +45,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
         private string WriteSequencePoint(ISourceFileCoverageAggregate sourceFile, ISequencePointEntity sequencePointEntity)
         {
             _xmlWriter.WriteStartElement("SequencePoint");
-            string sourceLineNr = sequencePointEntity.SourceLine.ToString();
+            string sourceLineNr = sequencePointEntity.SourceLineId.ToString();
             string visited = sequencePointEntity.Covered ? "1" : "0";
             _xmlWriter.WriteAttributeString("vc", visited);
             _xmlWriter.WriteAttributeString("sl", sourceLineNr);

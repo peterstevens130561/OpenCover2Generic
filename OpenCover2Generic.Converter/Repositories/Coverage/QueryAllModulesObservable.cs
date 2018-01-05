@@ -28,7 +28,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             var moduleDirectories = _coverageStorageResolver.GetPathsOfAllModules(RootDirectory);
             foreach (string moduleDirectory in moduleDirectories)
             {
-                var model = new IntermediateEntity();
+                var model = new AggregatedModuleCoverageEntity();
                 foreach (string assemblyPath in _coverageStorageResolver.GetTestCoverageFilesOfModule(moduleDirectory))
                 {
                     _coverageParser.ParseFile(model,assemblyPath);

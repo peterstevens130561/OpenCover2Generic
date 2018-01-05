@@ -7,7 +7,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
     {
         private Dictionary<string, ISourceFileCoverageAggregate> _sourceFiles = new Dictionary<string,ISourceFileCoverageAggregate>();
 
-        public string Name { get; set; }
+        public string NameId { get; set; }
 
         public void AddFile(string fileId, string filePath)
         {
@@ -32,7 +32,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
 
         public void AddBranchPoint(int fileId, int sourceLine, int path, bool isVisited)
         {
-            var branchPoint = new BranchPointValueValue(fileId, sourceLine, path, isVisited);
+            var branchPoint = new BranchPointValue(fileId, sourceLine, path, isVisited);
             _sourceFiles[fileId.ToString()].AddBranchPoint(branchPoint);
         }
     }

@@ -2,7 +2,7 @@
 {
     public interface ISequencePointEntity
     {
-        int SourceLine { get; }
+        int SourceLineId { get; }
         bool Covered { get; }
 
         void AddVisit(bool isVisited);

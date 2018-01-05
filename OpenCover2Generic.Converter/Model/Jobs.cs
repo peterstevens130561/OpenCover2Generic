@@ -33,18 +33,18 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        private bool _disposed; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposed)
             {
                 if (disposing)
                 {
                     _jobs.Dispose();
                 }
 
-                disposedValue = true;
+                _disposed = true;
             }
         }
 

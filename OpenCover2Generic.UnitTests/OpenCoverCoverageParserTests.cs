@@ -75,7 +75,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
 
             Assert.IsTrue(WhenParsing(_openCoverExample));
-            _modelMock.VerifySet(m=>m.Name=@"Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest");
+            _modelMock.VerifySet(m=>m.NameId=@"Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest");
 
         }
 

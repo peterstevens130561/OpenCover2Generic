@@ -274,7 +274,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
                 coverageWriter.WriteBegin(writer);
                 var parser = new OpenCoverCoverageParser();
-                var model=new IntermediateEntity();
+                var model=new AggregatedModuleCoverageEntity();
                 parser.ParseModule(model, XmlReader.Create(reader));
                 coverageWriter.GenerateCoverage(model, writer);
                 coverageWriter.WriteEnd(writer);

@@ -41,7 +41,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Module_WriterSet_Module_Header()
         {
             _observer.Writer = null;
-            IntermediateEntity entity = new IntermediateEntity();
+            AggregatedModuleCoverageEntity entity = new AggregatedModuleCoverageEntity();
             ModuleEventArgs eventArgs = new ModuleEventArgs(entity);
             ((IQueryAllModulesResultObserver)_observer).OnModule(null, eventArgs);
             _coverageWriterMock.Verify(o => o.GenerateCoverage(entity,null), Times.Once);

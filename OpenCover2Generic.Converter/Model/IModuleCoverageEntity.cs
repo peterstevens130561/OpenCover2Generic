@@ -4,7 +4,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
     public interface IModuleCoverageEntity
     {
-        string Name { get; set; }
+        string NameId { get; set; }
 
         void AddFile(string fileId, string filePath);
         IList<ISourceFileCoverageAggregate> GetSourceFiles();
