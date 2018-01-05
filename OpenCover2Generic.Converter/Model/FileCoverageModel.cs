@@ -6,7 +6,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
     internal class SourceFileCoverageEntity : ISourceFileCoverageModel
     {
-        private readonly Dictionary<string,ISequencePoint> _coveragePoints = new Dictionary<string,ISequencePoint>();
+        private readonly Dictionary<string,ISequencePointEntity> _coveragePoints = new Dictionary<string,ISequencePointEntity>();
         private readonly Dictionary<string, IBranchPoints> _branchPoints = new Dictionary<string, IBranchPoints>();
 
         public SourceFileCoverageEntity(string uid,string filePath)
@@ -19,11 +19,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
 
         public string Uid { get; }
 
-        public IList<ISequencePoint> SequencePoints
+        public IList<ISequencePointEntity> SequencePoints
         {
             get
             {
-                List<ISequencePoint> points = _coveragePoints.Values.ToList();
+                List<ISequencePointEntity> points = _coveragePoints.Values.ToList();
                 points.Sort((pair1, pair2) => pair1.SourceLine.CompareTo(pair2.SourceLine));
                 return points;
             }
@@ -34,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
             bool isVisited = int.Parse(visitedCount) > 0;
             if (!_coveragePoints.ContainsKey(sourceLine))
             {
-                _coveragePoints[sourceLine]=new SequencePointValue(sourceLine);
+                _coveragePoints[sourceLine]=new SequencePointEntityEntity(sourceLine);
             }
             _coveragePoints[sourceLine].AddVisit(isVisited);
         }

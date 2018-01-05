@@ -126,12 +126,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
               <Name>Bhi.Esie.Services.EsieTooLinkRepository.Interfaces.IEsieTooLinkRepositoryService Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest.EsieTooLinkRepositoryServiceTest::get_EsieTooLinkRepository()</Name>
               <FileRef uid=""1"" />
               <SequencePoints>
-                <SequencePointValue vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
-                <SequencePointValue vc=""1"" uspid=""2"" ordinal=""1"" offset=""1"" sl=""28"" sc=""17"" el=""28"" ec=""52"" bec=""0"" bev=""0"" fileid=""1"" />
-                <SequencePointValue vc=""2"" uspid=""3"" ordinal=""2"" offset=""10"" sl=""29"" sc=""13"" el=""29"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
+                <SequencePoint vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
+                <SequencePoint vc=""1"" uspid=""2"" ordinal=""1"" offset=""1"" sl=""28"" sc=""17"" el=""28"" ec=""52"" bec=""0"" bev=""0"" fileid=""1"" />
+                <SequencePoint vc=""2"" uspid=""3"" ordinal=""2"" offset=""10"" sl=""29"" sc=""13"" el=""29"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints />
-              <MethodPoint xsi:type=""SequencePointValue"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
+              <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
             </Methods>
             </Class>
@@ -149,9 +149,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
             <Files>
                 <File uid=""1"" fullPath=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
             </Files>
-            <SequencePointValue vc=""0"" sl=""27"" fileid=""1"" />
-            <SequencePointValue vc=""1"" sl=""28"" fileid=""1"" />
-            <SequencePointValue vc=""1"" sl=""29"" fileid=""1"" />
+            <SequencePoint vc=""0"" sl=""27"" fileid=""1"" />
+            <SequencePoint vc=""1"" sl=""28"" fileid=""1"" />
+            <SequencePoint vc=""1"" sl=""29"" fileid=""1"" />
         </Module>
     </Modules>
 </CoverageSession>";
@@ -189,15 +189,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
               <Name>Bhi.Esie.Services.EsieTooLinkRepository.Interfaces.IEsieTooLinkRepositoryService Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest.EsieTooLinkRepositoryServiceTest::get_EsieTooLinkRepository()</Name>
               <FileRef uid=""1"" />
               <SequencePoints>
-                <SequencePointValue vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
-                <SequencePointValue vc=""1"" uspid=""2"" ordinal=""1"" offset=""1"" sl=""28"" sc=""17"" el=""28"" ec=""52"" bec=""0"" bev=""0"" fileid=""1"" />
-                <SequencePointValue vc=""2"" uspid=""3"" ordinal=""2"" offset=""10"" sl=""29"" sc=""13"" el=""29"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
+                <SequencePoint vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
+                <SequencePoint vc=""1"" uspid=""2"" ordinal=""1"" offset=""1"" sl=""28"" sc=""17"" el=""28"" ec=""52"" bec=""0"" bev=""0"" fileid=""1"" />
+                <SequencePoint vc=""2"" uspid=""3"" ordinal=""2"" offset=""10"" sl=""29"" sc=""13"" el=""29"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
                 <BranchPointValue vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
                 <BranchPointValue vc=""1"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
-              <MethodPoint xsi:type=""SequencePointValue"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
+              <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
             </Methods>
             </Class>
@@ -215,11 +215,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
             <Files>
                 <File uid=""1"" fullPath=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
             </Files>
-            <SequencePointValue vc=""0"" sl=""27"" fileid=""1"" />
+            <SequencePoint vc=""0"" sl=""27"" fileid=""1"" />
             <BranchPointValue vc=""0"" sl=""27"" path=""0"" fileid=""1"" />
             <BranchPointValue vc=""1"" sl=""27"" path=""1"" fileid=""1"" />
-            <SequencePointValue vc=""1"" sl=""28"" fileid=""1"" />
-            <SequencePointValue vc=""1"" sl=""29"" fileid=""1"" />
+            <SequencePoint vc=""1"" sl=""28"" fileid=""1"" />
+            <SequencePoint vc=""1"" sl=""29"" fileid=""1"" />
         </Module>
     </Modules>
 </CoverageSession>";
@@ -256,9 +256,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
               <Name>Bhi.Esie.Services.EsieTooLinkRepository.Interfaces.IEsieTooLinkRepositoryService Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest.EsieTooLinkRepositoryServiceTest::get_EsieTooLinkRepository()</Name>
               <FileRef uid=""1"" />
               <SequencePoints>
-                <SequencePointValue vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
-                <SequencePointValue vc=""1"" uspid=""2"" ordinal=""1"" offset=""1"" sl=""28"" sc=""17"" el=""28"" ec=""52"" bec=""0"" bev=""0"" fileid=""1"" />
-                <SequencePointValue vc=""2"" uspid=""3"" ordinal=""2"" offset=""10"" sl=""29"" sc=""13"" el=""29"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
+                <SequencePoint vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
+                <SequencePoint vc=""1"" uspid=""2"" ordinal=""1"" offset=""1"" sl=""28"" sc=""17"" el=""28"" ec=""52"" bec=""0"" bev=""0"" fileid=""1"" />
+                <SequencePoint vc=""2"" uspid=""3"" ordinal=""2"" offset=""10"" sl=""29"" sc=""13"" el=""29"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
                 <BranchPointValue vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
@@ -268,7 +268,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <BranchPointValue vc=""1"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
                 <BranchPointValue vc=""1"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
-              <MethodPoint xsi:type=""SequencePointValue"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
+              <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
             </Methods>
             </Class>
@@ -286,11 +286,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
             <Files>
                 <File uid=""1"" fullPath=""E:\Cadence\EsieTooLinkRepositoryServiceTest.cs"" />
             </Files>
-            <SequencePointValue vc=""0"" sl=""27"" fileid=""1"" />
+            <SequencePoint vc=""0"" sl=""27"" fileid=""1"" />
             <BranchPointValue vc=""1"" sl=""27"" path=""0"" fileid=""1"" />
             <BranchPointValue vc=""1"" sl=""27"" path=""1"" fileid=""1"" />
-            <SequencePointValue vc=""1"" sl=""28"" fileid=""1"" />
-            <SequencePointValue vc=""1"" sl=""29"" fileid=""1"" />
+            <SequencePoint vc=""1"" sl=""28"" fileid=""1"" />
+            <SequencePoint vc=""1"" sl=""29"" fileid=""1"" />
         </Module>
     </Modules>
 </CoverageSession>";

@@ -3,9 +3,9 @@
     /// <summary>
     /// Entity holding information on the coverage of a line
     /// </summary>
-    public class SequencePointValue : ISequencePoint
+    public class SequencePointEntityEntity : ISequencePointEntity
     {
-        public SequencePointValue(string sourceLine)
+        public SequencePointEntityEntity(string sourceLine)
         {
             SourceLine = int.Parse(sourceLine);
         }

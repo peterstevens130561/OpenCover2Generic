@@ -7,7 +7,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
         string FullPath { get; }
 
         void AddSequencePoint(string sourceLine,string visitedCount);
-        IList<ISequencePoint> SequencePoints { get; }
+        IList<ISequencePointEntity> SequencePoints { get; }
         string Uid { get; }
 
         void AddBranchPoint(IBranchPoint branchPoint);
