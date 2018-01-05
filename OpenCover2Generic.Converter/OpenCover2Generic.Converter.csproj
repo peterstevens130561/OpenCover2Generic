@@ -124,7 +124,7 @@
     <Compile Include="Writers\IGenericCoverageWriterObserver.cs" />
     <Compile Include="Writers\OpenCoverCoverageWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\SequencePoint.cs" />
+    <Compile Include="Model\SequencePointValue.cs" />
     <Compile Include="Repositories\Tests\TestResultsConcatenator.cs" />
     <Compile Include="Writers\OpenCoverCoverageWriterFactory.cs" />
   </ItemGroup>

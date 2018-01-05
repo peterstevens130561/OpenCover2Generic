@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Summary numSequencePoints="172" visitedSequencePoints="0" numBranchPointValues="24" visitedBranchPointValues="0" sequenceCoverage="0" branchCoverage="0" maxCyclomaticComplexity="3" minCyclomaticComplexity="1" visitedClasses="0" numClasses="2" visitedMethods="0" numMethods="24" />
+  <Summary numSequencePointValues="172" visitedSequencePointValues="0" numBranchPointValues="24" visitedBranchPointValues="0" sequenceCoverage="0" branchCoverage="0" maxCyclomaticComplexity="3" minCyclomaticComplexity="1" visitedClasses="0" numClasses="2" visitedMethods="0" numMethods="24" />
   <Modules>
     <Module skippedDueTo="MissingPdb" hash="11-EF-82-96-1B-91-F8-56-89-F6-A5-DA-94-D0-D5-C3-2F-32-98-35">
       <ModulePath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\PrivateAssemblies\Microsoft.Diagnostics.Tracing.EventSource.dll</ModulePath>

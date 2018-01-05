@@ -83,7 +83,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
                     case "File":
                         AddFile(xmlReader);
                         break;
-                    case "SequencePoint":
+                    case "SequencePointValue":
                         AddSequencePoint(xmlReader);
                         break;
                     case "BranchPointValue":
