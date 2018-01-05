@@ -56,7 +56,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Add_EmptyModel_Add_Skipped()
         {
 
-           _repository.Add(_aggregateMock.Object);
+           _repository.Save(_aggregateMock.Object);
             _coverageStorageResolverMock.Verify(c => c.GetPathForAssembly(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
@@ -65,7 +65,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             _moduleCoverageModel.AddFile("10","b");
 
-            _repository.Add(_aggregateMock.Object);
+            _repository.Save(_aggregateMock.Object);
 
             _coverageStorageResolverMock.Verify(c => c.GetPathForAssembly(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
            _coverageWriterMock.Verify(c => c.GenerateCoverage(_moduleCoverageModel,null),Times.Once);

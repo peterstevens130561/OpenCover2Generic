@@ -71,7 +71,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
                 _testResultsRepository.Add(openCoverManager.TestResultsPath);
             }
             var coverageAggregate = _coverageAggregateFactory.Create(openCoverOutputPath);
-            _codeCoverageRepository.Add(coverageAggregate);
+            _codeCoverageRepository.Save(coverageAggregate);
         }
 
         private ITestJob GetAssembly(IJobs jobs)

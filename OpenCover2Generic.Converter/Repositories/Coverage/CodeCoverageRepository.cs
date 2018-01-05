@@ -36,7 +36,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 
         public string RootDirectory { get; set; }
 
-        public void Add(ICoverageAggregate coverageAggregate)
+        public void Save(ICoverageAggregate coverageAggregate)
         {
             coverageAggregate.Modules(WriteModule);
         }
