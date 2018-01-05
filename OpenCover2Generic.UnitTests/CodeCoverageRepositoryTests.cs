@@ -22,7 +22,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<ICoverageStorageResolver> _coverageStorageResolverMock;
         private ICoverageParser _coverageParser;
         private Mock<ICoverageAggregate> _aggregateMock;
-        private ModuleCoverageModel _moduleCoverageModel;
+        private ModuleCoverageEntity _moduleCoverageEntity;
         private Mock<IXmlAdapter> _xmlAdapterMock;
         private Mock<ICoverageWriterFactory> _coverageWriterFactoryMock;
         private Mock<ICoverageWriter> _coverageWriterMock;
@@ -40,14 +40,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 _xmlAdapterMock.Object,
                 _coverageWriterFactoryMock.Object);
 
-            _moduleCoverageModel = new ModuleCoverageModel();
-            _moduleCoverageModel.Name = "module";
+            _moduleCoverageEntity = new ModuleCoverageEntity();
+            _moduleCoverageEntity.Name = "module";
             _repository.RootDirectory = "root";
             _aggregateMock
-                .Setup(p => p.Modules(It.IsAny<Action<IModuleCoverageModel>>()))
-                .Callback<Action<IModuleCoverageModel>>(q =>
+                .Setup(p => p.Modules(It.IsAny<Action<IModuleCoverageEntity>>()))
+                .Callback<Action<IModuleCoverageEntity>>(q =>
                 {
-                    q.Invoke(_moduleCoverageModel);
+                    q.Invoke(_moduleCoverageEntity);
                 });
             _coverageStorageResolverMock.Setup(c => c.GetPathForAssembly("root", "module", It.IsAny<string>())).Returns("bla");
             _coverageWriterFactoryMock.Setup(c => c.CreateOpenCoverCoverageWriter()).Returns(_coverageWriterMock.Object);
@@ -63,12 +63,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Add_EmptyModelWithOneSourceFile_Add_DefinedPath()
         {
-            _moduleCoverageModel.AddFile("10","b");
+            _moduleCoverageEntity.AddFile("10","b");
 
             _repository.Save(_aggregateMock.Object);
 
             _coverageStorageResolverMock.Verify(c => c.GetPathForAssembly(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-           _coverageWriterMock.Verify(c => c.GenerateCoverage(_moduleCoverageModel,null),Times.Once);
+           _coverageWriterMock.Verify(c => c.GenerateCoverage(_moduleCoverageEntity,null),Times.Once);
         }
     }
 }

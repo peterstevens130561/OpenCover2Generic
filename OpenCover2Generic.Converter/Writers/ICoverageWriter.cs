@@ -17,6 +17,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
         /// <param name="xmlWriter"></param>
         void WriteEnd(XmlWriter xmlWriter);
 
-        void GenerateCoverage(IModuleCoverageModel model, XmlWriter xmlWriter);
+        void GenerateCoverage(IModuleCoverageEntity entity, XmlWriter xmlWriter);
     }
 }

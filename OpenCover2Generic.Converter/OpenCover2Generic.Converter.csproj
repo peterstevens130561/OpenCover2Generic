@@ -92,9 +92,9 @@
     <Compile Include="Adapters\TimerAdapter.cs" />
     <Compile Include="CoverageConverters\Exceptions\CommandLineArgumentException.cs" />
     <Compile Include="Utils\CommandLineParser.cs" />
-    <Compile Include="Model\BranchPoint.cs" />
+    <Compile Include="Model\BranchPointValue.cs" />
     <Compile Include="Model\BranchPoints.cs" />
-    <Compile Include="Model\IntermediateModel.cs" />
+    <Compile Include="Model\IntermediateEntity.cs" />
     <Compile Include="Adapters\IFileSystemAdapter.cs" />
     <Compile Include="Utils\IJobFileSystem.cs" />
     <Compile Include="TestJobConsumer\IOpenCoverCommandLineBuilder.cs" />
@@ -116,8 +116,8 @@
     <Compile Include="Writers\ICoverageStatisticsAggregator.cs" />
     <Compile Include="Writers\ICoverageWriter.cs" />
     <Compile Include="Model\IFileCoverageModel.cs" />
-    <Compile Include="Model\IModuleCoverageModel.cs" />
-    <Compile Include="Model\ModuleCoverageModel.cs" />
+    <Compile Include="Model\IModuleCoverageEntity.cs" />
+    <Compile Include="Model\ModuleCoverageEntity.cs" />
     <Compile Include="TestJobConsumer\OpenCoverCommandLineBuilder.cs" />
     <Compile Include="Parsers\OpenCoverCoverageParser.cs" />
     <Compile Include="Writers\ICoverageWriterFactory.cs" />

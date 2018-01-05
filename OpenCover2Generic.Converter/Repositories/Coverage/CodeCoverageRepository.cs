@@ -41,16 +41,16 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             coverageAggregate.Modules(WriteModule);
         }
 
-        private void WriteModule(IModuleCoverageModel model)
+        private void WriteModule(IModuleCoverageEntity entity)
         {
-            if (model.GetSourceFiles().Any())
+            if (entity.GetSourceFiles().Any())
             {
-                string moduleFile = _coverageStorageResolver.GetPathForAssembly(RootDirectory, model.Name, Guid.NewGuid().ToString());
+                string moduleFile = _coverageStorageResolver.GetPathForAssembly(RootDirectory, entity.Name, Guid.NewGuid().ToString());
                 using (XmlTextWriter tempFileWriter = _xmlAdapter.CreateTextWriter(moduleFile))
                 {
                     var moduleWriter = _coverageWriterFactory.CreateOpenCoverCoverageWriter();
                     moduleWriter.WriteBegin(tempFileWriter);
-                    moduleWriter.GenerateCoverage(model, tempFileWriter);
+                    moduleWriter.GenerateCoverage(entity, tempFileWriter);
                     moduleWriter.WriteEnd(tempFileWriter);
                 }
             }

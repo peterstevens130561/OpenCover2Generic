@@ -12,9 +12,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class OpenCoverCoverageParserTests
     {
-        private IModuleCoverageModel _model;
+        private IModuleCoverageEntity _entity;
         private OpenCoverCoverageParser _parser;
-        private Mock<IModuleCoverageModel> _modelMock;
+        private Mock<IModuleCoverageEntity> _modelMock;
         private readonly string _openCoverExample= @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
 <Modules>
@@ -42,7 +42,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <SequencePoint vc=""2"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
-                <BranchPoint vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
@@ -57,8 +57,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestInitialize]
         public void Initialize()
         {
-            _modelMock = new Mock<IModuleCoverageModel>();
-            _model = _modelMock.Object;
+            _modelMock = new Mock<IModuleCoverageEntity>();
+            _entity = _modelMock.Object;
             _parser = new OpenCoverCoverageParser();
 
         }
@@ -164,7 +164,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <SequencePoint vc=""2"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
-                <BranchPoint vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
@@ -202,7 +202,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <SequencePoint vc=""2"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
-                <BranchPoint vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
@@ -228,12 +228,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _streamReader = new StreamReader(_inputStream);
             _xmlReader = XmlReader.Create(_streamReader);
             _xmlReader.MoveToContent();
-            return _parser.ParseModule(_model, _xmlReader);
+            return _parser.ParseModule(_entity, _xmlReader);
         }
 
         private bool WhenContinueParsing()
         {
-            return _parser.ParseModule(_model, _xmlReader);
+            return _parser.ParseModule(_entity, _xmlReader);
 
         }
     }

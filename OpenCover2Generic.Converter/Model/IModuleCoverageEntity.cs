@@ -2,7 +2,7 @@
 
 namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
-    public interface IModuleCoverageModel
+    public interface IModuleCoverageEntity
     {
         string Name { get; set; }
 

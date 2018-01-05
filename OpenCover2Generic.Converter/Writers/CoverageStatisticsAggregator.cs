@@ -24,7 +24,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
 
         public void OnModule(object v, ModuleEventArgs moduleEventArgs)
         {
-            var moduleModel = moduleEventArgs.Model;
+            var moduleModel = moduleEventArgs.Entity;
             foreach (var sourceFileCoverageModel in moduleModel.GetSourceFiles())
             {
                 Lines += sourceFileCoverageModel.SequencePoints.Count;

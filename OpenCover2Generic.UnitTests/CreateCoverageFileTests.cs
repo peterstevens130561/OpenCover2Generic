@@ -179,8 +179,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <SequencePoint vc=""2"" uspid=""3"" ordinal=""2"" offset=""10"" sl=""29"" sc=""13"" el=""29"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
-                <BranchPoint vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
-                <BranchPoint vc=""1"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
+                <BranchPointValue vc=""1"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
@@ -239,12 +239,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <SequencePoint vc=""2"" uspid=""3"" ordinal=""2"" offset=""10"" sl=""29"" sc=""13"" el=""29"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
-                <BranchPoint vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
-                <BranchPoint vc=""1"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
+                <BranchPointValue vc=""1"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <BranchPoints>
-                <BranchPoint vc=""1"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
-                <BranchPoint vc=""1"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""1"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
+                <BranchPointValue vc=""1"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
@@ -277,7 +277,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
                 coverageWriter.WriteBegin(writer);
                 var parser = new OpenCoverCoverageParser();
-                var model=new IntermediateModel();
+                var model=new IntermediateEntity();
                 parser.ParseModule(model, XmlReader.Create(reader));
                 coverageWriter.GenerateCoverage(model, writer);
                 coverageWriter.WriteEnd(writer);

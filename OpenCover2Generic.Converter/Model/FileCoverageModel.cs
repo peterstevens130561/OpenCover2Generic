@@ -14,7 +14,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
         public SourceFileCoverageModel(string uid,string filePath)
         {
             _uid = uid;
-            this._filePath = filePath;
+            _filePath = filePath;
         }
 
         public string FullPath

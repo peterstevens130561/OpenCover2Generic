@@ -93,7 +93,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Add_SinglePoint_SameValue()
         {
-            var branchPoint = new BranchPoint(10,1,1, false);
+            var branchPoint = new BranchPointValue(10,1,1, false);
             var aggregator = new BranchPoints();
             aggregator.Add(branchPoint);
             Assert.AreEqual(1, aggregator.PathsToCover());

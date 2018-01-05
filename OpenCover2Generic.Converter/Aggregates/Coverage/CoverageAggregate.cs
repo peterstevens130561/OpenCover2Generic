@@ -30,7 +30,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
 
         public string Path { get; private set; }
 
-        public void Modules(Action<IModuleCoverageModel> action)
+        public void Modules(Action<IModuleCoverageEntity> action)
         {
             var parser = _openCoverageParserFactory.Create();
             try
@@ -38,11 +38,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
                 using (var xmlReader = _xmlAdapter.CreateReader(Path))
                 {
                     xmlReader.MoveToContent();
-                    var model = new ModuleCoverageModel();
+                    var model = new ModuleCoverageEntity();
                     while (parser.ParseModule(model, xmlReader))
                     {
                         action.Invoke(model);
-                        model = new ModuleCoverageModel();
+                        model = new ModuleCoverageEntity();
                     }
                 }
 

@@ -47,10 +47,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Module_WriterSet_Module_Header()
         {
             _observer.Writer = null;
-            IntermediateModel model = new IntermediateModel();
-            ModuleEventArgs eventArgs = new ModuleEventArgs(model);
+            IntermediateEntity entity = new IntermediateEntity();
+            ModuleEventArgs eventArgs = new ModuleEventArgs(entity);
             ((IQueryAllModulesResultObserver)_observer).OnModule(null, eventArgs);
-            _coverageWriterMock.Verify(o => o.GenerateCoverage(model,null), Times.Once);
+            _coverageWriterMock.Verify(o => o.GenerateCoverage(entity,null), Times.Once);
 
         }
     }

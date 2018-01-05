@@ -87,7 +87,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
         private ModuleEventArgs GivenTwoFilesWithThreeLinesAndTwoCovered()
         {
-            var model = new ModuleCoverageModel();
+            var model = new ModuleCoverageEntity();
             model.AddFile("1", "a");
             model.AddSequencePoint("1", "1", "1");
             model.AddFile("2", "b");

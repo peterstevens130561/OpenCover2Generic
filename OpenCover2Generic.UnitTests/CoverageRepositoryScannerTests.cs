@@ -109,7 +109,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         private void ThenParsed(string name)
         {
-            _moduleParserMock.Verify(m => m.ParseFile(It.IsAny<IntermediateModel>(), name), Times.Once);
+            _moduleParserMock.Verify(m => m.ParseFile(It.IsAny<IntermediateEntity>(), name), Times.Once);
         }
     }
 }

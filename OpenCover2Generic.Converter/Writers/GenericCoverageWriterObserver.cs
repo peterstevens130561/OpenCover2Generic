@@ -42,7 +42,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
 
         public void OnModule(object v, ModuleEventArgs moduleEventArgs)
         {
-            var model = moduleEventArgs.Model;
+            var model = moduleEventArgs.Entity;
             _coverageWriter.GenerateCoverage(model,Writer);
         }
     }

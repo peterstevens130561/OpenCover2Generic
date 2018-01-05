@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
-    public class ModuleCoverageModel : IModuleCoverageModel
+    public class ModuleCoverageEntity : IModuleCoverageEntity
     {
         private Dictionary<string, ISourceFileCoverageModel> _sourceFiles = new Dictionary<string,ISourceFileCoverageModel>();
 
@@ -36,7 +36,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
 
         public void AddBranchPoint(int fileId, int sourceLine, int path, bool isVisited)
         {
-            var branchPoint = new BranchPoint(fileId, sourceLine, path, isVisited);
+            var branchPoint = new BranchPointValue(fileId, sourceLine, path, isVisited);
             _sourceFiles[fileId.ToString()].AddBranchPoint(branchPoint);
         }
     }

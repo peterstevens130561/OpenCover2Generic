@@ -19,7 +19,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private Mock<IOpenCoverageParserFactory> _coverageParserFactoryMock;
         private Mock<IXmlAdapter> _xmlAdapterMock;
-        private Mock<Action<IModuleCoverageModel>> _actionMock = new Mock<Action<IModuleCoverageModel>>();
+        private Mock<Action<IModuleCoverageEntity>> _actionMock = new Mock<Action<IModuleCoverageEntity>>();
         [TestInitialize]
         public void Initialize()
         {
@@ -52,7 +52,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             var aggregate = CreateCoverageAggregate("a");
 
             aggregate.Modules(_actionMock.Object);
-            _actionMock.Verify(p => p(It.IsAny<IntermediateModel>()), Times.Never);
+            _actionMock.Verify(p => p(It.IsAny<IntermediateEntity>()), Times.Never);
 
         }
 
@@ -87,7 +87,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <SequencePoint vc=""2"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
-                <BranchPoint vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
@@ -119,7 +119,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <SequencePoint vc=""2"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
-                <BranchPoint vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
@@ -133,7 +133,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
          
             var aggregate = CreateCoverageAggregate("a");           
             aggregate.Modules(_actionMock.Object);
-            _actionMock.Verify(p => p(It.IsAny<IModuleCoverageModel>()), Times.Exactly(2));
+            _actionMock.Verify(p => p(It.IsAny<IModuleCoverageEntity>()), Times.Exactly(2));
 
         }
 
@@ -168,7 +168,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <SequencePoint vc=""2"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
-                <BranchPoint vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
