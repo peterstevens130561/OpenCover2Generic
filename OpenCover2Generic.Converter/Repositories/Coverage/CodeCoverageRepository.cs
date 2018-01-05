@@ -64,9 +64,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         /// <returns></returns>
         public IQueryAllModulesObservable QueryAllModules()
         {
-            var scanner = new QueryAllModulesObservable(_coverageStorageResolver, _coverageParser);
-            scanner.RootDirectory = RootDirectory;
-            return scanner;
+            var queryAllModules = new QueryAllModulesObservable(_coverageStorageResolver, _coverageParser);
+            queryAllModules.RootDirectory = RootDirectory;
+            return queryAllModules;
         }
 
     }

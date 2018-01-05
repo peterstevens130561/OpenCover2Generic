@@ -28,7 +28,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
             _xmlAdapter = xmlAdapter;
         }
 
-        public string Key { get; private set; }
         public string Path { get; private set; }
 
         public void Modules(Action<IModuleCoverageModel> action)
