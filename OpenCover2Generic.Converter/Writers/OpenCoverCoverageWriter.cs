@@ -1,7 +1,6 @@
 ﻿
 
 using BHGE.SonarQube.OpenCover2Generic.Model;
-using System;
 using System.Xml;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Writers
@@ -28,13 +27,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
         private void WriteCoverageData(IModuleCoverageEntity entity, XmlWriter xmlWriter)
         {
             _xmlWriter = xmlWriter;
-            foreach(ISourceFileCoverageModel sourceFile in entity.GetSourceFiles())
+            foreach(ISourceFileCoverageAggregate sourceFile in entity.GetSourceFiles())
             {
                 WriteCoverageDataForSourceFile(sourceFile);
             }
         }
 
-        private void WriteCoverageDataForSourceFile( ISourceFileCoverageModel sourceFile)
+        private void WriteCoverageDataForSourceFile( ISourceFileCoverageAggregate sourceFile)
         {
             foreach (ISequencePointEntity sequencePoint in sourceFile.SequencePoints)
             {
@@ -43,7 +42,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             }
         }
 
-        private string WriteSequencePoint(ISourceFileCoverageModel sourceFile, ISequencePointEntity sequencePointEntity)
+        private string WriteSequencePoint(ISourceFileCoverageAggregate sourceFile, ISequencePointEntity sequencePointEntity)
         {
             _xmlWriter.WriteStartElement("SequencePoint");
             string sourceLineNr = sequencePointEntity.SourceLine.ToString();
@@ -55,12 +54,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             return sourceLineNr;
         }
 
-        private void WriteBranchPointsForLine( ISourceFileCoverageModel sourceFile, string sourceLineNr)
+        private void WriteBranchPointsForLine( ISourceFileCoverageAggregate sourceFile, string sourceLineNr)
         {
             var aggregator = sourceFile.GetBranchPointsByLine(sourceLineNr);
             if (aggregator != null)
             {
-                foreach (IBranchPoint branchPoint in aggregator.GetBranchPoints())
+                foreach (IBranchPointValue branchPoint in aggregator.GetBranchPoints())
 
                 {   // <BranchPointValue vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
                     _xmlWriter.WriteStartElement("BranchPointValue");
@@ -77,7 +76,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
         private void WriteSourceFiles(IModuleCoverageEntity entity)
         {
             _xmlWriter.WriteStartElement("Files");
-            foreach (ISourceFileCoverageModel fileCoverage in entity.GetSourceFiles())
+            foreach (ISourceFileCoverageAggregate fileCoverage in entity.GetSourceFiles())
             {
                 _xmlWriter.WriteStartElement("File");
                 _xmlWriter.WriteAttributeString("uid", fileCoverage.Uid);

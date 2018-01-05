@@ -2,7 +2,7 @@
 
 namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
-    public interface ISourceFileCoverageModel
+    public interface ISourceFileCoverageAggregate
     {
         string FullPath { get; }
 
@@ -10,7 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
         IList<ISequencePointEntity> SequencePoints { get; }
         string Uid { get; }
 
-        void AddBranchPoint(IBranchPoint branchPoint);
+        void AddBranchPoint(IBranchPointValue branchPointValue);
         IBranchPoints GetBranchPointsByLine(string sourceLine);
     }
 }

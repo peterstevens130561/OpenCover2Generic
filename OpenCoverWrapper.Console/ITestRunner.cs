@@ -1,5 +1,4 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System.Collections.Concurrent;
 using System;
 
 namespace BHGE.SonarQube.OpenCoverWrapper

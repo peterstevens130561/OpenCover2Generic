@@ -1,15 +1,14 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
     public interface IBranchPoints
     {
-        IList<IBranchPoint> GetBranchPoints();
+        IList<IBranchPointValue> GetBranchPoints();
 
         IBranchPoints Add(int sourceLine,int path, bool isVisited);
 
-        IBranchPoints Add(IBranchPoint branchPoint);
+        IBranchPoints Add(IBranchPointValue branchPointValue);
         int PathsToCover();
         int CoveredPaths();
     }

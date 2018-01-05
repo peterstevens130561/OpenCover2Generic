@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml;
-using BHGE.SonarQube.OpenCover2Generic.Writers;
 using log4net;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests

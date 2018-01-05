@@ -1,7 +1,4 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using log4net;
-using System;
-using System.Net.Sockets;
 using System.Xml;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Parsers

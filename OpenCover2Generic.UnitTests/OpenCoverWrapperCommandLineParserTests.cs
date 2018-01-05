@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BHGE.SonarQube.OpenCover2Generic.OpenCoverRunner;
 using BHGE.SonarQube.OpenCoverWrapper;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 

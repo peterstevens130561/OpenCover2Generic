@@ -1,6 +1,6 @@
 ﻿namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
-    public interface IBranchPoint
+    public interface IBranchPointValue
     {
         int Path { get; }
         bool IsVisited { get; }

@@ -1,6 +1,4 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Model
@@ -10,7 +8,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
     /// </summary>
     internal class BranchPoints : IBranchPoints
     {
-        private readonly SortedDictionary<int, IBranchPoint> pathsToCover = new SortedDictionary<int, IBranchPoint>();
+        private readonly SortedDictionary<int, IBranchPointValue> pathsToCover = new SortedDictionary<int, IBranchPointValue>();
 
 
 
@@ -18,7 +16,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
         {
         }
 
-        public IList<IBranchPoint> GetBranchPoints()
+        public IList<IBranchPointValue> GetBranchPoints()
         {
             return pathsToCover.Values.ToList();
         }
@@ -36,19 +34,19 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
 
         public IBranchPoints Add(int sourceLine, int path, bool isVisited)
         {
-            IBranchPoint branchPoint = new BranchPointValue(sourceLine, path, isVisited);
-            Add(branchPoint);
+            IBranchPointValue branchPointValue = new BranchPointValueValue(sourceLine, path, isVisited);
+            Add(branchPointValue);
             return this;
         }
 
 
 
-        public IBranchPoints Add(IBranchPoint branchPoint)
+        public IBranchPoints Add(IBranchPointValue branchPointValue)
         {
-            int path = branchPoint.Path;
+            int path = branchPointValue.Path;
             if (!pathsToCover.ContainsKey(path) || !pathsToCover[path].IsVisited)
             {
-                pathsToCover[path] = branchPoint;
+                pathsToCover[path] = branchPointValue;
             }
             return this;
         }

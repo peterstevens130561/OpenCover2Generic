@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Threading;
 using System.Timers;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
-using BHGE.SonarQube.OpenCover2Generic.Utils;
 using log4net;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCover

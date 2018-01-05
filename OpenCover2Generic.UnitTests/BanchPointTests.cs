@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 
 namespace BHGE.SonarQube.OpenCover2Generic
@@ -10,7 +9,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void OneNotVisitedBranchPointShouldHaveOnePath() 
         {
-            var point = new BranchPointValue(1,1,1,false);
+            var point = new BranchPointValueValue(1,1,1,false);
             Assert.AreEqual(1, point.Path, "expected path 1");
             Assert.AreEqual(false, point.IsVisited,"expected not visited");
         }
@@ -18,7 +17,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void OneVisitedBranchPointShouldHaveOnePath()
         {
-            var point = new BranchPointValue(1,1, 2,true);
+            var point = new BranchPointValueValue(1,1, 2,true);
             Assert.AreEqual(2, point.Path,"expected path 2");
             Assert.AreEqual(true, point.IsVisited,"expected path visited");
         }

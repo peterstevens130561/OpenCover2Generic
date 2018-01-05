@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BHGE.SonarQube.OpenCover2Generic.Model
+﻿namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
     /// <summary>
     /// Immutable branchpoint
     /// </summary>
-    internal class BranchPointValue : IBranchPoint
+    internal class BranchPointValueValue : IBranchPointValue
     {
-        public BranchPointValue(int sourceLine,int path, bool isVisited)
+        public BranchPointValueValue(int sourceLine,int path, bool isVisited)
         {
             Path = path;
             IsVisited = isVisited;
             SourceLine = sourceLine;
         }
 
-        public BranchPointValue(int fileId, int sourceLine, int path, bool isVisited)
+        public BranchPointValueValue(int fileId, int sourceLine, int path, bool isVisited)
         {
             FileId = fileId;
             Path = path;

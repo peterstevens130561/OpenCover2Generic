@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BHGE.SonarQube.OpenCover2Generic.Model;
 
 namespace BHGE.SonarQube.OpenCover2Generic
@@ -93,7 +92,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Add_SinglePoint_SameValue()
         {
-            var branchPoint = new BranchPointValue(10,1,1, false);
+            var branchPoint = new BranchPointValueValue(10,1,1, false);
             var aggregator = new BranchPoints();
             aggregator.Add(branchPoint);
             Assert.AreEqual(1, aggregator.PathsToCover());

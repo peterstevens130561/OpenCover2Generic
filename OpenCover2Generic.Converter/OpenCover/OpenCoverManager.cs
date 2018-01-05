@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 using log4net;
 
 namespace BHGE.SonarQube.OpenCover2Generic.OpenCover

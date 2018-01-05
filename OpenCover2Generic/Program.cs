@@ -1,10 +1,5 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 using BHGE.SonarQube.OpenCover2Generic.Utils;

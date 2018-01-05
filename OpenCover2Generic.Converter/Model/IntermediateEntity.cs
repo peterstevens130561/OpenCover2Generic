@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
@@ -59,7 +55,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
             _moduleEntity.Clear();
         }
 
-        public IList<ISourceFileCoverageModel> GetSourceFiles()
+        public IList<ISourceFileCoverageAggregate> GetSourceFiles()
         {
             return _moduleEntity.GetSourceFiles();
         }

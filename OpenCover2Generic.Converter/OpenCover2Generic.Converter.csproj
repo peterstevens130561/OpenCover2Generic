@@ -92,7 +92,7 @@
     <Compile Include="Adapters\TimerAdapter.cs" />
     <Compile Include="CoverageConverters\Exceptions\CommandLineArgumentException.cs" />
     <Compile Include="Utils\CommandLineParser.cs" />
-    <Compile Include="Model\BranchPointValue.cs" />
+    <Compile Include="Model\BranchPointValueValue.cs" />
     <Compile Include="Model\BranchPoints.cs" />
     <Compile Include="Model\IntermediateEntity.cs" />
     <Compile Include="Adapters\IFileSystemAdapter.cs" />
@@ -107,15 +107,15 @@
     <Compile Include="Writers\GenericCoverageWriter.cs" />
     <Compile Include="Utils\ICommandLineParser.cs" />
     <Compile Include="CoverageConverters\OpenCover2GenericConverter.cs" />
-    <Compile Include="Model\FileCoverageModel.cs" />
-    <Compile Include="Model\IBranchPoint.cs" />
+    <Compile Include="Model\SourceFileCoverageAggregate.cs" />
+    <Compile Include="Model\IBranchPointValue.cs" />
     <Compile Include="Model\IBranchPoints.cs" />
     <Compile Include="CoverageConverters\ICoverageConverter.cs" />
     <Compile Include="Parsers\ICoverageParser.cs" />
     <Compile Include="Model\ICoveragePoint.cs" />
     <Compile Include="Writers\ICoverageStatisticsAggregator.cs" />
     <Compile Include="Writers\ICoverageWriter.cs" />
-    <Compile Include="Model\IFileCoverageModel.cs" />
+    <Compile Include="Model\ISourceFileCoverageAggregate.cs" />
     <Compile Include="Model\IModuleCoverageEntity.cs" />
     <Compile Include="Model\ModuleCoverageEntity.cs" />
     <Compile Include="TestJobConsumer\OpenCoverCommandLineBuilder.cs" />

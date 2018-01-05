@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Model
 {
-    internal class SourceFileCoverageEntity : ISourceFileCoverageModel
+    internal class SourceFileCoverageAggregate : ISourceFileCoverageAggregate
     {
         private readonly Dictionary<string,ISequencePointEntity> _coveragePoints = new Dictionary<string,ISequencePointEntity>();
         private readonly Dictionary<string, IBranchPoints> _branchPoints = new Dictionary<string, IBranchPoints>();
 
-        public SourceFileCoverageEntity(string uid,string filePath)
+        public SourceFileCoverageAggregate(string uid,string filePath)
         {
             Uid = uid;
             FullPath = filePath;
@@ -44,14 +43,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
             return _branchPoints.ContainsKey(sourceLine)?_branchPoints[sourceLine]:null;
         }
 
-        public void AddBranchPoint(IBranchPoint branchPoint)
+        public void AddBranchPoint(IBranchPointValue branchPointValue)
         {
-            string sourceLine = branchPoint.SourceLine.ToString();
+            string sourceLine = branchPointValue.SourceLine.ToString();
             if (!_branchPoints.ContainsKey(sourceLine))
             {
                 _branchPoints[sourceLine] = new BranchPoints();
             }
-            _branchPoints[sourceLine].Add(branchPoint);
+            _branchPoints[sourceLine].Add(branchPointValue);
         }
     }
 }

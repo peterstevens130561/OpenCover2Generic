@@ -1,11 +1,5 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
@@ -31,7 +25,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
 
         public void GenerateCoverage(IModuleCoverageEntity entity,XmlWriter xmlWriter)
         {
-            foreach (ISourceFileCoverageModel fileCoverage in entity.GetSourceFiles())
+            foreach (ISourceFileCoverageAggregate fileCoverage in entity.GetSourceFiles())
             {
                 xmlWriter.WriteStartElement("file");
                 xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);
@@ -39,7 +33,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             }
         }
 
-        private  void GenerateSequencePoints(XmlWriter xmlWriter, ISourceFileCoverageModel fileCoverage)
+        private  void GenerateSequencePoints(XmlWriter xmlWriter, ISourceFileCoverageAggregate fileCoverage)
         { 
             foreach (ISequencePointEntity sequencePoint in fileCoverage.SequencePoints)
             {
