@@ -15,5 +15,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Adapters
             string path,
             string searchPattern,
             SearchOption searchOption);
+        void DirectoryDelete(string path, bool recursive);
     }
 }

@@ -12,22 +12,15 @@ namespace BHGE.SonarQube.OpenCoverWrapper
     class TestRunner : ITestRunner
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(TestRunner));
-        private readonly IJobFileSystem _jobFileSystemInfo;
         private readonly IJobConsumerFactory _jobConsumerFactory;
         private readonly List<Task> _tasks = new List<Task>();
         private readonly IJobs _jobs = new Jobs();
-        public TestRunner(IJobFileSystem jobFileSystemInfo,
-            IJobConsumerFactory jobConsumerFactory)
+        public TestRunner( IJobConsumerFactory jobConsumerFactory)
         {
-            _jobFileSystemInfo = jobFileSystemInfo;
             _jobConsumerFactory = jobConsumerFactory;
 
         }
 
-        public void Initialize()
-        {
-            _jobFileSystemInfo.CreateRoot(DateTime.Now.ToString("yyMMdd_HHmmss"));
-        }
 
         /// <summary>
         /// Runs the tests parallel

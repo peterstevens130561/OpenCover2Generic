@@ -48,12 +48,11 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 codeCoverageRepository,
                 coverageAggregateFactory);
             
-            var testRunner = new TestRunner(jobFileSystem,jobConsumerFactory);
+            var testRunner = new TestRunner(jobConsumerFactory);
 
             commandLineParser.Args = args;
             openCoverCommandLineBuilder.Args = args;
 
-            testRunner.Initialize();
             try
             {
                 jobFileSystem.CreateRoot(DateTime.Now.ToString(@"yyMMdd_HHmmss"));
@@ -63,6 +62,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
                 CreateTestResults(commandLineParser, testResultsRepository);
                 CreateCoverageResults(commandLineParser, codeCoverageRepository);
+                jobFileSystem.RemoveAll();
 
             }
             catch ( CommandLineArgumentException e)

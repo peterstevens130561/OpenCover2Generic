@@ -84,6 +84,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
             return GetFileForAssembly(_testResultsDir, assemblyPath, "xml");
         }
 
+        public void RemoveAll()
+        {
+            _fileSystemAdapter.DirectoryDelete(_rootPath,true);
+        }
+
         /// <summary>
         /// Gets the directory where all individual test results are stored.
         /// </summary>

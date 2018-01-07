@@ -32,6 +32,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Adapters
             return Path.GetTempPath();
         }
 
+        public void DirectoryDelete(string path,bool recursive)
+        {
+            Directory.Delete(path,recursive);
+        }
+
         public IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption)
         {
             return Directory.EnumerateDirectories(path, searchPattern, searchOption);

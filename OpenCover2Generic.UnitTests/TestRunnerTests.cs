@@ -10,22 +10,19 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class TestRunnerTests
     {
         private  Mock<IJobConsumerFactory> _jobConsumerFactoryMock;
-        private Mock<IJobFileSystem> _jobFileSystemMock;
-        private Mock<IOpenCoverCommandLineBuilder> _openCoverCommandLineBuilderMock;
+
         
         [TestInitialize]
         public void Initialize()
         {
             _jobConsumerFactoryMock = new Mock<IJobConsumerFactory>();
-            _jobFileSystemMock = new Mock<IJobFileSystem>();
-            _openCoverCommandLineBuilderMock = new Mock<IOpenCoverCommandLineBuilder>();
+
         }
 
         [TestMethod]
         public void RunTests_OneAssemblyFiveJobs()
         {
-            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, _jobConsumerFactoryMock.Object);
+            var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one" };
             testRunner.RunTests(testAssemblies, 5);
             _jobConsumerFactoryMock.Verify(f => f.Create(), Times.Exactly(5));
@@ -34,8 +31,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void CreateJobs_ChunkSize1_SameList()
         {
-            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, _jobConsumerFactoryMock.Object);
+            var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one","two","three" };
             testRunner.CreateJobs(testAssemblies, 1);
             var jobs = testRunner.Jobs;
@@ -48,8 +44,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void CreateJobs_ChunkSize2_SameList()
         {
-            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, _jobConsumerFactoryMock.Object);
+            var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one", "two", "three", "four" , "five" };
             testRunner.CreateJobs(testAssemblies, 2);
             var jobs = testRunner.Jobs;
@@ -62,8 +57,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void FirstAssembly_ChunkSize2_FirstInChunk()
         {
-            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, _jobConsumerFactoryMock.Object);
+            var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one", "two", "three", "four", "five" };
             testRunner.CreateJobs(testAssemblies, 2);
             var jobs = testRunner.Jobs;
@@ -71,6 +65,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual("one", jobs.Take().FirstAssembly);
             Assert.AreEqual("three", jobs.Take().FirstAssembly);
             Assert.AreEqual("five", jobs.Take().FirstAssembly);
+        }
+
+        private TestRunner CreateTestRunner()
+        {
+            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
+            var testRunner = new TestRunner(_jobConsumerFactoryMock.Object);
+            return testRunner;
         }
     }
 }
