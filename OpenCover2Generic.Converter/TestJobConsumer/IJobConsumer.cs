@@ -1,5 +1,5 @@
 ﻿using System;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel;
 
 namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
 {

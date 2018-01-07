@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -10,7 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void AddOneFile()
         {
-            var intermediateModel = new AggregatedModuleCoverageEntity();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             Assert.AreEqual(1, intermediateModel.GetSourceFiles().Count);
             Assert.AreEqual("a", intermediateModel.GetSourceFiles()[0].FullPath);
@@ -19,7 +19,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void AddSecondFileWithPathAlreadyAdded()
         {
-            var intermediateModel = new AggregatedModuleCoverageEntity();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             intermediateModel.AddFile("2", "a");
             Assert.AreEqual(1, intermediateModel.GetSourceFiles().Count);
@@ -30,7 +30,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void SecondFileWithPathAlreadyAddedAddSequencePoint()
         {
-            var intermediateModel = new AggregatedModuleCoverageEntity();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             intermediateModel.AddFile("2", "a");
             Assert.AreEqual(1, intermediateModel.GetSourceFiles().Count);
@@ -45,7 +45,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Swaps()
         {
-            var intermediateModel = new AggregatedModuleCoverageEntity();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             intermediateModel.AddFile("2", "b");
             intermediateModel.AddFile("2", "a");
@@ -58,7 +58,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void SecondFileWithPathAlreadyAddedAddBranchPoint()
         {
-            var intermediateModel = new AggregatedModuleCoverageEntity();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             intermediateModel.AddFile("2", "a");
             Assert.AreEqual(1, intermediateModel.GetSourceFiles().Count);
@@ -72,7 +72,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void CheckClear()
         {
-            var intermediateModel = new AggregatedModuleCoverageEntity();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             intermediateModel.Clear();
             Assert.AreEqual(0, intermediateModel.GetSourceFiles().Count());

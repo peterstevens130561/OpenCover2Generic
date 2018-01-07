@@ -2,10 +2,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Text;
-using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 using BHGE.SonarQube.OpenCover2Generic.CoverageConverters;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -13,12 +13,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class ConversionTests
     {
         private ICoverageConverter _converter;
-        private IModuleCoverageEntity _entity;
+        private IModule _entity;
 
         [TestInitialize]
         public void Initialize()
         {
-            _entity = new ModuleCoverageEntity();
+            _entity = new Module();
             _converter = new OpenCover2GenericConverter(_entity,new OpenCoverCoverageParser(),new GenericCoverageWriter());
         }
 

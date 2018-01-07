@@ -1,12 +1,11 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System.Xml;
+﻿using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Parsers
 {
     public class OpenCoverCoverageParser : ICoverageParser
     {
-        private IModuleCoverageEntity _entity;
-        private string _moduleName;
+        private IModule _module;
 
         private enum ParserHuntState
         {
@@ -16,15 +15,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
         }
 
 
-        public string ModuleName
-        {
-            get
-            {
-                return _moduleName;
-            }
-        }
 
-        public void ParseFile(AggregatedModuleCoverageEntity entity,string assemblyPath)
+        public void ParseFile(AggregatedModule entity,string assemblyPath)
         {
             using (XmlReader tempFileReader = XmlReader.Create(assemblyPath))
             {
@@ -33,10 +25,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
             }
         }
 
-        public bool ParseModule(IModuleCoverageEntity entity,XmlReader xmlReader)
+        public bool ParseModule(IModule entity,XmlReader xmlReader)
         {
-            _entity = entity;
-            _moduleName = null;
+            _module = entity;
             ParserHuntState state = ParserHuntState.Hunt;
 
             while (xmlReader.Read())
@@ -99,15 +90,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
         private void ReadModuleName(XmlReader xmlReader)
         {
             string name = xmlReader.ReadElementContentAsString();
-            _entity.NameId = name;
-            _moduleName = name;
+            _module.NameId = name;
         }
 
         private void AddFile(XmlReader xmlReader)
         {
             string fileId = xmlReader.GetAttribute("uid");
             string filePath = xmlReader.GetAttribute("fullPath");
-            _entity.AddFile(fileId, filePath);
+            _module.AddFile(fileId, filePath);
         }
 
         private void AddBranchPoint(XmlReader xmlReader)
@@ -116,7 +106,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
             bool isVisited = int.Parse(xmlReader.GetAttribute("vc")) > 0;
             int fileId = int.Parse(xmlReader.GetAttribute("fileid"));
             int path = int.Parse(xmlReader.GetAttribute("path"));
-            _entity.AddBranchPoint(fileId, sourceLine, path, isVisited);
+            _module.AddBranchPoint(fileId, sourceLine, path, isVisited);
         }
 
         private void AddSequencePoint(XmlReader xmlReader)
@@ -124,7 +114,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Parsers
             string sourceLine = xmlReader.GetAttribute("sl");
             string visitedCount = xmlReader.GetAttribute("vc");
             string fileId = xmlReader.GetAttribute("fileid");
-            _entity.AddSequencePoint(fileId, sourceLine, visitedCount);
+            _module.AddSequencePoint(fileId, sourceLine, visitedCount);
         }
 
 

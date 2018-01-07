@@ -1,16 +1,16 @@
 ﻿using System;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
     public class ModuleEventArgs : EventArgs
     {
 
-        public ModuleEventArgs(IModuleCoverageEntity entity)
+        public ModuleEventArgs(IModule entity)
         {
             Entity = entity;
         }
 
-        public IModuleCoverageEntity Entity { get; private set; }
+        public IModule Entity { get; private set; }
     }
 }

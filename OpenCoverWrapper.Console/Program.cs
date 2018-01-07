@@ -5,7 +5,6 @@ using log4net.Config;
 using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
-using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
@@ -14,6 +13,7 @@ using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 using log4net;
 using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
+using BHGE.SonarQube.OpenCover2Generic.CoverageConverters.Exceptions;
 
 [assembly: XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
 namespace BHGE.SonarQube.OpenCoverWrapper
@@ -28,10 +28,10 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());       
             var fileSystem = new FileSystemAdapter();
             IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
-            JobFileSystem jobFileSystemInfo = new JobFileSystem(fileSystem);
+            JobFileSystem jobFileSystem = new JobFileSystem(fileSystem);
             IOpenCoverManagerFactory openCoverManagerFactory = new OpenCoverManagerFactory(new OpenCoverProcessFactory(new ProcessFactory()));
 
-            var testResultsRepository = new TestResultsRepository(jobFileSystemInfo, fileSystem);
+            var testResultsRepository = new TestResultsRepository(jobFileSystem, fileSystem);
             IFileSystemAdapter fileSystemAdapter = new FileSystemAdapter();
             ICoverageStorageResolver coverageStorageResolver = new CoverageStorageResolver(fileSystemAdapter);
             ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
@@ -42,13 +42,13 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             IOpenCoverageParserFactory openCoverageParserFactory = new OpenCoverageParserFactory();
             ICoverageAggregateFactory coverageAggregateFactory=new CoverageAggregateFactory(openCoverageParserFactory);
             IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
-                jobFileSystemInfo, 
+                jobFileSystem, 
                 openCoverManagerFactory,
                 testResultsRepository,
                 codeCoverageRepository,
                 coverageAggregateFactory);
             
-            var testRunner = new TestRunner(jobFileSystemInfo,jobConsumerFactory);
+            var testRunner = new TestRunner(jobFileSystem,jobConsumerFactory);
 
             commandLineParser.Args = args;
             openCoverCommandLineBuilder.Args = args;
@@ -56,8 +56,8 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             testRunner.Initialize();
             try
             {
-                jobFileSystemInfo.CreateRoot(DateTime.Now.ToString(@"yyMMdd_HHmmss"));
-                codeCoverageRepository.RootDirectory = jobFileSystemInfo.GetIntermediateCoverageDirectory();
+                jobFileSystem.CreateRoot(DateTime.Now.ToString(@"yyMMdd_HHmmss"));
+                codeCoverageRepository.RootDirectory = jobFileSystem.GetIntermediateCoverageDirectory();
 
                 RunTests(commandLineParser, testRunner);
 

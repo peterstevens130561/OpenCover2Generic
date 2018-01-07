@@ -1,6 +1,6 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {

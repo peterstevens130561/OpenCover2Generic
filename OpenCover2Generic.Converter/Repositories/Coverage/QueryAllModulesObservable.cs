@@ -1,5 +1,5 @@
 ﻿using System;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
@@ -28,7 +28,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             var moduleDirectories = _coverageStorageResolver.GetPathsOfAllModules(RootDirectory);
             foreach (string moduleDirectory in moduleDirectories)
             {
-                var model = new AggregatedModuleCoverageEntity();
+                var model = new AggregatedModule();
                 foreach (string assemblyPath in _coverageStorageResolver.GetTestCoverageFilesOfModule(moduleDirectory))
                 {
                     _coverageParser.ParseFile(model,assemblyPath);

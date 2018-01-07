@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+﻿using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -9,7 +9,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void CreateSourceFileCoverageInfoCheckValues()
         {
-            ISourceFileCoverageAggregate info = new SourceFileCoverageAggregate("10", "a/b/c");
+            ISourceFile info = new SourceFile("10", "a/b/c");
             Assert.AreEqual("10", info.Uid);
             Assert.AreEqual("a/b/c", info.FullPath);
         }

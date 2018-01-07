@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Model
+namespace BHGE.SonarQube.OpenCover2Generic.DomainModel.Module
 {
     /// <summary>
     /// Used to create a entity from multiple coverage files. Though they pertain to the same module, each one may have different
     /// numbering for the files. Therefore,  there is small intermediate step
     /// </summary>
-    public class AggregatedModuleCoverageEntity : IModuleCoverageEntity
+    public class AggregatedModule : IModule
     {
-        private readonly IModuleCoverageEntity _moduleEntity = new ModuleCoverageEntity();
+        private readonly IModule _module = new Module();
         private readonly Dictionary<string, string> _sourceFilePathToGlobalId = new Dictionary<string, string>();
         private readonly Dictionary<string, string> _localFileIdToGlobalFileId = new Dictionary<string, string>();
 
@@ -16,12 +17,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
         {
             get
             {
-                return _moduleEntity.NameId;
+                return _module.NameId;
             }
 
             set
             {
-                _moduleEntity.NameId = value;
+                _module.NameId = value;
             }
         }
 
@@ -30,7 +31,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
             if(!_sourceFilePathToGlobalId.ContainsKey(filePath))
             {
                 _sourceFilePathToGlobalId[filePath] = fileId;
-                _moduleEntity.AddFile(fileId, filePath);
+                _module.AddFile(fileId, filePath);
             }
             string globalFileId = _sourceFilePathToGlobalId[filePath];
             _localFileIdToGlobalFileId[fileId] = globalFileId;
@@ -39,25 +40,25 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
         public void AddSequencePoint(string fileId, string sourceLine, string visitedCount)
         {
             string globalFileId = _localFileIdToGlobalFileId[fileId];
-            _moduleEntity.AddSequencePoint(globalFileId, sourceLine, visitedCount);
+            _module.AddSequencePoint(globalFileId, sourceLine, visitedCount);
         }
 
         public void AddBranchPoint(int fileId, int sourceLine, int path, bool isVisited)
         {
             string globalFileId = _localFileIdToGlobalFileId[fileId.ToString()];
-            _moduleEntity.AddBranchPoint(int.Parse(globalFileId),sourceLine,path,isVisited);
+            _module.AddBranchPoint(int.Parse(globalFileId),sourceLine,path,isVisited);
         }
 
         public void Clear()
         {
             _sourceFilePathToGlobalId.Clear();
             _localFileIdToGlobalFileId.Clear();
-            _moduleEntity.Clear();
+            _module.Clear();
         }
 
-        public IList<ISourceFileCoverageAggregate> GetSourceFiles()
+        public IList<ISourceFile> GetSourceFiles()
         {
-            return _moduleEntity.GetSourceFiles();
+            return _module.GetSourceFiles();
         }
     }
 }

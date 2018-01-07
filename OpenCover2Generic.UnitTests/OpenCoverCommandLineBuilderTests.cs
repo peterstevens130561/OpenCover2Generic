@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
+using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 
 namespace BHGE.SonarQube.OpenCover2Generic

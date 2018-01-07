@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File.Line;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Model
+namespace BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File
 {
-    internal class SourceFileCoverageAggregate : ISourceFileCoverageAggregate
+    internal class SourceFile : ISourceFile
     {
-        private readonly Dictionary<string,ISequencePointEntity> _coveragePoints = new Dictionary<string,ISequencePointEntity>();
+        private readonly Dictionary<string,ISequencePoint> _coveragePoints = new Dictionary<string,ISequencePoint>();
         private readonly Dictionary<string, IBranchPoints> _branchPoints = new Dictionary<string, IBranchPoints>();
 
-        public SourceFileCoverageAggregate(string uid,string filePath)
+        public SourceFile(string uid,string filePath)
         {
             Uid = uid;
             FullPath = filePath;
@@ -18,11 +19,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
 
         public string Uid { get; }
 
-        public IList<ISequencePointEntity> SequencePoints
+        public IList<ISequencePoint> SequencePoints
         {
             get
             {
-                List<ISequencePointEntity> points = _coveragePoints.Values.ToList();
+                List<ISequencePoint> points = _coveragePoints.Values.ToList();
                 points.Sort((pair1, pair2) => pair1.SourceLineId.CompareTo(pair2.SourceLineId));
                 return points;
             }
@@ -33,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
             bool isVisited = int.Parse(visitedCount) > 0;
             if (!_coveragePoints.ContainsKey(sourceLine))
             {
-                _coveragePoints[sourceLine]=new SequencePointEntityEntity(sourceLine);
+                _coveragePoints[sourceLine]=new SequencePoint(sourceLine);
             }
             _coveragePoints[sourceLine].AddVisit(isVisited);
         }
@@ -43,14 +44,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Model
             return _branchPoints.ContainsKey(sourceLine)?_branchPoints[sourceLine]:null;
         }
 
-        public void AddBranchPoint(IBranchPointValue branchPointValue)
+        public void AddBranchPoint(IBranchPoint branchPoint)
         {
-            string sourceLine = branchPointValue.SourceLine.ToString();
+            string sourceLine = branchPoint.SourceLine.ToString();
             if (!_branchPoints.ContainsKey(sourceLine))
             {
                 _branchPoints[sourceLine] = new BranchPoints();
             }
-            _branchPoints[sourceLine].Add(branchPointValue);
+            _branchPoints[sourceLine].Add(branchPoint);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -104,7 +104,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
         private void ThenParsed(string name)
         {
-            _moduleParserMock.Verify(m => m.ParseFile(It.IsAny<AggregatedModuleCoverageEntity>(), name), Times.Once);
+            _moduleParserMock.Verify(m => m.ParseFile(It.IsAny<AggregatedModule>(), name), Times.Once);
         }
     }
 }

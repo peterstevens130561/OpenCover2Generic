@@ -1,5 +1,7 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System.Xml;
+﻿using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File.Line;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
@@ -23,9 +25,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             xmlWriter.Flush();
         }
 
-        public void GenerateCoverage(IModuleCoverageEntity entity,XmlWriter xmlWriter)
+        public void GenerateCoverage(IModule entity,XmlWriter xmlWriter)
         {
-            foreach (ISourceFileCoverageAggregate fileCoverage in entity.GetSourceFiles())
+            foreach (ISourceFile fileCoverage in entity.GetSourceFiles())
             {
                 xmlWriter.WriteStartElement("file");
                 xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);
@@ -33,15 +35,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             }
         }
 
-        private  void GenerateSequencePoints(XmlWriter xmlWriter, ISourceFileCoverageAggregate fileCoverage)
+        private  void GenerateSequencePoints(XmlWriter xmlWriter, ISourceFile file)
         { 
-            foreach (ISequencePointEntity sequencePoint in fileCoverage.SequencePoints)
+            foreach (ISequencePoint sequencePoint in file.SequencePoints)
             {
                 xmlWriter.WriteStartElement("lineToCover");
                 string sourceLine = sequencePoint.SourceLineId.ToString();
                 xmlWriter.WriteAttributeString("lineNumber", sourceLine);
                 xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
-                IBranchPoints branchPoint = fileCoverage.GetBranchPointsByLine(sourceLine);
+                IBranchPoints branchPoint = file.GetBranchPointsByLine(sourceLine);
                 if (branchPoint != null)
                 {
                     xmlWriter.WriteAttributeString("branchesToCover", branchPoint.PathsToCover().ToString());

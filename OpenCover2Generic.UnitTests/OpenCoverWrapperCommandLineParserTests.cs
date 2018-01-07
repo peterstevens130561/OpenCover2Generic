@@ -1,5 +1,5 @@
 ﻿using System;
-using BHGE.SonarQube.OpenCover2Generic.Exceptions;
+using BHGE.SonarQube.OpenCover2Generic.CoverageConverters.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BHGE.SonarQube.OpenCoverWrapper;
 using BHGE.SonarQube.OpenCover2Generic.Utils;

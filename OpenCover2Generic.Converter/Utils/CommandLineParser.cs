@@ -2,7 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using BHGE.SonarQube.OpenCover2Generic.Exceptions;
+using BHGE.SonarQube.OpenCover2Generic.CoverageConverters.Exceptions;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Utils
 {

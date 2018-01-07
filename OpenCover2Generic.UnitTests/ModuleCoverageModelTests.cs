@@ -1,4 +1,4 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
+﻿using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BHGE.SonarQube.OpenCover2Generic
@@ -6,7 +6,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class ModuleCoverageModelTests
     {
-        private readonly IModuleCoverageEntity _entity = new ModuleCoverageEntity();
+        private readonly IModule _entity = new Module();
 
 
         [TestMethod]

@@ -2,8 +2,8 @@
 using System.IO;
 using System.Text;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 using Moq;
-using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
@@ -11,9 +11,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class OpenCoverCoverageParserTests
     {
-        private IModuleCoverageEntity _entity;
+        private IModule _module;
         private OpenCoverCoverageParser _parser;
-        private Mock<IModuleCoverageEntity> _modelMock;
+        private Mock<IModule> _modelMock;
         private readonly string _openCoverExample= @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
 <Modules>
@@ -56,8 +56,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestInitialize]
         public void Initialize()
         {
-            _modelMock = new Mock<IModuleCoverageEntity>();
-            _entity = _modelMock.Object;
+            _modelMock = new Mock<IModule>();
+            _module = _modelMock.Object;
             _parser = new OpenCoverCoverageParser();
 
         }
@@ -83,8 +83,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void ParseModule_Initiated_ValidFile_ExpectModuleName()
         {
 
+            _module = new Module();
             Assert.IsTrue(WhenParsing(_openCoverExample));
-            Assert.AreEqual("Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest", _parser.ModuleName);
+            Assert.AreEqual("Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest", _module.NameId);
         }
 
         [TestMethod]
@@ -215,11 +216,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.IsTrue(WhenContinueParsing(),"continue");
             Assert.IsFalse(WhenContinueParsing(),"finally");
         }
-        [TestMethod]
-        public void ParseModule_Initiated_OnlySkipped_NothingParsed()
-        {
 
-        }
 
         private bool WhenParsing( string input)
         {
@@ -227,12 +224,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _streamReader = new StreamReader(_inputStream);
             _xmlReader = XmlReader.Create(_streamReader);
             _xmlReader.MoveToContent();
-            return _parser.ParseModule(_entity, _xmlReader);
+            return _parser.ParseModule(_module, _xmlReader);
         }
 
         private bool WhenContinueParsing()
         {
-            return _parser.ParseModule(_entity, _xmlReader);
+            return _parser.ParseModule(_module, _xmlReader);
 
         }
     }

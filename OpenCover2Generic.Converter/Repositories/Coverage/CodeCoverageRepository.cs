@@ -3,7 +3,7 @@ using System.Linq;
 using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 using log4net;
@@ -40,7 +40,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             coverageAggregate.Modules(WriteModule);
         }
 
-        private void WriteModule(IModuleCoverageEntity entity)
+        private void WriteModule(IModule entity)
         {
             if (entity.GetSourceFiles().Any())
             {

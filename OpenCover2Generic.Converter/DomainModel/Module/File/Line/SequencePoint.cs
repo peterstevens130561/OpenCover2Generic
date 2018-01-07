@@ -1,11 +1,11 @@
-﻿namespace BHGE.SonarQube.OpenCover2Generic.Model
+﻿namespace BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File.Line
 {
     /// <summary>
     /// Entity holding information on the coverage of a line
     /// </summary>
-    public class SequencePointEntityEntity : ISequencePointEntity
+    public class SequencePoint : ISequencePoint
     {
-        public SequencePointEntityEntity(string sourceLine)
+        public SequencePoint(string sourceLine)
         {
             SourceLineId = int.Parse(sourceLine);
         }

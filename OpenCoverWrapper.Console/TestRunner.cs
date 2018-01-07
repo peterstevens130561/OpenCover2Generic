@@ -1,10 +1,10 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using BHGE.SonarQube.OpenCover2Generic.Utils;
+﻿using BHGE.SonarQube.OpenCover2Generic.Utils;
 using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel;
 using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
 
 namespace BHGE.SonarQube.OpenCoverWrapper

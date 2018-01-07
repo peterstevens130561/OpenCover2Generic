@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Utils
+namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
 {
     public interface IOpenCoverCommandLineBuilder
     {

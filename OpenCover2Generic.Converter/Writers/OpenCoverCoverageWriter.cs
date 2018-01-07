@@ -1,7 +1,7 @@
-﻿
-
-using BHGE.SonarQube.OpenCover2Generic.Model;
-using System.Xml;
+﻿using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File.Line;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
@@ -9,7 +9,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
     {
         private XmlWriter _xmlWriter;
 
-        public void GenerateCoverage(IModuleCoverageEntity entity, XmlWriter xmlWriter)
+        public void GenerateCoverage(IModule entity, XmlWriter xmlWriter)
         {
             _xmlWriter = xmlWriter;
             if(entity.GetSourceFiles().Count ==0)
@@ -24,29 +24,29 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             xmlWriter.WriteEndElement();
         }
 
-        private void WriteCoverageData(IModuleCoverageEntity entity, XmlWriter xmlWriter)
+        private void WriteCoverageData(IModule entity, XmlWriter xmlWriter)
         {
             _xmlWriter = xmlWriter;
-            foreach(ISourceFileCoverageAggregate sourceFile in entity.GetSourceFiles())
+            foreach(ISourceFile sourceFile in entity.GetSourceFiles())
             {
                 WriteCoverageDataForSourceFile(sourceFile);
             }
         }
 
-        private void WriteCoverageDataForSourceFile( ISourceFileCoverageAggregate sourceFile)
+        private void WriteCoverageDataForSourceFile( ISourceFile sourceFile)
         {
-            foreach (ISequencePointEntity sequencePoint in sourceFile.SequencePoints)
+            foreach (ISequencePoint sequencePoint in sourceFile.SequencePoints)
             {
                 string sourceLineNr = WriteSequencePoint(sourceFile, sequencePoint);
                 WriteBranchPointsForLine(sourceFile, sourceLineNr);
             }
         }
 
-        private string WriteSequencePoint(ISourceFileCoverageAggregate sourceFile, ISequencePointEntity sequencePointEntity)
+        private string WriteSequencePoint(ISourceFile sourceFile, ISequencePoint sequencePoint)
         {
             _xmlWriter.WriteStartElement("SequencePoint");
-            string sourceLineNr = sequencePointEntity.SourceLineId.ToString();
-            string visited = sequencePointEntity.Covered ? "1" : "0";
+            string sourceLineNr = sequencePoint.SourceLineId.ToString();
+            string visited = sequencePoint.Covered ? "1" : "0";
             _xmlWriter.WriteAttributeString("vc", visited);
             _xmlWriter.WriteAttributeString("sl", sourceLineNr);
             _xmlWriter.WriteAttributeString("fileid", sourceFile.Uid);
@@ -54,12 +54,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             return sourceLineNr;
         }
 
-        private void WriteBranchPointsForLine( ISourceFileCoverageAggregate sourceFile, string sourceLineNr)
+        private void WriteBranchPointsForLine( ISourceFile sourceFile, string sourceLineNr)
         {
             var aggregator = sourceFile.GetBranchPointsByLine(sourceLineNr);
             if (aggregator != null)
             {
-                foreach (IBranchPointValue branchPoint in aggregator.GetBranchPoints())
+                foreach (IBranchPoint branchPoint in aggregator.GetBranchPoints())
 
                 {   // <BranchPointValue vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
                     _xmlWriter.WriteStartElement("BranchPointValue");
@@ -73,10 +73,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             }
         }
 
-        private void WriteSourceFiles(IModuleCoverageEntity entity)
+        private void WriteSourceFiles(IModule entity)
         {
             _xmlWriter.WriteStartElement("Files");
-            foreach (ISourceFileCoverageAggregate fileCoverage in entity.GetSourceFiles())
+            foreach (ISourceFile fileCoverage in entity.GetSourceFiles())
             {
                 _xmlWriter.WriteStartElement("File");
                 _xmlWriter.WriteAttributeString("uid", fileCoverage.Uid);

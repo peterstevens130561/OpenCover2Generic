@@ -1,5 +1,5 @@
 ﻿using System;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
 {
@@ -7,6 +7,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
     {
         string Path { get; }
 
-        void Modules(Action<IModuleCoverageEntity> action);
+        void Modules(Action<IModule> action);
     }
 }

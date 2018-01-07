@@ -1,5 +1,5 @@
 ﻿using System;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -41,7 +41,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Module_WriterSet_Module_Header()
         {
             _observer.Writer = null;
-            AggregatedModuleCoverageEntity entity = new AggregatedModuleCoverageEntity();
+            AggregatedModule entity = new AggregatedModule();
             ModuleEventArgs eventArgs = new ModuleEventArgs(entity);
             ((IQueryAllModulesResultObserver)_observer).OnModule(null, eventArgs);
             _coverageWriterMock.Verify(o => o.GenerateCoverage(entity,null), Times.Once);

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Model
+namespace BHGE.SonarQube.OpenCover2Generic.DomainModel
 {
     public class TestJob : ITestJob
     {

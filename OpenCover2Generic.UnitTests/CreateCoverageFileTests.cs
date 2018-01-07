@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Xml;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 
@@ -274,7 +274,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             {
                 coverageWriter.WriteBegin(writer);
                 var parser = new OpenCoverCoverageParser();
-                var model=new AggregatedModuleCoverageEntity();
+                var model=new AggregatedModule();
                 parser.ParseModule(model, XmlReader.Create(reader));
                 coverageWriter.GenerateCoverage(model, writer);
                 coverageWriter.WriteEnd(writer);

@@ -1,5 +1,5 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System;
+﻿using System;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel;
 
 namespace BHGE.SonarQube.OpenCoverWrapper
 {

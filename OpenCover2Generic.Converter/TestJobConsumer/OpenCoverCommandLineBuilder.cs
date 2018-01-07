@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
 
-
-namespace BHGE.SonarQube.OpenCover2Generic.Utils
+namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
 {
     /// <summary>
     /// builds the commandline for OpenCover, taking the commandline supplied args, and supplemental from the

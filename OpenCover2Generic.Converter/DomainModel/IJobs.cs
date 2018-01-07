@@ -1,4 +1,4 @@
-﻿namespace BHGE.SonarQube.OpenCover2Generic.Model
+﻿namespace BHGE.SonarQube.OpenCover2Generic.DomainModel
 {
     public interface IJobs
     {

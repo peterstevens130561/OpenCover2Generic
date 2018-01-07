@@ -1,6 +1,6 @@
-﻿namespace BHGE.SonarQube.OpenCover2Generic.Model
+﻿namespace BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File.Line
 {
-    public interface ISequencePointEntity
+    public interface ISequencePoint
     {
         int SourceLineId { get; }
         bool Covered { get; }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Exceptions
+namespace BHGE.SonarQube.OpenCover2Generic.CoverageConverters.Exceptions
 {
     [Serializable]
     public class CommandLineArgumentException : InvalidOperationException

@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Exceptions
+namespace BHGE.SonarQube.OpenCover2Generic.CoverageConverters.Exceptions
 {
     public class InvalidTestConfigurationException : ApplicationException
     {

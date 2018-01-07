@@ -1,13 +1,12 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System.Xml;
+﻿using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Parsers
 {
     public interface ICoverageParser
     {
-        string ModuleName { get; }
 
-        bool ParseModule(IModuleCoverageEntity entity, XmlReader xmlReader);
-        void ParseFile(AggregatedModuleCoverageEntity entity, string coveragePath);
+        bool ParseModule(IModule entity, XmlReader xmlReader);
+        void ParseFile(AggregatedModule entity, string coveragePath);
     }
 }

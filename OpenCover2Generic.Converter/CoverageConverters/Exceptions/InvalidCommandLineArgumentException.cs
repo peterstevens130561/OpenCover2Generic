@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Exceptions
+namespace BHGE.SonarQube.OpenCover2Generic.CoverageConverters.Exceptions
 {
     [Serializable]
     public class InvalidCommandLineArgumentException : ApplicationException

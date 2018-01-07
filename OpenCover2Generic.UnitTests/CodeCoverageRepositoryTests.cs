@@ -1,7 +1,7 @@
 ﻿using System;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
@@ -17,7 +17,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private Mock<ICoverageStorageResolver> _coverageStorageResolverMock;
         private ICoverageParser _coverageParser;
         private Mock<ICoverageAggregate> _aggregateMock;
-        private ModuleCoverageEntity _moduleCoverageEntity;
+        private Module _module;
         private Mock<IXmlAdapter> _xmlAdapterMock;
         private Mock<ICoverageWriterFactory> _coverageWriterFactoryMock;
         private Mock<ICoverageWriter> _coverageWriterMock;
@@ -35,14 +35,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 _xmlAdapterMock.Object,
                 _coverageWriterFactoryMock.Object);
 
-            _moduleCoverageEntity = new ModuleCoverageEntity();
-            _moduleCoverageEntity.NameId = "module";
+            _module = new Module();
+            _module.NameId = "module";
             _repository.RootDirectory = "root";
             _aggregateMock
-                .Setup(p => p.Modules(It.IsAny<Action<IModuleCoverageEntity>>()))
-                .Callback<Action<IModuleCoverageEntity>>(q =>
+                .Setup(p => p.Modules(It.IsAny<Action<IModule>>()))
+                .Callback<Action<IModule>>(q =>
                 {
-                    q.Invoke(_moduleCoverageEntity);
+                    q.Invoke(_module);
                 });
             _coverageStorageResolverMock.Setup(c => c.GetPathForAssembly("root", "module", It.IsAny<string>())).Returns("bla");
             _coverageWriterFactoryMock.Setup(c => c.CreateOpenCoverCoverageWriter()).Returns(_coverageWriterMock.Object);
@@ -58,12 +58,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void Add_EmptyModelWithOneSourceFile_Add_DefinedPath()
         {
-            _moduleCoverageEntity.AddFile("10","b");
+            _module.AddFile("10","b");
 
             _repository.Save(_aggregateMock.Object);
 
             _coverageStorageResolverMock.Verify(c => c.GetPathForAssembly(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-           _coverageWriterMock.Verify(c => c.GenerateCoverage(_moduleCoverageEntity,null),Times.Once);
+           _coverageWriterMock.Verify(c => c.GenerateCoverage(_module,null),Times.Once);
         }
     }
 }
