@@ -1,7 +1,7 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Infrastructure;
+﻿using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Commands
+namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Delete
 {
     interface IWorkspaceDeleteCommand : ICommand
     {

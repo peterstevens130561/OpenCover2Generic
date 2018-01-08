@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BHGE.SonarQube.OpenCover2Generic.Adapters;
-using BHGE.SonarQube.OpenCover2Generic.Commands;
-using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Infrastructure;
+﻿using BHGE.SonarQube.OpenCover2Generic.Adapters;
+using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus;
 
-namespace BHGE.SonarQube.OpenCover2Generic.CommandHandler
+namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Create
 {
     class WorkspaceCreateCommandHandler : ICommandHandler<IWorkspaceCreateCommand>
     {

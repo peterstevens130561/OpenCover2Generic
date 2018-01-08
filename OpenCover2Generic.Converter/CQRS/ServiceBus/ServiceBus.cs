@@ -19,5 +19,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus
         {
             return _serviceFactory.CreateService<TService>();
         }
+
+  
+
     }
 }

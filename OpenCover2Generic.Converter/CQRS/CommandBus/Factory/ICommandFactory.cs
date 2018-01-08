@@ -1,4 +1,4 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Infrastructure;
+﻿using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus;
 
 namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Factory
 {
@@ -8,6 +8,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Factory
 
         ICommandHandler<T> CreateHandler<T>(T command) where T : ICommand;
 
+        void Register<TInterfaceType, TCommandType, THandlerType>() where TInterfaceType : ICommand
+            where TCommandType : ICommand
+            where THandlerType : ICommandHandler<TCommandType>;
     }
 
 

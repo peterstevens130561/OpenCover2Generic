@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
-using BHGE.SonarQube.OpenCover2Generic.Commands;
 using BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 

@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.Application.Services.Workspace;
-using BHGE.SonarQube.OpenCover2Generic.Commands;
 
 namespace BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus
 {
-    class ServiceFactory : IServiceFactory
+    public class ServiceFactory : IServiceFactory
     {
         private readonly Dictionary<Type, Type> _serviceMap = new Dictionary<Type, Type>();
         private readonly Dictionary<Type, Type> _handlerMap = new Dictionary<Type, Type>();

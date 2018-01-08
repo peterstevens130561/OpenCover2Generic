@@ -1,7 +1,5 @@
 ﻿
 
-using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Infrastructure;
-
 namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus
 {
     internal interface ICommandBus

@@ -1,5 +1,4 @@
-﻿using System.Runtime.Remoting;
-
+﻿
 namespace BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus
 {
     public interface IServiceFactory

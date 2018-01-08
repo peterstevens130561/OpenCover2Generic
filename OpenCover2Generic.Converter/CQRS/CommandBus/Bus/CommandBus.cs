@@ -1,25 +1,24 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Factory;
-using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Infrastructure;
 
 namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus
 {
     class CommandBus : ICommandBus
     {
-        private readonly ICommandFactory commandFactory;
+        private readonly ICommandFactory _commandFactory;
         public CommandBus(ICommandFactory commandFactory) 
         {
-            this.commandFactory = commandFactory;
+            this._commandFactory = commandFactory;
   
         }
 
         public T CreateCommand<T>() where T : ICommand
         {
-            return commandFactory.CreateCommand<T>();
+            return _commandFactory.CreateCommand<T>();
         }
 
         public void Execute<T>(T command) where T : ICommand
         {
-            var handler = commandFactory.CreateHandler(command);
+            var handler = _commandFactory.CreateHandler(command);
             handler.Execute(command);
         }
     }
