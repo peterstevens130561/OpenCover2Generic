@@ -50,6 +50,31 @@
     <Compile Include="Aggregates\Coverage\CoverageAggregateFactory.cs" />
     <Compile Include="Aggregates\Coverage\ICoverageAggregate.cs" />
     <Compile Include="Aggregates\Coverage\ICoverageAggregateFactory.cs" />
+    <Compile Include="Application\Services\Workspace\WorkspaceService.cs" />
+    <Compile Include="Application\Services\Workspace\WorkspaceServiceHandler.cs" />
+    <Compile Include="CQRS\CommandBus\Bus\CommandBus.cs" />
+    <Compile Include="CQRS\CommandBus\Bus\ICommandBus.cs" />
+    <Compile Include="CQRS\CommandBus\Factory\AbstractCommandFactory.cs" />
+    <Compile Include="CQRS\CommandBus\CommandFactory.cs" />
+    <Compile Include="CQRS\CommandBus\Factory\ICommandFactory.cs" />
+    <Compile Include="CQRS\CommandBus\Infrastructure\ICommand.cs" />
+    <Compile Include="CQRS\CommandBus\Infrastructure\ICommandHandler.cs" />
+    <Compile Include="Application\Commands\Workspace\Create\WorkspaceCreateCommandHandler.cs" />
+    <Compile Include="Application\Commands\Workspace\Delete\IWorkspaceDeleteCommand .cs" />
+    <Compile Include="Application\Commands\Workspace\Create\IWorkspaceCreateCommand.cs" />
+    <Compile Include="Application\Services\Workspace\IWorkspaceService.cs" />
+    <Compile Include="Application\Commands\QueryWorkspaceCommand.cs" />
+    <Compile Include="Application\Commands\Workspace\Create\WorkspaceCreateCommand.cs" />
+    <Compile Include="CQRS\ServiceBus\IService.cs" />
+    <Compile Include="CQRS\ServiceBus\IServiceBase.cs" />
+    <Compile Include="CQRS\ServiceBus\IServiceBus.cs" />
+    <Compile Include="CQRS\ServiceBus\IServiceFactory.cs" />
+    <Compile Include="CQRS\ServiceBus\IServiceHandler.cs" />
+    <Compile Include="CQRS\ServiceBus\ServiceBase.cs" />
+    <Compile Include="CQRS\ServiceBus\ServiceBus.cs" />
+    <Compile Include="CQRS\ServiceBus\ServiceFactory.cs" />
+    <Compile Include="DomainModel\Workspace\IWorkspace.cs" />
+    <Compile Include="DomainModel\Workspace\Workspace.cs" />
     <Compile Include="OpenCover\LoggerNotInstalledException.cs" />
     <Compile Include="Parsers\IOpenCoverageParserFactory.cs" />
     <Compile Include="Parsers\OpenCoverageParserFactory.cs" />
@@ -131,7 +156,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Commands\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

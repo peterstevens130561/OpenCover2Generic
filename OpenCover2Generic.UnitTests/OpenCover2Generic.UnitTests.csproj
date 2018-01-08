@@ -65,6 +65,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CodeCoverageRepositoryTests.cs" />
+    <Compile Include="CommandHandlers\WorkspaceCreateCommandHandlerTests.cs" />
     <Compile Include="CoverageAggregateTests.cs" />
     <Compile Include="CoverageRepositoryScannerTests.cs" />
     <Compile Include="CoverageStatisticsObserverTests.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="JobConsumerTests.cs" />
     <Compile Include="JobsTests.cs" />
     <Compile Include="ModuleCoverageModelTests.cs" />
+    <Compile Include="Services\ServiceTests.cs" />
     <Compile Include="TestJobTests.cs" />
     <Compile Include="OpenCoverCommandLineBuilderTests.cs" />
     <Compile Include="OpenCoverCoverageWriterTests.cs" />
