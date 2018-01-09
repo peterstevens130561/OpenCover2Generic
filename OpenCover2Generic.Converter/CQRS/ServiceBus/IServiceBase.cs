@@ -1,7 +1,6 @@
 ﻿namespace BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus
 {
-    public interface IServiceBase<out TResult, in TService>
+    public interface IServiceBase<out TResult, in TService> : IService
     {
-        TResult Execute(TService service);
     }
 }

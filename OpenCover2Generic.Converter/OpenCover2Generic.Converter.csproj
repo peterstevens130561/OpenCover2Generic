@@ -50,14 +50,16 @@
     <Compile Include="Aggregates\Coverage\CoverageAggregateFactory.cs" />
     <Compile Include="Aggregates\Coverage\ICoverageAggregate.cs" />
     <Compile Include="Aggregates\Coverage\ICoverageAggregateFactory.cs" />
+    <Compile Include="Application\Commands\Workspace\Delete\WorkspaceCreateCommandHandler.cs" />
+    <Compile Include="Application\Commands\Workspace\Delete\WorkspaceDeleteCommand.cs" />
     <Compile Include="Application\Services\Workspace\WorkspaceService.cs" />
     <Compile Include="Application\Services\Workspace\WorkspaceServiceHandler.cs" />
-    <Compile Include="CQRS\CommandBus\Bus\CommandBus.cs" />
-    <Compile Include="CQRS\CommandBus\Bus\ICommandBus.cs" />
-    <Compile Include="CQRS\CommandBus\Bus\CommandFactory.cs" />
-    <Compile Include="CQRS\CommandBus\Factory\ICommandFactory.cs" />
-    <Compile Include="CQRS\CommandBus\Bus\ICommand.cs" />
-    <Compile Include="CQRS\CommandBus\Bus\ICommandHandler.cs" />
+    <Compile Include="CQRS\CommandBus\CommandBus.cs" />
+    <Compile Include="CQRS\CommandBus\ICommandBus.cs" />
+    <Compile Include="CQRS\CommandBus\CommandFactory.cs" />
+    <Compile Include="CQRS\CommandBus\ICommandFactory.cs" />
+    <Compile Include="CQRS\CommandBus\ICommand.cs" />
+    <Compile Include="CQRS\CommandBus\ICommandHandler.cs" />
     <Compile Include="Application\Commands\Workspace\Create\WorkspaceCreateCommandHandler.cs" />
     <Compile Include="Application\Commands\Workspace\Delete\IWorkspaceDeleteCommand .cs" />
     <Compile Include="Application\Commands\Workspace\Create\IWorkspaceCreateCommand.cs" />
@@ -157,7 +159,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
-    <Folder Include="CQRS\CommandBus\Infrastructure\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

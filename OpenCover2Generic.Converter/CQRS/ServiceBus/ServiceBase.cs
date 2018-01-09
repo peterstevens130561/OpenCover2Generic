@@ -8,16 +8,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus
 {
     public class ServiceBase<TResult,TService> : IServiceBase<TResult,TService>,IService
     {
-        private readonly IServiceFactory _serviceFactory;
+        protected readonly IServiceFactory ServiceFactory;
 
         public ServiceBase(IServiceFactory serviceFactory)
         {
-            _serviceFactory = serviceFactory;
+            ServiceFactory = serviceFactory;
         }
-        public TResult Execute(TService service)
-        {
-            IServiceHandler<TResult,TService> handler = _serviceFactory.CreateHandler<TResult,TService>(service);
-            return handler.Execute(service);
-        }
+
     }
 }

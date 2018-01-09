@@ -28,7 +28,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Services
 
             IWorkspaceService service = serviceBus.Create<IWorkspaceService>();
             service.Id = "bla";
-            IWorkspace workspace = service.Execute(service);
+            IWorkspace workspace = serviceBus.Execute(service);
             Assert.IsTrue(workspace.Path.EndsWith("opencover_bla"),workspace.Path);
         }
 

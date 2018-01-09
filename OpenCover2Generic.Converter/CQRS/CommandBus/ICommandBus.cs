@@ -8,6 +8,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus
 
         void Execute<T>(T command) where T : ICommand;
 
+
+
     }
 
 
