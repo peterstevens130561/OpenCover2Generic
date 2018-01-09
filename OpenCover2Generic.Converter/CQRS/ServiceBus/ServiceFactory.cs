@@ -17,13 +17,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus
             return (IServiceHandler<TResult,TService>)Activator.CreateInstance(handler);
         }
 
-        public TService CreateService<TService>() where TService: IService
+        public TService CreateService<TService>() 
         {
             var implementation = _serviceMap[typeof(TService)];
             return (TService)Activator.CreateInstance(implementation);
         }
 
-        public void Register<TServiceInterface, TServiceImplementation, TServiceHandler>() where TServiceInterface: IService
+        public void Register<TServiceInterface, TServiceImplementation, TServiceHandler>()
         {
             _serviceMap.Add(typeof(TServiceInterface), typeof(TServiceImplementation));
             _handlerMap.Add(typeof(TServiceInterface), typeof(TServiceHandler));
