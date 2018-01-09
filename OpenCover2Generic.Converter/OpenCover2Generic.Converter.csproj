@@ -64,7 +64,6 @@
     <Compile Include="Application\Commands\Workspace\Delete\IWorkspaceDeleteCommand .cs" />
     <Compile Include="Application\Commands\Workspace\Create\IWorkspaceCreateCommand.cs" />
     <Compile Include="Application\Services\Workspace\IWorkspaceService.cs" />
-    <Compile Include="Application\Commands\QueryWorkspaceCommand.cs" />
     <Compile Include="Application\Commands\Workspace\Create\WorkspaceCreateCommand.cs" />
     <Compile Include="CQRS\ServiceBus\IService.cs" />
     <Compile Include="CQRS\ServiceBus\IServiceBase.cs" />

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus
 {
-    public class ServiceBase<TResult,TService> : IServiceBase<TResult,TService>,IService
+    public class ServiceBase<TResult,TService> : IServiceBase<TResult,TService>
     {
         protected readonly IServiceFactory ServiceFactory;
 

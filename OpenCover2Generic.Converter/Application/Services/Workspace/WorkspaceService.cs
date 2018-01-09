@@ -8,9 +8,9 @@ using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Application.Services.Workspace
 {
-    class WorkspaceService<TService> : ServiceBase<IWorkspace,IWorkspaceService>, IService
+    class WorkspaceService: IWorkspaceService
     {
-        public WorkspaceService(IServiceFactory serviceFactory) : base(serviceFactory)
+        public WorkspaceService() 
         {
             
         }

@@ -20,7 +20,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus
         public TService CreateService<TService>() where TService: IService
         {
             var implementation = _serviceMap[typeof(TService)];
-            return (TService)Activator.CreateInstance(implementation,this);
+            return (TService)Activator.CreateInstance(implementation);
         }
 
         public void Register<TServiceInterface, TServiceImplementation, TServiceHandler>() where TServiceInterface: IService
