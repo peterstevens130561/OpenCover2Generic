@@ -1,6 +1,4 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Factory;
-
-namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus
+﻿namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus
 {
     class CommandBus : ICommandBus
     {
@@ -16,7 +14,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus
             return _commandFactory.CreateCommand<T>();
         }
 
-        public void Execute<T>(T command) where T : ICommand
+        public void Execute<T>(T command) where T : class,ICommand
         {
             var handler = _commandFactory.CreateHandler(command);
             handler.Execute(command);

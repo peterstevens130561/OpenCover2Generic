@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Create;
-using BHGE.SonarQube.OpenCover2Generic.Application.Services.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
-using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus;
-using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Factory;
-using BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BHGE.SonarQube.OpenCover2Generic
+namespace BHGE.SonarQube.OpenCover2Generic.CommandHandlers
 {
     [TestClass]
     public class CommandBusTests

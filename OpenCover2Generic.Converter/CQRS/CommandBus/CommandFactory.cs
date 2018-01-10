@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Factory;
 
-namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus
+namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus
 {
     class CommandFactory : ICommandFactory
     {
@@ -14,13 +13,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus
         private readonly Dictionary<Type, Type> _commandMap = new Dictionary<Type, Type>();
         private readonly Dictionary<Type, Type> _handlerMap = new Dictionary<Type, Type>();
 
-        public void Register<TCommandInterface, TCommandImplementation, TCommandHandler>()
+        public ICommandFactory Register<TCommandInterface, TCommandImplementation, TCommandHandler>()
             where TCommandInterface : ICommand
-            where TCommandImplementation : ICommand
-            where TCommandHandler : ICommandHandler<TCommandImplementation>
+            where TCommandImplementation : class,ICommand
+            where TCommandHandler : class,ICommandHandler<TCommandImplementation>
         {
             _commandMap.Add(typeof(TCommandInterface), typeof(TCommandImplementation));
             _handlerMap.Add(typeof(TCommandInterface), typeof(TCommandHandler));
+            return this;
         }
 
         public T CreateCommand<T>() where T : ICommand
@@ -34,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus
 
         }
 
-        public ICommandHandler<TCommand> CreateHandler<TCommand>(TCommand command) where TCommand : ICommand
+        public ICommandHandler<TCommand> CreateHandler<TCommand>(TCommand command) where TCommand : class,ICommand
         {
             if (!_handlerMap.ContainsKey(typeof(TCommand)))
             {

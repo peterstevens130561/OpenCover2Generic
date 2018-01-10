@@ -50,6 +50,7 @@
     <Compile Include="Aggregates\Coverage\CoverageAggregateFactory.cs" />
     <Compile Include="Aggregates\Coverage\ICoverageAggregate.cs" />
     <Compile Include="Aggregates\Coverage\ICoverageAggregateFactory.cs" />
+    <Compile Include="Application\ApplicationCommandBus.cs" />
     <Compile Include="Application\Commands\Workspace\Delete\WorkspaceCreateCommandHandler.cs" />
     <Compile Include="Application\Commands\Workspace\Delete\WorkspaceDeleteCommand.cs" />
     <Compile Include="Application\Services\Workspace\WorkspaceService.cs" />

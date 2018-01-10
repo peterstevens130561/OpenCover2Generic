@@ -1,4 +1,4 @@
-﻿namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus
+﻿namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus
 {
     public interface ICommandHandler<in TCommand> where TCommand : ICommand
     {

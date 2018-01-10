@@ -1,6 +1,6 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Create;
-using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus.Bus;
+using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Delete
 {
