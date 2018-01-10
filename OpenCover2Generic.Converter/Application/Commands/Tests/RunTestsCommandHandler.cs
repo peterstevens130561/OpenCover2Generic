@@ -7,7 +7,11 @@ using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.Tests
 {
-    public interface IRunTestsCommand : ICommand
+    public class RunTestsCommandHandler : ICommandHandler<IRunTestsCommand>
     {
+        public void Execute(IRunTestsCommand command)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
