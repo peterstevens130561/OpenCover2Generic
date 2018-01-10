@@ -3,7 +3,7 @@ using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Create
 {
-    interface IWorkspaceCreateCommand : ICommand
+    public interface IWorkspaceCreateCommand : ICommand
     {
         IWorkspace Workspace{ get; set; }
     }

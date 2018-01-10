@@ -14,7 +14,7 @@
             return _commandFactory.CreateCommand<T>();
         }
 
-        public void Execute<T>(T command) where T : class,ICommand
+        public void Execute<T>(T command) where T : ICommand
         {
             var handler = _commandFactory.CreateHandler(command);
             handler.Execute(command);

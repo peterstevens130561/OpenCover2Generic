@@ -23,10 +23,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus
             return (TService)Activator.CreateInstance(implementation);
         }
 
-        public void Register<TServiceInterface, TServiceImplementation, TServiceHandler>()
+        public IServiceFactory Register<TServiceInterface, TServiceImplementation, TServiceHandler>()
         {
             _serviceMap.Add(typeof(TServiceInterface), typeof(TServiceImplementation));
             _handlerMap.Add(typeof(TServiceInterface), typeof(TServiceHandler));
+            return this;
         }
     }
 }

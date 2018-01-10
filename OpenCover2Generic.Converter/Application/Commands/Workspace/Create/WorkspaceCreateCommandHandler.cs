@@ -7,7 +7,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Create
     {
         private readonly IFileSystemAdapter _fileSystemAdapter;
 
-        public WorkspaceCreateCommandHandler()
+        public WorkspaceCreateCommandHandler() : this(new FileSystemAdapter())
         {
             
         }

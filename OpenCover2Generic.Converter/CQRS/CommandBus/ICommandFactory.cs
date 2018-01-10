@@ -4,7 +4,7 @@
     {
         T CreateCommand<T>() where T : ICommand;
 
-        ICommandHandler<T> CreateHandler<T>(T command) where T : class,ICommand;
+        ICommandHandler<T> CreateHandler<T>(T command) where T : ICommand;
 
         ICommandFactory Register<TInterfaceType, TCommandType, THandlerType>() where TInterfaceType : ICommand
             where TCommandType : class,ICommand

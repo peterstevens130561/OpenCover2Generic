@@ -51,10 +51,11 @@
     <Compile Include="Aggregates\Coverage\ICoverageAggregate.cs" />
     <Compile Include="Aggregates\Coverage\ICoverageAggregateFactory.cs" />
     <Compile Include="Application\ApplicationCommandBus.cs" />
-    <Compile Include="Application\Commands\Workspace\Delete\WorkspaceCreateCommandHandler.cs" />
+    <Compile Include="Application\ApplicationServiceBus.cs" />
+    <Compile Include="Application\Commands\Workspace\Delete\WorkspaceDeleteCommandHandler.cs" />
     <Compile Include="Application\Commands\Workspace\Delete\WorkspaceDeleteCommand.cs" />
-    <Compile Include="Application\Services\Workspace\WorkspaceService.cs" />
-    <Compile Include="Application\Services\Workspace\WorkspaceServiceHandler.cs" />
+    <Compile Include="Application\Commands\Workspace\Delete\Services\Workspace\WorkspaceService.cs" />
+    <Compile Include="Application\Commands\Workspace\Delete\Services\Workspace\WorkspaceServiceHandler.cs" />
     <Compile Include="CQRS\CommandBus\CommandBus.cs" />
     <Compile Include="CQRS\CommandBus\ICommandBus.cs" />
     <Compile Include="CQRS\CommandBus\CommandFactory.cs" />
@@ -64,7 +65,7 @@
     <Compile Include="Application\Commands\Workspace\Create\WorkspaceCreateCommandHandler.cs" />
     <Compile Include="Application\Commands\Workspace\Delete\IWorkspaceDeleteCommand .cs" />
     <Compile Include="Application\Commands\Workspace\Create\IWorkspaceCreateCommand.cs" />
-    <Compile Include="Application\Services\Workspace\IWorkspaceService.cs" />
+    <Compile Include="Application\Commands\Workspace\Delete\Services\Workspace\IWorkspaceService.cs" />
     <Compile Include="Application\Commands\Workspace\Create\WorkspaceCreateCommand.cs" />
     <Compile Include="CQRS\ServiceBus\IService.cs" />
     <Compile Include="CQRS\ServiceBus\IServiceBase.cs" />

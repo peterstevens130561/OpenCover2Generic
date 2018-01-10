@@ -3,7 +3,7 @@ using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Delete
 {
-    interface IWorkspaceDeleteCommand : ICommand
+    public interface IWorkspaceDeleteCommand : ICommand
     {
         IWorkspace Workspace{ get; set; }
     }

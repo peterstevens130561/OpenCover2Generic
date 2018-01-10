@@ -34,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus
 
         }
 
-        public ICommandHandler<TCommand> CreateHandler<TCommand>(TCommand command) where TCommand : class,ICommand
+        public ICommandHandler<TCommand> CreateHandler<TCommand>(TCommand command) where TCommand : ICommand
         {
             if (!_handlerMap.ContainsKey(typeof(TCommand)))
             {

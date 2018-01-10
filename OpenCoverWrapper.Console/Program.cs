@@ -13,7 +13,14 @@ using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 using log4net;
 using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
+using BHGE.SonarQube.OpenCover2Generic.Application;
+using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Create;
+using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Delete;
+using BHGE.SonarQube.OpenCover2Generic.Application.Services.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.CoverageConverters.Exceptions;
+using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
+using BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
 [assembly: XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
 namespace BHGE.SonarQube.OpenCoverWrapper
@@ -24,6 +31,8 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         private static readonly ILog _log = LogManager.GetLogger(typeof(Program));
         public static void Main(string[] args)
         {
+            var commandBus = new ApplicationCommandBus();
+            var serviceBus = new ApplicationServiceBus();
             XmlConfigurator.Configure();
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());       
             var fileSystem = new FileSystemAdapter();
@@ -55,14 +64,21 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
             try
             {
-                jobFileSystem.CreateRoot(DateTime.Now.ToString(@"yyMMdd_HHmmss"));
+                string id = DateTime.Now.ToString(@"yyMMdd_HHmmss");
+                var workspaceService = serviceBus.Create<IWorkspaceService>();
+                workspaceService.Id = id;
+                var workspace = serviceBus.Execute(workspaceService);
+                jobFileSystem.CreateRoot(id);
+                //CreateWorkspace(commandBus, workspace);
+
                 codeCoverageRepository.RootDirectory = jobFileSystem.GetIntermediateCoverageDirectory();
 
                 RunTests(commandLineParser, testRunner);
 
                 CreateTestResults(commandLineParser, testResultsRepository);
                 CreateCoverageResults(commandLineParser, codeCoverageRepository);
-                jobFileSystem.RemoveAll();
+
+                DeleteWorkspace(commandBus, workspace);
 
             }
             catch ( CommandLineArgumentException e)
@@ -84,6 +100,29 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 }
                 Environment.Exit(1);
             }
+        }
+
+        private static void DeleteWorkspace(ICommandBus commandBus, IWorkspace workspace)
+        {
+            var workspaceDeleteCommand = commandBus.CreateCommand<IWorkspaceDeleteCommand>();
+            workspaceDeleteCommand.Workspace = workspace;
+            commandBus.Execute(workspaceDeleteCommand);
+        }
+
+        private static void CreateWorkspace(ICommandBus commandBus, IWorkspace workspace)
+        {
+            var workspaceCreateCommand = commandBus.CreateCommand<IWorkspaceCreateCommand>();
+            workspaceCreateCommand.Workspace = workspace;
+            commandBus.Execute(workspaceCreateCommand);
+        }
+
+        private static IWorkspace DefineWorkspace(IServiceBus serviceBus)
+        {
+            var workspaceService = serviceBus.Create<IWorkspaceService>();
+            workspaceService.Id = DateTime.Now.ToString(@"yyMMdd_HHmmss");
+
+            var workspace = serviceBus.Execute(workspaceService);
+            return workspace;
         }
 
         private static void RunTests(IOpenCoverWrapperCommandLineParser commandLineParser, TestRunner testRunner)

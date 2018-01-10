@@ -9,9 +9,9 @@ using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Application
 {
-    class ApplicationCommandBus : ICommandBus
+    public class ApplicationCommandBus : ICommandBus
     {
-        private readonly CommandBus _commandBus;
+        private readonly ICommandBus _commandBus;
 
         public ApplicationCommandBus() : this(new CommandBus(
             new CommandFactory()
@@ -23,7 +23,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application
             
         }
 
-        public ApplicationCommandBus(CommandBus commandBus)
+        public ApplicationCommandBus(ICommandBus commandBus)
         {
             _commandBus = commandBus;
 
@@ -34,7 +34,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application
             return _commandBus.CreateCommand<TCommand>();
         }
 
-        public void Execute<TCommand>(TCommand command) where TCommand : class,ICommand
+        public void Execute<TCommand>(TCommand command) where TCommand : ICommand
         {
             _commandBus.Execute(command);
         }
