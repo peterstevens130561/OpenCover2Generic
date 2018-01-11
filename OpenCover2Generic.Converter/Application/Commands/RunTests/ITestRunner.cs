@@ -1,9 +1,9 @@
 ﻿using System;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel;
 
-namespace BHGE.SonarQube.OpenCoverWrapper
+namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
 {
-    internal interface ITestRunner
+    public interface ITestRunner
     {
         void CreateJobs(string[] testAssemblies, int chunkSize);
         void CreateJobConsumers(int consumers, TimeSpan jobTimeOut);

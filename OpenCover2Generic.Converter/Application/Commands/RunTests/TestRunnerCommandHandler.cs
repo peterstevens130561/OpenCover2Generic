@@ -1,16 +1,15 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Utils;
-using log4net;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel;
 using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
+using log4net;
 
-namespace BHGE.SonarQube.OpenCoverWrapper
+namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
 {
-    class TestRunnerCommandHandler : ITestRunner, ICommandHandler<ITestRunnerCommand>
+    public class TestRunnerCommandHandler : ITestRunner, ICommandHandler<ITestRunnerCommand>
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(TestRunnerCommandHandler));
         private readonly IJobConsumerFactory _jobConsumerFactory;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BHGE.SonarQube.OpenCover2Generic.Application.Services.Workspace;
+using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Delete.Services.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
 using BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus;
 

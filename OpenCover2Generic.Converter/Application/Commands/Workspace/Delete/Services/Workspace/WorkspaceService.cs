@@ -1,4 +1,4 @@
-﻿namespace BHGE.SonarQube.OpenCover2Generic.Application.Services.Workspace
+﻿namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Delete.Services.Workspace
 {
     class WorkspaceService: IWorkspaceService
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands;
-using BHGE.SonarQube.OpenCover2Generic.Application.Services.Workspace;
+using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Delete.Services.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;

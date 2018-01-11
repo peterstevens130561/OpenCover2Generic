@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BHGE.SonarQube.OpenCover2Generic.Application.Services.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
 

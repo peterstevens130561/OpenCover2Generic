@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.CQRS.ServiceBus;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
-namespace BHGE.SonarQube.OpenCover2Generic.Application.Services.Workspace
+namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Delete.Services.Workspace
 {
     class WorkspaceServiceHandler : IServiceHandler<IWorkspace, IWorkspaceService>
     {

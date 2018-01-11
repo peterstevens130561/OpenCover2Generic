@@ -1,4 +1,5 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Utils;
+﻿using BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests;
+using BHGE.SonarQube.OpenCover2Generic.Utils;
 using BHGE.SonarQube.OpenCoverWrapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
