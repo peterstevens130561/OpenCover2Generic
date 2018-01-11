@@ -67,10 +67,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual("five", jobs.Take().FirstAssembly);
         }
 
-        private TestRunner CreateTestRunner()
+        private TestRunnerCommandHandler CreateTestRunner()
         {
             _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobConsumerFactoryMock.Object);
+            var testRunner = new TestRunnerCommandHandler(_jobConsumerFactoryMock.Object);
             return testRunner;
         }
     }

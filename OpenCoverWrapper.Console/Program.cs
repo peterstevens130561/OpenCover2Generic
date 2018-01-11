@@ -57,7 +57,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 codeCoverageRepository,
                 coverageAggregateFactory);
             
-            var testRunner = new TestRunner(jobConsumerFactory);
+            var testRunner = new TestRunnerCommandHandler(jobConsumerFactory);
 
             commandLineParser.Args = args;
             openCoverCommandLineBuilder.Args = args;
@@ -125,16 +125,16 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             return workspace;
         }
 
-        private static void RunTests(IOpenCoverWrapperCommandLineParser commandLineParser, TestRunner testRunner)
+        private static void RunTests(IOpenCoverWrapperCommandLineParser commandLineParser, TestRunnerCommandHandler testRunnerCommandHandler)
         {
             int consumers = commandLineParser.GetParallelJobs();
             TimeSpan jobTimeOut = commandLineParser.GetJobTimeOut();
-            testRunner.CreateJobConsumers(consumers, jobTimeOut);
+            testRunnerCommandHandler.CreateJobConsumers(consumers, jobTimeOut);
 
             string[] testAssemblies = commandLineParser.GetTestAssemblies();
             int chunkSize = commandLineParser.GetChunkSize();
-            testRunner.CreateJobs(testAssemblies, chunkSize);
-            testRunner.Wait();
+            testRunnerCommandHandler.CreateJobs(testAssemblies, chunkSize);
+            testRunnerCommandHandler.Wait();
         }
 
         private static void CreateTestResults(IOpenCoverWrapperCommandLineParser commandLineParser, TestResultsRepository testResultsRepository)

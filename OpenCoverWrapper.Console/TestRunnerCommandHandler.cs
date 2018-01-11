@@ -10,13 +10,13 @@ using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
 
 namespace BHGE.SonarQube.OpenCoverWrapper
 {
-    class TestRunner : ITestRunner, ICommandHandler<ITestRunnerCommand>
+    class TestRunnerCommandHandler : ITestRunner, ICommandHandler<ITestRunnerCommand>
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(TestRunner));
+        private static readonly ILog log = LogManager.GetLogger(typeof(TestRunnerCommandHandler));
         private readonly IJobConsumerFactory _jobConsumerFactory;
         private readonly List<Task> _tasks = new List<Task>();
         private readonly IJobs _jobs = new Jobs();
-        public TestRunner( IJobConsumerFactory jobConsumerFactory)
+        public TestRunnerCommandHandler( IJobConsumerFactory jobConsumerFactory)
         {
             _jobConsumerFactory = jobConsumerFactory;
 
