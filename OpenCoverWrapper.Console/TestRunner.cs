@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel;
 using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
 
 namespace BHGE.SonarQube.OpenCoverWrapper
 {
-    class TestRunner : ITestRunner
+    class TestRunner : ITestRunner, ICommandHandler<ITestRunnerCommand>
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(TestRunner));
         private readonly IJobConsumerFactory _jobConsumerFactory;
@@ -21,6 +22,10 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         }
 
+        public void Execute(ITestRunnerCommand command)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Runs the tests parallel
@@ -75,6 +80,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 _tasks.Add(task);
             }
         }
+
 
     }
 }

@@ -52,9 +52,6 @@
     <Compile Include="Aggregates\Coverage\ICoverageAggregateFactory.cs" />
     <Compile Include="Application\ApplicationCommandBus.cs" />
     <Compile Include="Application\ApplicationServiceBus.cs" />
-    <Compile Include="Application\Commands\Tests\IRunTestsCommand.cs" />
-    <Compile Include="Application\Commands\Tests\RunTestsCommand.cs" />
-    <Compile Include="Application\Commands\Tests\RunTestsCommandHandler.cs" />
     <Compile Include="Application\Commands\Workspace\Delete\WorkspaceDeleteCommandHandler.cs" />
     <Compile Include="Application\Commands\Workspace\Delete\WorkspaceDeleteCommand.cs" />
     <Compile Include="Application\Commands\Workspace\Delete\Services\Workspace\WorkspaceService.cs" />
@@ -162,6 +159,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Application\Commands\Tests\" />
     <Folder Include="Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
