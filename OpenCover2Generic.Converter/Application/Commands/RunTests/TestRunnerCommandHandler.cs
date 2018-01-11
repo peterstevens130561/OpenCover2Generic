@@ -23,9 +23,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
 
         public void Execute(ITestRunnerCommand command)
         {
-            throw new NotImplementedException();
+            string[] testAssemblies = command.TestAssemblies;
+            int parallelJobs = command.ParallelJobs;
+            RunTests(testAssemblies, parallelJobs);
         }
 
+        [Obsolete("Replaced by Execute")]
         /// <summary>
         /// Runs the tests parallel
         /// </summary>
