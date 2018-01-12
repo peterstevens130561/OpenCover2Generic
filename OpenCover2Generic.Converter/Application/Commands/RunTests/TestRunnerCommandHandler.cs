@@ -23,26 +23,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
 
         public void Execute(ITestRunnerCommand command)
         {
-            string[] testAssemblies = command.TestAssemblies;
-            int parallelJobs = command.ParallelJobs;
-            RunTests(testAssemblies, parallelJobs);
-        }
-
-        [Obsolete("Replaced by Execute")]
-        /// <summary>
-        /// Runs the tests parallel
-        /// </summary>
-        /// <param name="testAssemblies"></param>
-        /// <param name="parallelJobs">number of consumers, which will run in parallel</param>
-        internal void RunTests(string[] testAssemblies, int parallelJobs)
-        {
-
-            CreateJobs(testAssemblies, 1);
-            TimeSpan timeOut = new TimeSpan(1, 0, 0);
-            CreateJobConsumers(parallelJobs,timeOut);
+  
+            CreateJobs(command.TestAssemblies, command.ChunkSize);
+            CreateJobConsumers(command.ParallelJobs, command.JobTimeOut);
             Wait();
         }
-
 
 
         public void CreateJobs(string[] testAssemblies, int chunkSize)

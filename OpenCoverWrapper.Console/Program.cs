@@ -128,14 +128,14 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         private static void RunTests(IOpenCoverWrapperCommandLineParser commandLineParser, TestRunnerCommandHandler testRunnerCommandHandler)
         {
-            int consumers = commandLineParser.GetParallelJobs();
-            TimeSpan jobTimeOut = commandLineParser.GetJobTimeOut();
-            testRunnerCommandHandler.CreateJobConsumers(consumers, jobTimeOut);
+            ITestRunnerCommand command = new TestRunnerCommand();
 
-            string[] testAssemblies = commandLineParser.GetTestAssemblies();
-            int chunkSize = commandLineParser.GetChunkSize();
-            testRunnerCommandHandler.CreateJobs(testAssemblies, chunkSize);
-            testRunnerCommandHandler.Wait();
+            command.ParallelJobs = commandLineParser.GetParallelJobs();
+            command.JobTimeOut = commandLineParser.GetJobTimeOut();
+            command.TestAssemblies = commandLineParser.GetTestAssemblies();
+            command.ChunkSize = commandLineParser.GetChunkSize();
+
+            testRunnerCommandHandler.Execute(command);
         }
 
         private static void CreateTestResults(IOpenCoverWrapperCommandLineParser commandLineParser, TestResultsRepository testResultsRepository)
