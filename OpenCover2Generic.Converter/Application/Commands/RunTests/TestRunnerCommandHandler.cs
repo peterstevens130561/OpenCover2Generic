@@ -31,8 +31,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
             IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             IOpenCoverManagerFactory openCoverManagerFactory = new OpenCoverManagerFactory(new OpenCoverProcessFactory(new ProcessFactory()));
             IFileSystemAdapter fileSystemAdapter = new FileSystemAdapter();
-            var testResultsRepository = new TestResultsRepository(jobFileSystem, fileSystemAdapter);
-            ICoverageStorageResolver coverageStorageResolver = new CoverageStorageResolver(fileSystemAdapter);
+            var testResultsRepository = new TestResultsRepository(jobFileSystem);
+            ICoverageStorageResolver coverageStorageResolver = new CoverageStorageResolver();
             ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
                 coverageStorageResolver,
                 new OpenCoverCoverageParser(),

@@ -10,6 +10,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
         private readonly IFileSystemAdapter _fileSystemAdapter;
         private readonly IJobFileSystem _jobFileSystem;
 
+        public TestResultsRepository(IJobFileSystem jobFileSystem) : this(jobFileSystem, new FileSystemAdapter())
+        {
+            
+        }
         public TestResultsRepository(IJobFileSystem jobFileSystem,IFileSystemAdapter fileSystemAdapter)
         {
             _jobFileSystem = jobFileSystem;

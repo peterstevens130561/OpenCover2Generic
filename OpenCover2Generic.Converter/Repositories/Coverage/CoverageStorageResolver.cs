@@ -7,6 +7,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
     public class CoverageStorageResolver : ICoverageStorageResolver
     {
         private readonly IFileSystemAdapter _fileSystem;
+
+        public CoverageStorageResolver() : this(new FileSystemAdapter())
+        {
+            
+        }
         public CoverageStorageResolver(IFileSystemAdapter fileSystem)
         {
             _fileSystem = fileSystem;
