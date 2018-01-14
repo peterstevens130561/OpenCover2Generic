@@ -51,14 +51,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 new CoverageWriterFactory());
             IOpenCoverageParserFactory openCoverageParserFactory = new OpenCoverageParserFactory();
             ICoverageAggregateFactory coverageAggregateFactory=new CoverageAggregateFactory(openCoverageParserFactory);
-            IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
-                jobFileSystem, 
-                openCoverManagerFactory,
-                testResultsRepository,
-                codeCoverageRepository,
-                coverageAggregateFactory);
+
             
-            var testRunner = new TestRunnerCommandHandler(jobConsumerFactory);
+
 
             commandLineParser.Args = args;
             openCoverCommandLineBuilder.Args = args;
@@ -74,7 +69,14 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
                 codeCoverageRepository.RootDirectory = jobFileSystem.GetIntermediateCoverageDirectory();
 
-                RunTests(commandLineParser, testRunner);
+                IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
+                    jobFileSystem,
+                    openCoverManagerFactory,
+                    testResultsRepository,
+                    codeCoverageRepository,
+                    coverageAggregateFactory);
+                var testRunnerCommandHandler = new TestRunnerCommandHandler(jobConsumerFactory);
+                RunTests(commandLineParser, testRunnerCommandHandler);
 
                 CreateTestResults(commandLineParser, testResultsRepository);
                 CreateCoverageResults(commandLineParser, codeCoverageRepository);
@@ -129,7 +131,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
         private static void RunTests(IOpenCoverWrapperCommandLineParser commandLineParser, TestRunnerCommandHandler testRunnerCommandHandler)
         {
             ITestRunnerCommand command = new TestRunnerCommand();
-
+            command.Args = commandLineParser.Args;
             command.ParallelJobs = commandLineParser.GetParallelJobs();
             command.JobTimeOut = commandLineParser.GetJobTimeOut();
             command.TestAssemblies = commandLineParser.GetTestAssemblies();

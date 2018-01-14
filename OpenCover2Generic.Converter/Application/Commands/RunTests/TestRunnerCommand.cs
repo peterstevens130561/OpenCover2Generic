@@ -12,5 +12,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
         public int ChunkSize { get; set; }
 
         public TimeSpan JobTimeOut { get; set; }
+
+        public string[] Args { get; set; }
+
     }
 }

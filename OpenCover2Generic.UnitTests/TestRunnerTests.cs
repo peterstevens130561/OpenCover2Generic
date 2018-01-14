@@ -28,6 +28,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             ITestRunnerCommand command = new TestRunnerCommand();
             command.TestAssemblies = testAssemblies;
             command.ParallelJobs = 5;
+            command.ChunkSize = 1;
             testRunner.Execute(command);
             _jobConsumerFactoryMock.Verify(f => f.Create(), Times.Exactly(5));
         }

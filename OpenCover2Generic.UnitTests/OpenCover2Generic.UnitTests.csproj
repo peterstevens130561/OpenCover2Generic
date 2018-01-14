@@ -65,6 +65,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CodeCoverageRepositoryTests.cs" />
+    <Compile Include="CommandHandlers\TestRunnerCommandTests.cs" />
     <Compile Include="CommandHandlers\WorkspaceCreateCommandHandlerTests.cs" />
     <Compile Include="CommandHandlers\CommandBusTests.cs" />
     <Compile Include="CoverageAggregateTests.cs" />
