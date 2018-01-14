@@ -11,12 +11,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class TestRunnerTests
     {
         private  Mock<IJobConsumerFactory> _jobConsumerFactoryMock;
-
+        private Mock<IOpenCoverWrapperCommandLineParser> _commandLineParserMock;
         
         [TestInitialize]
         public void Initialize()
         {
             _jobConsumerFactoryMock = new Mock<IJobConsumerFactory>();
+            _commandLineParserMock= new Mock<IOpenCoverWrapperCommandLineParser>();
 
         }
 
@@ -26,9 +27,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
             var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one" };
             ITestRunnerCommand command = new TestRunnerCommand();
-            command.TestAssemblies = testAssemblies;
-            command.ParallelJobs = 5;
-            command.ChunkSize = 1;
+            _commandLineParserMock.Setup(c => c.GetTestAssemblies()).Returns(testAssemblies);
+            _commandLineParserMock.Setup(c => c.GetParallelJobs()).Returns(5);
+            _commandLineParserMock.Setup(c => c.GetChunkSize()).Returns(1);
             testRunner.Execute(command);
             _jobConsumerFactoryMock.Verify(f => f.Create(), Times.Exactly(5));
         }
@@ -75,7 +76,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private TestRunnerCommandHandler CreateTestRunner()
         {
             _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunnerCommandHandler(_jobConsumerFactoryMock.Object);
+            var testRunner = new TestRunnerCommandHandler(_jobConsumerFactoryMock.Object,_commandLineParserMock.Object);
             return testRunner;
         }
     }

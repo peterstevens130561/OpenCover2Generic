@@ -2,7 +2,7 @@
 
 namespace BHGE.SonarQube.OpenCoverWrapper
 {
-    internal interface IOpenCoverWrapperCommandLineParser
+    public interface IOpenCoverWrapperCommandLineParser
     {
         string[] Args { get; set; }
 

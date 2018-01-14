@@ -6,7 +6,7 @@ using BHGE.SonarQube.OpenCover2Generic.Utils;
 
 namespace BHGE.SonarQube.OpenCoverWrapper
 {
-    class OpenCoverWrapperCommandLineParser : IOpenCoverWrapperCommandLineParser
+    public class OpenCoverWrapperCommandLineParser : IOpenCoverWrapperCommandLineParser
     {
         private readonly ICommandLineParser _commandLineParser;
 

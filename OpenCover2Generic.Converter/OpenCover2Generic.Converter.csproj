@@ -81,6 +81,9 @@
     <Compile Include="CQRS\ServiceBus\ServiceFactory.cs" />
     <Compile Include="DomainModel\Workspace\IWorkspace.cs" />
     <Compile Include="DomainModel\Workspace\Workspace.cs" />
+    <Compile Include="IOpenCoverCommandLineParser.cs" />
+    <Compile Include="IOpenCoverWrapperCommandLineParser.cs" />
+    <Compile Include="OpenCoverWrapperCommandLineParser.cs" />
     <Compile Include="OpenCover\LoggerNotInstalledException.cs" />
     <Compile Include="Parsers\IOpenCoverageParserFactory.cs" />
     <Compile Include="Parsers\OpenCoverageParserFactory.cs" />

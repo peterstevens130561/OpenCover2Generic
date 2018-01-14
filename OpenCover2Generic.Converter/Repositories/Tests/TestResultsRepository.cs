@@ -7,20 +7,20 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
 {
     public class TestResultsRepository : ITestResultsRepository
     {
-        private readonly IFileSystemAdapter _fileSystem;
+        private readonly IFileSystemAdapter _fileSystemAdapter;
         private readonly IJobFileSystem _jobFileSystem;
 
-        public TestResultsRepository(IJobFileSystem jobFileSystem,IFileSystemAdapter fileSystem)
+        public TestResultsRepository(IJobFileSystem jobFileSystem,IFileSystemAdapter fileSystemAdapter)
         {
             _jobFileSystem = jobFileSystem;
-            _fileSystem = fileSystem;
+            _fileSystemAdapter = fileSystemAdapter;
         }
 
         public void Add(string path)
         {
             string name = Path.GetFileName(path);
             string destinationFilePath = Path.Combine(_jobFileSystem.GetTestResultsDirectory(), name);
-            _fileSystem.CopyFile(path,destinationFilePath);
+            _fileSystemAdapter.CopyFile(path,destinationFilePath);
         }
 
         public void Write(StreamWriter streamWriter)
