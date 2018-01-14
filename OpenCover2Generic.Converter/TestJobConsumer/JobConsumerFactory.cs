@@ -18,6 +18,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
         private readonly ICodeCoverageRepository _codeCoverageRepository;
         private readonly ICoverageAggregateFactory _coverageAggregateFactory;
 
+        public JobConsumerFactory(IJobFileSystem jobFileSystem) : this(new OpenCoverCommandLineBuilder(),
+            jobFileSystem,
+            new OpenCoverManagerFactory(),
+            new TestResultsRepository(jobFileSystem),
+            new CodeCoverageRepository(),
+            new CoverageAggregateFactory())
+        {
+            
+        }
         public JobConsumerFactory(IOpenCoverCommandLineBuilder openCoverCommandLineBuilder, 
             IJobFileSystem jobFileSystem, 
             IOpenCoverManagerFactory openCoverManagerFactory,

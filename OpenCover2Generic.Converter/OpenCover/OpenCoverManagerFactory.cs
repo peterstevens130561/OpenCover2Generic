@@ -5,6 +5,10 @@
         private readonly IOpenCoverProcessFactory _openCoverProcessFactory;
 
 
+        public OpenCoverManagerFactory() : this(new OpenCoverProcessFactory())
+        {
+            
+        }
         public OpenCoverManagerFactory(IOpenCoverProcessFactory openCoverProcessFactory)
         {
             _openCoverProcessFactory = openCoverProcessFactory;

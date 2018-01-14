@@ -21,6 +21,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         private readonly IXmlAdapter _xmlAdapter;
         private readonly ICoverageWriterFactory _coverageWriterFactory;
 
+        public CodeCoverageRepository() : this(new CoverageStorageResolver(),
+            new OpenCoverCoverageParser(),
+            new XmlAdapter(),
+            new CoverageWriterFactory())
+        {
+            
+        }
+
         public CodeCoverageRepository(
             ICoverageStorageResolver coverageStorageResolver, 
             ICoverageParser coverageParser,

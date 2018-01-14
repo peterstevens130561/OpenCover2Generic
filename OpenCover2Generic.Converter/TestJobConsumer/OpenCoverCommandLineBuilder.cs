@@ -13,6 +13,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
 
         private readonly ICommandLineParser _commandLineParser;
 
+        public OpenCoverCommandLineBuilder() : this(new CommandLineParser())
+        {
+            
+        }
         public OpenCoverCommandLineBuilder(ICommandLineParser commandLineParser)
         {
             _commandLineParser = commandLineParser;

@@ -7,6 +7,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
     {
         private readonly IOpenCoverageParserFactory _coverageParserFactory;
 
+        public CoverageAggregateFactory() : this(new OpenCoverageParserFactory())
+        {
+            
+        }
         public CoverageAggregateFactory(IOpenCoverageParserFactory coverageParserFactory)
         {
             _coverageParserFactory = coverageParserFactory;

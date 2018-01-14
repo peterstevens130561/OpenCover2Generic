@@ -64,7 +64,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 var workspaceService = serviceBus.Create<IWorkspaceService>();
                 workspaceService.Id = id;
                 var workspace = serviceBus.Execute(workspaceService);
-                jobFileSystem.CreateRoot(id);
+                jobFileSystem.CreateRoot(workspace);
                 //CreateWorkspace(commandBus, workspace);
 
                 codeCoverageRepository.RootDirectory = jobFileSystem.GetIntermediateCoverageDirectory();

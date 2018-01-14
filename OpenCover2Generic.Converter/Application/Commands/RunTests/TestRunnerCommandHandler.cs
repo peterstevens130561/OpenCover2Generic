@@ -25,27 +25,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
         private readonly List<Task> _tasks = new List<Task>();
         private readonly IJobs _jobs = new Jobs();
         private readonly IOpenCoverWrapperCommandLineParser _commandLineParser;
+        private readonly IJobFileSystem _jobFileSystem;
 
         public TestRunnerCommandHandler()
         {
-            IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
-            IOpenCoverManagerFactory openCoverManagerFactory = new OpenCoverManagerFactory(new OpenCoverProcessFactory(new ProcessFactory()));
-            IFileSystemAdapter fileSystemAdapter = new FileSystemAdapter();
-            var testResultsRepository = new TestResultsRepository(jobFileSystem);
-            ICoverageStorageResolver coverageStorageResolver = new CoverageStorageResolver();
-            ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
-                coverageStorageResolver,
-                new OpenCoverCoverageParser(),
-                new XmlAdapter(),
-                new CoverageWriterFactory());
-            IOpenCoverageParserFactory openCoverageParserFactory = new OpenCoverageParserFactory();
-            ICoverageAggregateFactory coverageAggregateFactory = new CoverageAggregateFactory(openCoverageParserFactory);
-            IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
-                jobFileSystem,
-                openCoverManagerFactory,
-                testResultsRepository,
-                codeCoverageRepository,
-                coverageAggregateFactory);
+
+            _jobFileSystem = new JobFileSystem(new FileSystemAdapter());
+            _jobConsumerFactory = new JobConsumerFactory(_jobFileSystem);
         }
         public TestRunnerCommandHandler(IJobConsumerFactory jobConsumerFactory) : this(jobConsumerFactory,
             new OpenCoverWrapperCommandLineParser(new CommandLineParser()))
@@ -61,6 +47,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
 
         public void Execute(ITestRunnerCommand command)
         {
+            _jobFileSystem.CreateRoot(command.Workspace);
             _commandLineParser.Args = command.Args;
             CreateJobs(_commandLineParser.GetTestAssemblies(), _commandLineParser.GetChunkSize());
             CreateJobConsumers(_commandLineParser.GetParallelJobs(), _commandLineParser.GetJobTimeOut());

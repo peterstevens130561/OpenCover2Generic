@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Utils
 {
@@ -15,6 +16,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
         private string _openCoverLogDir;
         private readonly IFileSystemAdapter _fileSystemAdapter;
         private string _rootPath;
+
+        public IWorkspace Workspace { get; set; }
+
         public JobFileSystem(IFileSystemAdapter fileSystemAdapter)
         {
             _fileSystemAdapter = fileSystemAdapter;
@@ -23,9 +27,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
         /// <summary>
         /// Creates the root structure for the temporary files
         /// </summary>
-        public void CreateRoot(string key)
+        public void CreateRoot(IWorkspace workspace)
         {
-            _rootPath = Path.GetFullPath(Path.Combine(_fileSystemAdapter.GetTempPath(), "opencover_" + key));
+            _rootPath = workspace.Path;
+            if (_fileSystemAdapter.DirectoryExists(_rootPath))
+            {
+                return;
+            }
             _fileSystemAdapter.CreateDirectory(_rootPath);
 
             _openCoverOutputDir = CreateChildDir("OpenCoverOutput");

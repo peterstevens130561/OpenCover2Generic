@@ -6,6 +6,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.OpenCover
     {
         private readonly ProcessFactory _processFactory;
 
+        public OpenCoverProcessFactory() : this(new ProcessFactory())
+        {
+            
+        }
         public OpenCoverProcessFactory(ProcessFactory processFactory)
         {
             _processFactory = processFactory;
