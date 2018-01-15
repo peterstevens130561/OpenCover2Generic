@@ -10,6 +10,10 @@ namespace BHGE.SonarQube.OpenCoverWrapper
     {
         private readonly ICommandLineParser _commandLineParser;
 
+        public OpenCoverWrapperCommandLineParser() : this(new CommandLineParser())
+        {
+            
+        }
         public OpenCoverWrapperCommandLineParser(ICommandLineParser commandLineParser)
         {
             _commandLineParser = commandLineParser;

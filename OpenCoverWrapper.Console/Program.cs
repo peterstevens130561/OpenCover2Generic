@@ -39,7 +39,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             var fileSystem = new FileSystemAdapter();
             IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             JobFileSystem jobFileSystem = new JobFileSystem(fileSystem);
-            IOpenCoverManagerFactory openCoverManagerFactory = new OpenCoverManagerFactory(new OpenCoverProcessFactory(new ProcessFactory()));
 
             var testResultsRepository = new TestResultsRepository(jobFileSystem, fileSystem);
             IFileSystemAdapter fileSystemAdapter = new FileSystemAdapter();
@@ -49,12 +48,8 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 new OpenCoverCoverageParser(),
                 new XmlAdapter(),
                 new CoverageWriterFactory());
-            IOpenCoverageParserFactory openCoverageParserFactory = new OpenCoverageParserFactory();
-            ICoverageAggregateFactory coverageAggregateFactory=new CoverageAggregateFactory(openCoverageParserFactory);
 
-            
-
-
+      
             commandLineParser.Args = args;
             openCoverCommandLineBuilder.Args = args;
 
@@ -69,13 +64,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
                 codeCoverageRepository.RootDirectory = jobFileSystem.GetIntermediateCoverageDirectory();
 
-                IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(openCoverCommandLineBuilder,
-                    jobFileSystem,
-                    openCoverManagerFactory,
-                    testResultsRepository,
-                    codeCoverageRepository,
-                    coverageAggregateFactory);
-                RunTests(args,jobConsumerFactory);
+                RunTests(args,workspace);
 
                 CreateTestResults(commandLineParser, testResultsRepository);
                 CreateCoverageResults(commandLineParser, codeCoverageRepository);
@@ -85,18 +74,22 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             }
             catch ( CommandLineArgumentException e)
             {
+                Console.Error.WriteLine("Invalid command line argument");
                 Console.Error.WriteLine(e.Message);
                 Environment.Exit(1);
             } catch ( JobTimeOutException e)
             {
+                Console.Error.WriteLine("Timeout");
                 Console.Error.WriteLine(e.Message);
                 Environment.Exit(1);
             } catch (Exception e)
             {
+                Console.Error.WriteLine("Exception");
                 Console.Error.WriteLine(e.Message);
                 Console.Error.WriteLine(e.StackTrace);
                 if (e.InnerException != null)
                 {
+                    Console.Error.WriteLine("Inner exception");
                     Console.Error.WriteLine(e.InnerException.Message);
                     Console.Error.WriteLine(e.InnerException.StackTrace);
                 }
@@ -127,13 +120,14 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             return workspace;
         }
 
-        private static void RunTests(string[] args,IJobConsumerFactory jobConsumerFactory)
+        private static void RunTests(string[] args,IWorkspace workspace)
         {
 
             ITestRunnerCommand command = new TestRunnerCommand();
             command.Args = args;
+            command.Workspace = workspace;
 
-            new TestRunnerCommandHandler(jobConsumerFactory).Execute(command);
+            new TestRunnerCommandHandler().Execute(command);
         }
 
         private static void CreateTestResults(IOpenCoverWrapperCommandLineParser commandLineParser, TestResultsRepository testResultsRepository)

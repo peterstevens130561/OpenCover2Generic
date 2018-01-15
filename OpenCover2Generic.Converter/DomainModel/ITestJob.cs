@@ -4,5 +4,8 @@
     {
         string Assemblies { get; }
         string FirstAssembly { get; }
+
+        string [] Args { get; }
+        string RepositoryRootDirectory { get; }
     }
 }

@@ -44,7 +44,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
 
         public IJobConsumer Create()
         {
-            return new JobConsumer(_openCoverCommandLineBuilder, _jobFileSystem, _openCoverManagerFactory,_testResultsRepository,_codeCoverageRepository, _coverageAggregateFactory);
+            return new JobConsumer(new OpenCoverCommandLineBuilder(), _jobFileSystem, _openCoverManagerFactory,_testResultsRepository,_codeCoverageRepository, _coverageAggregateFactory);
         }
     }
 }

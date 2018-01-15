@@ -19,22 +19,31 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
 
         public IWorkspace Workspace { get; set; }
 
+        public JobFileSystem() : this(new FileSystemAdapter())
+        {
+            
+        }
         public JobFileSystem(IFileSystemAdapter fileSystemAdapter)
         {
             _fileSystemAdapter = fileSystemAdapter;
         }
 
+        public void CreateRoot(string key)
+        {
+            string path= Path.GetFullPath(Path.Combine(_fileSystemAdapter.GetTempPath(), "opencover_" + key));
+            var workspace = new Workspace(path);
+            CreateRoot(workspace);
+        }
         /// <summary>
         /// Creates the root structure for the temporary files
         /// </summary>
         public void CreateRoot(IWorkspace workspace)
         {
             _rootPath = workspace.Path;
-            if (_fileSystemAdapter.DirectoryExists(_rootPath))
+            if (!_fileSystemAdapter.DirectoryExists(_rootPath))
             {
-                return;
+                _fileSystemAdapter.CreateDirectory(_rootPath);
             }
-            _fileSystemAdapter.CreateDirectory(_rootPath);
 
             _openCoverOutputDir = CreateChildDir("OpenCoverOutput");
             _testResultsDir = CreateChildDir("TestResults");
@@ -46,7 +55,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
         private string CreateChildDir(string name)
         {
             string path = Path.GetFullPath(Path.Combine(_rootPath, name));
-            _fileSystemAdapter.CreateDirectory(path);
+            if (!_fileSystemAdapter.DirectoryExists(path))
+            {
+                _fileSystemAdapter.CreateDirectory(path);
+            }
             return path;
         }
 

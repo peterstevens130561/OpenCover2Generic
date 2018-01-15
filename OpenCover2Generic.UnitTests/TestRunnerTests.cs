@@ -1,4 +1,6 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests;
+﻿using System;
+using BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using BHGE.SonarQube.OpenCoverWrapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -27,6 +29,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one" };
             ITestRunnerCommand command = new TestRunnerCommand();
+            command.Workspace = new Workspace("bogus");
             _commandLineParserMock.Setup(c => c.GetTestAssemblies()).Returns(testAssemblies);
             _commandLineParserMock.Setup(c => c.GetParallelJobs()).Returns(5);
             _commandLineParserMock.Setup(c => c.GetChunkSize()).Returns(1);
@@ -39,7 +42,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one","two","three" };
-            testRunner.CreateJobs(testAssemblies, 1);
+            testRunner.CreateJobs(testAssemblies, 1,null);
             var jobs = testRunner.Jobs;
             Assert.AreEqual(3, jobs.Count());
             Assert.AreEqual("one", jobs.Take().FirstAssembly);
@@ -52,7 +55,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one", "two", "three", "four" , "five" };
-            testRunner.CreateJobs(testAssemblies, 2);
+            testRunner.CreateJobs(testAssemblies, 2,null);
             var jobs = testRunner.Jobs;
             Assert.AreEqual(3, jobs.Count());
             Assert.AreEqual("one two", jobs.Take().Assemblies);
@@ -65,7 +68,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one", "two", "three", "four", "five" };
-            testRunner.CreateJobs(testAssemblies, 2);
+            testRunner.CreateJobs(testAssemblies, 2,null);
             var jobs = testRunner.Jobs;
             Assert.AreEqual(3, jobs.Count());
             Assert.AreEqual("one", jobs.Take().FirstAssembly);

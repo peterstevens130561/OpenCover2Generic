@@ -30,8 +30,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
         public TestRunnerCommandHandler()
         {
 
-            _jobFileSystem = new JobFileSystem(new FileSystemAdapter());
+            _jobFileSystem = new JobFileSystem();
             _jobConsumerFactory = new JobConsumerFactory(_jobFileSystem);
+            _commandLineParser = new OpenCoverWrapperCommandLineParser();
         }
         public TestRunnerCommandHandler(IJobConsumerFactory jobConsumerFactory) : this(jobConsumerFactory,
             new OpenCoverWrapperCommandLineParser(new CommandLineParser()))
@@ -47,15 +48,16 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
 
         public void Execute(ITestRunnerCommand command)
         {
-            _jobFileSystem.CreateRoot(command.Workspace);
+            var workspace = command.Workspace;
+            _jobFileSystem.CreateRoot(workspace);
             _commandLineParser.Args = command.Args;
-            CreateJobs(_commandLineParser.GetTestAssemblies(), _commandLineParser.GetChunkSize());
+            CreateJobs(_commandLineParser.GetTestAssemblies(), _commandLineParser.GetChunkSize(),command.Args);
             CreateJobConsumers(_commandLineParser.GetParallelJobs(), _commandLineParser.GetJobTimeOut());
             Wait();
         }
 
 
-        public void CreateJobs(string[] testAssemblies, int chunkSize)
+        public void CreateJobs(string[] testAssemblies, int chunkSize, string[] args)
         {
             log.Info($"Will run tests for {testAssemblies.Count()} assemblies");
             var list = testAssemblies.ToList();
@@ -65,7 +67,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
             {
                 currentChunkSize = Math.Min(currentChunkSize, count - index);
                 var chunk = list.GetRange(index, currentChunkSize);
-                _jobs.Add(new TestJob(chunk));
+                _jobs.Add(new TestJob(chunk,args,_jobFileSystem.GetIntermediateCoverageDirectory()));
             }
             _jobs.CompleteAdding();
         }
@@ -77,7 +79,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
                 _tasks.ForEach(t => t.Wait());
             } catch (AggregateException e)
             {
+                log.Error($"Aggregate Exception caught {e.Message}\n{e.StackTrace}");
                 throw e.InnerException;
+            }
+            catch (Exception e)
+            {
+                log.Error($"Exception caught {e}\n{e.Message}\n{e.StackTrace}");
+                throw;
             }
         }
         public IJobs Jobs { get { return _jobs; } }
@@ -85,7 +93,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
 
         public void CreateJobConsumers(int consumers,TimeSpan jobTimeOut)
         {
-
             for (int i = 1; i <= consumers; i++)
             {
                 Task task = Task.Run(() => _jobConsumerFactory.Create().ConsumeTestJobs(_jobs,jobTimeOut));

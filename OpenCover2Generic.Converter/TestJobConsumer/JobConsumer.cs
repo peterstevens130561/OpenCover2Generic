@@ -39,15 +39,23 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
 
         public void ConsumeTestJobs(IJobs jobs,TimeSpan jobTimeOut)
         {
-            while (!jobs.IsCompleted())
+            try
             {
-                ITestJob testJob = GetAssembly(jobs);
-                if (testJob == null)
+                while (!jobs.IsCompleted())
                 {
-                    continue;
-                }
-                Consume(testJob,jobTimeOut);
+                    ITestJob testJob = GetAssembly(jobs);
+                    if (testJob == null)
+                    {
+                        continue;
+                    }
+                    Consume(testJob, jobTimeOut);
 
+                }
+            }
+            catch (Exception e)
+            {
+                _log.Error($"{e}\n{e.StackTrace}");
+                throw;
             }
         }
 
@@ -60,7 +68,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
             openCoverManager.SetTimeOut(jobTimeOut);
             using (var writer = new StreamWriter(openCoverLogPath, false, Encoding.UTF8))
             {
-
+                _openCoverCommandLineBuilder.Args = testJob.Args;
                 var processStartInfo = _openCoverCommandLineBuilder.Build(testJob.Assemblies, openCoverOutputPath);
                 Task task = Task.Run(() => openCoverManager.Run(processStartInfo, writer,testJob.Assemblies));
                 task.Wait();
@@ -70,6 +78,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
                 _testResultsRepository.Add(openCoverManager.TestResultsPath);
             }
             var coverageAggregate = _coverageAggregateFactory.Create(openCoverOutputPath);
+            _codeCoverageRepository.RootDirectory = testJob.RepositoryRootDirectory;
             _codeCoverageRepository.Save(coverageAggregate);
         }
 

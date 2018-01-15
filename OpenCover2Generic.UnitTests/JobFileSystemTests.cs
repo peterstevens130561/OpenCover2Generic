@@ -23,6 +23,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void CreateRootTests()
         {
+
             _fileSystem.CreateRoot("key");
             _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key"));
             _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\TestResults"));
