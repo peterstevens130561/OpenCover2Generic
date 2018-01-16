@@ -99,6 +99,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
             return GetFileForAssembly(moduleDirectory, assemblyPath, "xml");
         }
 
+        [Obsolete("get rid", true)]
         public string GetTestResultsPath(string assemblyPath)
         {
             return GetFileForAssembly(_testResultsDir, assemblyPath, "xml");
@@ -113,11 +114,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
         /// Gets the directory where all individual test results are stored.
         /// </summary>
         /// <returns></returns>
+        [Obsolete("get rid", true)]
         public string GetTestResultsDirectory()
         {
             return _testResultsDir;
         }
 
+        [Obsolete("get rid", true)]
         public IEnumerable<string> GetTestResultsPaths()
         {
             return _fileSystemAdapter.EnumerateFiles(_testResultsDir);
@@ -137,10 +140,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
             return _openCoverIntermediateDir;
         }
 
-        public IEnumerable<string> GetTestResultsFiles()
-        {
-            return Directory.EnumerateFiles(GetTestResultsDirectory());
-        }
 
         public IEnumerable<string> GetModuleCoverageDirectories()
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Utils
@@ -9,9 +10,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
         string GetOpenCoverOutputPath(string assembly);
         string GetTestResultsPath(string assembly);
         string GetIntermediateCoverageDirectory();
+        [Obsolete("get rid",true)]
         string GetTestResultsDirectory();
 
-        IEnumerable<string> GetTestResultsFiles();
         void CreateRoot(IWorkspace workspace);
 
         IEnumerable<string> GetModuleCoverageDirectories();

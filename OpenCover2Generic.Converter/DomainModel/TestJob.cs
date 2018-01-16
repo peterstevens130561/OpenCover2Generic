@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
@@ -9,6 +10,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.DomainModel
 
         public TestJob(IList<string> assemblies)
         {
+            if (assemblies == null)
+            {
+                throw new ArgumentNullException(nameof(assemblies));
+            }
             FirstAssembly = assemblies.First();
             Assemblies = string.Join(" ", assemblies);
         }
