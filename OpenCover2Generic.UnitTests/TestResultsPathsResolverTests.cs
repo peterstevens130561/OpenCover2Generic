@@ -20,26 +20,39 @@ namespace BHGE.SonarQube.OpenCover2Generic
         public void Initialize()
         {
             _fileSystemAdapterMock = new Mock<IFileSystemAdapter>();
-            _fileSystemAdapterMock.Setup(f => f.GetTempPath()).Returns("Q:/temp");
             _fileSystem = new TestResultsPathResolver(_fileSystemAdapterMock.Object);
             _fileSystem.Root = @"Q:\temp\opencover_key";
         }
+
         [TestMethod]
-        public void CheckTestResultsDirectory()
+        public void Root_NotSet_Root_Null()
+        {
+            _fileSystem.Root = null;
+            Assert.IsNull(_fileSystem.Root);
+        }
+
+        [TestMethod]
+        public void Root_Set_Root_Same()
+        {
+            _fileSystem.Root = "abc";
+            Assert.AreEqual("abc",_fileSystem.Root);
+        }
+        [TestMethod]
+        public void TestResultsDirectory_Specified()
         {
             var testResultsDirectory = _fileSystem.GetDirectory();
             Assert.AreEqual(@"Q:\temp\opencover_key\TestResults", testResultsDirectory);
         }
 
         [TestMethod]
-        public void GetTestResultsPath_Path_Converted()
+        public void GetTestResultsDestinationPath_Assembly_GetTestResultsDestinationPath_Converted()
         {
-            var testResultsDirectory = _fileSystem.GetResultsPath(@"A:B\C\test.dll");
+            var testResultsDirectory = _fileSystem.GetTestResultsDestinationPath(@"A:B\C\test.dll");
             Assert.AreEqual(@"Q:\temp\opencover_key\TestResults\1_test.xml", testResultsDirectory);
         }
 
         [TestMethod]
-        public void GetTestResultsPaths_TwoPaths_TwoTestResultsPaths()
+        public void GetTestResultsPaths_TwoPathsInDirectory_GetTestResultsPaths_TwoTestResultsPaths()
         {
             var paths = new Collection<string>();
             paths.Add("a");
