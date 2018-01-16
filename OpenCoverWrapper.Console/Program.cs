@@ -15,6 +15,7 @@ using log4net;
 using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Application;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests;
+using BHGE.SonarQube.OpenCover2Generic.Application.Commands.TestResultsCreate;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Create;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Delete;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Delete.Services.Workspace;
@@ -132,18 +133,10 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         private static void CreateTestResults(ICommandBus commandBus,IWorkspace workspace,string[] args)
         {
-            var testResultsRepository = new TestResultsRepository();
-            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser();
-
-            commandLineParser.Args = args;
-       
-            testResultsRepository.SetWorkspace(workspace);
-
-            string testResultsPath = commandLineParser.GetTestResultsPath();
-            using (var writer = new StreamWriter(testResultsPath))
-            {
-                testResultsRepository.Write(testResultsPath);
-            }
+            var command = commandBus.CreateCommand<ITestResultsCreateCommand>();
+            command.Workspace = workspace;
+            command.Args = args;
+            commandBus.Execute(command);
         }
 
         private static void CreateCoverageResults(IOpenCoverWrapperCommandLineParser commandLineParser, ICodeCoverageRepository codeCoverageRepository)
