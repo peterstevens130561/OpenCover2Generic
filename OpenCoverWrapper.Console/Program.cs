@@ -66,7 +66,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
                 RunTests(commandBus,args,workspace);
 
-                CreateTestResults(workspace,args);
+                CreateTestResults(commandBus,workspace,args);
                 CreateCoverageResults(commandLineParser, codeCoverageRepository);
 
                 DeleteWorkspace(commandBus, workspace);
@@ -130,7 +130,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             commandBus.Execute(command);
         }
 
-        private static void CreateTestResults(IWorkspace workspace,string[] args)
+        private static void CreateTestResults(ICommandBus commandBus,IWorkspace workspace,string[] args)
         {
             var testResultsRepository = new TestResultsRepository();
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser();
@@ -142,7 +142,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             string testResultsPath = commandLineParser.GetTestResultsPath();
             using (var writer = new StreamWriter(testResultsPath))
             {
-                testResultsRepository.Write(writer);
+                testResultsRepository.Write(testResultsPath);
             }
         }
 

@@ -6,6 +6,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
     public interface ITestResultsRepository
     {
         void Write(StreamWriter streamWriter);
+
+        void Write(string path);
         void Add(string v);
 
         void SetWorkspace(IWorkspace workspace);
