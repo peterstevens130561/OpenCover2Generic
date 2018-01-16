@@ -14,7 +14,5 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
         void CreateRoot(IWorkspace workspace);
 
         IEnumerable<string> GetModuleCoverageDirectories();
-
-        IEnumerable<string> GetTestCoverageFilesOfModule(string moduleDirectory);
     }
 }
