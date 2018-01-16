@@ -40,7 +40,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             JobFileSystem jobFileSystem = new JobFileSystem(fileSystem);
 
-            var testResultsRepository = new TestResultsRepository(jobFileSystem, fileSystem);
+            var testResultsRepository = new TestResultsRepository(jobFileSystem);
             IFileSystemAdapter fileSystemAdapter = new FileSystemAdapter();
             ICoverageStorageResolver coverageStorageResolver = new CoverageStorageResolver(fileSystemAdapter);
             ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
@@ -64,9 +64,9 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
                 codeCoverageRepository.RootDirectory = jobFileSystem.GetIntermediateCoverageDirectory();
 
-                RunTests(args,workspace);
+                RunTests(commandBus,args,workspace);
 
-                CreateTestResults(commandLineParser, testResultsRepository);
+                CreateTestResults(workspace,args, testResultsRepository);
                 CreateCoverageResults(commandLineParser, codeCoverageRepository);
 
                 DeleteWorkspace(commandBus, workspace);
@@ -120,18 +120,22 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             return workspace;
         }
 
-        private static void RunTests(string[] args,IWorkspace workspace)
+        private static void RunTests(ICommandBus commandBus,string[] args,IWorkspace workspace)
         {
 
-            ITestRunnerCommand command = new TestRunnerCommand();
+            ITestRunnerCommand command = commandBus.CreateCommand<ITestRunnerCommand>();
             command.Args = args;
             command.Workspace = workspace;
 
-            new TestRunnerCommandHandler().Execute(command);
+            commandBus.Execute(command);
         }
 
-        private static void CreateTestResults(IOpenCoverWrapperCommandLineParser commandLineParser, TestResultsRepository testResultsRepository)
+        private static void CreateTestResults(IWorkspace workspace,string[] Args, ITestResultsRepository testResultsRepository)
         {
+            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser();
+            commandLineParser.Args = Args;
+            testResultsRepository.SetWorkspace(workspace);
+
             string testResultsPath = commandLineParser.GetTestResultsPath();
             using (var writer = new StreamWriter(testResultsPath))
             {

@@ -1,14 +1,22 @@
 ﻿using System.IO;
 using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
 {
-    public class TestResultsRepository : ITestResultsRepository
+
+
+    public class TestResultsRepository :   ITestResultsRepository
     {
         private readonly IFileSystemAdapter _fileSystemAdapter;
         private readonly IJobFileSystem _jobFileSystem;
+
+        public TestResultsRepository() : this(new JobFileSystem(), new FileSystemAdapter())
+        {
+            
+        }
 
         public TestResultsRepository(IJobFileSystem jobFileSystem) : this(jobFileSystem, new FileSystemAdapter())
         {
@@ -18,6 +26,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
         {
             _jobFileSystem = jobFileSystem;
             _fileSystemAdapter = fileSystemAdapter;
+        }
+
+        public void SetWorkspace(IWorkspace workspace)
+        {
+            _jobFileSystem.CreateRoot(workspace);
         }
 
         public void Add(string path)

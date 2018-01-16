@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Create;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Delete;
 using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
@@ -17,6 +18,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application
             new CommandFactory()
                 .Register<IWorkspaceCreateCommand,WorkspaceCreateCommand,WorkspaceCreateCommandHandler>()
                 .Register<IWorkspaceDeleteCommand,WorkspaceDeleteCommand,WorkspaceDeleteCommandHandler>()
+                .Register<ITestRunnerCommand,TestRunnerCommand,TestRunnerCommandHandler>()
             )
         )
         {

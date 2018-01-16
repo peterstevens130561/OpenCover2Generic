@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
 {
@@ -6,5 +7,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
     {
         void Write(StreamWriter streamWriter);
         void Add(string v);
+
+        void SetWorkspace(IWorkspace workspace);
     }
 }

@@ -135,6 +135,7 @@
     <Compile Include="Adapters\IProcessAdapter.cs" />
     <Compile Include="Adapters\ProcessAdapter.cs" />
     <Compile Include="Repositories\Tests\ITestResultsConcatenator.cs" />
+    <Compile Include="Utils\ITestResultsPathResolver.cs" />
     <Compile Include="Utils\JobFileSystem.cs" />
     <Compile Include="Writers\CoverageStatisticsAggregator.cs" />
     <Compile Include="Writers\GenericCoverageWriterObserver.cs" />

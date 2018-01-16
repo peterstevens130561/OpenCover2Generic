@@ -99,6 +99,7 @@
     <Compile Include="FileCoverageModelTests.cs" />
     <Compile Include="TestRepositoryTests.cs" />
     <Compile Include="TestResultsConcatenatorTests.cs" />
+    <Compile Include="TestResultsPathsResolverTests.cs" />
     <Compile Include="TestRunnerTests.cs" />
     <Compile Include="TestUtils.cs" />
     <Compile Include="OpenCoverCoverageParserTests.cs" />
