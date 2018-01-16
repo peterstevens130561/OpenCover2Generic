@@ -36,20 +36,13 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             var commandBus = new ApplicationCommandBus();
             var serviceBus = new ApplicationServiceBus();
             XmlConfigurator.Configure();
-            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser(new CommandLineParser());       
-            var fileSystem = new FileSystemAdapter();
-
-
-
-
-            ICoverageStorageResolver coverageStorageResolver = new CoverageStorageResolver();
+            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser();       
             ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
-                coverageStorageResolver,
+                new CoverageStorageResolver(),
                 new OpenCoverCoverageParser(),
                 new XmlAdapter(),
                 new CoverageWriterFactory());
 
-      
             commandLineParser.Args = args;
 
             try
@@ -58,7 +51,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 var workspaceService = serviceBus.Create<IWorkspaceService>();
                 workspaceService.Id = id;
                 var workspace = serviceBus.Execute(workspaceService);
-                JobFileSystem jobFileSystem = new JobFileSystem(fileSystem);
+                JobFileSystem jobFileSystem = new JobFileSystem();
                 jobFileSystem.CreateRoot(workspace);
                 //CreateWorkspace(commandBus, workspace);
 
