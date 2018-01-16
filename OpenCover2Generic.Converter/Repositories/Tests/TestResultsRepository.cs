@@ -11,32 +11,32 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
     public class TestResultsRepository :   ITestResultsRepository
     {
         private readonly IFileSystemAdapter _fileSystemAdapter;
-        private readonly IJobFileSystem _jobFileSystem;
+        private readonly ITestResultsPathResolver _pathResolver;
 
-        public TestResultsRepository() : this(new JobFileSystem(), new FileSystemAdapter())
+        public TestResultsRepository() : this(new TestResultsPathResolver(), new FileSystemAdapter())
         {
             
         }
 
-        public TestResultsRepository(IJobFileSystem jobFileSystem) : this(jobFileSystem, new FileSystemAdapter())
+        public TestResultsRepository(ITestResultsPathResolver jobFileSystem) : this(jobFileSystem, new FileSystemAdapter())
         {
             
         }
-        public TestResultsRepository(IJobFileSystem jobFileSystem,IFileSystemAdapter fileSystemAdapter)
+        public TestResultsRepository(ITestResultsPathResolver jobFileSystem,IFileSystemAdapter fileSystemAdapter)
         {
-            _jobFileSystem = jobFileSystem;
+            _pathResolver= jobFileSystem;
             _fileSystemAdapter = fileSystemAdapter;
         }
 
         public void SetWorkspace(IWorkspace workspace)
         {
-            _jobFileSystem.CreateRoot(workspace);
+            _pathResolver.Root = workspace.Path;
         }
 
         public void Add(string path)
         {
             string name = Path.GetFileName(path);
-            string destinationFilePath = Path.Combine(_jobFileSystem.GetTestResultsDirectory(), name);
+            string destinationFilePath = Path.Combine(_pathResolver.GetDirectory(), name);
             _fileSystemAdapter.CopyFile(path,destinationFilePath);
         }
 
@@ -47,7 +47,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Tests
             {
                 testResultsConcatenator.Writer = writer;
                 testResultsConcatenator.Begin();
-                var files = _jobFileSystem.GetTestResultsFiles();
+                var files = _pathResolver.GetTestResultsFiles();
                 foreach (var file in files)
                 {
                     using (var reader = XmlReader.Create(file))

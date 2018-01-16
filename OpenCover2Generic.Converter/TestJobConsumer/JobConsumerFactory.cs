@@ -21,7 +21,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
         public JobConsumerFactory(IJobFileSystem jobFileSystem) : this(new OpenCoverCommandLineBuilder(),
             jobFileSystem,
             new OpenCoverManagerFactory(),
-            new TestResultsRepository(jobFileSystem),
+            new TestResultsRepository(),
             new CodeCoverageRepository(),
             new CoverageAggregateFactory())
         {

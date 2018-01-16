@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
 namespace BHGE.SonarQube.OpenCover2Generic.DomainModel
 {
@@ -18,10 +19,11 @@ namespace BHGE.SonarQube.OpenCover2Generic.DomainModel
             Assemblies = assembly;
         }
 
-        public TestJob(IList<string> assemblies, string[] args, string repositoryRootDirectory) : this(assemblies)
+        public TestJob(IList<string> assemblies, string[] args, string repositoryRootDirectory,IWorkspace workspace) : this(assemblies)
         {
             Args = args;
             RepositoryRootDirectory = repositoryRootDirectory;
+            Workspace = workspace;
         }
 
         public string FirstAssembly { get; private set; }
@@ -31,5 +33,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.DomainModel
         public string[] Args { get; private set; }
 
         public string RepositoryRootDirectory { get; private set; }
+
+        public IWorkspace Workspace { get; private set; }
     }
 }

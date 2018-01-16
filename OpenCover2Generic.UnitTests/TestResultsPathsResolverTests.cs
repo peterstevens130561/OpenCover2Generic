@@ -60,7 +60,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             _fileSystemAdapterMock.Setup(f => f.EnumerateFiles(@"Q:\temp\opencover_key\TestResults")).Returns(paths);
 
-            var testResultsPaths = _fileSystem.GetTestResultsPaths();
+            var testResultsPaths = _fileSystem.GetTestResultsFiles();
             Assert.AreEqual(2, testResultsPaths.Count());
         }
     }

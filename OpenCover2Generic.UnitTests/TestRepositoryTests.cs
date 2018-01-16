@@ -13,13 +13,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class TestRepositoryTests
     {
-        private Mock<IJobFileSystem> _jobFileSystemMock;
+        private Mock<ITestResultsPathResolver> _jobFileSystemMock;
         private ITestResultsRepository _testResultsRepository;
         private Mock<IFileSystemAdapter> _fileSystemMock;
 
         [TestInitialize]
         public void Initialize(){
-            _jobFileSystemMock = new Mock<IJobFileSystem>();
+            _jobFileSystemMock = new Mock<ITestResultsPathResolver>();
             _fileSystemMock = new Mock<IFileSystemAdapter>();
             _testResultsRepository = new TestResultsRepository(_jobFileSystemMock.Object,_fileSystemMock.Object);
         }
@@ -73,7 +73,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
             var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(tempDir);
-            _jobFileSystemMock.Setup(f => f.GetTestResultsDirectory()).Returns(tempDir);
+            _jobFileSystemMock.Setup(f => f.GetDirectory()).Returns(tempDir);
 
             var fileToAdd="Resources/1_TestResults.xml";
             _testResultsRepository.Add(fileToAdd);

@@ -1,4 +1,6 @@
-﻿namespace BHGE.SonarQube.OpenCover2Generic.DomainModel
+﻿using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
+
+namespace BHGE.SonarQube.OpenCover2Generic.DomainModel
 {
     public interface ITestJob
     {
@@ -7,5 +9,6 @@
 
         string [] Args { get; }
         string RepositoryRootDirectory { get; }
+        IWorkspace Workspace { get; }
     }
 }

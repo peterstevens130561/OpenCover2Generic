@@ -137,6 +137,7 @@
     <Compile Include="Repositories\Tests\ITestResultsConcatenator.cs" />
     <Compile Include="Utils\ITestResultsPathResolver.cs" />
     <Compile Include="Utils\JobFileSystem.cs" />
+    <Compile Include="Utils\TestResultsPathResolver.cs" />
     <Compile Include="Writers\CoverageStatisticsAggregator.cs" />
     <Compile Include="Writers\GenericCoverageWriterObserver.cs" />
     <Compile Include="Writers\GenericCoverageWriter.cs" />

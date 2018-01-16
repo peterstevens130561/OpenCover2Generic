@@ -6,6 +6,7 @@ using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
@@ -18,7 +19,7 @@ using log4net;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
 {
-    public class TestRunnerCommandHandler : ITestRunner, ICommandHandler<ITestRunnerCommand>
+    public class TestRunnerCommandHandler : ICommandHandler<ITestRunnerCommand>
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(TestRunnerCommandHandler));
         private readonly IJobConsumerFactory _jobConsumerFactory;
@@ -51,13 +52,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
             var workspace = command.Workspace;
             _jobFileSystem.CreateRoot(workspace);
             _commandLineParser.Args = command.Args;
-            CreateJobs(_commandLineParser.GetTestAssemblies(), _commandLineParser.GetChunkSize(),command.Args);
+            CreateJobs(_commandLineParser.GetTestAssemblies(), _commandLineParser.GetChunkSize(),command.Args,workspace);
             CreateJobConsumers(_commandLineParser.GetParallelJobs(), _commandLineParser.GetJobTimeOut());
             Wait();
         }
 
 
-        public void CreateJobs(string[] testAssemblies, int chunkSize, string[] args)
+        public void CreateJobs(string[] testAssemblies, int chunkSize, string[] args,IWorkspace workspace)
         {
             log.Info($"Will run tests for {testAssemblies.Count()} assemblies");
             var list = testAssemblies.ToList();
@@ -67,7 +68,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
             {
                 currentChunkSize = Math.Min(currentChunkSize, count - index);
                 var chunk = list.GetRange(index, currentChunkSize);
-                _jobs.Add(new TestJob(chunk,args,_jobFileSystem.GetIntermediateCoverageDirectory()));
+                _jobs.Add(new TestJob(chunk,args,_jobFileSystem.GetIntermediateCoverageDirectory(),workspace));
             }
             _jobs.CompleteAdding();
         }

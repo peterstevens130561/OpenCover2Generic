@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.OpenCover;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Tests;
@@ -61,6 +62,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
 
         private void Consume(ITestJob testJob,TimeSpan jobTimeOut)
         {
+            _testResultsRepository.SetWorkspace(testJob.Workspace);
 
             var openCoverLogPath = _jobFileSystemInfo.GetOpenCoverLogPath(testJob.FirstAssembly);
             string openCoverOutputPath = _jobFileSystemInfo.GetOpenCoverOutputPath(testJob.FirstAssembly);
