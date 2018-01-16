@@ -57,9 +57,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
             string index = GetIndex(assemblyPath);
             return Path.Combine(basePath, index + "_" + Path.GetFileNameWithoutExtension(assemblyPath) + "." + extension);
         }
-        public string GetTestResultsDestinationPath(string v)
+        public string GetTestResultsDestinationPath(string assemblyPath)
         {
-            throw new NotImplementedException();
+            return GetFileForAssembly(GetDirectory(), assemblyPath, "xml");
         }
 
         public IEnumerable<string> GetTestResultsPaths()
