@@ -28,24 +28,18 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests
         private readonly IOpenCoverWrapperCommandLineParser _commandLineParser;
         private readonly IJobFileSystem _jobFileSystem;
 
-        public TestRunnerCommandHandler()
+        public TestRunnerCommandHandler() : this(new JobFileSystem(),new JobConsumerFactory(new JobFileSystem()), new OpenCoverWrapperCommandLineParser())
         {
+        }
 
-            _jobFileSystem = new JobFileSystem();
-            _jobConsumerFactory = new JobConsumerFactory(_jobFileSystem);
-            _commandLineParser = new OpenCoverWrapperCommandLineParser();
-        }
-        public TestRunnerCommandHandler(IJobConsumerFactory jobConsumerFactory) : this(jobConsumerFactory,
-            new OpenCoverWrapperCommandLineParser(new CommandLineParser()))
+        public TestRunnerCommandHandler(IJobFileSystem jobFileSystem, IJobConsumerFactory jobConsumerFactory,
+            IOpenCoverWrapperCommandLineParser commandLineParser)
         {
-            
-        }
-        public TestRunnerCommandHandler( IJobConsumerFactory jobConsumerFactory,IOpenCoverWrapperCommandLineParser commandLineParser)
-        {
+            _jobFileSystem = jobFileSystem;
             _jobConsumerFactory = jobConsumerFactory;
             _commandLineParser = commandLineParser;
-
         }
+
 
         public void Execute(ITestRunnerCommand command)
         {

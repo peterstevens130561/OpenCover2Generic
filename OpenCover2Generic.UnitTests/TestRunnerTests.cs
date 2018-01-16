@@ -14,12 +14,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
     {
         private  Mock<IJobConsumerFactory> _jobConsumerFactoryMock;
         private Mock<IOpenCoverWrapperCommandLineParser> _commandLineParserMock;
+        private Mock<IJobFileSystem> _jobFileSystemMock;
         
         [TestInitialize]
         public void Initialize()
         {
             _jobConsumerFactoryMock = new Mock<IJobConsumerFactory>();
             _commandLineParserMock= new Mock<IOpenCoverWrapperCommandLineParser>();
+            _jobFileSystemMock = new Mock<IJobFileSystem>();
 
         }
 
@@ -79,7 +81,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private TestRunnerCommandHandler CreateTestRunner()
         {
             _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunnerCommandHandler(_jobConsumerFactoryMock.Object,_commandLineParserMock.Object);
+            var testRunner = new TestRunnerCommandHandler(_jobFileSystemMock.Object,_jobConsumerFactoryMock.Object,_commandLineParserMock.Object);
             return testRunner;
         }
     }
