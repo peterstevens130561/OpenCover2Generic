@@ -11,7 +11,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
         private readonly Object _lock = new object();
         private readonly Dictionary<string, int> _assemblyUsageLookupTable = new Dictionary<string, int>();
         private string _openCoverOutputDir;
-        private string _testResultsDir;
         private string _openCoverIntermediateDir;
         private string _openCoverLogDir;
         private readonly IFileSystemAdapter _fileSystemAdapter;
@@ -46,7 +45,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
             }
 
             _openCoverOutputDir = CreateChildDir("OpenCoverOutput");
-            _testResultsDir = CreateChildDir("TestResults");
+
             _openCoverIntermediateDir = CreateChildDir("OpenCoverIntermediate");
             _openCoverLogDir = CreateChildDir("OpenCoverLogs");
 
@@ -99,32 +98,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
             return GetFileForAssembly(moduleDirectory, assemblyPath, "xml");
         }
 
-        [Obsolete("get rid", true)]
-        public string GetTestResultsPath(string assemblyPath)
-        {
-            return GetFileForAssembly(_testResultsDir, assemblyPath, "xml");
-        }
 
         public void RemoveAll()
         {
             _fileSystemAdapter.DirectoryDelete(_rootPath,true);
         }
 
-        /// <summary>
-        /// Gets the directory where all individual test results are stored.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("get rid", true)]
-        public string GetTestResultsDirectory()
-        {
-            return _testResultsDir;
-        }
 
-        [Obsolete("get rid", true)]
-        public IEnumerable<string> GetTestResultsPaths()
-        {
-            return _fileSystemAdapter.EnumerateFiles(_testResultsDir);
-        }
         public string GetOpenCoverLogPath(string assemblyPath)
         {
             return GetFileForAssembly(_openCoverLogDir, assemblyPath, "log");

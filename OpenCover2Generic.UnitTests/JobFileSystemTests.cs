@@ -21,16 +21,15 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _fileSystem= new JobFileSystem(_fileSystemAdapterMock.Object);
         }
         [TestMethod]
-        public void CreateRootTests()
+        public void CreateRoot_Invoke_CreateRoot_DirectoriesCreated()
         {
 
             _fileSystem.CreateRoot("key");
             _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key"));
-            _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\TestResults"));
             _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\OpenCoverLogs"));
             _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\OpenCoverIntermediate"));
             _fileSystemAdapterMock.Verify(f => f.CreateDirectory(@"Q:\temp\opencover_key\OpenCoverOutput"));
-            _fileSystemAdapterMock.Verify(f => f.CreateDirectory(It.IsAny<string>()), Times.Exactly(5));
+            _fileSystemAdapterMock.Verify(f => f.CreateDirectory(It.IsAny<string>()), Times.Exactly(4));
         }
 
         [TestMethod]
@@ -55,37 +54,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _fileSystem.CreateRoot("key");
             var openCoverLogPath = _fileSystem.GetOpenCoverOutputPath(@"A:\B\C\output.dll");
             Assert.AreEqual(@"Q:\temp\opencover_key\OpenCoverOutput\1_output.xml", openCoverLogPath);
-        }
-
-        [TestMethod]
-        public void CheckTestResultsDirectory()
-        {
-            _fileSystem.CreateRoot("key");
-            var testResultsDirectory = _fileSystem.GetTestResultsDirectory();
-            Assert.AreEqual(@"Q:\temp\opencover_key\TestResults", testResultsDirectory);
-        }
-
-        [TestMethod]
-        public void GetTestResultsPath_Path_Converted()
-        {
-            _fileSystem.CreateRoot("key");
-
-            var testResultsDirectory = _fileSystem.GetTestResultsPath(@"A:B\C\test.dll");
-            Assert.AreEqual(@"Q:\temp\opencover_key\TestResults\1_test.xml", testResultsDirectory);
-        }
-
-        [TestMethod]
-        public void GetTestResultsPaths_TwoPaths_TwoTestResultsPaths()
-        {
-            _fileSystem.CreateRoot("key");
-            var paths = new Collection<string>();
-            paths.Add("a");
-            paths.Add("b");
-
-            _fileSystemAdapterMock.Setup(f => f.EnumerateFiles(@"Q:\temp\opencover_key\TestResults")).Returns(paths);
-
-            var testResultsPaths = _fileSystem.GetTestResultsPaths();
-            Assert.AreEqual(2,testResultsPaths.Count());
         }
 
 

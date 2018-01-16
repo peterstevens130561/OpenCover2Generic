@@ -8,10 +8,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
     {
         string GetOpenCoverLogPath(string assembly);
         string GetOpenCoverOutputPath(string assembly);
-        string GetTestResultsPath(string assembly);
         string GetIntermediateCoverageDirectory();
-        [Obsolete("get rid",true)]
-        string GetTestResultsDirectory();
+
 
         void CreateRoot(IWorkspace workspace);
 
