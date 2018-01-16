@@ -66,7 +66,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
                 RunTests(commandBus,args,workspace);
 
-                CreateTestResults(workspace,args, testResultsRepository);
+                CreateTestResults(workspace,args);
                 CreateCoverageResults(commandLineParser, codeCoverageRepository);
 
                 DeleteWorkspace(commandBus, workspace);
