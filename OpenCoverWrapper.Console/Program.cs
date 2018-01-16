@@ -40,7 +40,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             IOpenCoverCommandLineBuilder openCoverCommandLineBuilder = new OpenCoverCommandLineBuilder(new CommandLineParser());
             JobFileSystem jobFileSystem = new JobFileSystem(fileSystem);
 
-            var testResultsRepository = new TestResultsRepository();
+
             IFileSystemAdapter fileSystemAdapter = new FileSystemAdapter();
             ICoverageStorageResolver coverageStorageResolver = new CoverageStorageResolver(fileSystemAdapter);
             ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
@@ -130,11 +130,12 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             commandBus.Execute(command);
         }
 
-        private static void CreateTestResults(IWorkspace workspace,string[] Args, ITestResultsRepository testResultsRepository)
+        private static void CreateTestResults(IWorkspace workspace,string[] args)
         {
+            var testResultsRepository = new TestResultsRepository();
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser();
 
-            commandLineParser.Args = Args;
+            commandLineParser.Args = args;
        
             testResultsRepository.SetWorkspace(workspace);
 

@@ -56,6 +56,8 @@
     <Compile Include="Application\Commands\RunTests\ITestRunnerCommand.cs" />
     <Compile Include="Application\Commands\RunTests\TestRunnerCommand.cs" />
     <Compile Include="Application\Commands\RunTests\TestRunnerCommandHandler.cs" />
+    <Compile Include="Application\Commands\TestResultsCreate\ITestResultsCreateCommand.cs" />
+    <Compile Include="Application\Commands\TestResultsCreate\TestResultsCreateCommandHandler.cs" />
     <Compile Include="Application\Commands\Workspace\Delete\WorkspaceDeleteCommandHandler.cs" />
     <Compile Include="Application\Commands\Workspace\Delete\WorkspaceDeleteCommand.cs" />
     <Compile Include="Application\Commands\Workspace\Delete\Services\Workspace\WorkspaceService.cs" />
