@@ -80,7 +80,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.TestJobConsumer
                 _testResultsRepository.Add(openCoverManager.TestResultsPath);
             }
             var coverageAggregate = _coverageAggregateFactory.Create(openCoverOutputPath);
-            _codeCoverageRepository.Directory = testJob.RepositoryRootDirectory;
+            _codeCoverageRepository.Workspace = testJob.Workspace;
             _codeCoverageRepository.Save(coverageAggregate);
         }
 
