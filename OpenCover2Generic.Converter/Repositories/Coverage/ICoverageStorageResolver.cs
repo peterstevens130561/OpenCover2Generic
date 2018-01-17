@@ -8,5 +8,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         string GetPathForAssembly(string rootPath, string moduleName, string testAssemblyPath);
         IEnumerable<string> GetPathsOfAllModules(string rootPath);
         IEnumerable<string> GetTestCoverageFilesOfModule(string moduleDirectory);
+        string GetPathForAssembly(string moduleName, string testAssemblyPath);
     }
 }

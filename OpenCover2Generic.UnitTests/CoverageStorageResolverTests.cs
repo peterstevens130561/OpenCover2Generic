@@ -33,6 +33,19 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
+        public void GetPathForModule_RootSet_Valid_GetPath_ProperLocation()
+        {
+            const string rootPath = @"E:\fun";
+            const string testAssemblyPath = @"F:/assemblies/bla.dll";
+            const string moduleName = @"module";
+            _resolver.Root = @"E:\fun";
+
+            string path = _resolver.GetPathForAssembly(moduleName, testAssemblyPath);
+            Assert.AreEqual(@"E:\fun\OpenCoverIntermediate\module\bla.xml", path);
+            _fileSystemMock.Verify(f => f.CreateDirectory(@"E:\fun\OpenCoverIntermediate"));
+        }
+
+        [TestMethod]
         public void GetPathsOfAllModules_Empty_EmptyList()
         {
             const string rootPath = @"E:\fun";
