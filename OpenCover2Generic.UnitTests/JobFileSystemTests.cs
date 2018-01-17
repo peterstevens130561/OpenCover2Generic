@@ -66,30 +66,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(@"Q:\temp\opencover_key\OpenCoverIntermediate\mymodule\2_test.xml", intermediateCoverageOuputPath);
         }
 
-        [TestMethod]
-        public void GetModuleCoverageDirectories_NoModules_EmptyList()
-        {
-            var dirs = GivenAModel();
-
-            var modules = _fileSystem.GetModuleCoverageDirectories();
-
-            Assert.IsNotNull(modules);
-            Assert.AreEqual(0, modules.Count());
-        }
-
-
-        [TestMethod]
-        public void GetModuleCoverageDirectories_TwoModules_ListOfTwo()
-        {
-            var dirs = GivenAModel();
-            dirs.Add("a");
-            dirs.Add("b");
-
-            var modules = _fileSystem.GetModuleCoverageDirectories();
-
-            Assert.IsNotNull(modules);
-            Assert.AreEqual(2, modules.Count());
-        }
 
         private Collection<string> GivenAModel()
         {

@@ -121,12 +121,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
         }
 
 
-        public IEnumerable<string> GetModuleCoverageDirectories()
-        {
-            return _fileSystemAdapter.EnumerateDirectories(GetIntermediateCoverageDirectory(), "*", SearchOption.TopDirectoryOnly);
-        }
-
-
     }
 
 }

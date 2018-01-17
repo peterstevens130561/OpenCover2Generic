@@ -37,11 +37,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             var serviceBus = new ApplicationServiceBus();
             XmlConfigurator.Configure();
             IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser();       
-            ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
-                new CoverageStorageResolver(),
-                new OpenCoverCoverageParser(),
-                new XmlAdapter(),
-                new CoverageWriterFactory());
+
 
             commandLineParser.Args = args;
 
@@ -55,12 +51,17 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 jobFileSystem.CreateRoot(workspace);
                 //CreateWorkspace(commandBus, workspace);
 
+                ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
+                    new CoverageStorageResolver(),
+                    new OpenCoverCoverageParser(),
+                    new XmlAdapter(),
+                    new CoverageWriterFactory());
                 codeCoverageRepository.RootDirectory = jobFileSystem.GetIntermediateCoverageDirectory();
 
                 RunTests(commandBus,args,workspace);
 
                 CreateTestResults(commandBus,workspace,args);
-                CreateCoverageResults(commandLineParser, codeCoverageRepository);
+                CreateCoverageResults(commandBus,commandLineParser, codeCoverageRepository);
 
                 DeleteWorkspace(commandBus, workspace);
 
@@ -131,7 +132,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             commandBus.Execute(command);
         }
 
-        private static void CreateCoverageResults(IOpenCoverWrapperCommandLineParser commandLineParser, ICodeCoverageRepository codeCoverageRepository)
+        private static void CreateCoverageResults(ICommandBus commandBus,IOpenCoverWrapperCommandLineParser commandLineParser, ICodeCoverageRepository codeCoverageRepository)
         {
             string outputPath = commandLineParser.GetOutputPath();
             var genericCoverageWriterObserver = new GenericCoverageWriterObserver(new GenericCoverageWriter());
