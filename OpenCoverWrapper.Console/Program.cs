@@ -36,10 +36,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             var commandBus = new ApplicationCommandBus();
             var serviceBus = new ApplicationServiceBus();
             XmlConfigurator.Configure();
-            IOpenCoverWrapperCommandLineParser commandLineParser = new OpenCoverWrapperCommandLineParser();       
-
-
-            commandLineParser.Args = args;
 
             try
             {
