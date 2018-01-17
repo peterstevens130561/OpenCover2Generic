@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
@@ -85,6 +86,21 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.IsNotNull(paths);
             Assert.AreEqual(1, paths.Count());
             Assert.AreEqual(@"E:\fun\OpenCoverIntermediate\bla", paths.First());
+        }
+
+        [TestMethod]
+        public void Directory_RootNotSet_Exception()
+        {
+            _resolver.Root = null;
+            try
+            {
+                string path = _resolver.GetDirectory();
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            Assert.Fail("Expected exception");
         }
     }
 }
