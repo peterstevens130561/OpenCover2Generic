@@ -47,10 +47,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 
         public IWorkspace  Workspace
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return _workspace; }
 
             set
             {
@@ -68,7 +65,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         {
             if (entity.GetSourceFiles().Any())
             {
-                string moduleFile = _coverageStorageResolver.GetPathForAssembly(Directory, entity.NameId, Guid.NewGuid().ToString());
+                string moduleFile = _coverageStorageResolver.GetPathForAssembly(entity.NameId, Guid.NewGuid().ToString());
                 using (XmlTextWriter tempFileWriter = _xmlAdapter.CreateTextWriter(moduleFile))
                 {
                     var moduleWriter = _coverageWriterFactory.CreateOpenCoverCoverageWriter();

@@ -25,7 +25,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             OnBeginScan?.Invoke(this,EventArgs.Empty);
 
 
-            var moduleDirectories = _coverageStorageResolver.GetPathsOfAllModules(RootDirectory);
+            var moduleDirectories = _coverageStorageResolver.GetPathsOfAllModules();
             foreach (string moduleDirectory in moduleDirectories)
             {
                 var model = new AggregatedModule();

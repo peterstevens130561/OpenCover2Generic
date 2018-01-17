@@ -83,7 +83,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _observable.AddObserver(observerMock.Object);
             List<string> oneModule = new List<string>();
             oneModule.Add("a");
-            _coverageStorageResolverMock.Setup(c => c.GetPathsOfAllModules(It.IsAny<string>())).Returns(oneModule);
+            _coverageStorageResolverMock.Setup(c => c.GetPathsOfAllModules()).Returns(oneModule);
             return observerMock;
         }
 
