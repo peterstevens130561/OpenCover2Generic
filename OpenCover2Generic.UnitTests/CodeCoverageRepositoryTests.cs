@@ -38,6 +38,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             _module = new Module();
             _module.NameId = "module";
+            _repository.Workspace =new Workspace("workspace");
             _repository.Directory = @"workspace\repository";
 
             _aggregateMock
@@ -55,6 +56,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
            _repository.Save(_aggregateMock.Object);
             _coverageStorageResolverMock.Verify(c => c.GetPathForAssembly(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _coverageStorageResolverMock.VerifySet(c => c.Root = "workspace", Times.Once);
         }
 
         [TestMethod]

@@ -4,6 +4,7 @@ using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
 using log4net;
@@ -20,6 +21,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         private readonly ICoverageParser _coverageParser;
         private readonly IXmlAdapter _xmlAdapter;
         private readonly ICoverageWriterFactory _coverageWriterFactory;
+        private IWorkspace _workspace;
 
         public CodeCoverageRepository() : this(new CoverageStorageResolver(),
             new OpenCoverCoverageParser(),
@@ -42,6 +44,20 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         }
 
         public string Directory { get; set; }
+
+        public IWorkspace  Workspace
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                _workspace = value;
+                _coverageStorageResolver.Root = value.Path;
+            }
+        }
 
         public void Save(ICoverageAggregate coverageAggregate)
         {
