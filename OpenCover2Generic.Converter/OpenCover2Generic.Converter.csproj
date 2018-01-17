@@ -120,9 +120,9 @@
     <Compile Include="OpenCover\OpenCoverManager.cs" />
     <Compile Include="OpenCover\StateMachine.cs" />
     <Compile Include="Repositories\Coverage\CodeCoverageRepository.cs" />
-    <Compile Include="Repositories\Coverage\CoverageStorageResolver.cs" />
+    <Compile Include="Repositories\Coverage\CoverageRepositoryPathResolver.cs" />
     <Compile Include="Repositories\Coverage\ICodeCoverageRepository.cs" />
-    <Compile Include="Repositories\Coverage\ICoverageStorageResolver.cs" />
+    <Compile Include="Repositories\Coverage\ICoverageRepositoryPathResolver.cs" />
     <Compile Include="Repositories\Tests\ITestResultsRepository.cs" />
     <Compile Include="Repositories\Tests\TestResultsRepository.cs" />
     <Compile Include="Adapters\ITimerAdapter.cs" />

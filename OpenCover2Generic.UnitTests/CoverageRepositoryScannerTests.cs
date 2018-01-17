@@ -12,13 +12,13 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class CoverageRepositoryScannerTests
     {
         private IQueryAllModulesObservable _observable;
-        private Mock<ICoverageStorageResolver> _coverageStorageResolverMock;
+        private Mock<ICoverageRepositoryPathResolver> _coverageStorageResolverMock;
         private Mock<ICoverageParser> _moduleParserMock;
 
         [TestInitialize]
         public void Initialize()
         {
-            _coverageStorageResolverMock = new Mock<ICoverageStorageResolver>();
+            _coverageStorageResolverMock = new Mock<ICoverageRepositoryPathResolver>();
             _moduleParserMock=new Mock<ICoverageParser>();
             _observable = new QueryAllModulesObservable(_coverageStorageResolverMock.Object,_moduleParserMock.Object);
         }

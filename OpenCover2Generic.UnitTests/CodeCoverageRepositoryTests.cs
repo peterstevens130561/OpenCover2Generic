@@ -15,7 +15,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class CodeCoverageRepositoryTests
     {
         private ICodeCoverageRepository _repository;
-        private Mock<ICoverageStorageResolver> _coverageStorageResolverMock;
+        private Mock<ICoverageRepositoryPathResolver> _coverageStorageResolverMock;
         private ICoverageParser _coverageParser;
         private Mock<ICoverageAggregate> _aggregateMock;
         private Module _module;
@@ -30,7 +30,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _coverageWriterMock=new Mock<ICoverageWriter>();
             _aggregateMock = new Mock<ICoverageAggregate>();
             _xmlAdapterMock = new Mock<IXmlAdapter>();
-            _coverageStorageResolverMock = new Mock<ICoverageStorageResolver>();
+            _coverageStorageResolverMock = new Mock<ICoverageRepositoryPathResolver>();
             _repository = new CodeCoverageRepository(_coverageStorageResolverMock.Object,
                 _coverageParser,
                 _xmlAdapterMock.Object,
@@ -46,7 +46,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 {
                     q.Invoke(_module);
                 });
-            _coverageStorageResolverMock.Setup(c => c.GetPathForAssembly("root", "module", It.IsAny<string>())).Returns("bla");
+            _coverageStorageResolverMock.Setup(c => c.GetPathForAssembly( "module", It.IsAny<string>())).Returns("bla");
             _coverageWriterFactoryMock.Setup(c => c.CreateOpenCoverCoverageWriter()).Returns(_coverageWriterMock.Object);
         }
         [TestMethod]
@@ -54,7 +54,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         {
 
            _repository.Save(_aggregateMock.Object);
-            _coverageStorageResolverMock.Verify(c => c.GetPathForAssembly(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _coverageStorageResolverMock.Verify(c => c.GetPathForAssembly( It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             _coverageStorageResolverMock.VerifySet(c => c.Root = "workspace", Times.Once);
         }
 

@@ -5,15 +5,15 @@ using BHGE.SonarQube.OpenCover2Generic.Adapters;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
-    public class CoverageStorageResolver : ICoverageStorageResolver
+    public class CoverageRepositoryPathResolver : ICoverageRepositoryPathResolver
     {
         private readonly IFileSystemAdapter _fileSystemAdapter;
 
-        public CoverageStorageResolver() : this(new FileSystemAdapter())
+        public CoverageRepositoryPathResolver() : this(new FileSystemAdapter())
         {
             
         }
-        public CoverageStorageResolver(IFileSystemAdapter fileSystemAdapter)
+        public CoverageRepositoryPathResolver(IFileSystemAdapter fileSystemAdapter)
         {
             _fileSystemAdapter = fileSystemAdapter;
         }
@@ -43,22 +43,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             return moduleFile;
         }
 
-        public string GetPathForAssembly(string rootPath, string moduleName,string testAssemblyPath)
-        {
-            string moduleDirectoryPath = Path.Combine(rootPath, moduleName);
-            if (!_fileSystemAdapter.DirectoryExists(moduleDirectoryPath))
-            {
-                _fileSystemAdapter.CreateDirectory(moduleDirectoryPath);
-            }
-            string moduleFile = Path.Combine(moduleDirectoryPath, Path.GetFileNameWithoutExtension(testAssemblyPath) + ".xml");
-            return moduleFile;
-        }
-
-
-        public IEnumerable<string> GetPathsOfAllModules(string rootPath)
-        {
-            return _fileSystemAdapter.EnumerateDirectories(rootPath, "*", SearchOption.TopDirectoryOnly);
-        }
 
 
         public IEnumerable<string> GetPathsOfAllModules()

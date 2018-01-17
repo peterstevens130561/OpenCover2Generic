@@ -13,25 +13,16 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class CoverageStorageResolverTests
     {
 
-        private ICoverageStorageResolver _resolver;
+        private ICoverageRepositoryPathResolver _resolver;
         private Mock<IFileSystemAdapter> _fileSystemMock;
 
         [TestInitialize]
         public void Initialize()
         {
             _fileSystemMock = new Mock<IFileSystemAdapter>();
-            _resolver=new CoverageStorageResolver(_fileSystemMock.Object);
+            _resolver=new CoverageRepositoryPathResolver(_fileSystemMock.Object);
         }
 
-        [TestMethod]
-        public void GetPathForModule_Valid_ProperLocation()
-        {
-            const string rootPath = @"E:\fun";
-            const string testAssemblyPath = @"F:/assemblies/bla.dll";
-            const string moduleName = @"module";
-            string path = _resolver.GetPathForAssembly(rootPath, moduleName, testAssemblyPath);
-            Assert.AreEqual(@"E:\fun\module\bla.xml",path);
-        }
 
         [TestMethod]
         public void GetPathForModule_RootSet_Valid_GetPath_ProperLocation()
@@ -44,18 +35,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
             string path = _resolver.GetPathForAssembly(moduleName, testAssemblyPath);
             Assert.AreEqual(@"E:\fun\OpenCoverIntermediate\module\bla.xml", path);
             _fileSystemMock.Verify(f => f.CreateDirectory(@"E:\fun\OpenCoverIntermediate"));
-        }
-
-        [TestMethod]
-        public void GetPathsOfAllModules_Empty_EmptyList()
-        {
-            const string rootPath = @"E:\fun";
-            _fileSystemMock.Setup(f => f.EnumerateDirectories(rootPath,"*",SearchOption.TopDirectoryOnly)).Returns(new List<string>());
-
-            IEnumerable<string> paths = _resolver.GetPathsOfAllModules(rootPath);
-
-            Assert.IsNotNull(paths);
-            Assert.AreEqual(0,paths.Count());
         }
 
         [TestMethod]

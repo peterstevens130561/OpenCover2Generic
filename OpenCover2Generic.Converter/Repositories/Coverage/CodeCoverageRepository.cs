@@ -17,13 +17,13 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
     public class CodeCoverageRepository : ICodeCoverageRepository
     {
         private static readonly ILog _log = LogManager.GetLogger(typeof(CodeCoverageRepository));
-        private readonly ICoverageStorageResolver _coverageStorageResolver;
+        private readonly ICoverageRepositoryPathResolver _coverageRepositoryPathResolver;
         private readonly ICoverageParser _coverageParser;
         private readonly IXmlAdapter _xmlAdapter;
         private readonly ICoverageWriterFactory _coverageWriterFactory;
         private IWorkspace _workspace;
 
-        public CodeCoverageRepository() : this(new CoverageStorageResolver(),
+        public CodeCoverageRepository() : this(new CoverageRepositoryPathResolver(),
             new OpenCoverCoverageParser(),
             new XmlAdapter(),
             new CoverageWriterFactory())
@@ -32,12 +32,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         }
 
         public CodeCoverageRepository(
-            ICoverageStorageResolver coverageStorageResolver, 
+            ICoverageRepositoryPathResolver coverageRepositoryPathResolver, 
             ICoverageParser coverageParser,
             IXmlAdapter xmlAdapter,
             ICoverageWriterFactory coverageWriterFactory)
         {
-            _coverageStorageResolver = coverageStorageResolver;
+            _coverageRepositoryPathResolver = coverageRepositoryPathResolver;
             _coverageParser = coverageParser;
             _xmlAdapter = xmlAdapter;
             _coverageWriterFactory = coverageWriterFactory;
@@ -51,7 +51,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             set
             {
                 _workspace = value;
-                _coverageStorageResolver.Root = value.Path;
+                _coverageRepositoryPathResolver.Root = value.Path;
             }
         }
 
@@ -64,7 +64,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         {
             if (entity.GetSourceFiles().Any())
             {
-                string moduleFile = _coverageStorageResolver.GetPathForAssembly(entity.NameId, Guid.NewGuid().ToString());
+                string moduleFile = _coverageRepositoryPathResolver.GetPathForAssembly(entity.NameId, Guid.NewGuid().ToString());
                 using (XmlTextWriter tempFileWriter = _xmlAdapter.CreateTextWriter(moduleFile))
                 {
                     var moduleWriter = _coverageWriterFactory.CreateOpenCoverCoverageWriter();
@@ -83,7 +83,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         /// <returns></returns>
         public IQueryAllModulesObservable QueryAllModules()
         {
-            var queryAllModules = new QueryAllModulesObservable(_coverageStorageResolver, _coverageParser);
+            var queryAllModules = new QueryAllModulesObservable(_coverageRepositoryPathResolver, _coverageParser);
             return queryAllModules;
         }
 

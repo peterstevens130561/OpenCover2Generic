@@ -52,7 +52,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 //CreateWorkspace(commandBus, workspace);
 
                 ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
-                    new CoverageStorageResolver(),
+                    new CoverageRepositoryPathResolver(),
                     new OpenCoverCoverageParser(),
                     new XmlAdapter(),
                     new CoverageWriterFactory());
