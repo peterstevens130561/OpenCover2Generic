@@ -8,11 +8,8 @@ using BHGE.SonarQube.OpenCover2Generic.Adapters;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Utils
 {
-    public interface ITestResultsPathResolver
+    public interface ITestResultsPathResolver : IPathResolver
     {
-        string Root { get; set; }
-
-        string GetDirectory();
         string GetTestResultsDestinationPath(string v);
 
         IEnumerable<string> GetTestResultsFiles();
