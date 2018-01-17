@@ -2,6 +2,7 @@
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCover2Generic.Writers;
@@ -37,7 +38,8 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             _module = new Module();
             _module.NameId = "module";
-            _repository.RootDirectory = "root";
+            _repository.RootDirectory = @"workspace\repository";
+
             _aggregateMock
                 .Setup(p => p.Modules(It.IsAny<Action<IModule>>()))
                 .Callback<Action<IModule>>(q =>
@@ -62,7 +64,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             _repository.Save(_aggregateMock.Object);
 
-            _coverageStorageResolverMock.Verify(c => c.GetPathForAssembly(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _coverageStorageResolverMock.Verify(c => c.GetPathForAssembly(@"workspace\repository", It.IsAny<string>(), It.IsAny<string>()), Times.Once);
            _coverageWriterMock.Verify(c => c.GenerateCoverage(_module,null),Times.Once);
         }
     }
