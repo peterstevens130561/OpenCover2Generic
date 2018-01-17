@@ -56,7 +56,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                     new OpenCoverCoverageParser(),
                     new XmlAdapter(),
                     new CoverageWriterFactory());
-                codeCoverageRepository.RootDirectory = jobFileSystem.GetIntermediateCoverageDirectory();
+                codeCoverageRepository.Directory = jobFileSystem.GetIntermediateCoverageDirectory();
 
                 RunTests(commandBus,args,workspace);
 

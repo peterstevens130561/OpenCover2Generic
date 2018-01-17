@@ -38,7 +38,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
 
             _module = new Module();
             _module.NameId = "module";
-            _repository.RootDirectory = @"workspace\repository";
+            _repository.Directory = @"workspace\repository";
 
             _aggregateMock
                 .Setup(p => p.Modules(It.IsAny<Action<IModule>>()))

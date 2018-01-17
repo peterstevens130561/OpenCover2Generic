@@ -4,7 +4,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
 {
     public interface ICodeCoverageRepository
     {
-        string RootDirectory { get; set; }
+        string Directory { get; set; }
 
         void Save(ICoverageAggregate coverageAggregate);
 
