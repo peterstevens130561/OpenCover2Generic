@@ -51,17 +51,12 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 jobFileSystem.CreateRoot(workspace);
                 //CreateWorkspace(commandBus, workspace);
 
-                ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
-                    new CoverageRepositoryPathResolver(),
-                    new OpenCoverCoverageParser(),
-                    new XmlAdapter(),
-                    new CoverageWriterFactory());
-                codeCoverageRepository.Workspace = workspace;
+
 
                 RunTests(commandBus,args,workspace);
 
                 CreateTestResults(commandBus,workspace,args);
-                CreateCoverageResults(commandBus,commandLineParser, codeCoverageRepository);
+                CreateCoverageResults(commandBus,workspace, args);
 
                 DeleteWorkspace(commandBus, workspace);
 
@@ -132,11 +127,23 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             commandBus.Execute(command);
         }
 
-        private static void CreateCoverageResults(ICommandBus commandBus,IOpenCoverWrapperCommandLineParser commandLineParser, ICodeCoverageRepository codeCoverageRepository)
+        private static void CreateCoverageResults(ICommandBus commandBus,IWorkspace workspace, string[] args)
         {
-            string outputPath = commandLineParser.GetOutputPath();
+            ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
+                new CoverageRepositoryPathResolver(),
+                new OpenCoverCoverageParser(),
+                new XmlAdapter(),
+                new CoverageWriterFactory());
+
+            var commandLineParser = new OpenCoverWrapperCommandLineParser();
             var genericCoverageWriterObserver = new GenericCoverageWriterObserver(new GenericCoverageWriter());
             var statisticsObserver = new CoverageStatisticsAggregator();
+
+            commandLineParser.Args = args;
+            codeCoverageRepository.Workspace = workspace;
+
+            string outputPath = commandLineParser.GetOutputPath();
+
             using (var writer = new XmlTextWriter(outputPath, Encoding.UTF8))
             {
                 genericCoverageWriterObserver.Writer = writer;
