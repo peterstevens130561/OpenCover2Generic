@@ -57,20 +57,34 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual(0,paths.Count());
         }
 
+        [TestMethod]
+        public void GetPathsOfAllModules_RootSet_Empty_EmptyList()
+        {
+            const string rootPath = @"E:\fun";
+            _resolver.Root = @"E:\fun";
+            _fileSystemMock.Setup(f => f.EnumerateDirectories(rootPath, "*", SearchOption.TopDirectoryOnly)).Returns(new List<string>());
+
+            IEnumerable<string> paths = _resolver.GetPathsOfAllModules();
+
+            Assert.IsNotNull(paths);
+            Assert.AreEqual(0, paths.Count());
+        }
+
 
         [TestMethod]
         public void GetPathsOfAllModules_OneModule_ListWithOne()
         {
             const string rootPath = @"E:\fun";
             var list = new List<string>();
-            _fileSystemMock.Setup(f => f.EnumerateDirectories(rootPath, "*", SearchOption.TopDirectoryOnly)).Returns(list);
-            list.Add(@"E:\fun\bla");
+            _resolver.Root = @"E:\fun";
+            _fileSystemMock.Setup(f => f.EnumerateDirectories(@"E:\fun\OpenCoverIntermediate", "*", SearchOption.TopDirectoryOnly)).Returns(list);
+            list.Add(@"E:\fun\OpenCoverIntermediate\bla");
 
-            IEnumerable<string> paths = _resolver.GetPathsOfAllModules(rootPath);
+            IEnumerable<string> paths = _resolver.GetPathsOfAllModules();
 
             Assert.IsNotNull(paths);
             Assert.AreEqual(1, paths.Count());
-            Assert.AreEqual(@"E:\fun\bla", paths.First());
+            Assert.AreEqual(@"E:\fun\OpenCoverIntermediate\bla", paths.First());
         }
     }
 }

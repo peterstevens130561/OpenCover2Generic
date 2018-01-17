@@ -54,9 +54,16 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             return moduleFile;
         }
 
+
         public IEnumerable<string> GetPathsOfAllModules(string rootPath)
         {
             return _fileSystemAdapter.EnumerateDirectories(rootPath, "*", SearchOption.TopDirectoryOnly);
+        }
+
+
+        public IEnumerable<string> GetPathsOfAllModules()
+        {
+            return _fileSystemAdapter.EnumerateDirectories(GetDirectory(), "*", SearchOption.TopDirectoryOnly);
         }
 
         public IEnumerable<string> GetTestCoverageFilesOfModule(string moduleDirectory)
