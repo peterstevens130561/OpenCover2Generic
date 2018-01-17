@@ -43,7 +43,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
             _coverageWriterFactory = coverageWriterFactory;
         }
 
-        public string Directory { get; set; }
 
         public IWorkspace  Workspace
         {
@@ -85,7 +84,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage
         public IQueryAllModulesObservable QueryAllModules()
         {
             var queryAllModules = new QueryAllModulesObservable(_coverageStorageResolver, _coverageParser);
-            queryAllModules.RootDirectory = Directory;
             return queryAllModules;
         }
 
