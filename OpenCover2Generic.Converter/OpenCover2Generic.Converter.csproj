@@ -54,7 +54,7 @@
     <Compile Include="Application\ApplicationServiceBus.cs" />
     <Compile Include="Application\Commands\CoverageResultsCreate\CreateCoverageResultsCommand.cs" />
     <Compile Include="Application\Commands\CoverageResultsCreate\ICreateCoverageResultsCommand.cs" />
-    <Compile Include="Application\Commands\CoverageResultsCreate\ICreateCoverageResultsCommandHandler.cs" />
+    <Compile Include="Application\Commands\CoverageResultsCreate\CreateCoverageResultsCommandHandler.cs" />
     <Compile Include="Application\Commands\RunTests\ITestRunner.cs" />
     <Compile Include="Application\Commands\RunTests\ITestRunnerCommand.cs" />
     <Compile Include="Application\Commands\RunTests\TestRunnerCommand.cs" />
