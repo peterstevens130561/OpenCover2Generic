@@ -1,6 +1,8 @@
-﻿namespace BHGE.SonarQube.OpenCover2Generic.Writers
+﻿using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
+
+namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
-    public interface ICoverageStatisticsAggregator
+    public interface ICoverageStatisticsAggregator : IQueryAllModulesResultObserver
     {
         int CoveredLines { get; }
         int Files { get; }

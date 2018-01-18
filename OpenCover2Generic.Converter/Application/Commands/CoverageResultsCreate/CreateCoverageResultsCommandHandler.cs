@@ -17,8 +17,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.CoverageResultsC
         private static readonly ILog _log = LogManager.GetLogger(typeof(CreateCoverageResultsCommandHandler));
         private readonly ICodeCoverageRepository _codeCoverageRepository;
         private readonly IOpenCoverWrapperCommandLineParser _commandLineParser;
-        private readonly IQueryAllModulesResultObserver _statisticsObserver;
-        private readonly IQueryAllModulesResultObserver _genericCoverageWriterObserver;
+        private readonly ICoverageStatisticsAggregator _statisticsObserver;
+        private readonly IGenericCoverageWriterObserver _genericCoverageWriterObserver;
 
         public CreateCoverageResultsCommandHandler() : this(new OpenCoverWrapperCommandLineParser(), 
             new CodeCoverageRepository(),
@@ -30,8 +30,8 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.CoverageResultsC
         }
         public CreateCoverageResultsCommandHandler(IOpenCoverWrapperCommandLineParser openCoverWrapperCommandLineParser, 
             ICodeCoverageRepository codeCoverageRepository,
-            IQueryAllModulesResultObserver genericCoverageWriterObserver,
-            IQueryAllModulesResultObserver statisticsObserver)
+            IGenericCoverageWriterObserver genericCoverageWriterObserver,
+            ICoverageStatisticsAggregator statisticsObserver)
         {
             _commandLineParser = openCoverWrapperCommandLineParser;
             _codeCoverageRepository = codeCoverageRepository;
@@ -49,15 +49,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.CoverageResultsC
 
             using (var writer = new XmlTextWriter(outputPath, Encoding.UTF8))
             {
-               ((IGenericCoverageWriterObserver)_genericCoverageWriterObserver).Writer = writer;
+               _genericCoverageWriterObserver.Writer = writer;
                 _codeCoverageRepository.QueryAllModules()
                     .AddObserver(_genericCoverageWriterObserver)
                     .AddObserver(_statisticsObserver)
                     .Execute();
             }
-            _log.Info($"Files         : {statisticsObserver.Files}");
-            _log.Info($"Lines         : {statisticsObserver.Lines} ");
-            _log.Info($"Covered Lines : {statisticsObserver.CoveredLines}");
+            _log.Info($"Files         : {_statisticsObserver.Files}");
+            _log.Info($"Lines         : {_statisticsObserver.Lines} ");
+            _log.Info($"Covered Lines : {_statisticsObserver.CoveredLines}");
         }
     }
 }
