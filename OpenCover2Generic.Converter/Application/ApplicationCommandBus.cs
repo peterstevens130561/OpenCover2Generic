@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.Application.Commands.CoverageResultsCreate;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.TestResultsCreate;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.Workspace.Create;
@@ -21,6 +22,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application
                 .Register<IWorkspaceDeleteCommand,WorkspaceDeleteCommand,WorkspaceDeleteCommandHandler>()
                 .Register<ITestRunnerCommand,TestRunnerCommand,TestRunnerCommandHandler>()
             .Register<ITestResultsCreateCommand,TestResultsCreateCommand,TestResultsCreateCommandHandler>()
+            .Register<ICreateCoverageResultsCommand,CreateCoverageResultsCommand,CreateCoverageResultsCommandHandler>()
             )
         )
         {

@@ -49,7 +49,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper
                 //CreateWorkspace(commandBus, workspace);
 
 
-
                 RunTests(commandBus,args,workspace);
 
                 CreateTestResults(commandBus,workspace,args);
@@ -132,35 +131,6 @@ namespace BHGE.SonarQube.OpenCoverWrapper
             commandBus.Execute(command);
         }
 
-        private static void CreateCoverageResults2(ICommandBus commandBus,IWorkspace workspace, string[] args)
-        {
-            ICodeCoverageRepository codeCoverageRepository = new CodeCoverageRepository(
-                new CoverageRepositoryPathResolver(),
-                new OpenCoverCoverageParser(),
-                new XmlAdapter(),
-                new CoverageWriterFactory());
-
-            var commandLineParser = new OpenCoverWrapperCommandLineParser();
-            var genericCoverageWriterObserver = new GenericCoverageWriterObserver(new GenericCoverageWriter());
-            var statisticsObserver = new CoverageStatisticsAggregator();
-
-            commandLineParser.Args = args;
-            codeCoverageRepository.Workspace = workspace;
-
-            string outputPath = commandLineParser.GetOutputPath();
-
-            using (var writer = new XmlTextWriter(outputPath, Encoding.UTF8))
-            {
-                genericCoverageWriterObserver.Writer = writer;
-                codeCoverageRepository.QueryAllModules()
-                    .AddObserver(genericCoverageWriterObserver)
-                    .AddObserver(statisticsObserver)
-                    .Execute();
-            }
-            _log.Info($"Files         : {statisticsObserver.Files}");
-            _log.Info($"Lines         : {statisticsObserver.Lines} ");
-            _log.Info($"Covered Lines : {statisticsObserver.CoveredLines}");
-        }
     }
  
 }

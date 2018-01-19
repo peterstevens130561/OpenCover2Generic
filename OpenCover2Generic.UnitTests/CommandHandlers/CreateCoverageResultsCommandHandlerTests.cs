@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.Application;
 using BHGE.SonarQube.OpenCover2Generic.Application.Commands.CoverageResultsCreate;
+using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
+using BHGE.SonarQube.OpenCover2Generic.Writers;
 using BHGE.SonarQube.OpenCoverWrapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -25,8 +28,37 @@ namespace BHGE.SonarQube.OpenCover2Generic.CommandHandlers
 
             command.Args = new[] {"-output:opencover.xml"};
             command.Workspace = new Workspace("jadieda");
-            _commandHandler = new CreateCoverageResultsCommandHandler();
-           
+
+            var commandLineParserMock = new Mock<IOpenCoverWrapperCommandLineParser>();
+            IOpenCoverWrapperCommandLineParser commandLineParser = commandLineParserMock.Object;
+
+            var genericWriterObserverMock = new Mock<IGenericCoverageWriterObserver>();
+            IGenericCoverageWriterObserver genericCoverageWriterObserver = genericWriterObserverMock.Object;
+
+            var statisticsObserverMock = new Mock<ICoverageStatisticsAggregator>();
+            ICoverageStatisticsAggregator statisticsObserver = statisticsObserverMock.Object;
+
+            var codeCoverageRepositoryMock = new Mock<ICodeCoverageRepository>();
+            ICodeCoverageRepository codeCoverageRepository = codeCoverageRepositoryMock.Object;
+            _commandHandler = new CreateCoverageResultsCommandHandler(
+                commandLineParser,
+                codeCoverageRepository,
+                genericCoverageWriterObserver,
+                statisticsObserver);
+
+
+        }
+
+        [TestMethod]
+        public void Create_Command()
+        {
+            ICommandBus commandBus = new ApplicationCommandBus();
+            ICreateCoverageResultsCommand command=commandBus.CreateCommand<ICreateCoverageResultsCommand>();
+            command.Args = new[] { "-output:opencover.xml" };
+            command.Workspace = new Workspace("jadieda");
+            Assert.AreEqual("-output:opencover.xml",command.Args[0]);
+            Assert.AreEqual("jadieda",command.Workspace.Path);
+
         }
     }
 }
