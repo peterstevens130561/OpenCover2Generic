@@ -4,7 +4,7 @@ using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
-    public class GenericCoverageWriterObserver : IQueryAllModulesResultObserver,IGenericCoverageWriterObserver
+    public class GenericCoverageWriterObserver : IGenericCoverageWriterObserver
     {
         private readonly ICoverageWriter _coverageWriter;
 
@@ -13,8 +13,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
            _coverageWriter = coverageWriter;
         }
 
-        public XmlTextWriter Writer { get; set; }
+        public string Path { get; set; }
 
+
+        public XmlTextWriter Writer { get; set; }
 
         public void OnBeginModule(object sender, EventArgs eventArgs)
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.CQRS.CommandBus;
 using BHGE.SonarQube.OpenCover2Generic.Repositories.Coverage;
 using BHGE.SonarQube.OpenCoverWrapper;
@@ -19,11 +20,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.CoverageResultsC
         private readonly IOpenCoverWrapperCommandLineParser _commandLineParser;
         private readonly ICoverageStatisticsAggregator _statisticsObserver;
         private readonly IGenericCoverageWriterObserver _genericCoverageWriterObserver;
-
+        private readonly IXmlAdapter _xmlAdapter;
         public CreateCoverageResultsCommandHandler() : this(new OpenCoverWrapperCommandLineParser(), 
             new CodeCoverageRepository(),
             new GenericCoverageWriterObserver(new GenericCoverageWriter()),
-            new CoverageStatisticsAggregator()
+            new CoverageStatisticsAggregator(),
+            new XmlAdapter()
             )
         {
             
@@ -31,12 +33,14 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.CoverageResultsC
         public CreateCoverageResultsCommandHandler(IOpenCoverWrapperCommandLineParser openCoverWrapperCommandLineParser, 
             ICodeCoverageRepository codeCoverageRepository,
             IGenericCoverageWriterObserver genericCoverageWriterObserver,
-            ICoverageStatisticsAggregator statisticsObserver)
+            ICoverageStatisticsAggregator statisticsObserver,
+            IXmlAdapter xmlAdapter)
         {
             _commandLineParser = openCoverWrapperCommandLineParser;
             _codeCoverageRepository = codeCoverageRepository;
             _statisticsObserver = statisticsObserver;
             _genericCoverageWriterObserver = genericCoverageWriterObserver;
+            _xmlAdapter = xmlAdapter;
         }
 
         public void Execute(ICreateCoverageResultsCommand command)
@@ -47,9 +51,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Application.Commands.CoverageResultsC
 
             string outputPath = _commandLineParser.GetOutputPath();
 
-            using (var writer = new XmlTextWriter(outputPath, Encoding.UTF8))
+            using (var writer = _xmlAdapter.CreateTextWriter(outputPath))
             {
-               _genericCoverageWriterObserver.Writer = writer;
+                _genericCoverageWriterObserver.Writer = writer;
                 _codeCoverageRepository.QueryAllModules()
                     .AddObserver(_genericCoverageWriterObserver)
                     .AddObserver(_statisticsObserver)
