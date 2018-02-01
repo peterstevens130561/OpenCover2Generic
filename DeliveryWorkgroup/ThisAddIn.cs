@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Xml.Linq;
 using MSProject = Microsoft.Office.Interop.MSProject;
 using Office = Microsoft.Office.Core;
@@ -18,6 +19,10 @@ namespace DeliveryWorkgroup
         {
         }
 
+        protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
+        {
+         return new Ribbon1();
+        }
         #region VSTO generated code
 
         /// <summary>

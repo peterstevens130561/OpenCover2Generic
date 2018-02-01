@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="Ribbon_Load">
+  <ribbon>
+    <tabs>
+      <tab idMso="TabAddIns">
+        <group id="DWG"
+               label="DWG">
+          
+          <menu id="FeatureId" label="Feature"  
+                  screentip="Text"  >
+            <button id="button1" label="Add" imageMso="Add" onAction="OnAction_AddFeature" />
+            <button id="button2" label="Update" onAction="OnAction_UpdateFeature" imageMso="Update" />
+            <button id="button3" label="Button 3" imageMso="Undo" />
+          </menu>
+
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>
+
