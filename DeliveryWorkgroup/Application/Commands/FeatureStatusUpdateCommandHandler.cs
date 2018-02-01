@@ -31,26 +31,16 @@ namespace DeliveryWorkgroup.Application.Commands
             Assignment assignment= task.Assignments[1];
             //start is first date
             //end is last date
-            AssignActualWorked(command, assignment, startDate, endDate, team);
+            double fractionWorked = command.WorkedFraction;
+
+            GetTimeScaleValuesList(assignment, startDate, endDate, team).ForEach(value =>
+            {
+                var units = GetAvailability(value.StartDate, team);
+                var minutes = GetWorkedMinutesPerDay(fractionWorked, units);
+                value.Value = minutes;
+            });
         }
 
-        private void AssignActualWorked(IFeatureStatusUpdateCommand command, Assignment assignment, DateTime startDate, DateTime endDate, Resource team)
-        {
-            double fractionWorked = command.WorkedFraction;
-            TimeScaleValues values = assignment.TimeScaleData(ToProjectDate(startDate), ToProjectDate(endDate),
-                PjAssignmentTimescaledData.pjAssignmentTimescaledActualWork, PjTimescaleUnit.pjTimescaleDays, 1);
-            foreach (TimeScaleValue value in values)
-            {
-                DateTime date = value.StartDate;
-                DayOfWeek dayOfWeek = date.DayOfWeek;
-                if (dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday)
-                {
-                    var units = GetAvailability(value.StartDate, team);
-                    var minutes = GetWorkedMinutesPerDay(fractionWorked, units);
-                    value.Value = minutes;
-                }
-            }
-        }
 
         private int GetActualWorked(IFeatureStatusUpdateCommand command, Assignment assignment, DateTime startDate, DateTime endDate, Resource team)
         {

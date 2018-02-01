@@ -5,11 +5,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
+using System.Windows.Forms;
 using DeliveryWorkgroup.Application.Commands;
 using DeliveryWorkgroup.DomainModel;
 using DeliveryWorkgroup.Presentation;
 using Microsoft.Office.Interop.MSProject;
+using MessageBox = System.Windows.MessageBox;
 using Office = Microsoft.Office.Core;
 
 // TODO:  Follow these steps to enable the Ribbon (XML) item:
@@ -79,14 +80,16 @@ namespace DeliveryWorkgroup
             var task = tasks[1];
             form.Feature = task.Name;
             form.FractionSprintSpent = 1;
-            var command = new FeatureStatusUpdateCommand();
-            command.TaskUniqueId = task.UniqueID;
-            command.ResourceUniqueId = task.Assignments[1].ResourceUniqueID;
-            command.WorkedFraction = form.FractionSprintSpent;
-            form.ShowDialog();
-            var handler = new FeatureStatusUpdateCommandHandler(Globals.ThisAddIn.Application.ActiveProject);
-            handler.Execute(command);
-
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                var command = new FeatureStatusUpdateCommand();
+                command.TaskUniqueId = task.UniqueID;
+                command.ResourceUniqueId = task.Assignments[1].ResourceUniqueID;
+                command.WorkedFraction = form.FractionSprintSpent;
+                var handler = new FeatureStatusUpdateCommandHandler(Globals.ThisAddIn.Application.ActiveProject);
+                handler.Execute(command);
+            }
+  
         }
         #endregion
 
