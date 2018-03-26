@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using BHGE.SonarQube.OpenCover2Generic.Adapters;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
+using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
+using log4net;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Utils
 {
     public class JobFileSystem : IJobFileSystem
     {
+        private static readonly ILog _log = LogManager.GetLogger(typeof(JobFileSystem));
         private readonly Object _lock = new object();
         private readonly Dictionary<string, int> _assemblyUsageLookupTable = new Dictionary<string, int>();
         private string _openCoverOutputDir;
@@ -113,7 +116,18 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
         private string GetFileForAssembly(string basePath,string assemblyPath, string extension)
         {
             string index = GetIndex(assemblyPath);
-            return Path.Combine(basePath, index + "_" + Path.GetFileNameWithoutExtension(assemblyPath) + "." + extension);
+            string assemblyName;
+            try
+            {
+                assemblyName = Path.GetFileNameWithoutExtension(assemblyPath);
+            }
+            catch (System.ArgumentException e)
+            {
+                _log.Error($"invalid argument:{assemblyPath}");
+                throw;
+            }
+
+            return Path.Combine(basePath, index + "_" +  assemblyName + "." + extension);
         }
         public string GetIntermediateCoverageDirectory()
         {

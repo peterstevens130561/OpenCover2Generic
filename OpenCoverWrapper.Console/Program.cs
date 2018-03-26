@@ -125,7 +125,7 @@ namespace BHGE.SonarQube.OpenCoverWrapper
 
         private static void CreateCoverageResults(ICommandBus commandBus, IWorkspace workspace, string[] args)
         {
-            var command = commandBus.CreateCommand<ICreateCoverageResultsCommand>();
+            var command = commandBus.CreateCommand<ICreateCoverageResultsCommand>(); 
             command.Workspace = workspace;
             command.Args = args;
             commandBus.Execute(command);
