@@ -1,6 +1,7 @@
 ﻿using BHGE.SonarQube.OpenCover2Generic.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,9 +32,12 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
         {
             foreach (ISourceFileCoverageModel fileCoverage in model.GetSourceFiles())
             {
-                xmlWriter.WriteStartElement("file");
-                xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);
-                GenerateSequencePoints(xmlWriter, fileCoverage);
+                if (fileCoverage.FullPath.EndsWith(".cs"))
+                {
+                    xmlWriter.WriteStartElement("file");
+                    xmlWriter.WriteAttributeString("path", fileCoverage.FullPath);
+                    GenerateSequencePoints(xmlWriter, fileCoverage);
+                }
             }
         }
 
