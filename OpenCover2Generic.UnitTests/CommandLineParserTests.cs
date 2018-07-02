@@ -1,7 +1,7 @@
 ﻿using System;
+using BHGE.SonarQube.OpenCover2Generic.CoverageConverters.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
-using BHGE.SonarQube.OpenCover2Generic.Exceptions;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {

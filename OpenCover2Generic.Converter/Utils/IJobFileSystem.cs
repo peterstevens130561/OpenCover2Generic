@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 
-namespace OpenCover2Generic.Converter
+namespace BHGE.SonarQube.OpenCover2Generic.Utils
 {
     public interface IJobFileSystem
     {
         string GetOpenCoverLogPath(string assembly);
         string GetOpenCoverOutputPath(string assembly);
-        string GetTestResultsPath(string assembly);
         string GetIntermediateCoverageDirectory();
-        string GetTestResultsDirectory();
 
-        IEnumerable<string> GetTestResultsFiles();
-        void CreateRoot(string v);
+
+        void CreateRoot(IWorkspace workspace);
     }
 }

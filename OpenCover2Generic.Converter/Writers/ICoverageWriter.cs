@@ -1,5 +1,5 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System.Xml;
+﻿using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
@@ -17,6 +17,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
         /// <param name="xmlWriter"></param>
         void WriteEnd(XmlWriter xmlWriter);
 
-        void GenerateCoverage(IModuleCoverageModel model, XmlWriter xmlWriter);
+        void GenerateCoverage(IModule entity, XmlWriter xmlWriter);
     }
 }

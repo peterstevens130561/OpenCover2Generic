@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using BHGE.SonarQube.OpenCover2Generic.Model;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -11,7 +10,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void AddOneFile()
         {
-            var intermediateModel = new IntermediateModel();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             Assert.AreEqual(1, intermediateModel.GetSourceFiles().Count);
             Assert.AreEqual("a", intermediateModel.GetSourceFiles()[0].FullPath);
@@ -20,7 +19,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void AddSecondFileWithPathAlreadyAdded()
         {
-            var intermediateModel = new IntermediateModel();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             intermediateModel.AddFile("2", "a");
             Assert.AreEqual(1, intermediateModel.GetSourceFiles().Count);
@@ -31,7 +30,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void SecondFileWithPathAlreadyAddedAddSequencePoint()
         {
-            var intermediateModel = new IntermediateModel();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             intermediateModel.AddFile("2", "a");
             Assert.AreEqual(1, intermediateModel.GetSourceFiles().Count);
@@ -39,14 +38,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual("a", intermediateModel.GetSourceFiles()[0].FullPath);
             Assert.AreEqual("1", intermediateModel.GetSourceFiles()[0].Uid);
             //Then the sequence point should be as if added to 1
-            Assert.AreEqual(10, intermediateModel.GetSourceFiles()[0].SequencePoints[0].SourceLine);
+            Assert.AreEqual(10, intermediateModel.GetSourceFiles()[0].SequencePoints[0].SourceLineId);
             Assert.AreEqual(true, intermediateModel.GetSourceFiles()[0].SequencePoints[0].Covered);
         }
 
         [TestMethod]
         public void Swaps()
         {
-            var intermediateModel = new IntermediateModel();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             intermediateModel.AddFile("2", "b");
             intermediateModel.AddFile("2", "a");
@@ -59,7 +58,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void SecondFileWithPathAlreadyAddedAddBranchPoint()
         {
-            var intermediateModel = new IntermediateModel();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             intermediateModel.AddFile("2", "a");
             Assert.AreEqual(1, intermediateModel.GetSourceFiles().Count);
@@ -73,7 +72,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void CheckClear()
         {
-            var intermediateModel = new IntermediateModel();
+            var intermediateModel = new AggregatedModule();
             intermediateModel.AddFile("1", "a");
             intermediateModel.Clear();
             Assert.AreEqual(0, intermediateModel.GetSourceFiles().Count());

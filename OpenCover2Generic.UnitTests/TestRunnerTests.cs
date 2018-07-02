@@ -1,19 +1,11 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Consumer;
-using BHGE.SonarQube.OpenCover2Generic.Exceptions;
-using BHGE.SonarQube.OpenCover2Generic.Factories;
-using BHGE.SonarQube.OpenCover2Generic.Repositories;
+﻿using System;
+using BHGE.SonarQube.OpenCover2Generic.Application.Commands.RunTests;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Workspace;
 using BHGE.SonarQube.OpenCover2Generic.Utils;
 using BHGE.SonarQube.OpenCoverWrapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using OpenCover2Generic.Converter;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.TestJobConsumer;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -21,34 +13,38 @@ namespace BHGE.SonarQube.OpenCover2Generic
     public class TestRunnerTests
     {
         private  Mock<IJobConsumerFactory> _jobConsumerFactoryMock;
+        private Mock<IOpenCoverWrapperCommandLineParser> _commandLineParserMock;
         private Mock<IJobFileSystem> _jobFileSystemMock;
-        private Mock<IOpenCoverCommandLineBuilder> _openCoverCommandLineBuilderMock;
         
         [TestInitialize]
         public void Initialize()
         {
             _jobConsumerFactoryMock = new Mock<IJobConsumerFactory>();
+            _commandLineParserMock= new Mock<IOpenCoverWrapperCommandLineParser>();
             _jobFileSystemMock = new Mock<IJobFileSystem>();
-            _openCoverCommandLineBuilderMock = new Mock<IOpenCoverCommandLineBuilder>();
+
         }
 
         [TestMethod]
         public void RunTests_OneAssemblyFiveJobs()
         {
-            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, null, _jobConsumerFactoryMock.Object);
+            var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one" };
-            testRunner.RunTests(testAssemblies, 5);
+            ITestRunnerCommand command = new TestRunnerCommand();
+            command.Workspace = new Workspace("bogus");
+            _commandLineParserMock.Setup(c => c.GetTestAssemblies()).Returns(testAssemblies);
+            _commandLineParserMock.Setup(c => c.GetParallelJobs()).Returns(5);
+            _commandLineParserMock.Setup(c => c.GetChunkSize()).Returns(1);
+            testRunner.Execute(command);
             _jobConsumerFactoryMock.Verify(f => f.Create(), Times.Exactly(5));
         }
 
         [TestMethod]
         public void CreateJobs_ChunkSize1_SameList()
         {
-            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, null, _jobConsumerFactoryMock.Object);
+            var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one","two","three" };
-            testRunner.CreateJobs(testAssemblies, 1);
+            testRunner.CreateJobs(testAssemblies, 1,null,new Workspace("a"));
             var jobs = testRunner.Jobs;
             Assert.AreEqual(3, jobs.Count());
             Assert.AreEqual("one", jobs.Take().FirstAssembly);
@@ -59,10 +55,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void CreateJobs_ChunkSize2_SameList()
         {
-            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, null, _jobConsumerFactoryMock.Object);
+            var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one", "two", "three", "four" , "five" };
-            testRunner.CreateJobs(testAssemblies, 2);
+            testRunner.CreateJobs(testAssemblies, 2,null, new Workspace("a"));
             var jobs = testRunner.Jobs;
             Assert.AreEqual(3, jobs.Count());
             Assert.AreEqual("one two", jobs.Take().Assemblies);
@@ -73,10 +68,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void FirstAssembly_ChunkSize2_FirstInChunk()
         {
-            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
-            var testRunner = new TestRunner(_jobFileSystemMock.Object, null, _jobConsumerFactoryMock.Object);
+            var testRunner = CreateTestRunner();
             string[] testAssemblies = { "one", "two", "three", "four", "five" };
-            testRunner.CreateJobs(testAssemblies, 2);
+            testRunner.CreateJobs(testAssemblies, 2,null, new Workspace("a"));
             var jobs = testRunner.Jobs;
             Assert.AreEqual(3, jobs.Count());
             Assert.AreEqual("one", jobs.Take().FirstAssembly);
@@ -84,42 +78,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
             Assert.AreEqual("five", jobs.Take().FirstAssembly);
         }
 
-        [TestMethod]
-        public void SetTimeOut_ProcessesRunTooLong_ProcessesKilled()
+        private TestRunnerCommandHandler CreateTestRunner()
         {
-
-            var processFactoryMock = new Mock<IProcessFactory>();
-            var processMock = new Mock<Factories.IOpenCoverProcess>();
-            processMock.Setup(p => p.HasExited).Returns(false);
-            processMock.Setup(p => p.RecoverableError).Returns(false);
-            processMock.Setup(p => p.TestResultsPath).Returns<string>(null);
-            processFactoryMock.Setup(p => p.CreateOpenCoverProcess()).Returns(processMock.Object);
-
-            _jobFileSystemMock.Setup(j => j.GetOpenCoverLogPath(It.IsAny<string>())).Returns(Path.GetTempFileName());
-            _openCoverCommandLineBuilderMock.Setup(j => j.Build(It.IsAny<string>(), It.IsAny<string>())).Returns(new ProcessStartInfo());
-
-            IJobConsumerFactory jobConsumerFactory = new JobConsumerFactory(_openCoverCommandLineBuilderMock.Object,
-                _jobFileSystemMock.Object,
-                new OpenCoverManagerFactory(processFactoryMock.Object),
-                new TestResultsRepository(_jobFileSystemMock.Object, null),
-                null
-                );
-            ITestRunner testRunner = new TestRunner(_jobFileSystemMock.Object, null, jobConsumerFactory);
-
-            string[] testAssemblies = { "one" };
-            const int ms2Tick = 10000;
-            TimeSpan timeOut = new TimeSpan(10 * ms2Tick); // after 10 ms timeout will occur
-
-            testRunner.CreateJobs(testAssemblies, 1);
-            testRunner.CreateJobConsumers(1,timeOut);
-            try
-            {
-                testRunner.Wait();
-            } catch ( JobTimeOutException e)
-            {
-                return;
-            }
-            Assert.Fail("Expected timeout");
+            _jobConsumerFactoryMock.Setup(j => j.Create()).Returns(new Mock<IJobConsumer>().Object);
+            var testRunner = new TestRunnerCommandHandler(_jobFileSystemMock.Object,_jobConsumerFactoryMock.Object,_commandLineParserMock.Object);
+            return testRunner;
         }
     }
 }

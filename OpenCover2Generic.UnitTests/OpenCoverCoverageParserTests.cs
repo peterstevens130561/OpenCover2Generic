@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Text;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 using Moq;
-using BHGE.SonarQube.OpenCover2Generic.Model;
 using BHGE.SonarQube.OpenCover2Generic.Parsers;
 
 namespace BHGE.SonarQube.OpenCover2Generic
@@ -12,9 +11,9 @@ namespace BHGE.SonarQube.OpenCover2Generic
     [TestClass]
     public class OpenCoverCoverageParserTests
     {
-        private IModuleCoverageModel _model;
+        private IModule _module;
         private OpenCoverCoverageParser _parser;
-        private Mock<IModuleCoverageModel> _modelMock;
+        private Mock<IModule> _modelMock;
         private readonly string _openCoverExample= @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
 <Modules>
@@ -42,7 +41,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <SequencePoint vc=""2"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
-                <BranchPoint vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
@@ -57,14 +56,14 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestInitialize]
         public void Initialize()
         {
-            _modelMock = new Mock<IModuleCoverageModel>();
-            _model = _modelMock.Object;
+            _modelMock = new Mock<IModule>();
+            _module = _modelMock.Object;
             _parser = new OpenCoverCoverageParser();
 
         }
 
         [TestMethod]
-        public void ParseModule_ValidFile_Expected()
+        public void ParseModule_Initiated_ValidFile_Expected()
         {
 
             Assert.IsTrue(WhenParsing(_openCoverExample));
@@ -72,15 +71,25 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void ParseModule_ValidFile_ExpectModuleName()
+        public void ParseModule_OneModule_ParseModule_NameValid()
         {
 
             Assert.IsTrue(WhenParsing(_openCoverExample));
-            Assert.AreEqual("Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest", _parser.ModuleName);
+            _modelMock.VerifySet(m=>m.NameId=@"Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest");
+
         }
 
         [TestMethod]
-        public void ParseModule_ValidFile_SequencePoint()
+        public void ParseModule_Initiated_ValidFile_ExpectModuleName()
+        {
+
+            _module = new Module();
+            Assert.IsTrue(WhenParsing(_openCoverExample));
+            Assert.AreEqual("Bhi.Esie.Services.EsieTooLinkRepository.SqlServer.UnitTest", _module.NameId);
+        }
+
+        [TestMethod]
+        public void ParseModule_Initiated_ValidFile_SequencePoint()
         {
 
             Assert.IsTrue(WhenParsing(_openCoverExample));
@@ -88,7 +97,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void ParseModule_ValidFile_BranchPoint()
+        public void ParseModule_Initiated_ValidFile_BranchPoint()
         {
 
             Assert.IsTrue(WhenParsing(_openCoverExample));
@@ -120,7 +129,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
         private XmlReader _xmlReader;
 
         [TestMethod]
-        public void ParseModule_TwoModulesMixedWithSkipped_TwoModulesParsed()
+        public void ParseModule_Initiated_TwoModulesMixedWithSkipped_TwoModulesParsed()
         {
                   string coverage = @"<?xml version=""1.0"" encoding=""utf-8""?>
             <CoverageSession xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -155,7 +164,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <SequencePoint vc=""2"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
-                <BranchPoint vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
@@ -193,7 +202,7 @@ namespace BHGE.SonarQube.OpenCover2Generic
                 <SequencePoint vc=""2"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
               </SequencePoints>
               <BranchPoints>
-                <BranchPoint vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
+                <BranchPointValue vc=""3"" uspid=""3138"" ordinal=""12"" offset=""687"" sl=""27"" path=""1"" offsetend=""714"" fileid=""1"" />
                 </BranchPoints>
               <MethodPoint xsi:type=""SequencePoint"" vc=""0"" uspid=""1"" ordinal=""0"" offset=""0"" sl=""27"" sc=""13"" el=""27"" ec=""14"" bec=""0"" bev=""0"" fileid=""1"" />
             </Method>
@@ -203,15 +212,11 @@ namespace BHGE.SonarQube.OpenCover2Generic
 </Module>
     </Modules>
     </CoverageSession>";
-            Assert.IsTrue(WhenParsing(coverage));
-            Assert.IsTrue(WhenContinueParsing());
-            Assert.IsFalse(WhenContinueParsing());
+            Assert.IsTrue(WhenParsing(coverage),"parsing");
+            Assert.IsTrue(WhenContinueParsing(),"continue");
+            Assert.IsFalse(WhenContinueParsing(),"finally");
         }
-        [TestMethod]
-        public void ParseModule_OnlySkipped_NothingParsed()
-        {
 
-        }
 
         private bool WhenParsing( string input)
         {
@@ -219,13 +224,12 @@ namespace BHGE.SonarQube.OpenCover2Generic
             _streamReader = new StreamReader(_inputStream);
             _xmlReader = XmlReader.Create(_streamReader);
             _xmlReader.MoveToContent();
-            return _parser.ParseModule(_model, _xmlReader);
-
+            return _parser.ParseModule(_module, _xmlReader);
         }
 
         private bool WhenContinueParsing()
         {
-            return _parser.ParseModule(_model, _xmlReader);
+            return _parser.ParseModule(_module, _xmlReader);
 
         }
     }

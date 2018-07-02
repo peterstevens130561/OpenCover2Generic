@@ -1,10 +1,6 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel;
 
 namespace BHGE.SonarQube.OpenCover2Generic
 {
@@ -19,10 +15,10 @@ namespace BHGE.SonarQube.OpenCover2Generic
         }
 
         [TestMethod]
-        public void Add_CanTake()
+        public void Take_OneJob_Successful()
         {
             IJobs jobs = new Jobs();
-            jobs.Add(new Job("a"));
+            jobs.Add(new TestJob("a"));
             var assembly = jobs.Take().FirstAssembly;
             Assert.AreEqual("a", assembly);
         }

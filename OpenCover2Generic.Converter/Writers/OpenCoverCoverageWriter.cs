@@ -1,8 +1,7 @@
-﻿
-
-using BHGE.SonarQube.OpenCover2Generic.Model;
-using System;
-using System.Xml;
+﻿using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File.Line;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
@@ -10,31 +9,31 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
     {
         private XmlWriter _xmlWriter;
 
-        public void GenerateCoverage(IModuleCoverageModel model, XmlWriter xmlWriter)
+        public void GenerateCoverage(IModule entity, XmlWriter xmlWriter)
         {
             _xmlWriter = xmlWriter;
-            if(model.GetSourceFiles().Count ==0)
+            if(entity.GetSourceFiles().Count ==0)
             {
                 return;
             }
             xmlWriter.WriteStartElement("Modules");
             xmlWriter.WriteStartElement("Module");
-            WriteSourceFiles(model);
-            WriteCoverageData(model, xmlWriter);
+            WriteSourceFiles(entity);
+            WriteCoverageData(entity, xmlWriter);
             xmlWriter.WriteEndElement();
             xmlWriter.WriteEndElement();
         }
 
-        private void WriteCoverageData(IModuleCoverageModel model, XmlWriter xmlWriter)
+        private void WriteCoverageData(IModule entity, XmlWriter xmlWriter)
         {
             _xmlWriter = xmlWriter;
-            foreach(ISourceFileCoverageModel sourceFile in model.GetSourceFiles())
+            foreach(ISourceFile sourceFile in entity.GetSourceFiles())
             {
                 WriteCoverageDataForSourceFile(sourceFile);
             }
         }
 
-        private void WriteCoverageDataForSourceFile( ISourceFileCoverageModel sourceFile)
+        private void WriteCoverageDataForSourceFile( ISourceFile sourceFile)
         {
             foreach (ISequencePoint sequencePoint in sourceFile.SequencePoints)
             {
@@ -43,10 +42,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             }
         }
 
-        private string WriteSequencePoint(ISourceFileCoverageModel sourceFile, ISequencePoint sequencePoint)
+        private string WriteSequencePoint(ISourceFile sourceFile, ISequencePoint sequencePoint)
         {
             _xmlWriter.WriteStartElement("SequencePoint");
-            string sourceLineNr = sequencePoint.SourceLine.ToString();
+            string sourceLineNr = sequencePoint.SourceLineId.ToString();
             string visited = sequencePoint.Covered ? "1" : "0";
             _xmlWriter.WriteAttributeString("vc", visited);
             _xmlWriter.WriteAttributeString("sl", sourceLineNr);
@@ -55,15 +54,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             return sourceLineNr;
         }
 
-        private void WriteBranchPointsForLine( ISourceFileCoverageModel sourceFile, string sourceLineNr)
+        private void WriteBranchPointsForLine( ISourceFile sourceFile, string sourceLineNr)
         {
             var aggregator = sourceFile.GetBranchPointsByLine(sourceLineNr);
             if (aggregator != null)
             {
                 foreach (IBranchPoint branchPoint in aggregator.GetBranchPoints())
 
-                {   // <BranchPoint vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
-                    _xmlWriter.WriteStartElement("BranchPoint");
+                {   // <BranchPointValue vc=""0"" uspid=""3137"" ordinal=""11"" offset=""687"" sl=""27"" path=""0"" offsetend=""689"" fileid=""1"" />
+                    _xmlWriter.WriteStartElement("BranchPointValue");
                     _xmlWriter.WriteAttributeString("vc", branchPoint.IsVisited ? "1" : "0");
                     _xmlWriter.WriteAttributeString("sl", branchPoint.SourceLine.ToString());
                     _xmlWriter.WriteAttributeString("path", branchPoint.Path.ToString());
@@ -74,10 +73,10 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             }
         }
 
-        private void WriteSourceFiles(IModuleCoverageModel model)
+        private void WriteSourceFiles(IModule entity)
         {
             _xmlWriter.WriteStartElement("Files");
-            foreach (ISourceFileCoverageModel fileCoverage in model.GetSourceFiles())
+            foreach (ISourceFile fileCoverage in entity.GetSourceFiles())
             {
                 _xmlWriter.WriteStartElement("File");
                 _xmlWriter.WriteAttributeString("uid", fileCoverage.Uid);

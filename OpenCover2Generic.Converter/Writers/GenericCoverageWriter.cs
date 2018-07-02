@@ -6,11 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File;
+using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File.Line;
 
 namespace BHGE.SonarQube.OpenCover2Generic.Writers
 {
     public class GenericCoverageWriter : ICoverageWriter
     {
+
 
         public void WriteBegin(XmlTextWriter xmlWriter)
         {
@@ -28,9 +32,9 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             xmlWriter.Flush();
         }
 
-        public void GenerateCoverage(IModuleCoverageModel model,XmlWriter xmlWriter)
+        public void GenerateCoverage(IModule entity,XmlWriter xmlWriter)
         {
-            foreach (ISourceFileCoverageModel fileCoverage in model.GetSourceFiles())
+            foreach (ISourceFile fileCoverage in entity.GetSourceFiles())
             {
                 if (fileCoverage.FullPath.EndsWith(".cs"))
                 {
@@ -41,15 +45,15 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             }
         }
 
-        private  void GenerateSequencePoints(XmlWriter xmlWriter, ISourceFileCoverageModel fileCoverage)
+        private  void GenerateSequencePoints(XmlWriter xmlWriter, ISourceFile file)
         { 
-            foreach (ISequencePoint sequencePoint in fileCoverage.SequencePoints)
+            foreach (ISequencePoint sequencePoint in file.SequencePoints)
             {
                 xmlWriter.WriteStartElement("lineToCover");
-                string sourceLine = sequencePoint.SourceLine.ToString();
+                string sourceLine = sequencePoint.SourceLineId.ToString();
                 xmlWriter.WriteAttributeString("lineNumber", sourceLine);
                 xmlWriter.WriteAttributeString("covered", sequencePoint.Covered ? "true" : "false");
-                IBranchPoints branchPoint = fileCoverage.GetBranchPointsByLine(sourceLine);
+                IBranchPoints branchPoint = file.GetBranchPointsByLine(sourceLine);
                 if (branchPoint != null)
                 {
                     xmlWriter.WriteAttributeString("branchesToCover", branchPoint.PathsToCover().ToString());
@@ -59,5 +63,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Writers
             }
             xmlWriter.WriteEndElement();
         }
+
+
     }
 }
