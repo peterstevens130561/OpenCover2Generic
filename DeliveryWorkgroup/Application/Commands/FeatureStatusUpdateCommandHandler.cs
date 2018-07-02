@@ -31,6 +31,7 @@ namespace DeliveryWorkgroup.Application.Commands
             Assignment assignment= task.Assignments[1];
             //start is first date
             //end is last date
+
             double fractionWorked = command.WorkedFraction;
 
             GetTimeScaleValuesList(assignment, startDate, endDate, team).ForEach(value =>

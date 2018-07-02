@@ -12,7 +12,17 @@
             <button id="button2" label="Update" onAction="OnAction_UpdateFeature" imageMso="Update" />
             <button id="button3" label="Button 3" imageMso="Undo" />
           </menu>
-
+          <menu id="Action" label="Action" >
+            <button id="ActionAddFeature" label="Add Feature"/>
+            <button id="ActionUpdateFeature" label="Update Feature"/>
+          </menu>
+          <menu id="Report" label="Report" >
+            
+            
+          </menu>
+          <menu id="Import" label="Import" >
+            <button id="ImportFeatures" label="Features" onAction="OnActionImportFeature" />
+          </menu>
         </group>
       </tab>
     </tabs>

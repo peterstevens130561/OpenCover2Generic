@@ -80,6 +80,7 @@ namespace DeliveryWorkgroup
             var task = tasks[1];
             form.Feature = task.Name;
             form.FractionSprintSpent = 1;
+            form.Task = task;
             if (form.ShowDialog() == DialogResult.OK)
             {
                 var command = new FeatureStatusUpdateCommand();
@@ -90,6 +91,18 @@ namespace DeliveryWorkgroup
                 handler.Execute(command);
             }
   
+        }
+
+        public void OnActionImportFeature(Office.IRibbonControl control)
+        {
+            TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(
+                new Uri("http://bhihoutfsapp:8086/tfs/DefaultCollection"));
+            WorkItemStore workItemStore = (WorkItemStore)tpc.GetService(typeof(WorkItemStore));
+
+            QueryHierarchy queryRoot = workItemStore.Projects[0].QueryHierarchy;
+            QueryFolder folder = (QueryFolder)queryRoot["Shared Queries"];
+            QueryDefinition query = (QueryDefinition)folder["Active Bugs"];
+            queryResults = workItemStore.Query(query.QueryText);
         }
         #endregion
 
