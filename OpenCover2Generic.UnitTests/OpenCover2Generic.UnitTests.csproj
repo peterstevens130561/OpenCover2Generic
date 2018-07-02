@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EAF86DBD-968C-4B24-8EA6-BAD7785F5DFF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BHGE.SonarQube.OpenCover2Generic</RootNamespace>
+    <AssemblyName>OpenCover2Generic.UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.7.142.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.7.142\lib\net45\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="CodeCoverageRepositoryTests.cs" />
+    <Compile Include="CommandHandlers\CreateCoverageResultsCommandHandlerTests.cs" />
+    <Compile Include="CommandHandlers\TestResultsCreateCommandHandlerTests.cs" />
+    <Compile Include="CommandHandlers\TestRunnerCommandTests.cs" />
+    <Compile Include="CommandHandlers\WorkspaceCreateCommandHandlerTests.cs" />
+    <Compile Include="CommandHandlers\CommandBusTests.cs" />
+    <Compile Include="CoverageAggregateTests.cs" />
+    <Compile Include="CoverageRepositoryScannerTests.cs" />
+    <Compile Include="CoverageStatisticsObserverTests.cs" />
+    <Compile Include="CoverageStorageResolverTests.cs" />
+    <Compile Include="CreateCoverageFileTests.cs" />
+    <Compile Include="CreateGenericCoverageFileObserverTests.cs" />
+    <Compile Include="JobConsumerFactoryTests.cs" />
+    <Compile Include="JobConsumerTests.cs" />
+    <Compile Include="JobsTests.cs" />
+    <Compile Include="ModuleCoverageModelTests.cs" />
+    <Compile Include="Services\ServiceFactoryTests.cs" />
+    <Compile Include="TestJobTests.cs" />
+    <Compile Include="OpenCoverCommandLineBuilderTests.cs" />
+    <Compile Include="OpenCoverCoverageWriterTests.cs" />
+    <Compile Include="MainTests.cs" />
+    <Compile Include="OpenCoverManagerFactoryTests.cs" />
+    <Compile Include="OpenCoverProcessFactoryTests.cs" />
+    <Compile Include="OpenCoverProcessTests.cs" />
+    <Compile Include="OpenCoverRunnerManagerTests.cs" />
+    <Compile Include="OpenCoverStateMachineTests.cs" />
+    <Compile Include="OpenCoverWrapperCommandLineParserTests.cs" />
+    <Compile Include="ProcessFactoryTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CoveragePointTests.cs" />
+    <Compile Include="BanchPointTests.cs" />
+    <Compile Include="BranchPointsMultipeTimesCoveredTests.cs" />
+    <Compile Include="OpenCover2GenericCommandLineParserTests.cs" />
+    <Compile Include="MultiAssemblyTests.cs" />
+    <Compile Include="FileCoverageModelTests.cs" />
+    <Compile Include="TestRepositoryTests.cs" />
+    <Compile Include="TestResultsConcatenatorTests.cs" />
+    <Compile Include="TestResultsPathsResolverTests.cs" />
+    <Compile Include="TestRunnerTests.cs" />
+    <Compile Include="TestUtils.cs" />
+    <Compile Include="OpenCoverCoverageParserTests.cs" />
+    <Compile Include="CommandLineParserTests.cs" />
+    <Compile Include="IntermediateModelTests.cs" />
+    <Compile Include="JobFileSystemTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenCover2Generic.Converter\OpenCover2Generic.Converter.csproj">
+      <Project>{7e5690a4-29a9-4df9-a002-4e530c24bfd5}</Project>
+      <Name>OpenCover2Generic.Converter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenCover2Generic.Runner\OpenCover2Generic.Runner.csproj">
+      <Project>{C6E7FF08-8D53-4466-959D-1D34B9B8904F}</Project>
+      <Name>OpenCover2Generic.Runner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenCover2Generic\OpenCover2Generic.Console.csproj">
+      <Project>{FE9FD645-E270-4EEE-A030-C92688C84383}</Project>
+      <Name>OpenCover2Generic.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenCoverWrapper.Console\OpenCoverWrapper.Console.csproj">
+      <Project>{D90691B7-6D6C-40FF-81E4-4B8B476F300E}</Project>
+      <Name>OpenCoverWrapper.Console</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\1_TestResults.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resources\2_TestResults.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\OnlySkippedModules.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\OpenCoverStateMachine\" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
