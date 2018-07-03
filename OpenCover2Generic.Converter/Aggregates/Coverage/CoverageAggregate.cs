@@ -27,25 +27,17 @@ namespace BHGE.SonarQube.OpenCover2Generic.Aggregates.Coverage
         public void Modules(Action<IModule> action)
         {
             var parser = _openCoverageParserFactory.Create();
-            try
+            using (var xmlReader = _xmlAdapter.CreateReader(Path))
             {
-                using (var xmlReader = _xmlAdapter.CreateReader(Path))
+                xmlReader.MoveToContent();
+                var model = new Module();
+                while (parser.ParseModule(model, xmlReader))
                 {
-                    xmlReader.MoveToContent();
-                    var model = new Module();
-                    while (parser.ParseModule(model, xmlReader))
-                    {
-                        action.Invoke(model);
-                        model = new Module();
-                    }
+                    action.Invoke(model);
+                    model = new Module();
                 }
+            }
 
-            }
-            catch (Exception e)
-            {
-                //_log.Error($"Exception thrown during reading {path}\n{e.Message}\n{e.StackTrace}");
-                throw;
-            }
         }
     }
 }

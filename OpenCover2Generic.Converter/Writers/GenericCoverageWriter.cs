@@ -1,11 +1,4 @@
-﻿using BHGE.SonarQube.OpenCover2Generic.Model;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File;
 using BHGE.SonarQube.OpenCover2Generic.DomainModel.Module.File.Line;

@@ -121,7 +121,7 @@ namespace BHGE.SonarQube.OpenCover2Generic.Utils
             {
                 assemblyName = Path.GetFileNameWithoutExtension(assemblyPath);
             }
-            catch (System.ArgumentException e)
+            catch (System.ArgumentException)
             {
                 _log.Error($"invalid argument:{assemblyPath}");
                 throw;

@@ -27,7 +27,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void GetPathForModule_RootSet_Valid_GetPath_ProperLocation()
         {
-            const string rootPath = @"E:\fun";
             const string testAssemblyPath = @"F:/assemblies/bla.dll";
             const string moduleName = @"module";
             _resolver.Root = @"E:\fun";
@@ -54,7 +53,6 @@ namespace BHGE.SonarQube.OpenCover2Generic
         [TestMethod]
         public void GetPathsOfAllModules_OneModule_ListWithOne()
         {
-            const string rootPath = @"E:\fun";
             var list = new List<string>();
             _resolver.Root = @"E:\fun";
             _fileSystemMock.Setup(f => f.EnumerateDirectories(@"E:\fun\OpenCoverIntermediate", "*", SearchOption.TopDirectoryOnly)).Returns(list);

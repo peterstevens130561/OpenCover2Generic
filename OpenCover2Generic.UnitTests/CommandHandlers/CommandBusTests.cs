@@ -9,7 +9,6 @@ namespace BHGE.SonarQube.OpenCover2Generic.CommandHandlers
     [TestClass]
     public class CommandBusTests
     {
-        private bool called;
         [TestInitialize]
         public void TestInitialize()
         {
